@@ -322,13 +322,13 @@
         </div>
     </div> --}}
 
-    <div class="table-breadcrumb">
+    <div class="table-breadcrumb mb-5 pl-4">
         <ul>
             <li>
                 Hesabım
             </li>
             <li>
-                Düzenleme
+               Profil Düzenleme
             </li>
         </ul>
     </div>
@@ -337,7 +337,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 ">
-                    <div class="bg-solitude-blue border-radius-6px p-45px lg-p-30px mb-25px">
+                    <div
+                        class="bg-solitude-blue border-radius-6px p-45px lg-p-30px mb-25px bg-white shadow-sm p-3 mb-5 bg-body-tertiary rounded">
                         {{-- <span class="fs-19 alt-font text-dark-gray fw-700 mb-20px d-inline-block">Maliyetine Ev</span> --}}
                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             <div>
@@ -442,7 +443,7 @@
                                                 <label for="iban">İban Numarası</label>
                                                 <input type="text" id="iban" name="iban" placeholder="İban"
                                                     class="form-control @error('iban') is-invalid @enderror" required
-                                                    value="{!! $user->iban !!}">
+                                                    value="{!! $user->iban !!}" oninput="formatIBAN(this)">
                                                 @error('iban')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -465,25 +466,29 @@
                                     <h4>Telefon Numarasını Güncelleme</h4>
 
                                     <div class="agent-contact-form-sidebar">
-                                        <form name="contact_form" method="POST" enctype="multipart/form-data"
-                                            action="{{ route('institutional.edit.phone') }}">
+                                        <form name="contact_form" method="POST" enctype="multipart/form-data" action="{{ route('institutional.edit.phone') }}">
                                             @csrf
-                                            <input type="text" id="phone" name="phone"
-                                                placeholder="Mevcut Telefon Numarası" value="{!! $user->mobile_phone !!}"
-                                                disabled>
-                                                <input type="text" id="new_phone_number" name="new_phone_number"
-                                                placeholder="Yeni Telefon Numarası" required="" maxlength="11">
-                                         <div id="error-message" class="error-message"></div>
-                                            @error('mobile_phone')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                            <input type="hidden" id="form2_file_input" name="uploaded_file"
-                                                value="">
-                                            <button type="submit" class="btn btn-primary">
-                                                Güncelle </button>
+                                    
+                                            <!-- Mevcut telefon numarası, sadece görüntüleme -->
+                                            <input type="text" id="phone" name="phone" placeholder="Mevcut Telefon Numarası" value="{!! $user->mobile_phone !!}" disabled>
+                                    
+                                            <!-- Yeni telefon numarası için doğrulama -->
+                                            <input type="text" id="new_phone_number" name="new_phone_number" placeholder="Yeni Telefon Numarası" required maxlength="11" pattern="\d{10,11}" title="Telefon numarası 10 veya 11 rakamdan oluşmalıdır." class="@error('new_phone_number') is-invalid @enderror">
+                                    
+                                            <!-- Hata mesajı için yer -->
+                                            <div id="error-message" class="error-message">
+                                                @error('new_phone_number')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                    
+                                            <!-- Yüklenen dosyanın JSON verisi için gizli alan -->
+                                            <input type="hidden" id="form2_file_input" name="uploaded_file" value="">
+                                    
+                                            <!-- Gönder butonu -->
+                                            <button type="submit" class="btn btn-primary">Güncelle</button>
                                         </form>
                                     </div>
-
 
                                 </div>
 
@@ -495,15 +500,16 @@
                                                 <input name="file" type="file" multiple />
                                             </div>
                                         </form>
+                                        <!-- FontAwesome İkonlu Metin veya İkon -->
+                                        <div class="mt-4 ml-4">
+                                            <i class="fas fa-exclamation-circle" id="popoverContent"
+                                                data-toggle="popover" data-trigger="hover" data-placement="top"
+                                                title="Yüklenmesi Gereken Belge Detayı">
+                                                Yüklemeniz Gereken Belge Detayı
+                                            </i>
+                                        </div>
                                     </div>
-                                    <!-- FontAwesome İkonlu Metin veya İkon -->
-                                    <div class="mt-4 ml-4">
-                                        <i class="fas fa-exclamation-circle" id="popoverContent" data-toggle="popover"
-                                            data-trigger="hover" data-placement="top"
-                                            title="Yüklenmesi Gereken Belge Detayı">
-                                            Yüklemeniz Gereken Belge Detayı
-                                        </i>
-                                    </div>
+
                                 </div>
                             </div>
 
@@ -661,6 +667,7 @@
                                                 action="{{ route('institutional.profile.company.update') }}">
                                                 @csrf
 
+
                                                 <div class="col-6">
                                                     <label for="name">Firma Adı</label>
                                                     <input type="text" id="name" name="name"
@@ -676,7 +683,7 @@
                                                     <input type="text" id="iban" name="iban"
                                                         placeholder="İban"
                                                         class="form-control @error('iban') is-invalid @enderror" required
-                                                        value="{!! $user->iban !!}">
+                                                        value="{!! $user->iban !!}" oninput="formatIBAN(this)">
                                                     @error('iban')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -692,10 +699,10 @@
                                                     @enderror
                                                     <label for="phone_number">Sabit Telefon</label>
                                                     <div class="row">
-                                                        
+
                                                         <div class="col-6">
                                                             <select name="area_code" id="area_code"
-                                                                class="form-control m-1" >
+                                                                class="form-control m-1">
                                                                 <option value="">Alan Kodu Seçiniz</option>
                                                                 <?php
                                                                 $alanKodu = [
@@ -786,24 +793,24 @@
                                                                 ];
                                                                 
                                                                 foreach ($alanKodu as $cityName => $cityCode) {
-                                                                if (is_array($cityCode)) {
-                                                                    echo '<optgroup label="' . $cityName . '">';
-                                                                    foreach ($cityCode as $subCityName => $subCityCode) {
-                                                                        $selected = ($subCityCode == $user->taxOffice) ? 'selected' : '';
-                                                                        echo '<option value="' . $subCityCode . '" ' . $selected . '>' . $subCityName . ' (' . $subCityCode . ')' . '</option>';
+                                                                    if (is_array($cityCode)) {
+                                                                        echo '<optgroup label="' . $cityName . '">';
+                                                                        foreach ($cityCode as $subCityName => $subCityCode) {
+                                                                            $selected = $subCityCode == $user->area_code ? 'selected' : '';
+                                                                            echo '<option value="' . $subCityCode . '" ' . $selected . '>' . $subCityName . ' (' . $subCityCode . ')' . '</option>';
+                                                                        }
+                                                                        echo '</optgroup>';
+                                                                    } else {
+                                                                        $selected = $cityCode == $user->area_code ? 'selected' : '';
+                                                                        echo '<option value="' . $cityCode . '" ' . $selected . '>' . $cityName . ' (' . $cityCode . ')' . '</option>';
                                                                     }
-                                                                    echo '</optgroup>';
-                                                                } else {
-                                                                    $selected = ($cityCode == $user->taxOffice) ? 'selected' : '';
-                                                                    echo '<option value="' . $cityCode . '" ' . $selected . '>' . $cityName . ' (' . $cityCode . ')' . '</option>';
                                                                 }
-                                                            }
                                                                 ?>
                                                             </select>
                                                         </div>
 
                                                         <div class="col-6">
-                                                           
+
                                                             <input type="tel" id="phone_number" name="phone_number"
                                                                 class="form-control @error('phone_number') is-invalid @enderror"
                                                                 placeholder="Sabit Telefon" required
@@ -814,6 +821,8 @@
                                                             @enderror
                                                         </div>
                                                     </div>
+
+
                                                     <label for="sector_year">Kaç Yıldır Sektördesiniz?</label>
                                                     <input type="number" id="fsector" name="sector_year"
                                                         placeholder="Kaç Yıldır Sektördesiniz?" required
@@ -824,7 +833,224 @@
                                                     @enderror
 
                                                 </div>
+
+
+
                                                 <div class="col-6">
+                                                    <div class="mt-3">
+                                                        <label class="q-label">Ticari Unvan
+                                                            <i class="info-icon fas fa-info-circle" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                title="Firma adını kısaltmadan aynen yazınız."></i>
+                                                        </label>
+
+                                                        <input type="text" name="store_name"
+                                                            class="form-control {{ $errors->has($user->store_name) ? 'error-border' : '' }}"
+                                                            value="{{ $user->store_name }}">
+                                                        @if ($errors->has($user->store_name))
+                                                            <span
+                                                                class="error-message">{{ $errors->first($user->store_name) }}</span>
+                                                        @endif
+                                                    </div>
+
+
+                                                    <div class="mt-3">
+                                                        <label for="corporate-account-type" class="q-label">Faaliyet
+                                                            Alanı</label>
+                                                        <select name="corporate-account-type" id="corporate-account-type"
+                                                            class="form-control {{ $errors->has($user->corporate_type) ? 'error-border' : '' }}">
+                                                            <option value="" disabled selected>Seçiniz</option>
+                                                            <option value="Emlak Ofisi"
+                                                                {{ $user->corporate_type == 'Emlak Ofisi' ? 'selected' : '' }}>
+                                                                Emlak Ofisi</option>
+                                                            <option value="Banka"
+                                                                {{ $user->corporate_type == 'Banka' ? 'selected' : '' }}>
+                                                                Banka</option>
+                                                            <option value="İnşaat Ofisi"
+                                                                {{ $user->corporate_type == 'İnşaat Ofisi' ? 'selected' : '' }}>
+                                                                İnşaat Ofisi</option>
+                                                            <option value="Turizm Amaçlı Kiralama"
+                                                                {{ $user->corporate_type == 'Turizm Amaçlı Kiralama' ? 'selected' : '' }}>
+                                                                Turizm Amaçlı Kiralama</option>
+                                                        </select>
+                                                        @if ($errors->has($user->corporate_type))
+                                                            <span
+                                                                class="error-message">{{ $errors->first($user->corporate_type) }}</span>
+                                                        @endif
+                                                    </div>
+
+
+                                                    <!-- İl -->
+                                                    <div class="mt-3">
+                                                        <label for="" class="q-label">İl</label>
+                                                        <select
+                                                            class="form-control {{ $errors->has($user->city_id) ? 'error-border' : '' }}"
+                                                            id="citySelect" name="city_id">
+                                                            <option value="">Seçiniz</option>
+                                                            @foreach ($towns as $item)
+                                                                <option for="{{ $item['sehir_title'] }}"
+                                                                    value="{{ $item['sehir_key'] }}"
+                                                                    {{ $user->city_id == $item['sehir_key'] ? 'selected' : '' }}>
+                                                                    {{ $item['sehir_title'] }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @if ($errors->has($user->city_id))
+                                                            <span
+                                                                class="error-message">{{ $errors->first($user->city_id) }}</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="mt-3">
+                                                        <label for="" class="q-label">İlçe</label>
+                                                        <select
+                                                            class="form-control {{ $errors->has($user->county_id) ? 'error-border' : '' }}"
+                                                            name="county_id" id="countySelect">
+                                                            <option value="{{ $user->county_id }}">Seçiniz</option>
+                                                        </select>
+                                                        @if ($errors->has($user->county_id))
+                                                            <span
+                                                                class="error-message">{{ $errors->first($user->county_id) }}</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="mt-3">
+                                                        <label for="" class="q-label">Mahalle</label>
+                                                        <select
+                                                            class="form-control {{ $errors->has($user->neighborhood_id) ? 'error-border' : '' }}"
+                                                            name="neighborhood_id" id="neighborhoodSelect">
+                                                            <option value="{{ $user->neighborhood_id }}">Seçiniz</option>
+                                                        </select>
+                                                        @if ($errors->has($user->neighborhood_id))
+                                                            <span
+                                                                class="error-message">{{ $errors->first($user->neighborhood_id) }}</span>
+                                                        @endif
+                                                    </div>
+                                                    @php
+                                                        // Gelen account_type verisini kontrol ederek uygun değeri belirleyin
+
+                                                        $account_type =
+                                                            $user->account_type == 'Limited veya Anonim Şirketi'
+                                                                ? 1
+                                                                : 2;
+
+                                                    @endphp
+                                                    <!-- İşletme Türü -->
+                                                    <div class="mt-3">
+                                                        <label for="" class="q-label">İşletme Türü</label>
+                                                        <div class="companyType">
+                                                            <label for="of">
+                                                                <input type="radio" class="input-radio off"
+                                                                    id="of" name="account_type"
+                                                                    value="Şahıs Şirketi"
+                                                                    {{ $account_type == 1 ? 'checked' : '' }}> Şahıs
+                                                                Şirketi
+                                                            </label>
+                                                            <label for="on">
+                                                                <input type="radio" class="input-radio off"
+                                                                    id="on" name="account_type"
+                                                                    value="Limited veya Anonim Şirketi"
+                                                                    {{ $account_type == 2 ? 'checked' : '' }}> Limited veya
+                                                                Anonim Şirketi
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Vergi Dairesi İli -->
+                                                    <div class="split-form corporate-input mt-3">
+                                                        <div class="corporate-input input-city">
+                                                            <div class="mbdef">
+                                                                <div class="select select-tax-office">
+                                                                    <label for="" class="q-label">Vergi Dairesi
+                                                                        İli</label>
+                                                                    <select id="taxOfficeCity"
+                                                                        class="form-control {{ $errors->has($user->taxOfficeCity) ? 'error-border' : '' }}"
+                                                                        name="taxOfficeCity">
+                                                                        <option value="">Seçiniz</option>
+                                                                        @foreach ($cities as $item)
+                                                                            <option value="{{ $item['title'] }}"
+                                                                                {{ $user->taxOfficeCity == $item['title'] ? 'selected' : '' }}>
+                                                                                {{ $item['title'] }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    @if ($errors->has($user->taxOfficeCity))
+                                                                        <span
+                                                                            class="error-message">{{ $errors->first($user->taxOfficeCity) }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="split-form corporate-input mt-3">
+                                                        <div class="corporate-input input-city">
+                                                            <div class="mbdef">
+                                                                <div class="select select-tax-office">
+                                                                    <label for="" class="q-label">Vergi Dairesi
+                                                                    </label>
+
+                                                                    <select id="taxOffice"
+                                                                        class="form-control {{ $errors->has($user->taxOffice) ? 'error-border' : '' }}"
+                                                                        name="taxOffice">
+                                                                        <option value="">Seçiniz</option>
+                                                                    </select>
+                                                                    @if ($errors->has($user->taxOffice))
+                                                                        <span
+                                                                            class="error-message">{{ $errors->first($user->taxOffice) }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Vergi No -->
+                                                    <div class="split-form corporate-input mt-3">
+                                                        <div class="corporate-input input-city">
+                                                            <div class="mbdef">
+                                                                <div class="select select-tax-office">
+                                                                    <label for="" class="q-label">Vergi No</label>
+                                                                    <input type="number" id="taxNumber" name="taxNumber"
+                                                                        class="form-control {{ $errors->has($user->taxNumber) ? 'error-border' : '' }}"
+                                                                        value="{{ $user->taxNumber }}" maxlength="10">
+                                                                    @if ($errors->has($user->taxNumber))
+                                                                        <span
+                                                                            class="error-message">{{ $errors->first($user->taxNumber) }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Yetki Belgesi No -->
+                                                    <div class="split-form corporate-input mt-3">
+                                                        <div class="corporate-input input-city">
+                                                            <div class="mbdef">
+                                                                <div class="select select-tax-office">
+                                                                    <label for="" class="q-label">Yetki Belgesi
+                                                                        No</label>
+                                                                    <input type="text" id="authority_licence"
+                                                                        name="authority_licence"
+                                                                        value="{{ $user->authority_licence }}"
+                                                                        class="form-control" maxlength="7">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="split-form corporate-input mt-3 {{ old('account_type') == 2 ? 'd-none' : '' }}"
+                                                        id="idNumberDiv">
+                                                        <div class="corporate-input input-city">
+                                                            <div class="mbdef">
+                                                                <div class="select select-tax-office">
+                                                                    <label for="" class="q-label">TC Kimlik
+                                                                        No</label>
+                                                                    <input type="number" id="idNumber" name="idNumber"
+                                                                        class="form-control"
+                                                                        value="{{ $user->idNumber }}" maxlength="11">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
                                                 </div>
 
@@ -889,8 +1115,10 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async
         defer></script>
     <!-- Dropzone.js CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/dropzone.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5/dist/dropzone.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/dropzone@5/dist/dropzone.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script>
@@ -917,7 +1145,9 @@
         });
     </script>
     <script>
-        Dropzone.options.myDropzone = {
+        Dropzone.autoDiscover = false;
+
+        var myDropzone = new Dropzone("#myDropzone", {
             paramName: "file", // Yüklenecek dosya adı
             maxFilesize: 2, // MB cinsinden maksimum dosya boyutu
             acceptedFiles: ".jpg, .jpeg, .png, .pdf", // Kabul edilen dosya türleri
@@ -926,28 +1156,40 @@
             addRemoveLinks: true, // Dosya kaldırma bağlantısı ekle
             dictRemoveFile: "Dosyayı kaldır", // Dosya kaldırma bağlantısının metni
             init: function() {
-                this.on("addedfile", function() {
+                this.on("addedfile", function(file) {
                     if (this.files[1] != null) {
                         this.removeFile(this.files[0]);
                     }
                 });
 
-                // Dropzone işlemi tamamlandığında
+                this.on("success", function(file, response) {
+                    // Yükleme başarılı olduğunda çalışır
+                    console.log("Yükleme başarılı: ", response);
+                });
+
+                this.on("error", function(file, response) {
+                    // Yükleme hatası olduğunda çalışır
+                    console.error("Yükleme hatası: ", response);
+                });
+
                 this.on("complete", function(file) {
+                    // Yükleme tamamlandığında çalışır
                     if (file.upload.filename) {
-                        // Yüklenen dosya adını alabiliriz, burada file.upload.filename kullanıyoruz.
-                        // İstenilen formdaki input elementine atama yapmak için JavaScript ile bu dosya adını alabiliriz.
+                        console.log("Yüklenen dosya adı: ", file.upload.filename);
                         var form2FileInput = document.getElementById("form2_file_input");
                         form2FileInput.value = JSON.stringify(
-                            file); // Burada file.upload.filename ile alıyoruz.
+                            file);
                     }
                 });
             }
-        };
+        });
     </script>
 
+
     <script>
-        Dropzone.options.profileImageDropzone = {
+        Dropzone.autoDiscover = false;
+
+        var myDropzone = new Dropzone("#profileImageDropzone", {
             paramName: "file", // Yüklenecek dosya adı
             maxFilesize: 2, // MB cinsinden maksimum dosya boyutu
             acceptedFiles: ".jpg, .jpeg, .png, .pdf", // Kabul edilen dosya türleri
@@ -956,14 +1198,24 @@
             addRemoveLinks: true, // Dosya kaldırma bağlantısı ekle
             dictRemoveFile: "Dosyayı kaldır", // Dosya kaldırma bağlantısının metni
             init: function() {
-                this.on("addedfile", function() {
+                this.on("addedfile", function(file) {
                     if (this.files[1] != null) {
                         this.removeFile(this.files[0]);
                     }
                 });
 
-                // Dropzone işlemi tamamlandığında
+                this.on("success", function(file, response) {
+                    // Yükleme başarılı olduğunda çalışır
+                    console.log("Yükleme başarılı: ", response);
+                });
+
+                this.on("error", function(file, response) {
+                    // Yükleme hatası olduğunda çalışır
+                    console.error("Yükleme hatası: ", response);
+                });
+
                 this.on("complete", function(file) {
+                    // Yükleme tamamlandığında çalışır
                     if (file.upload.filename) {
                         // Yüklenen dosya adını alabiliriz, burada file.upload.filename kullanıyoruz.
                         // İstenilen formdaki input elementine atama yapmak için JavaScript ile bu dosya adını alabiliriz.
@@ -972,23 +1224,13 @@
                             file); // Burada file.upload.filename ile alıyoruz.
                     }
                 });
-
-                this.on("addedfile", function(file) {
-                    if (this.files[1] != null) {
-                        this.removeFile(this.files[0]); // Yeni dosya eklenirse, önceki dosyayı kaldır
-                    }
-                    // Resmi önizleme
-                    let reader = new FileReader();
-                    reader.onload = function(e) {
-                        let img = document.getElementById('profileImagePreview');
-                        img.src = e.target.result;
-                        img.style.display = 'block';
-                    };
-                    reader.readAsDataURL(file);
-                });
-
             }
-        };
+        });
+
+
+
+
+
         // Renk seçiciden arka plan rengini değiştirme
         // Laravel'den banner_hex_code değerini alın
         var bannerHexCode = @json($user->banner_hex_code);
@@ -1219,151 +1461,8 @@
     </script>
 
 
-    <script>
-        const accountTypeRadios = document.querySelectorAll('input[name="account_type"]');
-        const idNumberDiv = document.getElementById('idNumberDiv');
-
-        // Sayfa yüklendiğinde mevcut kullanıcının hesap türünü kontrol edin ve TC Kimlik Numarası alanını gösterin veya gizleyin
-        function toggleIdNumberVisibility() {
-            const selectedAccountType = document.querySelector('input[name="account_type"]:checked').value;
-            if (selectedAccountType === '1') {
-                idNumberDiv.style.display = 'block'; // Şahıs Şirketi seçildiyse göster
-            } else {
-                idNumberDiv.style.display = 'none'; // Diğer türler seçildiyse gizle
-            }
-        }
-
-        // Sayfa yüklendiğinde hesap türünü kontrol edin ve TC Kimlik Numarası alanını gösterin veya gizleyin
-        toggleIdNumberVisibility();
-
-        // Hesap türü değiştikçe TC Kimlik Numarası alanının görünürlüğünü güncelleyin
-        accountTypeRadios.forEach(radio => {
-            radio.addEventListener('change', toggleIdNumberVisibility);
-        });
-
-        const companyTypeRadios = document.querySelectorAll('input[name="account_type"]');
-        const taxNumberInput = document.getElementById('taxNumber');
-        const idNumberInput = document.getElementById('idNumberDiv');
-
-        companyTypeRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === '1') { // Şahıs Şirketi seçildiğinde
-                    taxNumberInput.style.display = 'block'; // Vergi Numarası görünür
-                    idNumberInput.style.display = 'block'; // TC Kimlik Numarası gizli
-                } else if (this.value === '2') { // Limited veya Anonim Şirketi seçildiğinde
-                    taxNumberInput.style.display = 'block'; // Vergi Numarası gizli
-                    idNumberInput.style.display = 'none'; // TC Kimlik Numarası görünür
-                }
-            });
-        });
-
-        $('#citySelect').change(function() {
-            var selectedCity = $(this).val();
-
-            $.ajax({
-                type: 'GET',
-                url: '/get-counties/' + selectedCity,
-                success: function(data) {
-                    var countySelect = $('#countySelect');
-                    countySelect.empty();
-                    $.each(data.counties, function(index, county) {
-                        countySelect.append('<option value="' + county.ilce_key + '">' + county
-                            .ilce_title +
-                            '</option>');
-                    });
-                }
-            });
-        });
 
 
-        $('#countySelect').change(function() {
-            var selectedCounty = $(this).val();
-
-            $.ajax({
-                type: 'GET',
-                url: '/get-neighborhoods/' + selectedCounty,
-                success: function(data) {
-                    var neighborhoodSelect = $('#neighborhoodSelect');
-                    neighborhoodSelect.empty();
-                    $.each(data, function(index, county) {
-                        neighborhoodSelect.append('<option value="' + county.mahalle_key +
-                            '">' +
-                            county
-                            .mahalle_title +
-                            '</option>');
-                    });
-                }
-            });
-        });
-
-        $('#taxOfficeCity').change(function() {
-            var selectedCity = $(this).val();
-            console.log(selectedCity);
-            $.ajax({
-                type: 'GET',
-                url: '/get-tax-office/' + selectedCity,
-                success: function(data) {
-                    
-                    var taxOffice = $('#taxOffice');
-                    taxOffice.empty();
-                    $.each(data, function(index, office) {
-                        taxOffice.append('<option value="' + office.id + '">' + office
-                            .daire +
-                            '</option>');
-                    });
-                }
-            });
-        });
-
-        $(document).ready(function() {
-            $('.owl-carousel').owlCarousel({
-                items: 2, // Varsayılan olarak 2 öğe göster
-                loop: true,
-                margin: 10,
-                dots: true,
-                autoplay: true,
-                autoplayTimeout: 5000,
-                autoplayHoverPause: true,
-                responsive: {
-                    0: {
-                        items: 1
-
-                    },
-                    768: {
-                        items: 1 // 768 piksel genişlikte 1 öğe göster
-                    },
-                    1000: {
-                        items: 2
-                    }
-                }
-            });
-        });
-
-        function deselectOtherPlans() {
-            // Tüm abonelik planı düğmelerini seçin
-            const planButtons = document.querySelectorAll('.plan-button');
-
-            // Her düğmeden "selected-plan-btn" sınıfını kaldırın
-            planButtons.forEach(function(button) {
-                button.classList.remove("selected-plan-btn");
-                button.classList.add("btn-primary", "btn"); // Önceki stilini geri yükleyin
-            });
-        }
-
-        function selectPlan(button) {
-            const planId = button.getAttribute('data-plan-id');
-            const planName = button.getAttribute('data-plan-name');
-            const planPrice = button.getAttribute('data-plan-price');
-            toastr.success("Abonelik Planı Başarıyla Seçildi");
-            // Diğer plan düğmelerinden "selected-plan-btn" sınıfını kaldırın
-            deselectOtherPlans();
-
-            // Button'un sınıfını güncelle
-            button.classList.remove("btn-primary", "btn");
-            button.classList.add("btn-success", "selected-plan-btn");
-            document.getElementById('selected-plan-id').value = planId;
-        }
-    </script>
     <script>
         function formatIBAN(input) {
             // TR ile başlat
@@ -1421,6 +1520,314 @@
         }
     </script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#area_code, #phone').on('input', function() {
+                var areaCode = $('#area_code').val();
+                var phoneNumber = $('#phone').val();
+                // Eğer alan kodu veya telefon numarası girilmediyse işlem yapma
+                if (areaCode && phoneNumber) {
+                    // Telefon numarasını güncelle
+                    var fullPhoneNumber = areaCode + phoneNumber;
+                    // Telefon numarasını konsola yazdır
+                    console.log("Telefon numarası: " + fullPhoneNumber);
+                }
+            });
+        });
+    </script>
+    <script>
+        const companyTypeRadios = document.querySelectorAll('input[name="account_type"]');
+        const taxNumberInput = document.getElementById('taxNumber');
+        const idNumberInput = document.getElementById('idNumberDiv');
+
+        companyTypeRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'Şahıs Şirketi') { // Şahıs Şirketi seçildiğinde
+                    taxNumberInput.style.display = 'block'; // Vergi Numarası görünür
+                    idNumberInput.style.display = 'block'; // TC Kimlik Numarası gizli
+                } else if (this.value ===
+                    'Limited veya Anonim Şirketi') { // Limited veya Anonim Şirketi seçildiğinde
+                    taxNumberInput.style.display = 'block'; // Vergi Numarası gizli
+                    idNumberInput.style.display = 'none'; // TC Kimlik Numarası görünür
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            $("#mobile_phone").on("input blur", function() {
+                var phoneNumber = $(this).val();
+                var pattern = /^5[0-9]\d{8}$/;
+
+                if (!pattern.test(phoneNumber)) {
+                    $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
+                } else {
+                    $("#error_message").text("");
+                }
+                // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                $('#mobile_phone').on('keypress', function(e) {
+                    var max_length = 10;
+                    // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                    if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                        // Olayın işlenmesini durdur
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var cityId = "{{ $user->city_id }}";
+            var countyId = "{{ $user->county_id }}";
+            var taxOfficeCity = "{{ $user->taxOfficeCity }}";
+            var neighborhoodId = "{{ $user->neighborhood_id }}";
+            var taxOffice = "{{ $user->taxOffice }}";
+
+            if (cityId) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/get-counties/' + cityId,
+                    success: function(data) {
+                        var countySelect = $('#countySelect');
+                        $('#countySelect').select2({
+                            placeholder: 'İlçe',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        }).prop('disabled', false);
+                        countySelect.empty();
+                        countySelect.append('<option value="">İlçe Seçiniz</option>');
+                        $.each(data.counties, function(index, county) {
+                            var selectedAttribute = (county.ilce_key == countyId) ?
+                                'selected' : '';
+
+                            countySelect.append(
+                                '<option value="' + county.ilce_key + '" ' +
+                                selectedAttribute + '>' +
+                                county.ilce_title +
+                                '</option>'
+                            );
+                        });
+                    }
+                });
+            }
+            // Show overlay when a Select2 dropdown is opened
+            $(document).on('click', '.select2-container', function() {
+                if ($(this).hasClass('select2-container--open')) {
+                    const searchField = $('.select2-search__field');
+                    if (searchField.length) {
+                        searchField.attr('placeholder', 'Ara...');
+                    }
+
+                }
+            });
+
+            if (countyId) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/get-neighborhoods/' + countyId,
+                    success: function(data) {
+                        var neighborhoodSelect = $('#neighborhoodSelect');
+                        $('#neighborhoodSelect').select2({
+                            placeholder: 'Mahalle',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        }).prop('disabled', false);
+                        neighborhoodSelect.empty();
+                        neighborhoodSelect.append('<option value="">Mahalle Seçiniz</option>');
+
+                        $.each(data, function(index, county) {
+                            var selectedAttribute = (county.mahalle_key == neighborhoodId) ?
+                                'selected' : '';
+                            neighborhoodSelect.append(
+                                '<option value="' + county.mahalle_key + '" ' +
+                                selectedAttribute + '>' +
+                                county.mahalle_title +
+                                '</option>'
+                            );
+                        });
+                    }
+                });
+            }
+
+
+            $.ajax({
+                type: 'GET',
+                url: '/get-tax-office/' + taxOfficeCity,
+                success: function(data) {
+                    var taxOffice = $('#taxOffice');
+                    taxOffice.empty();
+                    $.each(data, function(index, office) {
+                        var selectedAttribute = (office.id == taxOffice.val()) ?
+                            // Düzeltilmiş kısım
+                            'selected' : '';
+                        taxOffice.append(
+                            '<option value="' + office.id + '" ' +
+                            selectedAttribute + '>' +
+                            office.daire +
+                            '</option>'
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX Hatası:', error);
+                }
+            });
+        });
+        $('#citySelect').select2({
+            placeholder: 'İl',
+            width: '100%',
+            language: {
+                noResults: function() {
+                    return 'Arama sonuç bulunamadı';
+                }
+            }
+        });
+        $('#taxOfficeCity').select2({
+            placeholder: 'Vergi Dairesi İli',
+            width: '100%',
+            language: {
+                noResults: function() {
+                    return 'Arama sonuç bulunamadı';
+                }
+            }
+        });
+        $('#taxOffice').select2({
+            placeholder: 'Vergi Dairesi',
+            width: '100%',
+            language: {
+                noResults: function() {
+                    return 'Arama sonuç bulunamadı';
+                }
+            }
+        }).prop('disabled', true);
+        $('#countySelect').select2({
+            minimumResultsForSearch: -1,
+            width: '100%',
+            language: {
+                noResults: function() {
+                    return 'Arama sonuç bulunamadı';
+                }
+            }
+        }).prop('disabled', true);
+
+        $('#neighborhoodSelect').select2({
+            minimumResultsForSearch: -1,
+            width: '100%',
+            language: {
+                noResults: function() {
+                    return 'Arama sonuç bulunamadı';
+                }
+            }
+        }).prop('disabled', true);
+        $('#citySelect').change(function() {
+            var selectedCity = $(this).val();
+
+            $.ajax({
+                type: 'GET',
+                url: '/get-counties/' + selectedCity,
+                success: function(data) {
+                    var countySelect = $('#countySelect');
+                    $('#countySelect').select2({
+                        placeholder: 'İlçe',
+                        width: '100%',
+                        searchInputPlaceholder: 'Ara...'
+                    }).prop('disabled', false);
+                    countySelect.empty();
+                    countySelect.append('<option value="">İlçe Seçiniz</option>');
+                    $.each(data.counties, function(index, county) {
+                        countySelect.append('<option value="' + county.ilce_key + '">' + county
+                            .ilce_title +
+                            '</option>');
+                    });
+                }
+            });
+        });
+
+        $('#countySelect').change(function() {
+            var selectedCounty = $(this).val();
+
+            $.ajax({
+                type: 'GET',
+                url: '/get-neighborhoods/' + selectedCounty,
+                success: function(data) {
+                    var neighborhoodSelect = $('#neighborhoodSelect');
+                    neighborhoodSelect.empty();
+                    neighborhoodSelect.append('<option value="">Mahalle Seçiniz</option>');
+                    $('#neighborhoodSelect').select2({
+                        placeholder: 'Mahalle',
+                        width: '100%',
+                        searchInputPlaceholder: 'Ara...'
+                    }).prop('disabled', false);
+                    $.each(data, function(index, county) {
+                        neighborhoodSelect.append('<option value="' + county.mahalle_key +
+                            '">' +
+                            county
+                            .mahalle_title +
+                            '</option>');
+                    });
+                }
+            });
+        });
+
+        $('#taxOfficeCity').change(function() {
+            var selectedCity = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '/get-tax-office/' + selectedCity,
+                success: function(data) {
+                    var taxOffice = $('#taxOffice');
+                    taxOffice.empty();
+                    $('#taxOffice').select2({
+                        placeholder: 'Vergi Dairesi',
+                        width: '100%',
+                        language: {
+                            noResults: function() {
+                                return 'Arama sonuç bulunamadı';
+                            }
+                        }
+                    }).prop('disabled', false);
+                    $.each(data, function(index, office) {
+                        taxOffice.append('<option value="' + office.id + '">' + office
+                            .daire +
+                            '</option>');
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        'use strict';
+        $('#corporate-account-type').on('change', function() {
+            let value = $(this).val();
+            let data = {
+                "Emlak Ofisi": "tab-emlakci",
+                "Banka": "tab-banka",
+                "İnşaat Ofisi": "tab-insaat",
+            };
+
+            $('.sub-plan-tab').addClass('d-none');
+            $(`.sub-plan-tab.${data[value]}`).removeClass('d-none');
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
 
     <style>
         .companyType {
@@ -1474,6 +1881,20 @@
     </style>
 
     <style>
+        .companyType label {
+            display: flex;
+            align-items: normal;
+            justify-content: center;
+            margin: 0 10px 0 0;
+        }
+
+        .dz-message {
+            background: none !important;
+            border: none !important;
+            padding: none !important;
+            text-align: none !important;
+        }
+
         .dz-remove {
             cursor: pointer;
             color: red;
@@ -1522,4 +1943,5 @@
             /* Odaklandığında kenarlık rengi */
         }
     </style>
+    
 @endsection

@@ -176,7 +176,7 @@
 
         .crossmark::after {
             content: '✗';
-            color: #EA2B2E;
+            color: #EC2F2E;
             font-size: 16px;
             margin-left: 5px;
         }

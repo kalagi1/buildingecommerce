@@ -8,7 +8,9 @@ use App\Models\AssignedUser;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Award;
+use App\Models\CancelRequest;
 use App\Models\CartOrder;
+use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,14 +21,24 @@ class CrmController extends Controller
     public function index(){
         return view('client.panel.crm.index');
     }
+    public function approveReservation( Reservation $reservation ) {
+        $reservation->update( [ 'status' => '1' ] );
+        return redirect()->back();
+    }
 
+    public function unapproveReservation( Reservation $reservation ) {
+        $reservation->update( [ 'status' => '3' ] );
+        CancelRequest::where( 'reservation_id', $reservation->id )->delete();
+        return redirect()->back();
+    }
     public function projectAssigment(){
         return view('client.panel.crm.project_assigment');
     }//End
 
     public function salesConsultantList() {
         $sales_consultant = User::where('project_authority', 'on')->get();
-        $projects = Project::where('status', '1')->get();
+        $projects = Project::where('status', '1')->where('user_id', Auth::user()->id )->get();
+        // print_r($sales_consultant);die;
     
         // Danışmanlar için atanmış projeleri çek
         $consultantsWithProjects = [];
@@ -42,19 +54,27 @@ class CrmController extends Controller
         return view('client.panel.sales_consultant.index', compact('sales_consultant', 'projects', 'consultantsWithProjects'));
     }//End
 
-    public function assignProjectUser(Request $request){
+    public function assignProjectUser(Request $request) {
+        $userId = $request->user_id;
         $projectIds = $request->projectIds;
-
-        foreach ($projectIds as $projectId) {
-            DB::table('project_assigment')->insert([
-                'user_id'    => $request->user_id,
-                'project_id' => $projectId,
-                'created_at' => now()
-            ]);
+    
+        // Önce, kullanıcının mevcut proje atamalarını temizle
+        DB::table('project_assigment')->where('user_id', $userId)->delete();
+    
+        // Ardından, seçilen projeleri ekle
+        if (!empty($projectIds)) {
+            foreach ($projectIds as $projectId) {
+                DB::table('project_assigment')->insert([
+                    'user_id'    => $userId,
+                    'project_id' => $projectId,
+                    'created_at' => now()
+                ]);
+            }
         }
-      
-      return redirect()->back()->with('success','Proje ataması başarıyla yapıldı.');  
+    
+        return redirect()->back()->with('success', 'Değişiklikler başarıyla gerçekleşti.');
     }//End
+    
 
     public function consultantCustomerList(){
         // $customers = DB::table('assigned_users')->where('danisman_id',Auth::id())->get(); // Yeni Müşteriler //arama kaydı olmayanları listele sorguyu güncelle
@@ -66,11 +86,13 @@ class CrmController extends Controller
         $customers = DB::table('assigned_users')
             ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
             ->whereNull('customer_calls.customer_id')
+            ->where('danisman_id',Auth::id())
             ->select('assigned_users.*')
             ->get();
             $customerCount = DB::table('assigned_users')
             ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
             ->whereNull('customer_calls.customer_id')
+            ->where('danisman_id',Auth::id())
             ->select('assigned_users.*')
             ->count();   
 
@@ -142,7 +164,6 @@ class CrmController extends Controller
         $geri_donus_yapilacak_musteriler = DB::table('assigned_users')
             ->whereIn('id', $uniqueCustomerIds)
             ->get();
-            // print_r($geri_donus_yapilacak_musteriler);die;
 
         $geri_donus_yapilacak_musterilerCount = DB::table('assigned_users')
             ->whereIn('id', $uniqueCustomerIds)
@@ -347,17 +368,10 @@ class CrmController extends Controller
                 return response()->json(['success' => false, 'message' => 'Müşteri Eklenirken hata oluştu. Lütfen tekrar deneyiniz.']);
             }
         }
-
-
-        
-      
-
-   
-
     }//End
 
     public function danismanDashboard(){
-
+        $topCaller = [];
         // $totalCustomers = DB::table('assigned_users')->where('danisman_id',Auth::id())->count(); //Tüm Müşteriler
         $totalCustomers = DB::table('assigned_users')->count(); //Tüm Müşteriler
 
@@ -557,6 +571,7 @@ class CrmController extends Controller
 
     public function adminDashboard(){
 
+        $topCaller = [];
         $totalCustomers = DB::table('assigned_users')->count(); //Tüm Müşteriler
 
         $positiveCustomersCount = DB::table('customer_calls')
@@ -664,11 +679,11 @@ class CrmController extends Controller
             }    
 
 
-    $bireysel_satislar = DB::table('cart_orders')->whereNull('reference_id')->where('status','1')->count();
-
-    $danismanlarin_toplam_satis_sayisi = DB::table('cart_orders')->whereNotNull('reference_id')->where('status','1')->count();
+    $bireysel_satislar = DB::table('cart_orders')->whereNull('reference_id')->where('store_id',Auth::id())->where('status','1')->count();
+    $danismanlarin_toplam_satis_sayisi = DB::table('cart_orders')->whereNotNull('reference_id')->where('store_id',Auth::id())->where('status','1')->count();
 
     $sirket_satis_sayisi = $bireysel_satislar + $danismanlarin_toplam_satis_sayisi;
+    // print_r($sirket_satis_sayisi);die;
 
     $sharerIndividualCount = CartOrder::join('sharer_prices','sharer_prices.cart_id','=','cart_orders.id')
         ->join('users','users.id','=','sharer_prices.user_id')->where('users.type',1)->count();
@@ -758,4 +773,21 @@ class CrmController extends Controller
 
         return response()->json(['message' => 'Ödül başarıyla güncellendi']);
     }//End
+
+    public function updateTodayWorking(Request $request) {
+        $userId = $request->input('user_id');
+        $todayWorking = $request->input('today_working');
+    
+        // Veritabanında güncelleme yap
+        // DB::table('users')
+        //     ->where('id', $userId)
+        //     ->update(['today_working' => $todayWorking]);
+
+        $user = User::find($userId);
+        $user->today_working = $todayWorking;
+        $user->save();
+    
+        return response()->json(['status' => 'success']);
+    }//End
+    
 }

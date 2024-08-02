@@ -26,12 +26,14 @@
                 @php
                     $cart = json_decode($neighborView->order->cart, true);
                     $statusText = $neighborView->status == 1 ? 'Ödeme onaylandı' : 'Ödeme onayı bekleniyor';
+                    $nameDisplay = $neighborView->status == 1 ? $neighborView->owner->name : substr($neighborView->owner->name, 0, 3) . str_repeat('*', strlen($neighborView->owner->name) - 3);
+                    $phoneDisplay = $neighborView->status == 1 ? $neighborView->owner->mobile_phone : substr($neighborView->owner->mobile_phone, 0, 3) . str_repeat('*', strlen($neighborView->owner->mobile_phone) - 3);
                 @endphp
                 <div class="project-table-content user-item">
                     <ul>
-                        <li style="width: 5%;">{{ $key +1 }}</li>
-                        <li>Komşu İsmi: {{ $neighborView->owner->name }}</li>
-                        <li>Komşu Cep No: {{ $neighborView->owner->mobile_phone }}</li>
+                        <li style="width: 5%;">{{ $key + 1 }}</li>
+                        <li>Komşu İsmi: {{ $nameDisplay }}</li>
+                        <li>Komşu Cep No: {{ $phoneDisplay }}</li>
                         <li>Proje: {{ $neighborView->project->project_title }} {{ $cart['item']['housing'] }} No'lu İlan</li>
                         <li>{{ $statusText }} (250 TL)</li>
                         <li>
@@ -54,7 +56,7 @@
                 </div>
             @endforeach
         </div>
-    </section>
+        
 @endsection
 
 
@@ -269,7 +271,7 @@
 
         #orders-container .header-bar .order-search-box-container .osb-give-up span:hover {
             cursor: pointer;
-            color: #EA2B2E;
+            color: #EC2F2E;
             text-decoration: underline;
         }
 
@@ -285,7 +287,7 @@
             position: absolute;
             right: 9px;
             top: 9px;
-            color: #EA2B2E;
+            color: #EC2F2E;
             font-size: 11px;
             cursor: pointer;
         }
@@ -337,7 +339,7 @@
         }
 
         .text-red {
-            color: #EA2B2E !important;
+            color: #EC2F2E !important;
             font-weight: 600 !important
         }
 
@@ -382,7 +384,7 @@
         }
 
         #orders-container .order .order-header .order-header-info b.orange {
-            color: #EA2B2E;
+            color: #EC2F2E;
         }
 
         #orders-container .order .order-header button {
@@ -443,7 +445,7 @@
         }
 
         #orders-container .order .order-item .order-item-status .title .shipment-info:hover {
-            color: #EA2B2E;
+            color: #EC2F2E;
         }
 
         #orders-container .order .order-item .order-item-status .title.preparing_defective~.description,
@@ -862,7 +864,7 @@
             height: 44px;
             margin: 20px;
             border-radius: 6px;
-            background-color: #EA2B2E;
+            background-color: #EC2F2E;
             font-size: 11px;
             font-weight: 600;
         }
@@ -876,7 +878,7 @@
             border-radius: 50%;
             background-color: #fff4ec;
             font-size: 40px;
-            color: #EA2B2E;
+            color: #EC2F2E;
             margin-bottom: 10px;
         }
 
@@ -1007,7 +1009,7 @@
             justify-content: center;
             height: 24px;
             background-color: #FEF4EC;
-            color: #EA2B2E;
+            color: #EC2F2E;
             border-top-left-radius: 2px;
             border-bottom-left-radius: 2px;
             padding: 0 6px;
@@ -1083,7 +1085,7 @@
             border-radius: 50%;
             background-color: #fff4ec;
             font-size: 32px;
-            color: #EA2B2E;
+            color: #EC2F2E;
             margin-bottom: 10px;
             box-sizing: border-box;
         }
@@ -1091,7 +1093,7 @@
         #orders-container .no-order-container .no-title {
             font-size: 20px;
             font-weight: 600;
-            color: #EA2B2E;
+            color: #EC2F2E;
         }
 
         #orders-container .no-order-container .no-desc {
@@ -1142,8 +1144,8 @@
 
         #orders-container .status-quick-filters-wrapper .status-quick-filter-tabs-wrapper .filter-tab:hover,
         #orders-container .status-quick-filters-wrapper .status-quick-filter-tabs-wrapper .filter-tab.active {
-            border-color: #EA2B2E;
-            color: #EA2B2E;
+            border-color: #EC2F2E;
+            color: #EC2F2E;
             box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
         }
 
@@ -1450,7 +1452,7 @@
         }
 
         #orders-container .cobranded-card-offer-information .offer-information-text-wrapper .information-bullets li>i>span.path1::before {
-            color: #EA2B2E;
+            color: #EC2F2E;
         }
 
         #orders-container .cobranded-card-offer-information .offer-information-text-wrapper .information-bullets li>p {
@@ -1473,7 +1475,7 @@
             width: 200px;
             height: 28px;
             box-sizing: border-box;
-            background: #EA2B2E;
+            background: #EC2F2E;
             border-radius: 4px;
             padding: 8px;
             transition: 0.3s ease-in;
@@ -1506,7 +1508,7 @@
         }
 
         .type-tag {
-            background: #EA2B2E !important;
+            background: #EC2F2E !important;
             right: 15px;
             text-align: center;
             width: 60px !important;

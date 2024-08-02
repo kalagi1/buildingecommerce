@@ -71,9 +71,6 @@ class HousingController extends Controller
             'district',
             'neighborhood'
         ])
-        ->whereHas('listItems', function($query) {
-            $query->where('item_type', 2);
-        })
         ->orderBy('created_at', 'desc');
 
         // Active housings

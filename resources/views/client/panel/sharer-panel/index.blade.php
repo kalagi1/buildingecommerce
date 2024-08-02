@@ -1,7 +1,7 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
-    <div class="table-breadcrumb">
+    <div class="table-breadcrumb mb-5">
         <ul>
             <li>
                 Hesabım
@@ -74,19 +74,25 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item"
-                                                            href="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
+                                                        <a class="dropdown-item" href="#" onclick="shareOnWhatsApp('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}')">
                                                             <i class="fas fa-share-alt mr-2"></i>
                                                             Whatsapp'ta Paylaş
                                                         </a>
                                                     </li>
+                                                    
+                                                    <script>
+                                                        function shareOnWhatsApp(url) {
+                                                            // URL'yi WhatsApp paylaşım URL'sine dönüştür
+                                                            const whatsappUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(url);
+                                                            
+                                                            // Yeni sekmede WhatsApp paylaşım sayfasını aç
+                                                            window.open(whatsappUrl, '_blank');
+                                                        }
+                                                    </script>
+                                                    
+                                                    
                                                 </ul>
 
-                                                <script>
-                                                    function copyLinkAndShare(link) {
-                                                        window.location.href = "whatsapp://send?text=" + encodeURIComponent(link);
-                                                    }
-                                                </script>
                                             </div>
                                         </li>
 
@@ -179,8 +185,13 @@
                                                 @endphp
 
 
-                                                <img src="{{ $link->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $projectFirstImage : URL::to('/') . '/housing_images/' . json_decode($link->housing->housing_type_data)->image }}"
-                                                    alt="product-image">
+                                                <img src="{{ 
+                                                    $link->item_type == 1 
+                                                    ? URL::to('/') . '/project_housing_images/' . $projectFirstImage 
+                                                    : ($link->housing && $link->housing->housing_type_data 
+                                                        ? URL::to('/') . '/housing_images/' . json_decode($link->housing->housing_type_data)->image 
+                                                        : '') 
+                                                }}" alt="product-image">
                                             @endforeach
                                         </div>
                                         {{-- <div class="col-md-5 p-0 m-0">
@@ -334,7 +345,7 @@
         }
 
         .header-title {
-            border-bottom: 2px solid #EA2B2E !important;
+            border-bottom: 2px solid #EC2F2E !important;
             color: black;
             margin: 0;
             padding: 10px;
@@ -529,7 +540,7 @@
             justify-content: center;
             margin: 0 auto;
             margin-top: 10px;
-            color: #EA2B2E !important;
+            color: #EC2F2E !important;
 
         }
 
@@ -562,7 +573,7 @@
         }
 
         .collection-content a {
-            color: #EA2B2E;
+            color: #EC2F2E;
             text-align: center;
             padding: 10px 0;
             transition: all 0.3s ease-out;

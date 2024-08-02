@@ -138,6 +138,116 @@ class LoginController extends Controller
         return view('client.auth.login', compact("pageInfo", 'cities', 'subscriptionPlans_bireysel', 'towns', 'subscriptionPlans', 'subscriptionPlans_emlakci', 'subscriptionPlans_banka', 'subscriptionPlans_insaat'));
     }
 
+
+    public function showRegisterForm()
+    {
+        $cities = City::all()->toArray();
+
+        $turkishAlphabet = [
+            'A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'Ğ', 'H', 'I', 'İ', 'J', 'K', 'L',
+            'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'
+        ];
+
+        usort($cities, function ($a, $b) use ($turkishAlphabet) {
+            $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
+            $endPriorityLetters = ["Y", "Z"];
+
+            // Check if $a and $b are in the priority list
+            $aPriority = array_search(strtoupper($a['title']), $priorityCities);
+            $bPriority = array_search(strtoupper($b['title']), $priorityCities);
+
+            // If both are in the priority list, sort based on their position in the list
+            if ($aPriority !== false && $bPriority !== false) {
+                return $aPriority - $bPriority;
+            }
+
+            // If only $a is in the priority list, move it to the top
+            elseif ($aPriority !== false) {
+                return -1;
+            }
+
+            // If only $b is in the priority list, move it to the top
+            elseif ($bPriority !== false) {
+                return 1;
+            }
+
+            // If neither $a nor $b is in the priority list, sort based on the first letter of the title
+            else {
+                $comparison = array_search(mb_substr($a['title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['title'], 0, 1), $turkishAlphabet);
+
+                // If the first letters are the same, check if they are 'Y' or 'Z'
+                if ($comparison === 0 && in_array(mb_substr($a['title'], 0, 1), $endPriorityLetters)) {
+                    return 1;
+                } elseif ($comparison === 0 && in_array(mb_substr($b['title'], 0, 1), $endPriorityLetters)) {
+                    return -1;
+                }
+
+                return $comparison;
+            }
+        });
+
+
+        $towns = Town::all()->toArray();
+
+        usort($towns, function ($a, $b) use ($turkishAlphabet) {
+            $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
+            $endPriorityLetters = ["Y", "Z"];
+
+            // Check if $a and $b are in the priority list
+            $aPriority = array_search(strtoupper($a['sehir_title']), $priorityCities);
+            $bPriority = array_search(strtoupper($b['sehir_title']), $priorityCities);
+
+            // If both are in the priority list, sort based on their position in the list
+            if ($aPriority !== false && $bPriority !== false) {
+                return $aPriority - $bPriority;
+            }
+
+            // If only $a is in the priority list, move it to the top
+            elseif ($aPriority !== false) {
+                return -1;
+            }
+
+            // If only $b is in the priority list, move it to the top
+            elseif ($bPriority !== false) {
+                return 1;
+            }
+
+            // If neither $a nor $b is in the priority list, sort based on the first letter of the title
+            else {
+                $comparison = array_search(mb_substr($a['sehir_title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['sehir_title'], 0, 1), $turkishAlphabet);
+
+                // If the first letters are the same, check if they are 'Y' or 'Z'
+                if ($comparison === 0 && in_array(mb_substr($a['sehir_title'], 0, 1), $endPriorityLetters)) {
+                    return 1;
+                } elseif ($comparison === 0 && in_array(mb_substr($b['sehir_title'], 0, 1), $endPriorityLetters)) {
+                    return -1;
+                }
+
+                return $comparison;
+            }
+        });
+
+
+        $subscriptionPlans = SubscriptionPlan::all();
+
+        $subscriptionPlans_bireysel = SubscriptionPlan::where('plan_type', 'Bireysel')->get();
+        $subscriptionPlans_emlakci = SubscriptionPlan::where('plan_type', 'Emlak Ofisi')->get();
+        $subscriptionPlans_banka = SubscriptionPlan::where('plan_type', 'Banka')->get();
+        $subscriptionPlans_insaat = SubscriptionPlan::where('plan_type', 'İnşaat Ofisi')->get();
+
+        $pageInfo = [
+            "meta_title" => "Giriş Yap & Kayıt Ol",
+            "meta_keywords" => "Giriş Yap",
+            "meta_description" => "Emlak Sepetteye giriş yapın ve en yeni konutları keşfedin. Kolay arama ve güvenli alışveriş için hemen üye olun.Kayıt ol , incele ve fırsatların keyfini çıkar. Şimdi sende gel!",
+            "meta_author" => "Emlak Sepette",
+        ];
+
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
+
+        return view('client.auth.register', compact("pageInfo", 'cities', 'subscriptionPlans_bireysel', 'towns', 'subscriptionPlans', 'subscriptionPlans_emlakci', 'subscriptionPlans_banka', 'subscriptionPlans_insaat'));
+    }
+
     public function login(Request $request)
     {
 

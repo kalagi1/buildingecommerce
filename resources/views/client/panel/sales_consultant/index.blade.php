@@ -14,6 +14,7 @@
                         <th>Unvan</th>
                         <th>Atanmış Projeler</th>
                         <th>Proje Ataması Yap</th>
+                        <th>Bugün çalışıyor mu ?</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,6 +36,15 @@
                                     Proje Ata
                                 </button>
                             </td>
+                            <td style="display: flex;align-items:center;justify-content:center;">
+                                {{-- <input type="checkbox" class="today-working-checkbox" data-user-id="{{ $item->id }}" 
+                                {{ $item->today_working ? 'checked' : '' }}> --}}
+                                <label class="switch ">
+                                    <input type="checkbox" class="success today-working-checkbox"  data-user-id="{{ $item->id }}" 
+                                    {{ $item->today_working ? 'checked' : '' }}>
+                                    <span class="slider round"></span>
+                                </label>
+                            </td>
                         </tr>
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModal{{ $index }}" tabindex="-1"
@@ -55,21 +65,22 @@
                                                     style="max-height: 300px; overflow-y: auto;"> <!-- Scrollbar eklendi -->
 
                                                     @foreach ($projects as $project)
-                                                        <div class="form-check mt-3">
-                                                            <input type="hidden" name="user_id"
-                                                                value="{{ $item->id }}">
-                                                            <input class="form-check-input mr-3" type="checkbox"
-                                                                name="projectIds[]" value="{{ $project->id }}"
+                                                    <div class="form-check mt-3">
+                                                        <input type="hidden" name="user_id" value="{{ $item->id }}">
+                                                        <label class="switch ">
+                                                        <input class="form-check-input mr-3 success" type="checkbox" name="projectIds[]" value="{{ $project->id }}"
+                                                            id="project{{ $index }}_{{ $project->id }}"
+                                                            {{ in_array($project->id, $item->projectAssigments->pluck('id')->toArray()) ? 'checked' : '' }}>
 
-                                                                id="project{{ $index }}_{{ $project->id }}">
-
-                                                            <label class="form-check-label"
-                                                                for="project{{ $index }}_{{ $project->id }}"
-                                                                style="margin-left: 24px !important;">
-                                                                {{ $project->project_title }}
-                                                            </label>
-                                                        </div>
-                                                    @endforeach
+                                                                <span class="slider round"></span>
+                                                        </label>
+                                                        <label class="form-check-label" for="project{{ $index }}_{{ $project->id }}"
+                                                            style="margin-left: 24px !important;">
+                                                            {{ $project->project_title }}
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                                
                                                 </div>
 
                                                 <div class="valid-feedback">Looks good!</div>
@@ -95,50 +106,57 @@
     </div>
 @endsection
 @section('scripts')
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-    <!-- DataTables JS -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+ 
+
     <script>
         $(document).ready(function() {
-            $('#example').DataTable({
-                "language": {
-                    "decimal": "",
-                    "emptyTable": "Tabloda veri yok",
-                    "info": "_START_ - _END_ arasındaki kayıtlar gösteriliyor. Toplam: _TOTAL_ kayıt",
-                    "infoEmpty": "Kayıt yok",
-                    "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
-                    "infoPostFix": "",
-                    "thousands": ".",
-                    "lengthMenu": '<select>' +
-                        '<option value="10">10</option>' +
-                        '<option value="50">50</option>' +
-                        '<option value="100">100</option>' +
-                        '<option value="-1">Tüm</option>' +
-                        '</select><span> kayıt gösteriliyor</span>',
-                    "loadingRecords": "Yükleniyor...",
-                    "processing": "İşleniyor...",
-                    "search": "Ara:",
-                    "zeroRecords": "Eşleşen kayıt bulunamadı",
-                    "paginate": {
-                        "first": "İlk",
-                        "last": "Son",
-                        "next": "Sonraki",
-                        "previous": "Önceki"
+          
+            $('.today-working-checkbox').on('change', function() {
+                var userId = $(this).data('user-id');
+                var isChecked = $(this).is(':checked');
+                var todayWorkingStatus = isChecked ? 1 : 0;
+
+                $.ajax({
+                    url: '{{ route('institutional.update.today.working') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        user_id: userId,
+                        today_working: todayWorkingStatus
                     },
-                    "aria": {
-                        "sortAscending": ": artan sırala",
-                        "sortDescending": ": azalan sırala"
+                    success: function(response) {
+                        if (todayWorkingStatus === 1) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarı!',
+                                text: 'Danışman çalışıyor olarak işaretlendi.',
+                                confirmButtonText: 'Tamam'
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Bilgi',
+                                text: 'Danışman bugün çalışmıyor olarak işaretlendi.',
+                                confirmButtonText: 'Tamam'
+                            });
+                        }
+                        console.log('Today working status updated successfully');
+                    },
+                    error: function(xhr) {
+                        console.error('Error updating today working status');
                     }
-                }
+                });
             });
         });
     </script>
+
+
 @endsection
 @section('styles')
     <style>
+        input.success:checked + .slider {
+        background-color: #8bc34a;
+        }
         .sales-consultants-heading {
             font-size: 2.2em;
             color: #333;
@@ -186,16 +204,16 @@
 
         .btnProjectAssign {
             width: 95%;
-            border-color: #EA2B2E;
-            background-color: #EA2B2E;
+            border-color: #EC2F2E;
+            background-color: #EC2F2E;
             color: white;
             border-radius: 6px !important;
         }
 
         .btnProjectAssign:hover {
             background-color: white !important;
-            color: #EA2B2E;
-            border-color: #EA2B2E;
+            color: #EC2F2E;
+            border-color: #EC2F2E;
         }
 
         .dataTables_length select {

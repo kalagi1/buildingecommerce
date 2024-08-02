@@ -10,6 +10,7 @@ use App\Models\HousingTypeParent;
 use App\Models\Invoice;
 use App\Models\Offer;
 use App\Models\Project;
+use App\Models\ProjectComment;
 use App\Models\ProjectFavorite;
 use App\Models\ProjectHouseSetting;
 use App\Models\ProjectHousing;
@@ -21,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -405,4 +407,125 @@ class ProjectController extends Controller
             "status" => true,
         ]);
     }
+
+    public function getCommentsByProject($projectId){
+        // Verilen proje ID'sine ait yorumları al
+        $comments = ProjectComment::where('project_id', $projectId)->get();
+        return response()->json($comments);
+    }//End
+
+    public function projectCommentPost(Request $request,$projectId){
+               // Yorum eklemek için gerekli validation kurallarını tanımla
+               $validator = Validator::make($request->all(), [
+                'user_id'    => 'required|exists:users,id',
+                'comment'    => 'required',
+                'project_id' => 'required',
+            ]);
+    
+            // Validation hata varsa dön
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $validator->errors()
+                ], 400);
+            }
+
+                // Resimleri işle
+            $imagePaths = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $path = $image->store('public/project-comment-images');
+                    $imagePaths[] = $path;
+                }
+            }
+            
+            // Yorum verilerini al
+            $data = $request->only('user_id', 'comment', 'rate', 'owner_id');
+            $data['project_id'] = $projectId;
+            $data['status'] = 0;
+            $data['images'] = json_encode($imagePaths); 
+    
+           // Yeni yorumu oluştur
+            $comment = ProjectComment::create($data);
+    
+            // Başarı mesajı döndür
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Comment added successfully',
+                'data' => $comment
+            ], 201);
+
+    }//End   
+    
+    public function deleteComment($commentId){
+        $comment = ProjectComment::find($commentId);
+        $comment->delete();
+        return response()->json([
+            'status'=> 'success',
+            'message'=> 'Yorum başarıyla silindi.'
+            ],201);
+         
+    }//End
+
+   
+
+    public function userComments(Request $request, $userId){
+    
+        $userComments = ProjectComment::where('user_id', $userId)->get();
+
+    
+        // Yorumlardaki project_id değerlerini al
+        $projectIds = $userComments->pluck('project_id')->unique();
+    
+        // Eğer project_id'ler varsa, projeleri al
+        $projects = [];
+        if ($projectIds->isNotEmpty()) {
+            $projects = DB::table('projects')
+                          ->whereIn('id', $projectIds)
+                          ->get();
+        }
+    
+        // Yorumları ve projeleri birleştir
+        $commentsWithProjects = $userComments->map(function ($comment) use ($projects) {
+            $project = $projects->firstWhere('id', $comment->project_id);
+            return [
+                'comment' => $comment,
+                'project' => $project
+            ];
+        });
+    
+        return response()->json($commentsWithProjects);
+    }//End
+       
+
+    public function userCommentUpdate(Request $request, $userId, $projectId, $commentId)
+    {
+        // İstekten gelen verileri al
+        $validatedData = $request->validate([
+            'comment' => 'required|string|max:255',
+            'rate' => 'nullable|integer|min:1|max:5',
+        ]);
+    
+        // Kullanıcının belirttiği proje ve kullanıcı kimliği ile yorumu bul
+        $userComment = ProjectComment::where('user_id', $userId)
+                                     ->where('project_id', $projectId)
+                                     ->where('id', $commentId)
+                                     ->where('status', 1)
+                                     ->first();
+    
+        // Eğer yorum bulunamazsa, hata mesajı döndür
+        if (!$userComment) {
+            return response()->json(['error' => 'Yorum bulunamadı veya bu yorumu düzenleme yetkiniz yok.'], 404);
+        }
+    
+        // Yorum verilerini güncelle
+        $userComment->comment = $validatedData['comment'];
+        $userComment->rate = $validatedData['rate'] ?? $userComment->rate;
+        $userComment->save();
+    
+        // Güncellenmiş yorumu döndür
+        return response()->json(['message' => 'Yorum başarıyla güncellendi.', 'comment' => $userComment]);
+    }//End
+     
+
 }

@@ -2983,7 +2983,7 @@
 }
 
 .required{
-    color: #EA2B2E;
+    color: #EC2F2E;
 }
 
 .area-lists{

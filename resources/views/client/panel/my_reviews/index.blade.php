@@ -26,6 +26,7 @@
                 <li style="width: 10%;">Emlak / Proje</li>
                 <li style="width: 10%;">Durum</li>
                 <li style="width: 15%;">Tarih</li>
+                <li style="width: 5%;">Düzenle</li>
             </ul>
         </div>
 
@@ -51,7 +52,7 @@
                         <li style="width: 15%; align-items: flex-start; word-wrap: break-word; word-break: break-all;">
                             <span>{{ $comment->comment }}</span>
                         </li>
-                        <li style="width: 10%; align-items: flex-start;">
+                        <li style="width: 10%;flex-direction: row !important;">
                             @if ($comment->rate)
                                 @for ($i = 0; $i < $comment->rate; $i++)
                                     <svg viewBox="0 0 14 14" class="widget-svg" style="width: 10.89px; height: 10.89px;">
@@ -75,10 +76,14 @@
                         <li style="width: 15%; align-items: flex-start;">
                             <span>{{ $comment->created_at->locale('tr')->isoFormat('D MMM, HH:mm') }}</span>
                         </li>
+                        <li style="width: 5%; align-items: flex-start;">
+                            <button class="btn btn-warning edit-button" data-id="{{ $comment->id }}" data-type="{{ $comment->type }}">Düzenle</button>
+                        </li>
                     </ul>
                 </div>
             @endforeach
         </div>
+        
         <div id="pagination-controls" class="d-flex" style="margin-top: 20px; justify-content: space-between !important;">
             <button id="prev-page" class="btn btn-primary" disabled>Önceki</button>
             <span id="page-info"></span>
@@ -103,11 +108,84 @@
                     });
                 });
             }
-
             // Arama kutuları ve tablo gövdesi
             filterTable('#search-input-yeni', '#commentTable');
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            // Function to handle editing comments
+            function handleEditButtonClick() {
+                $('.edit-button').on('click', function() {
+                    var commentId = $(this).data('id');
+                    var commentType = $(this).data('type');
+                    var url, updateUrl;
+    
+                    // Set URLs based on comment type
+                    if (commentType === 'Emlak') {
+                        url = `{{ route('housing.get-comment', '') }}/${commentId}`;
+                        updateUrl = `{{ route('housing.update-comment') }}`;
+                    } else {
+                        url = `{{ route('project.get-comment', '') }}/${commentId}`;
+                        updateUrl = `{{ route('project.update-comment') }}`;
+                    }
+    
+                    // Fetch comment data
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'Yorumu Düzenle',
+                                html: `
+                                    <form id="edit-comment-form">
+                                        <input type="hidden" name="id" value="${response.data.id}">
+                                        <input type="hidden" name="type" value="${response.data.type}">
+                                     
+                                        <div class="form-group">
+                                            <label for="comment">Yorumunuz</label>
+                                            <textarea id="comment" name="comment" class="form-control" style="height:125px !important">${response.data.comment}</textarea>
+                                        </div>
+                                    </form>
+                                `,
+                                showCancelButton: true,
+                                confirmButtonText: 'Güncelle',
+                                cancelButtonText: 'İptal',
+                                preConfirm: () => {
+                                    // Submit the form data
+                                    return new Promise((resolve) => {
+                                        $.ajax({
+                                            url: updateUrl,
+                                            type: 'POST',
+                                            data: $('#edit-comment-form').serialize(),
+                                            success: function() {
+                                                Swal.fire('Başarıyla Güncellendi. Admin onayına gönderildi.', '', 'success');
+                                                location.reload(); // Reload the page to reflect changes
+                                            },
+                                            error: function() {
+                                                Swal.fire('Hata', 'Yorum güncellenirken bir hata oluştu', 'error');
+                                            }
+                                        });
+                                    });
+                                }
+                            });
+                        },
+                        error: function() {
+                            Swal.fire('Hata', 'Yorum alınırken bir hata oluştu', 'error');
+                        }
+                    });
+                });
+            }
+    
+            handleEditButtonClick(); // Initialize click event
+        });
+    </script>
+    
 @endsection
 
 
@@ -118,7 +196,7 @@
         }
 
         .page-header-title2 {
-            background: linear-gradient(to top, #EA2B2E, #84181A);
+            background: linear-gradient(to top, #EC2F2E, #84181A);
             padding: 10px;
             font-size: 18px;
             color: white;
@@ -141,6 +219,12 @@
 
         .form-control {
             border: 1px solid rgb(199 198 198) !important;
+        }
+
+        .edit-button:hover{
+            background: white !important;
+            border: 1px solid #ffc107;
+            color: #ffc107;
         }
     </style>
 @endsection

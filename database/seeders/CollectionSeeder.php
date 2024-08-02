@@ -17,7 +17,6 @@ class CollectionSeeder extends Seeder
         foreach ($collections as $collection) {
             if (count($collection->links) == 0) {
                 $collection->delete();
-                
             }
         }
     }

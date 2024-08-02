@@ -2,7 +2,7 @@
 @section('content')
 
     <div class="content">
-        <div class="table-breadcrumb">
+        <div class="table-breadcrumb mb-5">
             <ul>
                 <li>
                     Hesabım
@@ -26,11 +26,11 @@
                                     <path d="M14.7632 5.57781C14.7632 2.78899 12.5772 0.5 9.8421 0.5C7.10705 0.5 4.92105 2.78899 4.92105 5.57781C4.92105 8.36663 7.10705 10.6556 9.8421 10.6556C12.5772 10.6556 14.7632 8.36663 14.7632 5.57781ZM0.5 17.0223V21C0.5 21.8284 1.17157 22.5 2 22.5H17.6842C18.5126 22.5 19.1842 21.8284 19.1842 21V17.0223C19.1842 16.0842 18.7265 15.2953 18.0631 14.6613C17.4037 14.0311 16.5137 13.525 15.5614 13.13C13.6582 12.3405 11.3825 11.9445 9.8421 11.9445C8.30173 11.9445 6.02603 12.3405 4.12283 13.13C3.17046 13.525 2.28055 14.0311 1.62114 14.6613C0.957737 15.2953 0.5 16.0842 0.5 17.0223Z" fill="url(#paint1_linear_134_453)" stroke="white"/>
                                     <defs>
                                     <linearGradient id="paint0_linear_134_453" x1="24.6705" y1="20.07" x2="24.6705" y2="-24.3243" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#EA2B2E"/>
+                                    <stop stop-color="#EC2F2E"/>
                                     <stop offset="1" stop-color="#84181A"/>
                                     </linearGradient>
                                     <linearGradient id="paint1_linear_134_453" x1="9.84211" y1="20.0374" x2="9.84211" y2="-25.1028" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#EA2B2E"/>
+                                    <stop stop-color="#EC2F2E"/>
                                     <stop offset="1" stop-color="#84181A"/>
                                     </linearGradient>
                                     </defs>
@@ -57,11 +57,11 @@
                                     </g>
                                     <defs>
                                     <linearGradient id="paint0_linear_134_396" x1="15.5042" y1="23.9017" x2="15.5042" y2="-20.522" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#EA2B2E"/>
+                                    <stop stop-color="#EC2F2E"/>
                                     <stop offset="1" stop-color="#84181A"/>
                                     </linearGradient>
                                     <linearGradient id="paint1_linear_134_396" x1="22.7656" y1="27.46" x2="22.7656" y2="12.8835" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#EA2B2E"/>
+                                    <stop stop-color="#EC2F2E"/>
                                     <stop offset="1" stop-color="#84181A"/>
                                     </linearGradient>
                                     <clipPath id="clip0_134_396">
@@ -93,11 +93,11 @@
                                     </g>
                                     <defs>
                                     <linearGradient id="paint0_linear_133_200" x1="16.0036" y1="24.6731" x2="16.0036" y2="-21.1836" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#EA2B2E"/>
+                                    <stop stop-color="#EC2F2E"/>
                                     <stop offset="1" stop-color="#84181A"/>
                                     </linearGradient>
                                     <linearGradient id="paint1_linear_133_200" x1="26.4997" y1="26.8111" x2="26.4997" y2="8.09424" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#EA2B2E"/>
+                                    <stop stop-color="#EC2F2E"/>
                                     <stop offset="1" stop-color="#84181A"/>
                                     </linearGradient>
                                     <clipPath id="clip0_133_200">
@@ -130,11 +130,11 @@
                                     </g>
                                     <defs>
                                         <linearGradient id="paint0_linear_134_365" x1="14.6667" y1="24.0689" x2="14.6667" y2="-23.2208" gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#EA2B2E"/>
+                                            <stop stop-color="#EC2F2E"/>
                                             <stop offset="1" stop-color="#84181A"/>
                                         </linearGradient>
                                         <linearGradient id="paint1_linear_134_365" x1="22.2479" y1="26.2342" x2="22.2479" y2="12.934" gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#EA2B2E"/>
+                                            <stop stop-color="#EC2F2E"/>
                                             <stop offset="1" stop-color="#84181A"/>
                                         </linearGradient>
                                         <clipPath id="clip0_134_365">
@@ -164,37 +164,46 @@
                     <div class="col-md-6">
                         <div class="cardDanisman">
                             <div class="card-title">En Çok Arama Yapan</div>
+                            @if($topCaller)
                             <div class="card-body">
                                 <hr style="clear: both;">
                                 <span class="medal-icon">🏅</span>
                                 <div class="text-center" style="border-radius: 55%;">
                                     {{-- <img src="{{asset('woman.png')}}" class="danismanImg"> --}}
-                                    <img src="{{ asset('storage/profile_images/' . $topCaller->profile_image ) }}" class="danismanListImg">
+                                    <img src="{{ asset($topCaller->profile_image ? 'storage/profile_images/' . $topCaller->profile_image : 'storage/profile_images/indir.png') }}" class="danismanListImg">
                                 </div>
                                 <p class="text-center">{{$topCaller->name}} </p>
-                                <p class="text-center" style="background: linear-gradient(to top, #EA2B2E, #84181A) !important;color:white; border-radius: 7px;  margin-top: 10px !important;">
+                                <p class="text-center" style="background: linear-gradient(to top, #EC2F2E, #84181A) !important;color:white; border-radius: 7px;  margin-top: 10px !important;">
                                     {{$danisman->total_calls}} Arama
                                 </p>
                             </div>
+                            @else
+                                Henüz arama yapan danışman bulunmamaktadır.
+                            @endif
                         </div>
                         
                     </div>
                     <div class="col-md-6">
                         <div class="cardDanisman">
                             <div class="card-title">En Çok Satış Yapan</div>
+                            @if($enCokSatisYapan)
                             <hr style="clear: both;">
                             <span class="medal-icon">🏅</span>
                             <div class="card-body">
                                 <div class="text-center" style="border-radius: 55%">
-                                    {{-- <img src="{{asset('man.jpg')}}" class="danismanImg"> --}}
-                                    <img src="{{ asset('storage/profile_images/' . $enCokSatisYapan->profile_image ) }}" class="danismanListImg">
+                                 
+                                  
+                                    <img src="{{ asset($enCokSatisYapan->profile_image ? 'storage/profile_images/' . $enCokSatisYapan->profile_image : 'storage/profile_images/indir.png') }}" class="danismanListImg" onerror="this.style.display='none';">
 
                                 </div>
                                 <p class="text-center">{{ $enCokSatisYapan ? $enCokSatisYapan->name : '' }}</p>
-                                <p class="text-center" style="background: linear-gradient(to top, #EA2B2E, #84181A) !important;color:white; border-radius: 7px; margin-top: 10px !important;">
+                                <p class="text-center" style="background: linear-gradient(to top, #EC2F2E, #84181A) !important;color:white; border-radius: 7px; margin-top: 10px !important;">
                                     {{ $enCokSatisYapan && $enCokSatisYapan->satis_sayisi ? $enCokSatisYapan->satis_sayisi : '' }} Adet Satış
                                 </p>
                             </div>
+                            @else
+                                Henüz satış bulunmamaktadır.
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -215,7 +224,7 @@
                         <div class="col-md-4">
                             <div style="position: relative;">
                                 <img src="{{ asset('odul.jpeg') }}" alt="Ödül Arka Plan">
-                                <img src="{{ asset('awards/' . $award->award_image) }}" alt="{{ $award->title }}" style="position: absolute; top: 56%; left: 82%; max-width: 50px;border-radius:15px;">
+                                <img src="{{ asset('awards/' . $award->award_image) }}" alt="{{ $award->title }}" style="position: absolute; top: 56%; left: 82%; max-width: 50px;border-radius:15px;height:30%">
                                 <h4 style="position: absolute; bottom: 65px; left: 135px; color: white; z-index: 10;font-size:14px;">{{ $award->title }}</h4>
                                 <h4 style="position: absolute; bottom: 35px; left: 135px; color: white; z-index: 10;font-size:13px;">{{ $award->award_name }}</h4>
                             </div>
@@ -236,7 +245,8 @@
                                         <div class="card-body">
                                             <div class="text-center" style="border-radius: 55%">
                                                 {{-- <img src="{{ asset('woman.png') }}" class="danismanListImg"> --}}
-                                                <img src="{{ asset('storage/profile_images/' . $danisman->profile_image ) }}" class="danismanListImg">
+                                                <img src="{{ asset('storage/profile_images/' . $danisman->profile_image) }}" class="danismanListImg" onerror="this.onerror=null; this.src='{{ asset('storage/profile_images/indir.png') }}';">
+
                                             </div>
                                             <p class="text-center" style="font-size: 16px; font-weight:400; color:#1b1b1b">{{ $danisman->name }}</p>
                                             <p class="text-center" style="color: #8b8b8b">Referans Kodu</p>
@@ -390,7 +400,7 @@
             width: 100%;
             height: 55%;
             border-radius: 10px;
-            background: linear-gradient(332deg, #EA2B2E, #84181A 50%, #ffffff 50%);
+            background: linear-gradient(332deg, #EC2F2E, #84181A 50%, #ffffff 50%);
             flex-direction: column; /* İçerikleri dikey yönde hizalar */
             justify-content: center;
             padding: 20px;
@@ -494,7 +504,7 @@
         }
 
         .l-bg-red {
-            background: linear-gradient(to top, #EA2B2E, #84181A) !important;
+            background: linear-gradient(to top, #EC2F2E, #84181A) !important;
             color: #fff;
         }
 
@@ -526,7 +536,7 @@
             border-radius: 45%;
             position: relative;
             top: -18px;
-            border-top: 1px solid #EA2B2E;
+            border-top: 1px solid #EC2F2E;
         }
 
         .cardDanisman{
@@ -537,8 +547,8 @@
         }
         .cardDanismanList{
             padding: 0px 20px;
-            border-top: 1px solid #EA2B2E; /* Top border color */
-            border-bottom: 1px solid #EA2B2E; /* Bottom border color */
+            border-top: 1px solid #EC2F2E; /* Top border color */
+            border-bottom: 1px solid #EC2F2E; /* Bottom border color */
             border-left: 1px solid #84181A; /* Left border color */
             border-right: 1px solid #84181A; 
             border-radius: 10px;
@@ -546,9 +556,9 @@
             width: 110%;
         }
         .btnDanisman{
-            background: linear-gradient(to top, #EA2B2E, #84181A) !important;
+            background: linear-gradient(to top, #EC2F2E, #84181A) !important;
             color: #ffffff;
-            border-color: #EA2B2E !important;
+            border-color: #EC2F2E !important;
             padding: 5px 25px;
             border-radius: 6px !important; 
             margin-top:5px;
@@ -646,7 +656,7 @@
                     title: 'Toplam Satış',
                     pieSliceText: 'value',
                     slices: {
-                        0: { color: '#EA2B2E' } // Kırmızı tonu
+                        0: { color: '#EC2F2E' } // Kırmızı tonu
                     }
                 };
             }
@@ -680,7 +690,7 @@
                     title: 'Satış Türü',
                     pieSliceText: 'value',
                     slices: {
-                        0: { color: '#EA2B2E' }, // Kırmızı tonu
+                        0: { color: '#EC2F2E' }, // Kırmızı tonu
                         1: { color: '#FF8E90' }  // Kırmızı tonu
                     }
                 };

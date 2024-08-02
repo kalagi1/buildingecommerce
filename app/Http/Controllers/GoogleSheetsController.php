@@ -8,21 +8,11 @@ use Illuminate\Support\Facades\Log;
 
 class GoogleSheetsController extends Controller
 {
-    public function handleWebhook(Request $request)
-    {
+    public function handleWebhook(Request $request){
         $data = $request->json()->all();
         Log::info('Webhook data received:', $data);
 
-        // İlk satırı atlamak için sayaç kullanın
-        $rowCount = 0;
         foreach ($data as $row) {
-            $rowCount++;
-            if ($rowCount == 1) {
-                // İlk satırı atla
-                Log::info('Skipping first row:', $row);
-                continue;
-            }
-
             Log::info('Processing row:', $row);
 
             $entryData = [
@@ -56,30 +46,46 @@ class GoogleSheetsController extends Controller
             }
 
             // project_name değerini projects tablosundaki project_title değeri ile eşleştir
+            $projectTitle = strtolower($row[7]);
+
             $project = DB::table('projects')
-                ->where('project_title', $row[7])
+                ->whereRaw('LOWER(project_title) = ?', [$projectTitle])
                 ->first();
 
             if ($project) {
                 $projectId = $project->id;
                 Log::info('Found project with ID: ' . $projectId);
 
-                // project_assignment tablosundaki project_id değeri hangi user_id ile eşleşirse
-                $projectAssignment = DB::table('project_assigment')
+                // Projeye atanmış tüm danışmanları alın ve today_working sütununu kontrol edin
+                $projectAssignments = DB::table('project_assigment')
                     ->where('project_id', $projectId)
-                    ->first();
+                    ->get();
 
-                if ($projectAssignment) {
-                    $danismanId = $projectAssignment->user_id;
-                    Log::info('Found project assignment with danisman_id: ' . $danismanId);
+                // $consultants = $projectAssignments->pluck('user_id');
+                $consultants = DB::table('users')
+                    ->whereIn('id', $projectAssignments->pluck('user_id'))
+                    ->where('today_working', 1)
+                    ->pluck('id');
+                Log::info('Consultants for project ID: ' . $projectId, ['consultants' => $consultants]);
 
-                    // assigned_users tablosundaki danisman_id değerini güncelle
-                    DB::table('assigned_users')
-                        ->where('id', $userId)
-                        ->update(['danisman_id' => $danismanId]);
-                    Log::info('Updated user with ID: ' . $userId . ' to have danisman_id: ' . $danismanId);
+                if ($consultants->isNotEmpty()) {
+                    $totalConsultants = $consultants->count();
+                    if ($totalConsultants > 0) {
+                        // Danışmanları eşit şekilde müşteri atama
+                        $consultantIndex = array_rand($consultants->toArray());
+                        $danismanId = $consultants[$consultantIndex];
+
+                        // assigned_users tablosundaki danisman_id değerini güncelle
+                        DB::table('assigned_users')
+                            ->where('id', $userId)
+                            ->update(['danisman_id' => $danismanId]);
+
+                        Log::info('Updated user with ID: ' . $userId . ' to have danisman_id: ' . $danismanId);
+                    } else {
+                        Log::warning('No consultants found for project ID: ' . $projectId);
+                    }
                 } else {
-                    Log::warning('No project assignment found for project ID: ' . $projectId);
+                    Log::warning('No consultants found for project ID: ' . $projectId);
                 }
             } else {
                 Log::warning('No project found with title: ' . $row[7]);
@@ -87,5 +93,7 @@ class GoogleSheetsController extends Controller
         }
 
         return response()->json(['status' => 'success']);
-    }
+    }//End
+
+    
 }

@@ -5901,7 +5901,7 @@ a.badge-dark:focus {
 
 .alert-danger {
     color: #721c24;
-    background-color: #EA2B2E;
+    background-color: #EC2F2E;
     border-color: #f5c6cb
 }
 
@@ -5983,7 +5983,7 @@ a.badge-dark:focus {
     color: #fff;
     text-align: center;
     white-space: nowrap;
-    background-color: #EA2B2E;
+    background-color: #EC2F2E;
     transition: width .6s ease
 }
 
@@ -7379,7 +7379,7 @@ button.bg-warning:hover {
 }
 
 .bg-danger {
-    background-color: #EA2B2E !important
+    background-color: #EC2F2E !important
 }
 
 a.bg-danger:focus,
@@ -7480,7 +7480,7 @@ button.bg-dark:hover {
 }
 
 .border-danger {
-    border-color: #EA2B2E !important
+    border-color: #EC2F2E !important
 }
 
 .border-light {
@@ -11285,7 +11285,7 @@ a.text-warning:hover {
 }
 
 .text-danger {
-    color: #EA2B2E !important
+    color: #EC2F2E !important
 }
 
 a.text-danger:focus,

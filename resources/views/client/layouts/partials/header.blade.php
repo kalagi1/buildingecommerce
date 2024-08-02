@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="robots" content="noindex, nofollow" />
     @if (isset($pageInfo))
         <meta name="keywords" content="{{ $pageInfo->meta_keywords }}">
         <meta name="description" content="{{ $pageInfo->meta_description }}">
@@ -13,12 +12,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="https://private.emlaksepette.com/" />
+        <meta property="og:url"content="https://emlaksepette.com/" />
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'https://private.emlaksepette.com/images/mini_logo.png';
+            $imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrl }}" />
@@ -58,6 +57,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=2">
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap" rel="stylesheet">
@@ -164,6 +164,24 @@
             font-size: 11px !important;
             line-height: 11px;
             margin-bottom: 0 !important;
+        }
+
+        #cookie-management-content.hidden {
+            display: none !important;
+        }
+
+        #cookie-management-content.show {
+            display: block !important;
+        }
+
+        #vendor-info-content.hidden {
+            display: none !important;
+
+        }
+
+        #vendor-info-content.show {
+            display: block !important;
+
         }
 
         .box {
@@ -398,20 +416,21 @@
     <!-- End Google Tag Manager (noscript) -->
     <!-- Wrapper -->
     <div id="wrapper">
-            <div class="slick-lancersl homeTopBanner">
-                <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px">
-                    <video autoplay loop muted style="width:100%">
-                        <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4">
-                    </video>
-                </div>
-            
-                {{-- @foreach ($adBanners as $adBanner)
+        <div class="slick-lancersl homeTopBanner">
+            <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px;;background-color:#EC2F2E">
+                <video autoplay loop muted style="width:100%;height:50px">
+                    <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4"
+                        style="height:50px;display:block">
+                </video>
+            </div>
+
+            {{-- @foreach ($adBanners as $adBanner)
                     <div class="home-top-banner d-xl-block d-none d-lg-block"
                         style="background-color: {{ $adBanner->background_color }};padding:0 !important">
                         <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
                     </div>
                 @endforeach --}}
-            </div>
+        </div>
 
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
@@ -420,7 +439,8 @@
         <header id="header-container">
             <div class="container">
                 <div class="header-center">
-                    <div class="d-flex justify-content-between align-items-center" style="padding-top:12px !important">
+                    <div class="d-flex justify-content-between align-items-center"
+                        style="padding-top:12px !important">
                         <div class="leftSide">
                             <div class="mmenu-trigger d-xl-none d-block d-lg-none ">
                                 <button class="hamburger hamburger--collapse" type="button">
@@ -532,7 +552,10 @@
                                             'mainLink' => 'Hesabım',
                                             'links' => [
                                                 [
-                                                    'url' =>  route('institutional.dashboard', ['slug' =>Str::slug(auth()->user()->name), 'userID' => auth()->user()->id]),
+                                                    'url' => route('institutional.dashboard', [
+                                                        'slug' => Str::slug(auth()->user()->name),
+                                                        'userID' => auth()->user()->id,
+                                                    ]),
                                                     'icon' => 'fa fa-arrow-right',
                                                     'text' => 'Mağazama Git',
                                                 ],
@@ -620,7 +643,7 @@
                                                         Giriş Yap
                                                     </a></div>
                                                 <div class="signup-button signup-button-container"><a
-                                                        href="{{ url('giris-yap?uye-ol=/') }}" class="userIcon"
+                                                        href="{{ route('client.register') }}" class="userIcon"
                                                         style="color: black;
                                                     text-align: center;
                                                     justify-content: center; margin-right:0 !important">

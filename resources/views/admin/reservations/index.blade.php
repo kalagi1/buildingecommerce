@@ -127,7 +127,7 @@
                                                         {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}
                                                     </td>
                                                     <td class="order_date">
-                                                        <span style="color:#EA2B2E; font-weight:600;font-size:16px"><i
+                                                        <span style="color:#EC2F2E; font-weight:600;font-size:16px"><i
                                                                 class="fas fa-calendar"></i>
                                                             {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
                                                             gün</span>
@@ -266,7 +266,7 @@
                                                         {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}
                                                     </td>
                                                     <td class="order_date">
-                                                        <span style="color:#EA2B2E; font-weight:600;font-size:16px"><i
+                                                        <span style="color:#EC2F2E; font-weight:600;font-size:16px"><i
                                                                 class="fas fa-calendar"></i>
                                                             {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
                                                             gün</span>
@@ -398,7 +398,7 @@
                                                         {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}
                                                     </td>
                                                     <td class="order_date">
-                                                        <span style="color:#EA2B2E; font-weight:600;font-size:16px"><i
+                                                        <span style="color:#EC2F2E; font-weight:600;font-size:16px"><i
                                                                 class="fas fa-calendar"></i>
                                                             {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
                                                             gün</span>
@@ -534,7 +534,7 @@
                                                         {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}
                                                     </td>
                                                     <td class="order_date">
-                                                        <span style="color:#EA2B2E; font-weight:600;font-size:16px"><i
+                                                        <span style="color:#EC2F2E; font-weight:600;font-size:16px"><i
                                                                 class="fas fa-calendar"></i>
                                                             {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
                                                             gün</span>
@@ -554,34 +554,6 @@
                                                     <td class="order_user">
                                                         {{ $order->owner->name }} <br>
                                                         {{ $order->owner->email }}</td>
-                                                    {{-- <td class="order_details">
-                                                                @if ($order->status == 0 || $order->status == 2)
-                                                                    <a onclick="return confirm('Rezervasyonu onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyonu onayla</a>
-                                                                @else
-                                                                    <a onclick="return confirm('Rezervasyonu iptal etmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-danger" >Rezervasyonu reddet</a>
-                                                                @endif
-
-                                                                <br>
-                                                                @if (isset($order->cartPrice))
-                                                                    @if ($order->cartPrice->status == 0 || $order->cartPrice->status == 2)
-                                                                        <a onclick="return confirm('Hakedişleri onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-price', ['price' => $order->cartPrice->id]) }}" class="badge badge-phoenix badge-phoenix-success">Hakedişleri onayla</a>
-                                                                    @else
-                                                                        <a onclick="return confirm('Hakedişleri reddetmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-price', ['price' => $order->cartPrice->id]) }}" class="badge badge-phoenix badge-phoenix-danger">Hakedişleri reddet</a>
-                                                                    @endif
-                                                                @endif
-
-                                                                @if (isset($order->sharer))
-                                                                    @if ($order->sharer->status == 0 || $order->sharer->status == 2)
-                                                                        <a onclick="return confirm('Hakedişleri onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-share', ['share' => $order->sharer->id]) }}" class="badge badge-phoenix badge-phoenix-success">Hakedişleri onayla</a>
-                                                                    @else
-                                                                        <a onclick="return confirm('Hakedişleri reddetmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-share', ['share' => $order->sharer->id]) }}" class="badge badge-phoenix badge-phoenix-danger">Hakedişleri reddet</a>
-                                                                    @endif
-                                                                @endif
-                                                                <br>
-                                                                @if (isset($order->cancelRequest))
-                                                                    <a href="" reservation_id="{{$order->id}}" cancel_request_id="{{$order->cancelRequest->id}}" class="badge badge-phoenix badge-phoenix-secondary reservation-cancel">İptal Talebini Görüntüle</a>
-                                                                @endif
-                                                            </td> --}}
 
                                                     <td class="order_details">
                                                         <a href="{{ route('admin.reservation.detail', ['reservation_id' => $order->id]) }}"
@@ -666,7 +638,7 @@
                                                         {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}
                                                     </td>
                                                     <td class="order_date">
-                                                        <span style="color:#EA2B2E; font-weight:600;font-size:16px"><i
+                                                        <span style="color:#EC2F2E; font-weight:600;font-size:16px"><i
                                                                 class="fas fa-calendar"></i>
                                                             {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
                                                             gün</span>
@@ -688,8 +660,10 @@
                                                         {{ $order->owner->name }} <br>
                                                         {{ $order->owner->email }}
                                                     </td>
-                                                    <td class="order_details">
-
+                                                   <td class="order_details">
+                                                        <a href="{{ route('admin.reservation.detail', ['reservation_id' => $order->id]) }}"
+                                                            class="badge badge-phoenix badge-phoenix-success">Rezervasyon
+                                                            Detayı</a>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -768,7 +742,7 @@
                                                         {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}
                                                     </td>
                                                     <td class="order_date">
-                                                        <span style="color:#EA2B2E; font-weight:600;font-size:16px"><i
+                                                        <span style="color:#EC2F2E; font-weight:600;font-size:16px"><i
                                                                 class="fas fa-calendar"></i>
                                                             {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
                                                             gün</span>
@@ -787,35 +761,9 @@
                                                         {{ $order->user->email }}</td>
                                                     <td class="order_user">
                                                         {{ $order->owner->name }} <br>
-                                                        {{ $order->owner->email }}</td>
-                                                    {{-- <td class="order_details">
-                                                                @if ($order->status == 0 || $order->status == 2)
-                                                                    <a onclick="return confirm('Rezervasyonu onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyonu onayla</a>
-                                                                @else
-                                                                    <a onclick="return confirm('Rezervasyonu iptal etmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-danger" >Rezervasyonu reddet</a>
-                                                                @endif
-
-                                                                <br>
-                                                                @if (isset($order->cartPrice))
-                                                                    @if ($order->cartPrice->status == 0 || $order->cartPrice->status == 2)
-                                                                        <a onclick="return confirm('Hakedişleri onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-price', ['price' => $order->cartPrice->id]) }}" class="badge badge-phoenix badge-phoenix-success">Hakedişleri onayla</a>
-                                                                    @else
-                                                                        <a onclick="return confirm('Hakedişleri reddetmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-price', ['price' => $order->cartPrice->id]) }}" class="badge badge-phoenix badge-phoenix-danger">Hakedişleri reddet</a>
-                                                                    @endif
-                                                                @endif
-
-                                                                @if (isset($order->sharer))
-                                                                    @if ($order->sharer->status == 0 || $order->sharer->status == 2)
-                                                                        <a onclick="return confirm('Hakedişleri onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-share', ['share' => $order->sharer->id]) }}" class="badge badge-phoenix badge-phoenix-success">Hakedişleri onayla</a>
-                                                                    @else
-                                                                        <a onclick="return confirm('Hakedişleri reddetmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-share', ['share' => $order->sharer->id]) }}" class="badge badge-phoenix badge-phoenix-danger">Hakedişleri reddet</a>
-                                                                    @endif
-                                                                @endif
-                                                                <br>
-                                                                @if (isset($order->cancelRequest))
-                                                                    <a href="" reservation_id="{{$order->id}}" cancel_request_id="{{$order->cancelRequest->id}}" class="badge badge-phoenix badge-phoenix-secondary reservation-cancel">İptal Talebini Görüntüle</a>
-                                                                @endif
-                                                            </td> --}}
+                                                        {{ $order->owner->email }}
+                                                        </td>
+                                                
 
                                                     <td class="order_details">
                                                         <a href="{{ route('admin.reservation.detail', ['reservation_id' => $order->id]) }}"

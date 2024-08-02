@@ -166,7 +166,7 @@
         }
 
         .red-border {
-            border: 2px solid #EA2B2E !important;
+            border: 2px solid #EC2F2E !important;
         }
 
         .checkmark::after {
@@ -180,7 +180,7 @@
         .crossmark::after {
             content: '✗';
             /* Unicode character for the 'X' symbol */
-            color: #EA2B2E;
+            color: #EC2F2E;
             /* Color of the crossmark */
             font-size: 16px;
             /* Adjust the font size as needed */

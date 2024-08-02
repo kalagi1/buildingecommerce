@@ -1,7 +1,7 @@
 @extends('client.layouts.masterPanel')
 @section('content')
     <div class="content">
-        <div class="table-breadcrumb">
+        <div class="table-breadcrumb mb-5">
             <ul>
                 <li>Hesabım</li>
                 <li>CRM</li>
@@ -79,16 +79,16 @@
 @section('styles')
     <style>
         .btnDanisman {
-            background: linear-gradient(to top, #EA2B2E, #84181A) !important;
+            background: linear-gradient(to top, #EC2F2E, #84181A) !important;
             color: #ffffff;
-            border-color: #EA2B2E !important;
+            border-color: #EC2F2E !important;
             padding: 5px 25px;
             border-radius: 6px !important; 
             margin-top: 15px;
         }
         .btnDanisman:hover {
             color: white;
-            background: linear-gradient(to top, #84181A, #EA2B2E) !important;
+            background: linear-gradient(to top, #84181A, #EC2F2E) !important;
         }
     </style>
 @endsection

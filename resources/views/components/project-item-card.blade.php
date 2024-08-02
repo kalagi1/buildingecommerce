@@ -20,26 +20,27 @@
     'blockStart',
 ])
 
-@php 
+@php
 
-if (!function_exists('checkIfUserCanAddToProjectHousings')) {
-    function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
-    {
-        $user = auth()->user();
+    if (!function_exists('checkIfUserCanAddToProjectHousings')) {
+        function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
+        {
+            $user = auth()->user();
 
-        if ($user) {
-            $exists = $user->projects()
-                           ->where('id', $projectId)
-                           ->whereHas('housings', function($query) use ($keyIndex) {
-                               $query->where('room_order', $keyIndex);
-                           })
-                           ->exists();
-            return !$exists;
+            if ($user) {
+                $exists = $user
+                    ->projects()
+                    ->where('id', $projectId)
+                    ->whereHas('housings', function ($query) use ($keyIndex) {
+                        $query->where('room_order', $keyIndex);
+                    })
+                    ->exists();
+                return !$exists;
+            }
+
+            return true;
         }
-
-        return true;
     }
-}
 
 @endphp
 
@@ -106,8 +107,10 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
 @endphp
 @if (isset($projectHousingsList[$keyIndex]))
-    <div class="col-md-12 col-12">
-        <div class="project-card mb-3">
+    <div class="col-md-12 col-12 p-0" style="box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+    margin-bottom: 10px;
+}">
+        <div class="project-card">
             <div class="row">
                 <div class="col-md-3">
                     <a href="{{ route('project.housings.detail', [
@@ -130,10 +133,10 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
                         <div class="d-flex" style="height: 100%;">
                             <div
-                                style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
+                                style="background-color: #EC2F2E !important; border-radius: 0px 0px 0px 8px; height:100%">
                                 <p
                                     style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; text-align:center; ">
-                                    {{$projectHousingsList[$keyIndex] && isset($projectHousingsList[$keyIndex]['share_sale[]']) && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? "Etap" : "No"}}<br>
+                                    {{ $projectHousingsList[$keyIndex] && isset($projectHousingsList[$keyIndex]['share_sale[]']) && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? 'Etap' : 'No' }}<br>
 
                                     @if (isset($blockStart) && $blockStart)
                                         {{ $i - $blockStart + 1 }}
@@ -156,19 +159,21 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                                 $sold &&
                                                 $sold->status != '2' &&
                                                 $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
-                                        <span class="btn addCollection mobileAddCollection" data-type='project'
-                                            data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
-                                            <i class="fa fa-bookmark-o"></i>
-                                        </span>
-                                  
 
                                         @if (!($sold_check && $sold->status == '1'))
-                                        <span class="btn toggle-project-favorite bg-white"
-                                            data-project-housing-id="{{ $keyIndex }}"
-                                            data-project-id={{ $project->id }}>
-                                            <i class="fa fa-heart-o"></i>
-                                        </span>
-                                    @endif
+                                            <span class="btn addCollection mobileAddCollection" data-type='project'
+                                                data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
+                                                <i class="fa fa-bookmark-o"></i>
+                                            </span>
+                                        @endif
+
+                                        @if (!($sold_check && $sold->status == '1'))
+                                            <span class="btn toggle-project-favorite bg-white"
+                                                data-project-housing-id="{{ $keyIndex }}"
+                                                data-project-id={{ $project->id }}>
+                                                <i class="fa fa-heart-o"></i>
+                                            </span>
+                                        @endif
                                     @endif
                                 </div>
                                 <div class="homes position-relative">
@@ -181,7 +186,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                     </a>
                 </div>
 
-                <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
+                <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate p-0" data-aos="fade-up">
 
                     <div class="row align-items-center justify-content-between mobile-position"
                         @if (
@@ -204,28 +209,87 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                             aria-hidden="true"></i>
                                         <span>{{ $project->housingType->title }}</span>
                                     </li> --}}
-                                    @foreach (['column1', 'column2', 'column3'] as $column)
-                                        @php
-                                            $column_name = $project->listItemValues->{$column . '_name'} ?? '';
-                                            $column_additional =
-                                                $project->listItemValues->{$column . '_additional'} ?? '';
-                                            $column_name_exists =
-                                                $column_name &&
-                                                isset($projectHousingsList[$keyIndex][$column_name . '[]']);
-                                        @endphp
+                                    @if ($project->id == 431)
+                                        <li class="d-flex align-items-center itemCircleFont">
+                                            <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                            <span>
+                                                1+1
+                                            </span>
+                                        </li>
+                                        <li class="d-flex align-items-center itemCircleFont">
+                                            <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                            <span>
+                                                Suit Oda
+                                            </span>
+                                        </li>
+                                        <li class="d-flex align-items-center itemCircleFont">
+                                            <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                            <span>
+                                                Konya/Ilgın
+                                            </span>
+                                        </li>
+                                    @elseif($project->id == 433)
+                                        <li class="d-flex align-items-center itemCircleFont">
+                                            <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                            <span>
+                                                2+1
+                                            </span>
+                                        </li>
+                                        <li class="d-flex align-items-center itemCircleFont">
+                                            <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                            <span>
+                                                Suit Oda
+                                            </span>
+                                        </li>
+                                        <li class="d-flex align-items-center itemCircleFont">
+                                            <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                            <span>
+                                                Konya/Ilgın
+                                            </span>
+                                        </li>
+                                    @elseif($project->id == 434)
+                                        <li class="d-flex align-items-center itemCircleFont">
+                                            <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                            <span>
+                                                3+1
+                                            </span>
+                                        </li>
+                                        <li class="d-flex align-items-center itemCircleFont">
+                                            <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                            <span>
+                                                Villa
+                                            </span>
+                                        </li>
+                                        <li class="d-flex align-items-center itemCircleFont">
+                                            <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                            <span>
+                                                Konya/Ilgın
+                                            </span>
+                                        </li>
+                                    @else
+                                        @foreach (['column1', 'column2', 'column3'] as $column)
+                                            @php
+                                                $column_name = $project->listItemValues->{$column . '_name'} ?? '';
+                                                $column_additional =
+                                                    $project->listItemValues->{$column . '_additional'} ?? '';
+                                                $column_name_exists =
+                                                    $column_name &&
+                                                    isset($projectHousingsList[$keyIndex][$column_name . '[]']);
+                                            @endphp
 
-                                        @if ($column_name_exists)
-                                            <li class="d-flex align-items-center itemCircleFont">
-                                                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                <span>
-                                                    {{ $projectHousingsList[$keyIndex][$column_name . '[]'] }}
-                                                    @if ($column_additional && is_numeric($projectHousingsList[$keyIndex][$column_name . '[]']))
-                                                        {{ $column_additional }}
-                                                    @endif
-                                                </span>
-                                            </li>
-                                        @endif
-                                    @endforeach
+                                            @if ($column_name_exists)
+                                                <li class="d-flex align-items-center itemCircleFont">
+                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                    <span>
+                                                        {{ $projectHousingsList[$keyIndex][$column_name . '[]'] }}
+                                                        @if ($column_additional && is_numeric($projectHousingsList[$keyIndex][$column_name . '[]']))
+                                                            {{ $column_additional }}
+                                                        @endif
+                                                    </span>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    @endif
 
                                     <li class="d-flex align-items-center itemCircleFont">
                                         <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
@@ -237,12 +301,12 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                     <li class="the-icons mobile-hidden">
                                         <span style="width:100%;text-align:center">
 
-                                            @if ($off_sale_check && !$sold_check && $share_sale_empty )
+                                            @if ($off_sale_check && !$sold_check && $share_sale_empty)
 
 
                                                 @if ($projectDiscountAmount)
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
-                                                        stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                        stroke="#EC2F2E" stroke-width="2" fill="#EC2F2E"
                                                         stroke-linecap="round" stroke-linejoin="round"
                                                         class="css-i6dzq1">
                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
@@ -270,13 +334,14 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                                 @if ($projectDiscountAmount)
                                                     <h6 style="color: #27bb53 !important;">(Kampanyalı)</h6>
                                                 @endif
-                                            @elseif( $off_sale_check &&
-                                                ( isset($share_sale) &&
-                                                    $share_sale != '[]' &&
-                                                    isset($sumCartOrderQt[$keyIndex]) &&
-                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
+                                            @elseif(
+                                                ($off_sale_check &&
+                                                    (isset($share_sale) &&
+                                                        $share_sale != '[]' &&
+                                                        isset($sumCartOrderQt[$keyIndex]) &&
+                                                        $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) ||
                                                     (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
-                                                @if($off_sale_check)
+                                                @if ($off_sale_check)
                                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                         <span class="text-center w-100">
                                                             1 / {{ $number_of_share }} Fiyatı
@@ -287,7 +352,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                                         @if (
                                                             (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) ||
                                                                 (isset($share_sale) && empty($share_sale) && $number_of_share != 0))
-                                                            {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }} 
+                                                            {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
                                                             ₺
                                                         @else
                                                             {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
@@ -360,7 +425,8 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
                                             <span><svg viewBox="0 0 24 24" width="18" height="18"
                                                     stroke="currentColor" stroke-width="2" fill="none"
-                                                    stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                    class="css-i6dzq1">
                                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                                     <circle cx="12" cy="12" r="3"></circle>
                                                 </svg> Komşumu Gör</span>
@@ -369,11 +435,14 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                         <span class="first-btn see-my-neighbor payment">
                                             <span> <svg viewBox="0 0 24 24" width="18" height="18"
                                                     stroke="currentColor" stroke-width="2" fill="none"
-                                                    stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                    class="css-i6dzq1">
                                                     <circle cx="12" cy="12" r="10"></circle>
-                                                    <line x1="12" y1="8" x2="12" y2="12">
+                                                    <line x1="12" y1="8" x2="12"
+                                                        y2="12">
                                                     </line>
-                                                    <line x1="12" y1="16" x2="12.01" y2="16">
+                                                    <line x1="12" y1="16" x2="12.01"
+                                                        y2="16">
                                                     </line>
                                                 </svg>
                                                 Ödeme Onayı </span>
@@ -430,12 +499,13 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                     @endif
                                 @else
                                     @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
-                                        @if( $off_sale_check &&
-                                        ( isset($share_sale) &&
-                                            $share_sale != '[]' &&
-                                            isset($sumCartOrderQt[$keyIndex]) &&
-                                            $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
-                                            (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
+                                        @if (
+                                            ($off_sale_check &&
+                                                (isset($share_sale) &&
+                                                    $share_sale != '[]' &&
+                                                    isset($sumCartOrderQt[$keyIndex]) &&
+                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) ||
+                                                (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
                                         @else
                                             @if (Auth::user())
                                                 <button class="first-btn payment-plan-button" data-bs-toggle="modal"
@@ -467,23 +537,25 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
                                 @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold)
                                     <button class="btn second-btn"
-                                        style="background: #EA2B2E !important; width: 100%; color: White; height: @if( $off_sale_check &&
-                                        ( isset($share_sale) &&
-                                            $share_sale != '[]' &&
-                                            isset($sumCartOrderQt[$keyIndex]) &&
-                                            $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
-                                            (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
-                                        <span class="text">Satışa Kapatıldı</span>
+                                        style="background: #EC2F2E !important; width: 100%; color: White; height: @if (
+                                            ($off_sale_check &&
+                                                (isset($share_sale) &&
+                                                    $share_sale != '[]' &&
+                                                    isset($sumCartOrderQt[$keyIndex]) &&
+                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) ||
+                                                (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
+                                        <span class="text">Satışa Kapalı</span>
                                     </button>
                                 @elseif ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
                                     <button class="btn second-btn"
-                                        style="background: #EA2B2E !important; width: 100%; color: White; height: @if( $off_sale_check &&
-                                        ( isset($share_sale) &&
-                                            $share_sale != '[]' &&
-                                            isset($sumCartOrderQt[$keyIndex]) &&
-                                            $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
-                                            (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
-                                        <span class="text">Satışa Kapatıldı</span>
+                                        style="background: #EC2F2E !important; width: 100%; color: White; height: @if (
+                                            ($off_sale_check &&
+                                                (isset($share_sale) &&
+                                                    $share_sale != '[]' &&
+                                                    isset($sumCartOrderQt[$keyIndex]) &&
+                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) ||
+                                                (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
+                                        <span class="text">Satışa Kapalı</span>
                                     </button>
                                 @else
                                     @if (
@@ -501,8 +573,8 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                                         isset($sumCartOrderQt[$keyIndex]) &&
                                                         $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) style="background: orange !important; color: White; height: auto !important"
                                     @elseif ($sold->status == '1')
-                                        style="background: #EA2B2E !important; color: White; height: auto !important"
-                                    @else  style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
+                                        style="background: #EC2F2E !important; color: White; height: auto !important"
+                                    @else  style="background: #EC2F2E !important; color: White; height: auto !important" @endif>
                                             @if (($sold->status == '0' && $share_sale == '[]') || ($sold->status == '0' && empty($share_sale)))
                                                 <span class="text">Rezerve Edildi</span>
                                             @elseif (
@@ -513,9 +585,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                             @endif
                                         </button>
                                     @else
-                                    
-                                        @if (checkIfUserCanAddToProjectHousings($project->id,$keyIndex))
-                                        
+                                        @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
                                             <button class="CartBtn second-btn mobileCBtn" data-type='project'
                                                 data-project='{{ $project->id }}' style="height: auto !important"
                                                 data-id='{{ $keyIndex }}' data-share="{{ $share_sale }}"
@@ -526,9 +596,9 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                                 <span class="text">Sepete Ekle</span>
                                             </button>
                                         @else
-                                            <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex] ) }}"
+                                            <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
                                                 class="second-btn">
-                                                <span class="text" >İlanı Düzenle</span>
+                                                <span class="text">İlanı Düzenle</span>
                                             </a>
                                         @endif
                                     @endif
@@ -548,61 +618,53 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
     <div class="modal fade" id="approveProjectModal{{ $keyIndex }}" tabindex="-1" role="dialog"
         aria-labelledby="approveProjectModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content ">
+            <div class="modal-content">
                 <div class="modal-body">
-                    {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
-                        id="approveProjectModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan
-                        için
-                        Teklif Ver</h3>
-                    <hr> --}}
                     <form method="POST" action="{{ route('give_offer') }}">
                         @csrf
-                        {{-- {{ $i+1 }} --}}
                         <input type="hidden" value="{{ $keyIndex }}" name="roomId">
                         <input type="hidden" value="{{ $project->id }}" name="projectId">
                         <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
 
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="surname" class="q-label">Ad Soyad : </label>
+                                    <label for="name" class="q-label">Ad Soyad : </label>
                                     <input type="text" class="modal-input" placeholder="Ad Soyad" id="name"
-                                        name="name">
+                                        name="name" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="surname" class="q-label">Telefon Numarası : </label>
-                                    <input type="number" class="modal-input" placeholder="Telefon Numarası"
-                                        id="phone" name="phone">
+                                    <label for="phone" class="q-label">Telefon Numarası : </label>
+                                    <input type="tel" class="modal-input" placeholder="Telefon Numarası"
+                                        id="phone" name="phone" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="surname" class="q-label">E-Posta : </label>
+                                    <label for="email" class="q-label">E-Posta : </label>
                                     <input type="email" class="modal-input" placeholder="E-Posta" id="email"
-                                        name="email">
+                                        name="email" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="surname" class="q-label">Meslek : </label>
+                                    <label for="title" class="q-label">Meslek : </label>
                                     <input type="text" class="modal-input" placeholder="Meslek" id="title"
-                                        name="title">
+                                        name="title" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="" class="q-label">İl</label>
+                                    <label for="city_id" class="q-label">İl</label>
                                     <select
                                         class="form-control citySelect2 {{ $errors->has('city_id') ? 'error-border' : '' }}"
-                                        name="city_id">
+                                        name="city_id" required>
                                         <option value="">Seçiniz</option>
                                         @foreach ($towns as $item)
-                                            <option for="{{ $item['sehir_title'] }}"
-                                                value="{{ $item['sehir_key'] }}"
+                                            <option value="{{ $item['sehir_key'] }}"
                                                 {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
                                                 {{ $item['sehir_title'] }}
                                             </option>
@@ -612,10 +674,10 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="" class="q-label">İlçe</label>
+                                    <label for="county_id" class="q-label">İlçe</label>
                                     <select
                                         class="form-control countySelect {{ $errors->has('county_id') ? 'error-border' : '' }}"
-                                        name="county_id">
+                                        name="county_id" required>
                                         <option value="">Seçiniz</option>
                                     </select>
                                 </div>
@@ -624,19 +686,16 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                 <div class="form-group">
                                     <label for="price" class="q-label">Teklif Ettiğiniz Fiyat : </label>
                                     <input type="text" class="modal-input" placeholder="Fiyat" id="price"
-                                        name="price">
+                                        name="price" required>
                                 </div>
                             </div>
 
                         </div>
 
-
-
-
                         <div class="form-group">
-                            <label for="comment" class="q-label">Açıklama:</label>
+                            <label for="offer_description" class="q-label">Açıklama:</label>
                             <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
-                                name="offer_description"></textarea>
+                                name="offer_description" required></textarea>
                         </div>
 
                         <div class="modal-footer" style="justify-content: end !important">
@@ -645,14 +704,11 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                 style="width:150px">Kapat</button>
                         </div>
                     </form>
-
-
-
                 </div>
-
             </div>
         </div>
     </div>
+
 
     @if ($sold_check && $sold->status == '1')
 
@@ -678,11 +734,11 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                         <span>Komşunuza ait iletişim bilgilerini görmek için aşağıdaki adımları takip
                                             edin:</span>
                                         <ul>
-                                            <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
+                                            <li><i class="fa fa-circle circleIcon mr-1" style="color: #EC2F2E ;"
                                                     aria-hidden="true"></i>Ödeme işlemini tamamlayın ve belirtilen
                                                 tutarı ödediğiniz taktirde,
                                             </li>
-                                            <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
+                                            <li><i class="fa fa-circle circleIcon mr-1" style="color: #EC2F2E ;"
                                                     aria-hidden="true"></i>Ödemeniz onaylandıktan sonra, "Komşumu Gör"
                                                 düğmesi
                                                 aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>

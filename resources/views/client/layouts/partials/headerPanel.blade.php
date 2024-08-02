@@ -13,12 +13,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="https://private.emlaksepette.com/" />
+        <meta property="og:url"content="https://emlaksepette.com/" />
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'https://private.emlaksepette.com/images/mini_logo.png';
+            $imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrl }}" />
@@ -71,6 +71,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @yield('styles')
 
     <!-- Google tag (gtag.js) -->
@@ -468,7 +469,6 @@
         }
 
         .dropdown-menu li {
-            padding: 20px 28px;
             cursor: pointer;
             text-align: center;
             font-size: 12px;
@@ -539,9 +539,9 @@
     <!-- Wrapper -->
     <div id="wrapper">
         <div class="slick-lancersl">
-            <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px">
-                <video autoplay loop muted style="width:100%">
-                    <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4">
+            <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px;background-color:#EC2F2E">
+                <video autoplay loop muted style="width:100%;height:50px">
+                    <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4" style="height:50px;display:block">
                 </video>
             </div>
         </div>
@@ -1135,11 +1135,11 @@
                                     <ul class="dropdown-menu">
                                         @if ($currentUser->parent_id == 106)
                                             <li><a href="{{route('institutional.crm.danisman.musteri.listesi')}}">Danışman Müşterileri</a></li>
-                                            <li><a href="{{route('institutional.danisman.dashboard')}}">Danışman Dashboard</a></li>
+                                            <li><a href="{{route('institutional.danisman.dashboard')}}">Danışman Paneli</a></li>
                                         @endif    
                                         @if ($currentUser->id == 106)
                                             <li><a href="{{route('institutional.crm.danisman.proje.atama')}}">Danışman Projeleri</a></li>
-                                            <li><a href="{{route('institutional.admin.dashboard')}}">Admin Dashboard</a></li>
+                                            <li><a href="{{route('institutional.admin.dashboard')}}">Admin Paneli</a></li>
                                             <li><a href="{{route('institutional.crm.admin.odul')}}">Ödül Sistemi</a></li>
                                         @endif
                                     </ul>

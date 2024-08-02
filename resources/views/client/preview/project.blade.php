@@ -13,12 +13,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="https://private.emlaksepette.com/" />
+        <meta property="og:url"content="https://emlaksepette.com/" />
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'https://private.emlaksepette.com/images/mini_logo.png';
+            $imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrl }}" />
@@ -467,7 +467,7 @@
                                         <tbody>
                                             <tr style="border-top: none !important">
                                                 <td style="border-top: none !important">
-                                                    <span class="det" style="color: #EA2B2E !important;">
+                                                    <span class="det" style="color: #EC2F2E !important;">
                                                         {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                         @if ($project->neighbourhood)
                                                             {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
@@ -752,7 +752,7 @@
                 .addClass('active');
             $('.listingDetailsSliderNav .item').removeClass('active');
             $(this).closest('.item').addClass('active');
-            $(this).css('border', '1px solid #EA2B2E'); // Border rengini kırmızı yap
+            $(this).css('border', '1px solid #EC2F2E'); // Border rengini kırmızı yap
             var totalSlides = $('#listingDetailsSlider .carousel-item')
                 .length; // Toplam slayt sayısını al
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
@@ -2022,7 +2022,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
+    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -2216,7 +2216,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
+        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {

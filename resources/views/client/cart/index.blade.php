@@ -24,7 +24,7 @@
                         <div class="clearButtons">
                             @if (isset($cart['item']))
                                 <button type="button" class="btn btn-close-cart remove-from-cart"
-                                    style="background: #EA2B2E;padding:5px;height:auto !important; color: white; font-size: 12px;">
+                                    style="background: #EC2F2E;padding:5px;height:auto !important; color: white; font-size: 12px;">
                                     <i class="fa fa-times"></i> Sepeti Temizle
                                 </button>
                             @endif
@@ -193,7 +193,7 @@
                                                             (isset($share_sale) && is_string($share_sale) && !empty($share_sale)) ||
                                                                 (isset($share_sale) && is_array($share_sale) && count($share_sale) > 0))
                                                             <br><br>
-                                                            <span style="color:#EA2B2E"
+                                                            <span style="color:#EC2F2E"
                                                                 class="mt-3">{{ $cart['item']['qt'] }} adet hisse
                                                                 sepetinizde
                                                                 !</span>
@@ -277,7 +277,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                             @if ($discountRate != 0)
                                                 <span>
                                                     <del
-                                                        style="color:#EA2B2E">{{ number_format($cart['item']['amount'], 0, ',', '.') }}₺</del>
+                                                        style="color:#EC2F2E">{{ number_format($cart['item']['amount'], 0, ',', '.') }}₺</del>
                                                 </span>
                                             @endif
 
@@ -313,7 +313,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                         <li>İlan Fiyatı<strong class="pull-right">
                                                 {{ number_format($cart['item']['amount'], 0, ',', '.') }} TL</strong></li>
                                         @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
-                                            <li style="color:#EA2B2E">Mağaza İndirimi :
+                                            <li style="color:#EC2F2E">Mağaza İndirimi :
                                                 <strong class="pull-right">
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
                                                         stroke="currentColor" stroke-width="2" fill="none"
@@ -330,7 +330,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                         @endif
 
                                         @if (isset($discountRate) && $discountRate != '0')
-                                            <li style="color:#EA2B2E">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
+                                            <li style="color:#EC2F2E">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
                                                         stroke="currentColor" stroke-width="2" fill="none"
                                                         stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
@@ -370,7 +370,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                             {{-- <li>Hizmet Bedeli :<strong
                                                     class="pull-right">{{ number_format($hizmet_bedeli, 0, ',', '.') }}
                                                     TL</strong></li> --}}
-                                            {{-- <span class="text-muted" style="color:#EA2B2E !important;">Hizmet bedeli, kapora
+                                            {{-- <span class="text-muted" style="color:#EC2F2E !important;">Hizmet bedeli, kapora
                                                 tutarının %10'u olarak hesaplanmıştır.</span> --}}
                                     
 
@@ -448,7 +448,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                         </div>
                                         <div id="ibanInfo" style="font-size: 12px !important"></div>
                                         <span>Ödeme işlemini tamamlamak için, lütfen bu
-                                            <span style="color:#EA2B2E;font-weight:bold" id="uniqueCode"></span> kodu
+                                            <span style="color:#EC2F2E;font-weight:bold" id="uniqueCode"></span> kodu
                                             kullanarak ödemenizi
                                             yapın. IBAN açıklama
                                             alanına
@@ -484,7 +484,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                         <div class="modal-body">
                             <div class="container">
                                 <span>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</span> <br>
-                                <span>1. <strong style="color:#EA2B2E;font-weight:bold !important"
+                                <span>1. <strong style="color:#EC2F2E;font-weight:bold !important"
                                         id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
                                     alanına yazdığınızdan emin olun.</span>
 

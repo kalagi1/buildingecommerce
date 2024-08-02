@@ -20,26 +20,27 @@
     'blockStart',
 ])
 
-@php 
+@php
 
-if (!function_exists('checkIfUserCanAddToProjectHousings')) {
-    function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
-    {
-        $user = auth()->user();
+    if (!function_exists('checkIfUserCanAddToProjectHousings')) {
+        function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
+        {
+            $user = auth()->user();
 
-        if ($user) {
-            $exists = $user->projects()
-                           ->where('id', $projectId)
-                           ->whereHas('housings', function($query) use ($keyIndex) {
-                               $query->where('room_order', $keyIndex);
-                           })
-                           ->exists();
-            return !$exists;
+            if ($user) {
+                $exists = $user
+                    ->projects()
+                    ->where('id', $projectId)
+                    ->whereHas('housings', function ($query) use ($keyIndex) {
+                        $query->where('room_order', $keyIndex);
+                    })
+                    ->exists();
+                return !$exists;
+            }
+
+            return true;
         }
-
-        return true;
     }
-}
 
 @endphp
 
@@ -99,7 +100,8 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
 @endphp
 
-<div class="d-flex" style="flex-wrap: nowrap">
+<div class="d-flex" style="flex-wrap: nowrap;box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);padding:10px
+    ">
     <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
         <div class="project-inner project-head">
             <a
@@ -128,7 +130,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                     </div>
 
                     <span class="mobileNoStyle">
-                        {{$projectHousingsList[$keyIndex] && isset($projectHousingsList[$keyIndex]['share_sale[]']) && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? "Etap" : "No"}}
+                        {{ $projectHousingsList[$keyIndex] && isset($projectHousingsList[$keyIndex]['share_sale[]']) && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? 'Etap' : 'No' }}
                         @if (isset($blockStart) && $blockStart)
                             {{ $i - $blockStart + 1 }}
                         @else
@@ -179,13 +181,19 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                             data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                             <i class="fa fa-bookmark-o"></i>
                         </span>
-                  
-                    <span class="btn toggle-project-favorite bg-white" data-project-housing-id="{{ $keyIndex }}"
-                        style="color: white;" data-project-id="{{ $project->id }}">
-                        <i class="fa fa-heart-o"></i>
-                    </span>
+
+                        <span class="btn toggle-project-favorite bg-white"
+                            data-project-housing-id="{{ $keyIndex }}" style="color: white;"
+                            data-project-id="{{ $project->id }}">
+                            <i class="fa fa-heart-o"></i>
+                        </span>
                     @endif
                 </div>
+                <span
+                style="    font-size: 9px !important;
+                                width: 50% !important;
+                                text-align: right;
+                                margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
             </a>
             <div class="d-flex align-items-end projectItemFlex">
                 <div style="width: 50%;
@@ -195,8 +203,8 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                         ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold) ||
                             ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]'))
                         <button class="btn second-btn mobileCBtn"
-                            style="background: #EA2B2E !important; width: 100%; color: White;">
-                            <span class="text">Satışa Kapatıldı</span>
+                            style="background: #EC2F2E !important; width: 100%; color: White;">
+                            <span class="text">Satışa Kapalı</span>
                         </button>
                     @else
                         @if (
@@ -212,9 +220,9 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                             isset($sumCartOrderQt[$keyIndex]) &&
                                             $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) style="background: orange !important; color: White;"
                     @elseif ($sold->status == '1')
-                        style="background: #EA2B2E !important; color: White; "
+                        style="background: #EC2F2E !important; color: White; "
                     @else
-                        style="background: #EA2B2E !important; color: White; " @endif>
+                        style="background: #EC2F2E !important; color: White; " @endif>
                                 @if ($sold->status == '0' && $share_sale_empty)
                                     <span class="text">Rezerve Edildi</span>
                                 @elseif (
@@ -235,7 +243,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                             </span>
                                         @endif
                                         <h6
-                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;text-align:center">
                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                 {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                                                 ₺
@@ -257,7 +265,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                             </span>
                                         @endif
                                         <h6
-                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;text-align:Center">
                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                 {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
                                                 ₺
@@ -474,11 +482,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
         </ul>
 
-        <span
-            style="    font-size: 9px !important;
-                            width: 50% !important;
-                            text-align: right;
-                            margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
+
     </div>
 </div>
 <hr>
@@ -490,59 +494,57 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 <div class="modal fade" id="approveProjectModal{{ $keyIndex }}" tabindex="-1" role="dialog"
     aria-labelledby="approveProjectModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content ">
-            <div class="modal-body" style="height: calc(100vh - 200px);overflow-y:scroll">
+        <div class="modal-content">
+            <div class="modal-body" style="height: calc(100vh - 200px); overflow-y: scroll;">
                 {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
                     id="approveProjectModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
                     Teklif Ver</h3>
                 <hr> --}}
                 <form method="POST" action="{{ route('give_offer') }}">
                     @csrf
-                    {{-- {{ $i+1 }} --}}
                     <input type="hidden" value="{{ $keyIndex }}" name="roomId">
                     <input type="hidden" value="{{ $project->id }}" name="projectId">
                     <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
 
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="surname" class="q-label">Ad Soyad : </label>
+                                <label for="name" class="q-label">Ad Soyad : </label>
                                 <input type="text" class="modal-input" placeholder="Ad Soyad" id="name"
-                                    name="name">
+                                    name="name" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="surname" class="q-label">Telefon Numarası : </label>
-                                <input type="number" class="modal-input" placeholder="Telefon Numarası"
-                                    id="phone" name="phone">
+                                <label for="phone" class="q-label">Telefon Numarası : </label>
+                                <input type="tel" class="modal-input" placeholder="Telefon Numarası"
+                                    id="phone" name="phone" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="surname" class="q-label">E-Posta : </label>
+                                <label for="email" class="q-label">E-Posta : </label>
                                 <input type="email" class="modal-input" placeholder="E-Posta" id="email"
-                                    name="email">
+                                    name="email" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="surname" class="q-label">Meslek : </label>
+                                <label for="title" class="q-label">Meslek : </label>
                                 <input type="text" class="modal-input" placeholder="Meslek" id="title"
-                                    name="title">
+                                    name="title" required>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="" class="q-label">İl</label>
+                                <label for="city_id" class="q-label">İl</label>
                                 <select
                                     class="form-control citySelect2 {{ $errors->has('city_id') ? 'error-border' : '' }}"
-                                    name="city_id">
+                                    name="city_id" required>
                                     <option value="">Seçiniz</option>
                                     @foreach ($towns as $item)
-                                        <option for="{{ $item['sehir_title'] }}" value="{{ $item['sehir_key'] }}"
+                                        <option value="{{ $item['sehir_key'] }}"
                                             {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
                                             {{ $item['sehir_title'] }}
                                         </option>
@@ -552,10 +554,10 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="" class="q-label">İlçe</label>
+                                <label for="county_id" class="q-label">İlçe</label>
                                 <select
                                     class="form-control countySelect {{ $errors->has('county_id') ? 'error-border' : '' }}"
-                                    name="county_id">
+                                    name="county_id" required>
                                     <option value="">Seçiniz</option>
                                 </select>
                             </div>
@@ -564,19 +566,16 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                             <div class="form-group">
                                 <label for="price" class="q-label">Teklif Ettiğiniz Fiyat : </label>
                                 <input type="text" class="modal-input" placeholder="Fiyat" id="price"
-                                    name="price">
+                                    name="price" required>
                             </div>
                         </div>
 
                     </div>
 
-
-
-
                     <div class="form-group">
-                        <label for="comment" class="q-label">Açıklama:</label>
+                        <label for="offer_description" class="q-label">Açıklama:</label>
                         <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
-                            name="offer_description"></textarea>
+                            name="offer_description" required></textarea>
                     </div>
 
                     <div class="modal-footer" style="justify-content: end !important">
@@ -585,14 +584,11 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                             style="width:150px">Kapat</button>
                     </div>
                 </form>
-
-
-
             </div>
-
         </div>
     </div>
 </div>
+
 
 @if ($sold_check && $sold->status == '1')
 
@@ -661,10 +657,10 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                     <span>Komşunuza ait iletişim bilgilerini görmek için aşağıdaki adımları takip
                                         edin:</span>
                                     <ul>
-                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
+                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EC2F2E ;"
                                                 aria-hidden="true"></i>Ödeme işlemini tamamlayın ve belirtilen tutarı
                                             aşağıdaki banka hesaplarından birine havale veya EFT yapın.</li>
-                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
+                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EC2F2E ;"
                                                 aria-hidden="true"></i>Ödemeniz onaylandıktan sonra, "Komşumu Gör"
                                             düğmesi
                                             aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>

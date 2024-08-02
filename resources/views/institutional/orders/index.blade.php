@@ -165,7 +165,7 @@
                                             @endif
                                             @if (isset(json_decode($order->cart)->item->isShare) && !empty(json_decode($order->cart)->item->isShare))
                                                 <br>
-                                                <span style="color:#EA2B2E"
+                                                <span style="color:#EC2F2E"
                                                     class="mt-3">{{ json_decode($order->cart)->item->qt }} adet hisse
                                                     satın alındı
                                                     !</span>

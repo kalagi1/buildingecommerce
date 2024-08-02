@@ -3,7 +3,7 @@
 @section('content')
     <meta name="description" content="Emlak Sepette">
     <meta name="author" content="Master Girişim">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
 
     <title>Emlak Sepette</title>
     <style>
@@ -114,7 +114,7 @@
                 </div>
                 <div class="slick-lancers">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                        <a href="https://private.emlaksepette.com/kategori/al-sat-acil" class="homes-img">
+                        <a href="https://emlaksepette.com/kategori/al-sat-acil" class="homes-img">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
@@ -300,7 +300,7 @@
                     <div class="section-title">
                         <h2>Öne Çıkan Projeler</h2>
                     </div>
-                    <a href="https://private.emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
+                    <a href="https://emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
                             class="w-100">
                             Tüm Projeleri Gör
@@ -357,29 +357,30 @@
                                                 @endif
                                             </a>
                                             @php
-                                            // Markanın adını al
-                                            $brandName = $brand->name;
-                                        
-                                            // Markanın adını boşluk karakteri ile ayır
-                                            $words = explode(' ', $brandName);
-                                        
-                                            // İlk iki kelimeyi al
-                                            $firstTwoWords = '';
-                                            if (isset($words[0])) {
-                                                $firstTwoWords .= $words[0];
-                                            }
-                                            if (isset($words[1])) {
-                                                $firstTwoWords .= ' ' . $words[1];
-                                            }
-                                        @endphp
-                                        
-                                        <span style="font-size:9px !important;border:none !important;text-align:center;width: 100%;display:block">
-                                            {{ $firstTwoWords }}
-                                            @if (count($words) > 2)
-                                                ...
-                                            @endif
-                                        </span>
-                                        
+                                                // Markanın adını al
+                                                $brandName = $brand->name;
+
+                                                // Markanın adını boşluk karakteri ile ayır
+                                                $words = explode(' ', $brandName);
+
+                                                // İlk iki kelimeyi al
+                                                $firstTwoWords = '';
+                                                if (isset($words[0])) {
+                                                    $firstTwoWords .= $words[0];
+                                                }
+                                                if (isset($words[1])) {
+                                                    $firstTwoWords .= ' ' . $words[1];
+                                                }
+                                            @endphp
+
+                                            <span
+                                                style="font-size:9px !important;border:none !important;text-align:center;width: 100%;display:block">
+                                                {{ $firstTwoWords }}
+                                                @if (count($words) > 2)
+                                                    ...
+                                                @endif
+                                            </span>
+
                                         </div>
                                     </div>
                                 </div>
@@ -398,12 +399,12 @@
     @if ($housings->isNotEmpty())
         <section class="featured portfolio rec-pro disc bg-white mt-5">
             <div class="container">
-                
+
                 <div class="mb-3" style="display: flex; justify-content: space-between; align-items:center">
                     <div class="section-title">
                         <h2>Emlak İlanları</h2>
                     </div>
-                    <a href="https://private.emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
+                    <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
                             class="w-100">
                             Tümünü Gör
@@ -424,7 +425,13 @@
                             <p>Henüz İlan Yayınlanmadı</p>
                         @endforelse
                     </div>
-                    <button id="loadMoreMobileButton" style="display: block;">Daha Fazlasını Gör</button>
+                    <button id="loadMoreMobileButton"
+                        style="  display: block;
+    margin: 0 auto;
+    border: none;
+    background: transparent;
+    margin-bottom: 30px;">Daha
+                        Fazlasını Gör</button>
                     <div class="ajax-load" style="display: none;">
                         <div class="spinner-border" role="status"></div>
                     </div>
@@ -446,8 +453,8 @@
                                 @endforelse
                             </div>
                             <div class="text-center">
-                                <button id="loadMoreButton" class="btn my-3"
-                                    style="display: none; margin: 0 auto;">Daha Fazlasını Gör</button>
+                                <button id="loadMoreButton" class="btn my-3" style="display: none; margin: 0 auto;">Daha
+                                    Fazlasını Gör</button>
                                 <div class="ajax-load" style="display: none;">
                                     <div class="spinner-border" role="status"></div>
                                 </div>
@@ -532,7 +539,6 @@
             </footer>
         </div>
     @endif --}}
-    @include('cookie-consent::index')
     @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
         <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">

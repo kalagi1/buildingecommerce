@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="table-breadcrumb">
+    <div class="table-breadcrumb mb-5">
         <ul>
             <li>
                 Hesabım

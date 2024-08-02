@@ -298,7 +298,7 @@
 
                                                             <button
                                                                 class="badge badge-phoenix badge-phoenix-danger value-text">Satışa
-                                                                Kapatıldı</button>
+                                                                Kapalı</button>
                                                         </div>
                                                     @else
                                                         @if (
@@ -918,7 +918,7 @@
                                     <div class="text d-flex">
 
                                         <button class="badge badge-phoenix badge-phoenix-danger value-text">Satışa
-                                            Kapatıldı</button>
+                                            Kapalı</button>
                                     </div>
                                 @else
                                     @if (
@@ -2332,7 +2332,7 @@
         }
 
         .modal-btn-gonder {
-            background-color: #ea2b2e;
+            background-color: #EC2F2E;
             color: #fff;
         }
 

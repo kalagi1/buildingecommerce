@@ -1,32 +1,32 @@
 @props(['housing', 'sold'])
 
-@php 
+@php
 
-if (!function_exists('checkIfUserCanAddToCart')) {
-    function checkIfUserCanAddToCart($housingId)
-    {
-        $user = auth()->user();
+    if (!function_exists('checkIfUserCanAddToCart')) {
+        function checkIfUserCanAddToCart($housingId)
+        {
+            $user = auth()->user();
 
-        // Check if the user is logged in
-        if ($user) {
-            // Check if there exists a housing record with the given $housingId and user_id matching the logged-in user
-            $exists = $user->housings()->where('id', $housingId)->exists();
-            return !$exists; // Return true if the user can add to cart (housing not found), false otherwise
+            // Check if the user is logged in
+            if ($user) {
+                // Check if there exists a housing record with the given $housingId and user_id matching the logged-in user
+                $exists = $user->housings()->where('id', $housingId)->exists();
+                return !$exists; // Return true if the user can add to cart (housing not found), false otherwise
+            }
+
+            return true; // Return false if user is not logged in
         }
-
-        return true; // Return false if user is not logged in
     }
-}
 
 @endphp
 
 <div class="d-flex" style="flex-wrap: nowrap">
-    <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
-        <div class="project-inner project-head">
+    <div class="align-items-center d-flex " style="padding-right:0; width: 110px;height:90px">
+        <div class="project-inner project-head h-100">
             <a
                 href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
 
-                <div class="homes">
+                <div class="homes h-100">
                     <div class="homes-img h-100 d-flex align-items-center" style="width: 115px; height: 128px;">
 
 
@@ -36,7 +36,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                         @endif
                         <img loading="lazy"
                             src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
-                            alt="{{ $housing->title }}" class="img-responsive" style="height: 80px !important;">
+                            alt="{{ $housing->title }}" class="img-responsive" style="height: 100% !important;">
                     </div>
                 </div>
             </a>
@@ -50,6 +50,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                 <div class="d-flex" style="gap: 8px;justify-content:space-between;align-items:center">
                     <h4 class="mobile-left-width">
                         {{ $housing->title }} </h4>
+
                     <div class="mobile-right-width">
                         @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
                             <span
@@ -65,6 +66,18 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                     </div>
 
                 </div>
+                <p class="homes-address mb-1">
+                    <i class="fa fa-map-marker"></i>
+                    <span>
+                        
+                        {{ $housing->city ? $housing->city->title : '' }}
+                        {{ $housing->city && $housing->district ? ' / ' : '' }}
+                        {{ $housing->district ? $housing->district->ilce_title : '' }}
+                        {{ $housing->district && $housing->neighborhood ? ' / ' : '' }}
+                        {{ $housing->neighborhood ? $housing->neighborhood->mahalle_title : '' }}
+                    </span>
+                </p>
+
             </a>
             <div class="d-flex" style="align-items:Center">
                 <div class="d-flex" style="gap: 8px;">
@@ -72,16 +85,16 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                     @if ($housing->step2_slug != 'gunluk-kiralik')
                         @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                             <button class="btn second-btn  mobileCBtn"
-                                style="background: #EA2B2E !important;color:White">
+                                style="background: #EC2F2E !important;color:White">
 
-                                <span class="text">Satışa Kapatıldı</span>
+                                <span class="text">Satışa Kapalı</span>
                             </button>
                         @else
                             @if ($sold != null && $sold != '2')
                                 <button class="btn mobileCBtn second-btn "
                                     @if ($sold == '0') style="background: orange !important;color:White"
                             @else 
-                            style="background: #EA2B2E !important;color:White" @endif>
+                            style="background: #EC2F2E !important;color:White" @endif>
                                     <span class="IconContainer">
                                         <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
                                     </span>
@@ -134,8 +147,8 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                 </div>
                 <span class="ml-auto text-primary priceFont">
                     @if ($housing->discount_amount)
-                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E" stroke-width="2"
-                            fill="#EA2B2E" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EC2F2E" stroke-width="2"
+                            fill="#EC2F2E" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                             <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                             </polyline>
                             <polyline points="17 18 23 18 23 12">
@@ -150,7 +163,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                                 @if ($housing->step2_slug == 'gunluk-kiralik')
                                     @if ($housing->discount_amount)
                                         <del>
-                                            <span style="font-size:9px; color:#EA2B2E">
+                                            <span style="font-size:9px; color:#EC2F2E">
                                                 {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                             </span>
                                         </del> <br>
@@ -160,11 +173,11 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                         ₺
                                     @endif
-                                    <span style="font-size:9px; color:#EA2B2E">
+                                    <span style="font-size:9px; color:#EC2F2E">
                                         1 Gece</span>
                                 @else
                                     @if ($housing->discount_amount)
-                                        <del style="font-size:9px; color:#EA2B2E">
+                                        <del style="font-size:9px; color:#EC2F2E">
 
                                             {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
                                         </del> <br>
@@ -179,22 +192,22 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                         @else
                             @if ($housing->step2_slug == 'gunluk-kiralik')
                                 @if ($housing->discount_amount)
-                                    <del style="font-size:9px; color:#EA2B2E">
+                                    <del style="font-size:9px; color:#EC2F2E">
                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                     </del> <br>
                                     {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0] - $housing->discount_amount, 0, ',', '.') }}
                                     ₺
-                                    <span style="font-size:9px; color:#EA2B2E">
+                                    <span style="font-size:9px; color:#EC2F2E">
                                         1 Gece</span>
                                 @else
                                     {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                     ₺
-                                    <span style="font-size:9px; color:#EA2B2E">
+                                    <span style="font-size:9px; color:#EC2F2E">
                                         1 Gece</span>
                                 @endif
                             @else
                                 @if ($housing->discount_amount)
-                                    <del style="font-size:9px; color:#EA2B2E">
+                                    <del style="font-size:9px; color:#EC2F2E">
                                         {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
                                     </del> <br>
                                     {{ number_format(json_decode($housing->housing_type_data)->price[0] - $housing->discount_amount, 0, ',', '.') }}
@@ -209,6 +222,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
 
                 </span>
             </div>
+
         </div>
     </div>
 </div>
@@ -274,11 +288,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
             @endif
         </ul>
 
-        <span style="font-size: 9px !important"> {{ $housing->city ? $housing->city->title : null }}
-            {{ '/' }}
-            {{ $housing->district ? $housing->district->ilce_title : null }}
 
-        </span>
     </div>
 
 </div>

@@ -284,7 +284,7 @@
 
                                                             <button
                                                                 class="badge badge-phoenix badge-phoenix-danger value-text">Satışa
-                                                                Kapatıldı</button>
+                                                                Kapalı</button>
                                                             <span
                                                                 class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
                                                                     class="fa fa-edit"></i></span>
@@ -586,7 +586,7 @@
 
                                                     <button
                                                         class="badge badge-phoenix badge-phoenix-danger value-text">Satışa
-                                                        Kapatıldı</button>
+                                                        Kapalı</button>
                                                     <span
                                                         class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
                                                             class="fa fa-edit"></i></span>
@@ -1635,7 +1635,7 @@
         }
 
         .modal-btn-gonder {
-            background-color: #ea2b2e;
+            background-color: #EC2F2E;
             color: #fff;
         }
 

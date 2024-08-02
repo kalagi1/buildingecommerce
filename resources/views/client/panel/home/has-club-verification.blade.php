@@ -1,7 +1,7 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
-    <div class="table-breadcrumb">
+    <div class="table-breadcrumb mb-5">
         <ul>
             <li>
                 Hesabım
@@ -244,7 +244,7 @@
 
         .crossmark::after {
             content: '✗';
-            color: #EA2B2E;
+            color: #EC2F2E;
             font-size: 16px;
             margin-left: 5px;
         }

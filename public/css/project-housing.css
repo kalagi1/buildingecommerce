@@ -58,7 +58,7 @@
 .pagination .page-item .page-link:hover i,
 .pagination .page-item:hover a,
 .pagination .page-item .page-link:hover a {
-    color: #EA2B2E !important
+    color: #EC2F2E !important
 }
 
 /* Sağ ve sol okların üzerine gelindiğinde arka plan rengini değiştir */
@@ -369,7 +369,7 @@
 }
 
 .modal-btn-gonder {
-    background-color: #ea2b2e;
+    background-color: #EC2F2E;
     color: #fff;
 }
 
