@@ -27,6 +27,7 @@
                         </thead>
                         <tbody>
                             @foreach($phoneNumbers as $phoneNumber)
+                                @if($phoneNumber->user)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $phoneNumber->user->name }}</td>
@@ -54,12 +55,11 @@
                                         function openImage(imagePath) {
                                             window.open(imagePath, '_blank');
                                         }
-
-                                       
                                     </script>
                                     
                                     <td>{{-- Durum alanı --}}</td>
                                 </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

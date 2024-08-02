@@ -38,42 +38,44 @@
     @endif
     <div class="content">
         <div class="row" style="justify-content: space-between;">
-            <div class="table-breadcrumb mb-5">
-                <ul>
-                    <li><i class="fa fa-home"></i></li>
-                    <li>Ofisim</li>
-                    <li>Projeyi Düzenle</li>
-                </ul>
+            <div class="d-flex" style="justify-content: space-between;">
+                <div class="table-breadcrumb mb-1">
+                    <ul style="display: inline-flex;">
+                        <li><i class="fa fa-home"></i></li>
+                        <li>Ofisim</li>
+                        <li>Projeyi Düzenle</li>
+                    </ul>
+                </div>
+                @if ($project->status == 0)
+                    <div class="table-right-breadcrumb  cancel-project">
+                        <ul style="display: inline-flex;">
+                            <li>Projeniz Pasif</li>
+                            <li><i class="fa fa-pause"></i></li>
+                        </ul>
+                    </div>
+                @elseif ($project->status == 3)
+                    <div class="table-right-breadcrumb cancel-project">
+                        <ul style="display: inline-flex;">
+                            <li>Projeniz Reddedildi</li>
+                            <li><i class="fa fa-times"></i></li>
+                        </ul>
+                    </div>
+                @elseif($project->status == 2)
+                    <div class="table-right-breadcrumb wait-confirm">
+                        <ul style="display: inline-flex;">
+                            <li>Projeniz Onay Bekliyor</li>
+                            <li><i class="fa fa-hourglass-start"></i></li>
+                        </ul>
+                    </div>
+                @else
+                    <div class="table-right-breadcrumb">
+                        <ul style="display: inline-flex;">
+                            <li>Projeniz Yayında</li>
+                            <li><i class="fa fa-check"></i></li>
+                        </ul>
+                    </div>
+                @endif
             </div>
-            @if ($project->status == 0)
-                <div class="table-right-breadcrumb  cancel-project">
-                    <ul>
-                        <li>Projeniz Pasif</li>
-                        <li><i class="fa fa-pause"></i></li>
-                    </ul>
-                </div>
-            @elseif ($project->status == 3)
-                <div class="table-right-breadcrumb cancel-project">
-                    <ul>
-                        <li>Projeniz Reddedildi</li>
-                        <li><i class="fa fa-times"></i></li>
-                    </ul>
-                </div>
-            @elseif($project->status == 2)
-                <div class="table-right-breadcrumb wait-confirm">
-                    <ul>
-                        <li>Projeniz Onay Bekliyor</li>
-                        <li><i class="fa fa-hourglass-start"></i></li>
-                    </ul>
-                </div>
-            @else
-                <div class="table-right-breadcrumb">
-                    <ul>
-                        <li>Projeniz Yayında</li>
-                        <li><i class="fa fa-check"></i></li>
-                    </ul>
-                </div>
-            @endif
             
         </div>
         
@@ -288,14 +290,16 @@
                                     <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
                                 </div>
                             </div>
-                            <div class="image-progress-bar">
-                                <span>Eklenen Fotoğraf Adedi</span>
-                                <div class="d-flex" style="align-items: center;">
-                                    <div class="image-progress">
-                                        <div class="image-loading-bar project-gallery-bar" style="width: {{count($tempData->images) * 100 / 40}}%"></div>
-                                    </div>
-                                    <div style="margin-left: 10px">
-                                        <span class="project-image-count">{{count($tempData->images)}} / 40</span>
+                            <div>
+                                <div class="image-progress-bar">
+                                    <span>Eklenen Fotoğraf Adedi</span>
+                                    <div class="d-flex" style="align-items: center;">
+                                        <div class="image-progress">
+                                            <div class="image-loading-bar project-gallery-bar" style="width: {{count($tempData->images) * 100 / 40}}%"></div>
+                                        </div>
+                                        <div style="margin-left: 10px">
+                                            <span class="project-image-count">{{count($tempData->images)}} / 40</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -335,14 +339,16 @@
                                   <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
                                 </div>
                             </div>
-                            <div class="image-progress-bar">
-                                <span>Eklenen Fotoğraf Adedi</span>
-                                <div class="d-flex" style="align-items: center;">
-                                    <div class="image-progress">
-                                        <div class="image-loading-bar situation-width" style="width: {{count($tempData->situations) * 100 / 40}}%"></div>
-                                    </div>
-                                    <div style="margin-left: 10px">
-                                        <span class="situations-image-count">{{count($tempData->situations)}} / 40</span>
+                            <div>
+                                <div class="image-progress-bar">
+                                    <span>Eklenen Fotoğraf Adedi</span>
+                                    <div class="d-flex" style="align-items: center;">
+                                        <div class="image-progress">
+                                            <div class="image-loading-bar situation-width" style="width: {{count($tempData->situations) * 100 / 40}}%"></div>
+                                        </div>
+                                        <div style="margin-left: 10px">
+                                            <span class="situations-image-count">{{count($tempData->situations)}} / 40</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

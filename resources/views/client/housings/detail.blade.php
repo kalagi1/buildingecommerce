@@ -306,10 +306,11 @@
 
                             <div class="tab-content" id="myTabContent">
                                 @if ($housing->step2_slug == 'gunluk-kiralik')
-                                    <div class="tab-pane fade show active blog-info details mb-30" id="rez"
+                                    <div class="tab-pane fade show active blog-info details p-0" id="rez"
+                                    style="border:none"
                                         role="tabpanel" aria-labelledby="rez-tab">
                                         <div class="row">
-                                            <div class="col-md-12 col-12 mb-5">
+                                            <div class="col-md-12 col-12">
                                                 <div id="reservation-calendar"></div>
                                             </div>
                                         </div>
@@ -320,6 +321,21 @@
                                 <div class="tab-pane fade blog-info details mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
                                     id="home" role="tabpanel" aria-labelledby="home-tab">
                                     {!! $housing->description !!}
+                                   
+                                    {{--  <hr> <div class="uiBox uiBoxContainer yourSecurity">
+                                        <h4 style="    color: #EC2F2E !important;">Bunlara dikkat edin!</h4>
+
+                                        <span>
+                                            emlaksepette.com, tüm kullanıcılar için tam bir güvenlik sağlamayı amaç
+                                            edinmiştir. Siz de kendi güvenliğiniz ve diğer kullanıcılar için, satın almak ya
+                                            da kiralamak istediğiniz vasıta ile ilgili kesin karar vermeden ön ödeme
+                                            yapmamaya, avans ya da kapora ödememeye özen gösteriniz. İlan sahiplerinin
+                                            ilanlarda belirttiği herhangi bir bilgi ya da görselin gerçeği yansıtmadığını
+                                            düşünüyorsanız veya ilan sahiplerinin hesap profillerindeki bilgilerin doğru
+                                            olmadığını düşünüyorsanız, lütfen bize <a href="/destek" rel="nofollow"
+                                                class="trackLinkClick trackId_vasita_uyari_haber_ver">haber veriniz.</a>
+                                        </span>
+                                    </div> --}}
                                 </div>
                                 <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
                                     aria-labelledby="profile-tab">
@@ -516,11 +532,11 @@
 
                                         <span class="product-review-section-wrapper__wrapper__filter_title">
                                             Değerlendirmeler</span>
-                                        <div class="flex flex-col gap-6 mt-3" >
+                                        <div class="flex flex-col gap-6 mt-3">
                                             @foreach ($housingComments as $comment)
                                                 <div class="bg-white border rounded-md pb-3 mb-3"
                                                     @if (!$loop->last) style="border-bottom: 1px solid #E6E6E6 !important; " @endif>
-                                                 
+
                                                     <div class="ml-auto order-2 mt-3 mb-3">
                                                         @for ($i = 0; $i < $comment->rate; ++$i)
                                                             <svg enable-background="new 0 0 50 50" height="15px"
@@ -581,81 +597,81 @@
 
                                 </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="comment" role="tabpanel"
-                                aria-labelledby="comment-tab">
-                                @if (checkIfUserCanAddToCart($housing->id))
-                                    <form id="commentForm" enctype="multipart/form-data" >
-                                        @csrf
-                                        <input type="hidden" name="rate" id="rate" />
-                                        <h5>Yeni Yorum Ekle</h5>
+                                    aria-labelledby="comment-tab">
+                                    @if (checkIfUserCanAddToCart($housing->id))
+                                        <form id="commentForm" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="rate" id="rate" />
+                                            <h5>Yeni Yorum Ekle</h5>
 
-                                        <div class="d-flex align-items-center w-full" style="gap: 6px;">
-                                            <div class="d-flex rating-area">
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
+                                            <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                                <div class="d-flex rating-area">
+                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <rect fill="none" height="50" width="50" />
+                                                        <polygon fill="none"
+                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                            stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
+                                                    </svg>
+                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <rect fill="none" height="50" width="50" />
+                                                        <polygon fill="none"
+                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                            stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
+                                                    </svg>
+                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <rect fill="none" height="50" width="50" />
+                                                        <polygon fill="none"
+                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                            stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
+                                                    </svg>
+                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <rect fill="none" height="50" width="50" />
+                                                        <polygon fill="none"
+                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                            stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
+                                                    </svg>
+                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <rect fill="none" height="50" width="50" />
+                                                        <polygon fill="none"
+                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                            stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-auto">
+                                                    <input type="file" style="display: none;" class="fileinput"
+                                                        name="images[]" multiple accept="image/*" />
+                                                    <button type="button" class="btn btn-primary q-button"
+                                                        id="selectImageButton">Resimleri Seç</button>
+                                                </div>
                                             </div>
-                                            <div class="ml-auto">
-                                                <input type="file" style="display: none;" class="fileinput"
-                                                    name="images[]" multiple accept="image/*" />
-                                                <button type="button" class="btn btn-primary q-button"
-                                                    id="selectImageButton">Resimleri Seç</button>
-                                            </div>
-                                        </div>
-                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required
-                                        style="padding: 10px !important;height: 100px !important;"></textarea>
-                                        <button type="button" class="ud-btn btn-white2 mt-3"
-                                            onclick="submitForm()">Yorumu
-                                            Gönder<i class="fal fa-arrow-right-long"></i></button>
-                                        <div id="previewContainer"
-                                            style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+                                            <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required
+                                                style="padding: 10px !important;height: 100px !important;"></textarea>
+                                            <button type="button" class="ud-btn btn-white2 mt-3"
+                                                onclick="submitForm()">Yorumu
+                                                Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                            <div id="previewContainer"
+                                                style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
 
-                                    </form>
-                                @endif
+                                        </form>
+                                    @endif
 
 
-                            </div>
+                                </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                     <iframe width="100%" height="100%" frameborder="0" style="border:0;"

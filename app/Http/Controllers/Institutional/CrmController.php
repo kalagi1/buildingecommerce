@@ -679,7 +679,7 @@ class CrmController extends Controller
             }    
 
 
-    $bireysel_satislar = DB::table('cart_orders')->whereNull('reference_id')->where('store_id',Auth::id())->where('status','1')->count();
+    $bireysel_satislar                 = DB::table('cart_orders')->whereNull('reference_id')->where('store_id',Auth::id())->where('status','1')->count();
     $danismanlarin_toplam_satis_sayisi = DB::table('cart_orders')->whereNotNull('reference_id')->where('store_id',Auth::id())->where('status','1')->count();
 
     $sirket_satis_sayisi = $bireysel_satislar + $danismanlarin_toplam_satis_sayisi;

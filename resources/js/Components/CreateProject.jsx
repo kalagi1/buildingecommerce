@@ -7,14 +7,10 @@ import EndSection from "./create_project_components/EndSection";
 import TopCreateProjectNavigator from "./create_project_components/TopCreateProjectNavigator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Block } from "@mui/icons-material";
 import { Box, LinearProgress, Modal, Typography } from "@mui/material";
-import PreviewHousing from "./create_project_components/PreviewHousing";
-import PreveiwProject from "./create_project_components/PreviewProject";
 import PreviewProject from "./create_project_components/PreviewProject";
 import LoadingModal from "./LoadingModal";
 import CustomModal from "./CustomModal";
-import { compressToUTF16, decompressFromUTF16 } from "lz-string";
 
 function CreateProject(props) {
 
@@ -161,7 +157,6 @@ function CreateProject(props) {
   useEffect(() => {
     async function saveDataBlocks() {
       try {
-        console.log(blocks);
         await saveLargeData('blocks', blocks);
       } catch (e) {
         console.log(e);
@@ -320,6 +315,30 @@ function CreateProject(props) {
     return await createRoom(formData);
   };
 
+  const typeCheck = (formDataHousing) => {
+    if(slug == "satilik" && !formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")){
+      return true;
+    }
+
+    if(slug == "devren-satilik" && !formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")){
+      return true;
+    }
+
+    if(slug == "kiralik" && !formDataHousing?.className?.includes('rent-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")){
+      return true;
+    }
+
+    if(slug == "devren-kiralik" && !formDataHousing?.className?.includes('rent-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")){
+      return true;
+    }
+
+    if(slug == "gunluk-kiralik" && !formDataHousing?.className?.includes('daily-rent-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-not-show-project")){
+      return true;
+    }
+
+    return false
+  }
+
   const createProject = () => {
     var formDataHousing = JSON.parse(
       selectedHousingType?.housing_type?.form_json
@@ -370,8 +389,45 @@ function CreateProject(props) {
         } else {
           var boolCheck = false;
           formDataHousing.forEach((formDataHousing, order) => {
-            if(slug == "satilik"){
-              if (!formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+            if(typeCheck(formDataHousing)){
+              if(formDataHousing.className.includes('--if-show-checked-')){
+                var parentName = formDataHousing?.className?.split("--if-show-checked-")[1];
+                if(blocks[selectedBlock].rooms[selectedRoom][parentName+'[]'] != undefined && blocks[selectedBlock].rooms[selectedRoom][parentName+'[]'] != "[]"){
+                  if (1) {
+                    if (!formDataHousing?.className?.split(" ").includes("cover-image-by-housing-type")) {
+                      if (formDataHousing.required) {
+                        if (blocks.length < 1) {
+                          tempErrors.push(formDataHousing.name.replace("[]", ""));
+                        } else {
+                          if (
+                            !blocks[selectedBlock].rooms[selectedRoom][
+                              formDataHousing.name
+                            ]
+                          ) {
+                            if (!boolCheck) {
+                              var elementDesc = document.getElementById(
+                                formDataHousing.name.replace("[]", "")
+                              );
+                              if (elementDesc) {
+                                window.scrollTo({
+                                  top:
+                                    getCoords(elementDesc).top -
+                                    document.getElementById("navbarDefault")
+                                      .offsetHeight -
+                                    30,
+                                  behavior: "smooth", // Yumuşak kaydırma efekti için
+                                });
+                              }
+    
+                              boolCheck = true;
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }else{
                 if (formDataHousing.required) {
                   if (blocks.length < 1) {
                     tempErrors.push(formDataHousing.name.replace("[]", ""));
@@ -400,130 +456,7 @@ function CreateProject(props) {
                   }
                 }
               }
-            }
-            else if(slug == "devren-satilik"){
-              if (!formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
-                if (formDataHousing.required) {
-                  if (blocks.length < 1) {
-                    tempErrors.push(formDataHousing.name.replace("[]", ""));
-                  } else {
-                    if (
-                      !blocks[selectedBlock].rooms[selectedRoom][
-                        formDataHousing.name
-                      ]
-                    ) {
-                      if (!boolCheck) {
-                        var elementDesc = document.getElementById(
-                          formDataHousing.name.replace("[]", "")
-                        );
-                        window.scrollTo({
-                          top:
-                            getCoords(elementDesc).top -
-                            document.getElementById("navbarDefault")
-                              .offsetHeight -
-                            30,
-                          behavior: "smooth", // Yumuşak kaydırma efekti için
-                        });
-  
-                        boolCheck = true;
-                      }
-                    }
-                  }
-                }
-              }
-            }
-            else if(slug == "kiralik"){
-              if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
-                if (formDataHousing.required) {
-                  if (blocks.length < 1) {
-                    tempErrors.push(formDataHousing.name.replace("[]", ""));
-                  } else {
-                    if (
-                      !blocks[selectedBlock].rooms[selectedRoom][
-                        formDataHousing.name
-                      ]
-                    ) {
-                      if (!boolCheck) {
-                        var elementDesc = document.getElementById(
-                          formDataHousing.name.replace("[]", "")
-                        );
-                        window.scrollTo({
-                          top:
-                            getCoords(elementDesc).top -
-                            document.getElementById("navbarDefault")
-                              .offsetHeight -
-                            30,
-                          behavior: "smooth", // Yumuşak kaydırma efekti için
-                        });
-  
-                        boolCheck = true;
-                      }
-                    }
-                  }
-                }
-              }
-            }
-            else if(slug == "devren-kiralik"){
-              if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
-                if (formDataHousing.required) {
-                  if (blocks.length < 1) {
-                    tempErrors.push(formDataHousing.name.replace("[]", ""));
-                  } else {
-                    if (
-                      !blocks[selectedBlock].rooms[selectedRoom][
-                        formDataHousing.name
-                      ]
-                    ) {
-                      if (!boolCheck) {
-                        var elementDesc = document.getElementById(
-                          formDataHousing.name.replace("[]", "")
-                        );
-                        window.scrollTo({
-                          top:
-                            getCoords(elementDesc).top -
-                            document.getElementById("navbarDefault")
-                              .offsetHeight -
-                            30,
-                          behavior: "smooth", // Yumuşak kaydırma efekti için
-                        });
-  
-                        boolCheck = true;
-                      }
-                    }
-                  }
-                }
-              }
-            }
-            else if(slug == "gunluk-kiralik"){
-              if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-not-show-project")) {
-                if (formDataHousing.required) {
-                  if (blocks.length < 1) {
-                    tempErrors.push(formDataHousing.name.replace("[]", ""));
-                  } else {
-                    if (
-                      !blocks[selectedBlock].rooms[selectedRoom][
-                        formDataHousing.name
-                      ]
-                    ) {
-                      if (!boolCheck) {
-                        var elementDesc = document.getElementById(
-                          formDataHousing.name.replace("[]", "")
-                        );
-                        window.scrollTo({
-                          top:
-                            getCoords(elementDesc).top -
-                            document.getElementById("navbarDefault")
-                              .offsetHeight -
-                            30,
-                          behavior: "smooth", // Yumuşak kaydırma efekti için
-                        });
-  
-                        boolCheck = true;
-                      }
-                    }
-                  }
-                }
-              }
+              
             }
           });
           if (!boolCheck) {
@@ -784,155 +717,6 @@ function CreateProject(props) {
 
     setErrorMessages(tempErrorMessages);
 
-    if (blocks.length > 0) {
-      formDataHousing.forEach((formDataHousing) => {
-        if (
-          slug == "satilik" &&
-          !formDataHousing?.className?.includes("only-show-project-rent") &&
-          !formDataHousing?.className?.includes("only-show-project-daliy-rent")&& 
-          !formDataHousing?.className?.includes("only-not-show-project")
-        ) {
-          if (!formDataHousing?.className?.includes("project-disabled")) {
-            if (formDataHousing.required) {
-              if (blocks.length < 1) {
-                tempErrors.push(formDataHousing.name.replace("[]", ""));
-              } else {
-                if (
-                  !blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] ||
-                  (blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] &&
-                    blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ] == "Seçiniz")
-                ) {
-                  tempErrors.push(formDataHousing.name.replace("[]", ""));
-                }
-              }
-            }
-          }
-        }
-
-        if (
-          slug == "devren-satilik" &&
-          !formDataHousing?.className?.includes("only-show-project-rent") &&
-          !formDataHousing?.className?.includes("only-show-project-daliy-rent")&& 
-          !formDataHousing?.className?.includes("only-not-show-project")
-        ) {
-          if (!formDataHousing?.className?.includes("project-disabled")) {
-            if (formDataHousing.required) {
-              if (blocks.length < 1) {
-                tempErrors.push(formDataHousing.name.replace("[]", ""));
-              } else {
-                if (
-                  !blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] ||
-                  (blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] &&
-                    blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ] == "Seçiniz")
-                ) {
-                  tempErrors.push(formDataHousing.name.replace("[]", ""));
-                }
-              }
-            }
-          }
-        }
-
-        if (
-          slug == "kiralik" &&
-          !formDataHousing?.className?.includes("only-show-project-sale") &&
-          !formDataHousing?.className?.includes("only-show-project-daliy-rent") && 
-          !formDataHousing?.className?.includes("only-not-show-project")
-        ) {
-          if (!formDataHousing?.className?.includes("project-disabled")) {
-            if (formDataHousing.required) {
-              if (blocks.length < 1) {
-                tempErrors.push(formDataHousing.name.replace("[]", ""));
-              } else {
-                if (
-                  !blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] ||
-                  (blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] &&
-                    blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ] == "Seçiniz")
-                ) {
-                  tempErrors.push(formDataHousing.name.replace("[]", ""));
-                }
-              }
-            }
-          }
-        }
-
-        if (
-          slug == "devren-kiralik" &&
-          !formDataHousing?.className?.includes("only-show-project-sale") &&
-          !formDataHousing?.className?.includes("only-show-project-daliy-rent")&& 
-          !formDataHousing?.className?.includes("only-not-show-project")
-        ) {
-          if (!formDataHousing?.className?.includes("project-disabled")) {
-            if (formDataHousing.required) {
-              if (blocks.length < 1) {
-                tempErrors.push(formDataHousing.name.replace("[]", ""));
-              } else {
-                if (
-                  !blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] ||
-                  (blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] &&
-                    blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ] == "Seçiniz")
-                ) {
-                  tempErrors.push(formDataHousing.name.replace("[]", ""));
-                }
-              }
-            }
-          }
-        }
-
-        if (
-          slug == "gunluk-kiralik" &&
-          !formDataHousing?.className?.includes("only-show-project-rent") &&
-          !formDataHousing?.className?.includes("only-show-project-sale") && 
-          !formDataHousing?.className?.includes("only-not-show-project")
-        ) {
-          if (!formDataHousing?.className?.includes("project-disabled")) {
-            if (formDataHousing.required) {
-              if (blocks.length < 1) {
-                tempErrors.push(formDataHousing.name.replace("[]", ""));
-              } else {
-                if (
-                  !blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] ||
-                  (blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] &&
-                    blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ] == "Seçiniz")
-                ) {
-                  tempErrors.push(formDataHousing.name.replace("[]", ""));
-                }
-              }
-            }
-          }
-        }
-      });
-    }
-
     setAnotherBlockErrors(anotherBlockErrorsTemp);
 
     if (!projectData.description) {
@@ -999,6 +783,7 @@ function CreateProject(props) {
     if (!projectData.rules_confirm) {
       tempErrors.push("rules_confirm");
     }
+    console.log(tempErrors);
 
     setAllErrors(tempErrors);
 
@@ -1021,9 +806,6 @@ function CreateProject(props) {
 
   useEffect(() => {
     const storedStep = localStorage.getItem("step");
-    console.log(storedStep);
-    console.log(blocks);
-    console.log(selectedBlock);
 
     if (storedStep != 1 && storedStep != 4) {
       setLoadingModalOpen(false);
@@ -1041,18 +823,45 @@ function CreateProject(props) {
     setStorageLoadingModalOpen(false);
   };
 
-  function base64ToFile(base64, filename) {
-    const arr = base64.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
+  async function removeCache(){
+    await saveLargeData('checkedItems', []);
+    await saveLargeData('projectData',[]);
+    await saveLargeData('blocks',[]);
+  }
+
+  const cleanCache = () => {
     
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    
-    return new File([u8arr], filename, { type: mime });
+
+    removeCache();
+    localStorage.removeItem("step");
+    localStorage.removeItem("loadingModal");
+    localStorage.removeItem("loading");
+    localStorage.removeItem("housingTypes");
+    localStorage.removeItem("selectedTypes");
+    localStorage.removeItem("projectData");
+    localStorage.removeItem("selectedHousingType");
+    localStorage.removeItem("haveBlocks");
+    localStorage.removeItem("blocks");
+    localStorage.removeItem("roomCount");
+    localStorage.removeItem("allErrors");
+    localStorage.removeItem("selectedBlock");
+    localStorage.removeItem("selectedRoom");
+    localStorage.removeItem("anotherBlockErrors");
+    localStorage.removeItem("slug");
+    localStorage.removeItem("errorMessages");
+    localStorage.removeItem("selectedTypesTitles");
+    localStorage.removeItem("fillFormData");
+    localStorage.removeItem("loadingModalOpen");
+    localStorage.removeItem("progress");
+
+    localStorage.removeItem("formGenerated");
+    localStorage.removeItem("updatedRoomCount");
+    localStorage.removeItem("selectedAccordion");
+    localStorage.removeItem("checkedItems");
+    localStorage.removeItem("payDecOpen");
+    localStorage.removeItem("rendered");
+    localStorage.removeItem("validationErrors");
+    localStorage.removeItem("selectedLocation");
   }
 
   const handleStartOver = () => {
@@ -1077,6 +886,7 @@ function CreateProject(props) {
     setFillFormData([]);
     setLoadingModalOpen(false);
     setProgress(0);
+    removeCache();
 
     localStorage.removeItem("step");
     localStorage.removeItem("loadingModal");
@@ -1213,6 +1023,7 @@ function CreateProject(props) {
         setLoadingModalOpen(false);
         setStep(4);
         setFillFormData(null);
+        cleanCache();
       } else {
         throw new Error("Project creation failed");
       }
@@ -1236,21 +1047,6 @@ function CreateProject(props) {
     boxShadow: 24,
     p: 4,
   };
-
-  function LinearProgressWithLabel(props) {
-    return (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box sx={{ width: "100%", mr: 1 }}>
-          <LinearProgress variant="determinate" {...props} />
-        </Box>
-        <Box sx={{ minWidth: 35 }}>
-          <Typography variant="body2" color="text.secondary">{`${Math.round(
-            props.value
-          )}%`}</Typography>
-        </Box>
-      </Box>
-    );
-  }
 
   const totalRoomCount = () => {
     var roomCount = 0;
@@ -1295,23 +1091,6 @@ function CreateProject(props) {
       )}
 
       <TopCreateProjectNavigator step={step} setStep={setStep} />
-      {/* <Modal
-        open={loadingModal}
-        onClose={() => {
-          setLoadingModal(false);
-        }}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <h2>Projeniz oluşturuluyor</h2>
-          <p>
-            Lütfen işlem tamamlanana kadar tarayıcıyı ve bilgisayarı kapatmayın.{" "}
-            <br /> Aşağıdaki bardan yüklenme durumunu takip edebilirisiniz
-          </p>
-          <LinearProgressWithLabel value={(loading * 100) / totalRoomCount()} />
-        </Box>
-      </Modal> */}
 
       <LoadingModal open={loadingModalOpen} progress={progress} />
       <CustomModal

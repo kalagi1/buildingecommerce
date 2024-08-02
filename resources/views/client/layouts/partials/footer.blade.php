@@ -1,5 +1,4 @@
-<a id="scrollToTopBtn" class="fa fa-angle-double-up"
-    style="display: none;
+<a id="scrollToTopBtn" class="fa fa-angle-double-up" style="display: none;
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -7,8 +6,7 @@
     color: #007bff;
     cursor: pointer;
     z-index: 1000;
-    transition: color 0.3s;"
-    onclick="scrollToTop()"></a>
+    transition: color 0.3s;" onclick="scrollToTop()"></a>
 <footer class="first-footer">
     <div class="top-footer">
         <div class="container">
@@ -29,22 +27,21 @@
 
                 </div>
                 @foreach ($widgetGroups as $widgetGroup)
-                    <div class="col-sm-12 col-md-12 col-lg col-xl">
-                        <div class="navigation">
-                            <h3>{{ $widgetGroup->widget }}</h3>
-                            <div class="nav-footer">
-                                <ul>
-                                    @foreach ($footerLinks as $footerLink)
-                                        @if ($footerLink->widget == $widgetGroup->widget)
-                                            <li><a href="{{ $footerLink->url }}"
-                                                    target="_blank">{!! $footerLink->title !!}</a></li>
-                                        @endif
-                                    @endforeach
-                                </ul>
-                            </div>
-
+                <div class="col-sm-12 col-md-12 col-lg col-xl">
+                    <div class="navigation">
+                        <h3>{{ $widgetGroup->widget }}</h3>
+                        <div class="nav-footer">
+                            <ul>
+                                @foreach ($footerLinks as $footerLink)
+                                @if ($footerLink->widget == $widgetGroup->widget)
+                                <li><a href="{{ $footerLink->url }}" target="_blank">{!! $footerLink->title !!}</a></li>
+                                @endif
+                                @endforeach
+                            </ul>
                         </div>
+
                     </div>
+                </div>
                 @endforeach
             </div>
         </div>
@@ -61,9 +58,9 @@
 
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
-                    <li><a href="{{ $icon->url }}" target="_blank"><i class="{{ $icon->icon_class }}"
-                                aria-hidden="true"></i></a>
-                    </li>
+                <li><a href="{{ $icon->url }}" target="_blank"><i class="{{ $icon->icon_class }}"
+                            aria-hidden="true"></i></a>
+                </li>
                 @endforeach
             </ul>
 
@@ -113,16 +110,16 @@
     <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('institutional.index') : (Auth::user()->type == 2 ? route('institutional.index') : (Auth::user()->type == 3 ? route('admin.index') : route('institutional.index')))) : route('client.login') }}"
         class="button">
         <button class="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024"
-                stroke-width="0" fill="currentColor" stroke="currentColor" class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024" stroke-width="0"
+                fill="currentColor" stroke="currentColor" class="icon">
                 <path
                     d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
                 </path>
             </svg>
             @if (Auth::check())
-                <span>Hesabım</span>
+            <span>Hesabım</span>
             @else
-                <span>Giriş Yap</span>
+            <span>Giriş Yap</span>
             @endif
         </button>
     </a>
@@ -143,15 +140,15 @@
     <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('institutional.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? route('real.estate.index2') : route('real.estate.index2')))) : route('client.login') }}"
         class="button" class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
         <button class="button">
-            <svg viewBox="0 0 24 24" width="1em" height="1em" stroke="currentColor" stroke-width="2"
-                fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon">
+            <svg viewBox="0 0 24 24" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none"
+                stroke-linecap="round" stroke-linejoin="round" class="icon">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
             @if (Auth::check() && Auth::user()->type == 2)
-                <span>İlan Ver</span>
+            <span>İlan Ver</span>
             @else
-                <span>Sat Kirala</span>
+            <span>Sat Kirala</span>
             @endif
         </button>
     </a>
@@ -226,8 +223,7 @@
 
 <!-- Bu kodu sayfanın uygun bir yerine ekleyin -->
 
-<div class="modal fade" id="membershipPopup" tabindex="-1" aria-labelledby="membershipPopupLabel"
-    aria-hidden="true">
+<div class="modal fade" id="membershipPopup" tabindex="-1" aria-labelledby="membershipPopupLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -237,24 +233,24 @@
             <div class="modal-body">
 
                 @if (Auth::check() && Auth::user()->has_club == 2)
-                    <p class="text-success">
-                        Sayın {{ Auth::user()->name }}, Emlak Kulüp başvurunuz şu anda Emlak Sepette yöneticileri
-                        tarafından incelenmektedir.
-                        Başvurunuzun durumu hakkında size en kısa sürede bilgi verilecektir. Lütfen bekleyiniz.
-                    </p>
+                <p class="text-success">
+                    Sayın {{ Auth::user()->name }}, Emlak Kulüp başvurunuz şu anda Emlak Sepette yöneticileri
+                    tarafından incelenmektedir.
+                    Başvurunuzun durumu hakkında size en kısa sürede bilgi verilecektir. Lütfen bekleyiniz.
+                </p>
                 @elseif (Auth::check() && Auth::user()->has_club == 3)
-                    <p class="text-danger">
-                        Sayın {{ Auth::user()->name }}, Emlak Kulüp başvurunuz maalesef reddedilmiştir.
-                        Başvurunuzun reddedilme sebepleri ile ilgili detaylı bilgi almak için lütfen Emlak Sepette ile
-                        iletişime geçiniz.
-                    </p>
+                <p class="text-danger">
+                    Sayın {{ Auth::user()->name }}, Emlak Kulüp başvurunuz maalesef reddedilmiştir.
+                    Başvurunuzun reddedilme sebepleri ile ilgili detaylı bilgi almak için lütfen Emlak Sepette ile
+                    iletişime geçiniz.
+                </p>
                 @elseif(Auth::check() && Auth::user()->has_club == 0)
-                    <p class="text-black">
-                        Emlak Kulüp başvurunuz bulunmamaktadır. Emlak Kulüp ayrıcalıklarından faydalanmak için başvuru
-                        yapabilirsiniz.
-                    </p>
-                    <a href="{{ route('institutional.sharer.index') }}" class="btn btn-primary"
-                        style="height: auto !important">Başvuru Yap</a>
+                <p class="text-black">
+                    Emlak Kulüp başvurunuz bulunmamaktadır. Emlak Kulüp ayrıcalıklarından faydalanmak için başvuru
+                    yapabilirsiniz.
+                </p>
+                <a href="{{ route('institutional.sharer.index') }}" class="btn btn-primary"
+                    style="height: auto !important">Başvuru Yap</a>
                 @endif
 
             </div>
@@ -283,7 +279,7 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Çerez tercihlerinin durumunu güncelle
         function updateStatusText() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -308,7 +304,7 @@
         });
 
         // Modal kapama butonu işlevi
-        document.getElementById('close-modal').addEventListener('click', function () {
+        document.getElementById('close-modal').addEventListener('click', function() {
             document.getElementById('cookie-management-modal').classList.add('hidden');
         });
     });
@@ -727,80 +723,92 @@
     });
 
     document.addEventListener('DOMContentLoaded', () => {
-    const cookieModal = document.getElementById('cookie-management-modal');
-    const closeModalBtn = document.getElementById('close-modal');
-    const backButton = document.getElementById('back-button');
-    const cookieContent = document.getElementById('cookie-management-content');
-    const vendorInfoContent = document.getElementById('vendor-info-content');
-    const vendorInfoTableBody = document.getElementById('vendor-info-table-body');
-    const btnViewVendorInfo = document.querySelectorAll('.btn-view-vendor-info');
+        const cookieModal = document.getElementById('cookie-management-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const backButton = document.getElementById('back-button');
+        const cookieContent = document.getElementById('cookie-management-content');
+        const vendorInfoContent = document.getElementById('vendor-info-content');
+        const vendorInfoTableBody = document.getElementById('vendor-info-table-body');
+        const btnViewVendorInfo = document.querySelectorAll('.btn-view-vendor-info');
 
-    // Modalı aç ve kapat
-    btnViewVendorInfo.forEach(button => {
-        button.addEventListener('click', () => {
-            const category = button.getAttribute('data-category');
-            const tabName = button.getAttribute('data-tab-name');
-            cookieContent.classList.add('hidden');
-            openVendorInfoContent(category, tabName);
+        // Modalı aç ve kapat
+        btnViewVendorInfo.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+                const tabName = button.getAttribute('data-tab-name');
+                cookieContent.classList.add('hidden');
+                openVendorInfoContent(category, tabName);
+            });
         });
-    });
 
-    closeModalBtn.addEventListener('click', () => {
-        cookieModal.classList.add('hidden');
-    });
+        closeModalBtn.addEventListener('click', () => {
+            cookieModal.classList.add('hidden');
+        });
 
-    backButton.addEventListener('click', () => {
-        showCookieManagementContent();
-    });
+        backButton.addEventListener('click', () => {
+            showCookieManagementContent();
+        });
 
-    function openVendorInfoContent(category, tabName) {
-        // Kategoriye göre satıcı bilgilerini ayarla
-        vendorInfoTableBody.innerHTML = getVendorInfo(category);
-        cookieContent.classList.add('hidden');
-        vendorInfoContent.classList.remove('hidden');
-        backButton.classList.remove('hidden');
-        document.getElementById('vendor-info-title').innerText = `${tabName} - Satıcı Bilgileri`;
-    }
 
-    function showCookieManagementContent() {
-        vendorInfoContent.classList.add('hidden');
-        cookieContent.classList.remove('hidden');
-        backButton.classList.add('hidden');
-        document.getElementById('modal-title').innerText = 'Çerez Yönetimi';
-    }
-
-    function getVendorInfo(category) {
-        // Burada kategoriye göre satıcı bilgilerini ayarlayın
-        const vendorInfo = {
-            privacy: [
-                { vendor: 'Vendor A', category: 'Gizlilik', description: 'Gizlilik verileri sağlayıcı.' },
-                { vendor: 'Vendor B', category: 'Gizlilik', description: 'Gizlilik ve güvenlik verileri sağlayıcı.' },
-            ],
-            targeting: [
-                { vendor: 'Vendor C', category: 'Hedefleme', description: 'Hedefleme reklam sağlayıcı.' },
-            ],
-            essential: [
-                { vendor: 'Vendor D', category: 'Zorunlu', description: 'Zorunlu tanımlama bilgileri sağlayıcı.' },
-            ],
-            functional: [
-                { vendor: 'Vendor E', category: 'İşlevsel', description: 'İşlevsel verileri sağlayıcı.' },
-            ],
-            performance: [
-                { vendor: 'Vendor F', category: 'Performans', description: 'Performans ölçüm verileri sağlayıcı.' },
-            ]
-        };
-
-        return vendorInfo[category]
-            ? vendorInfo[category].map(vendor => `
-                <tr>
-                    <td>${vendor.vendor}</td>
-                    <td>${vendor.category}</td>
-                    <td>${vendor.description}</td>
+        function openVendorInfoContent(category, tabName) {
+            // Kategoriye göre satıcı bilgilerini yükle
+            fetchVendorInfo(category)
+                .then(vendorInfo => {
+                    vendorInfoTableBody.innerHTML = vendorInfo.map(vendor => `
+            <tr>
+                 <td>Ad: </td>
+                <td>${vendor.cookie_name}</td>
                 </tr>
-            `).join('')
-            : '';
-    }
-});
+                 <tr>
+                 <td>Ana Bilgisayar: </td>
+                <td>${vendor.site_domain}</td>
+                </tr>
+                  <tr>
+                 <td>Süre: </td>
+                <td>${vendor.expiry_duration || 'N/A'}</td>
+                </tr>
+                  <tr>
+                 <td>Tür: </td>
+                <td>${vendor.cookie_type || 'N/A'}</td>
+                </tr>
+                  <tr>
+                 <td>Açıklama: </td>
+                <td>${vendor.description || 'N/A'}</td>
+                </tr>
+            </tr>
+        `).join('');
+                })
+                .catch(error => {
+                    console.error('Satıcı bilgilerini yüklerken bir hata oluştu:', error);
+                    vendorInfoTableBody.innerHTML =
+                        '<tr><td colspan="5">Bilgiler yüklenirken bir hata oluştu.</td></tr>';
+                });
+
+            cookieContent.classList.add('hidden');
+            vendorInfoContent.classList.remove('hidden');
+            backButton.classList.remove('hidden');
+            document.getElementById('vendor-info-title').innerText = `${tabName} - Satıcı Bilgileri`;
+        }
+
+        function showCookieManagementContent() {
+            vendorInfoContent.classList.add('hidden');
+            cookieContent.classList.remove('hidden');
+            backButton.classList.add('hidden');
+            document.getElementById('modal-title').innerText = 'Çerez Yönetimi';
+        }
+
+        function fetchVendorInfo(category) {
+            // API'den veya veritabanından kategoriye göre satıcı bilgilerini çek
+            return fetch(`/api/cookie-policy/${category}`)
+                .then(response => response.json())
+                .then(data => data.preferences || []) // `data.preferences` satıcı bilgilerini içermelidir
+                .catch(error => {
+                    console.error('Satıcı bilgilerini çekerken bir hata oluştu:', error);
+                    return []; // Boş bir dizi döndür
+                });
+        }
+
+    });
 
 
     function closeModal() {
@@ -996,8 +1004,8 @@
 
                                         var ongKiraHTML = ongKira ? svgCode +
                                             "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
-                                            "<span style='color:#28a745'> %" + ongKira +
-                                            "</span>" : "";
+                                            "<span style='color:#28a745'>" + ongKira +
+                                            " TL</span>" : "";
 
                                         projectedEarningsData += projectedEarningsHTML;
                                         ongKiraData += ongKiraHTML;
@@ -1860,7 +1868,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+    const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -2080,7 +2088,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+        const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {

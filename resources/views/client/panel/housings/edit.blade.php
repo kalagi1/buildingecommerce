@@ -38,7 +38,7 @@
                     <div class="card p-4">
                         <div class="add-classified-note mb-3">Kişisel verilerin korunması kapsamındaki bilgilere ve
                             aydınlatma
-                            yükümlülüğü metnine <a href="https://emlaksepette.com/sayfa/kvkk-politikasi"
+                            yükümlülüğü metnine <a href="https://private.emlaksepette.com/sayfa/kvkk-politikasi"
                                 target="_blank">buradan</a> ulaşabilirsiniz.</div>
                         <div class="form-group">
                             <label for="">İlan Başlığı <span class="required">*</span></label>

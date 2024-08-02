@@ -1,7 +1,8 @@
 import { openDB } from "idb";
 
 
-export const baseUrl = "https://emlaksepette.com/react/";
+export const baseUrl = "http://127.0.0.1:8000/react/";
+export const baseUrl = "https://private.emlaksepette.com/react/";
 export const frontEndUrl = "http://127.0.0.1:8000/";
 
 
