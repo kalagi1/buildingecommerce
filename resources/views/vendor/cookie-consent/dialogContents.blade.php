@@ -217,7 +217,7 @@
                 </div>
 
                 <!-- Butonlar için flex-col ve md:flex-row sınıflarını kullanarak mobil ve masaüstü görünümünü ayarlayın -->
-                <div class="d-flex flex-col sm:flex-row gap-2 mt-2 justify-content-end mobileFlexEnd">
+                <div class="d-flex flex-col sm:flex-row gap-2 mt-2 justify-content-end mobileFlexEnd mb-3">
                     <button
                         class="js-cookie-consent-agree cookie-consent__agree w-full sm:w-auto cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-yellow-800 bg-yellow-400 hover:bg-yellow-300">
                         {{ trans('cookie-consent::texts.agree') }}
