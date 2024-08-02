@@ -11,9 +11,11 @@ body {
   color: black;
   overflow-x: hidden !important;
 }
-#vendor-info-table-body td {
+
+#vendor-info-table-body tr td {
   padding: 10px
 }
+
 p {
   line-height: 26px;
 }
@@ -32395,12 +32397,13 @@ li::after {
   display: block !important;
 }
 
-.error-area{
+.error-area {
   background: red;
   color: #fff;
   border-radius: 5px;
   padding: 5px 10px;
 }
+
 .address-overlay {
   position: fixed;
   /* Ensures the overlay covers the viewport */
