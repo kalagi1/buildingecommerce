@@ -2104,79 +2104,92 @@
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-    const cookieModal = document.getElementById('cookie-management-modal');
-    const closeModalBtn = document.getElementById('close-modal');
-    const backButton = document.getElementById('back-button');
-    const cookieContent = document.getElementById('cookie-management-content');
-    const vendorInfoContent = document.getElementById('vendor-info-content');
-    const vendorInfoTableBody = document.getElementById('vendor-info-table-body');
-    const btnViewVendorInfo = document.querySelectorAll('.btn-view-vendor-info');
+        const cookieModal = document.getElementById('cookie-management-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const backButton = document.getElementById('back-button');
+        const cookieContent = document.getElementById('cookie-management-content');
+        const vendorInfoContent = document.getElementById('vendor-info-content');
+        const vendorInfoTableBody = document.getElementById('vendor-info-table-body');
+        const btnViewVendorInfo = document.querySelectorAll('.btn-view-vendor-info');
 
-    // Modalı aç ve kapat
-    btnViewVendorInfo.forEach(button => {
-        button.addEventListener('click', () => {
-            const category = button.getAttribute('data-category');
-            const tabName = button.getAttribute('data-tab-name');
-            openVendorInfoContent(category, tabName);
+        // Modalı aç ve kapat
+        btnViewVendorInfo.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+                const tabName = button.getAttribute('data-tab-name');
+                cookieContent.classList.add('hidden');
+                openVendorInfoContent(category, tabName);
+            });
         });
-    });
 
-    closeModalBtn.addEventListener('click', () => {
-        cookieModal.classList.add('hidden');
-    });
+        closeModalBtn.addEventListener('click', () => {
+            cookieModal.classList.add('hidden');
+        });
 
-    backButton.addEventListener('click', () => {
-        showCookieManagementContent();
-    });
+        backButton.addEventListener('click', () => {
+            showCookieManagementContent();
+        });
 
-    function openVendorInfoContent(category, tabName) {
-        // Kategoriye göre satıcı bilgilerini ayarla
-        vendorInfoTableBody.innerHTML = getVendorInfo(category);
-        cookieContent.classList.add('hidden');
-        vendorInfoContent.classList.remove('hidden');
-        backButton.classList.remove('hidden');
-        document.getElementById('vendor-info-title').innerText = `${tabName} - Satıcı Bilgileri`;
-    }
-
-    function showCookieManagementContent() {
-        vendorInfoContent.classList.add('hidden');
-        cookieContent.classList.remove('hidden');
-        backButton.classList.add('hidden');
-        document.getElementById('modal-title').innerText = 'Çerez Yönetimi';
-    }
-
-    function getVendorInfo(category) {
-        // Burada kategoriye göre satıcı bilgilerini ayarlayın
-        const vendorInfo = {
-            privacy: [
-                { vendor: 'Vendor A', category: 'Gizlilik', description: 'Gizlilik verileri sağlayıcı.' },
-                { vendor: 'Vendor B', category: 'Gizlilik', description: 'Gizlilik ve güvenlik verileri sağlayıcı.' },
-            ],
-            targeting: [
-                { vendor: 'Vendor C', category: 'Hedefleme', description: 'Hedefleme reklam sağlayıcı.' },
-            ],
-            essential: [
-                { vendor: 'Vendor D', category: 'Zorunlu', description: 'Zorunlu tanımlama bilgileri sağlayıcı.' },
-            ],
-            functional: [
-                { vendor: 'Vendor E', category: 'İşlevsel', description: 'İşlevsel verileri sağlayıcı.' },
-            ],
-            performance: [
-                { vendor: 'Vendor F', category: 'Performans', description: 'Performans ölçüm verileri sağlayıcı.' },
-            ]
-        };
-
-        return vendorInfo[category]
-            ? vendorInfo[category].map(vendor => `
-                <tr>
-                    <td>${vendor.vendor}</td>
-                    <td>${vendor.category}</td>
-                    <td>${vendor.description}</td>
+        function openVendorInfoContent(category, tabName) {
+            // Kategoriye göre satıcı bilgilerini yükle
+            fetchVendorInfo(category)
+                .then(vendorInfo => {
+                    vendorInfoTableBody.innerHTML = vendorInfo.map(vendor => `
+            <tr>
+                 <td>Ad: </td>
+                <td>${vendor.cookie_name}</td>
                 </tr>
-            `).join('')
-            : '';
-    }
-});
+                 <tr>
+                 <td>Ana Bilgisayar: </td>
+                <td>${vendor.site_domain}</td>
+                </tr>
+                  <tr>
+                 <td>Süre: </td>
+                <td>${vendor.expiry_duration || 'N/A'}</td>
+                </tr>
+                  <tr>
+                 <td>Tür: </td>
+                <td>${vendor.cookie_type || 'N/A'}</td>
+                </tr>
+                  <tr>
+                 <td>Açıklama: </td>
+                <td>${vendor.description || 'N/A'}</td>
+                </tr>
+            </tr>
+        `).join('');
+                })
+                .catch(error => {
+                    console.error('Satıcı bilgilerini yüklerken bir hata oluştu:', error);
+                    vendorInfoTableBody.innerHTML =
+                        '<tr><td colspan="5">Bilgiler yüklenirken bir hata oluştu.</td></tr>';
+                });
+
+            cookieContent.classList.add('hidden');
+            vendorInfoContent.classList.remove('hidden');
+            backButton.classList.remove('hidden');
+            document.getElementById('vendor-info-title').innerText = `${tabName} - Satıcı Bilgileri`;
+        }
+
+        function showCookieManagementContent() {
+            vendorInfoContent.classList.add('hidden');
+            cookieContent.classList.remove('hidden');
+            backButton.classList.add('hidden');
+            document.getElementById('modal-title').innerText = 'Çerez Yönetimi';
+        }
+
+        function fetchVendorInfo(category) {
+            // API'den veya veritabanından kategoriye göre satıcı bilgilerini çek
+            return fetch(`/api/cookie-policy/${category}`)
+                .then(response => response.json())
+                .then(data => data.preferences || []) // `data.preferences` satıcı bilgilerini içermelidir
+                .catch(error => {
+                    console.error('Satıcı bilgilerini çekerken bir hata oluştu:', error);
+                    return []; // Boş bir dizi döndür
+                });
+        }
+
+    });
+
 
     $('*[data-bs-toggle="dropdown"]').click(function() {
         if ($(this).hasClass('show')) {
