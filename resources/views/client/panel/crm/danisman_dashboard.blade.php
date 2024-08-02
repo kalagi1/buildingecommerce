@@ -11,7 +11,7 @@
                     CRM
                 </li>
                 <li>
-                    Danışman Dashboard
+                    Danışman Paneli
                 </li>
             </ul>
         </div>
@@ -163,7 +163,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="cardDanisman">
-                            <div class="card-title">En Çok Arama Yapan</div>
+                            <div class="card-title" style="border-bottom: 1px solid #D32729;">En Çok Arama Yapan</div>
                             @if($topCaller)
                             <div class="card-body">
                                 <hr style="clear: both;">
@@ -178,14 +178,15 @@
                                 </p>
                             </div>
                             @else
-                                Henüz arama yapan danışman bulunmamaktadır.
+                            <div style="border: 1px solid #a5a5a5;border-radius: 7px;padding: 10px;">
+                                Henüz arama yapan danışman bulunmamaktadır.</div> 
                             @endif
                         </div>
                         
                     </div>
                     <div class="col-md-6">
                         <div class="cardDanisman">
-                            <div class="card-title">En Çok Satış Yapan</div>
+                            <div class="card-title" style="border-bottom: 1px solid #D32729;">En Çok Satış Yapan</div>
                             @if($enCokSatisYapan)
                             <hr style="clear: both;">
                             <span class="medal-icon">🏅</span>
@@ -202,7 +203,9 @@
                                 </p>
                             </div>
                             @else
+                            <div style="border: 1px solid #a5a5a5;border-radius: 7px;padding: 10px;">
                                 Henüz satış bulunmamaktadır.
+                            </div>
                             @endif
                         </div>
                     </div>

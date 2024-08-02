@@ -11,7 +11,7 @@
                     CRM
                 </li>
                 <li>
-                    Admin Dashboard
+                    Admin Paneli
                 </li>
             </ul>
         </div>
@@ -295,8 +295,8 @@
                                             <p class="text-center"
                                                 style="font-size: 16px; font-weight:400; color:#1b1b1b">
                                                 {{ $danisman->name }}</p>
-                                            <p class="text-center" style="color: #8b8b8b">Referans Kodu</p>
-                                            <p class="text-center" style="color: #8b8b8b">#{{ $danisman->code }}</p>
+                                            <p class="text-center mt-3" style="color: #8b8b8b">Referans Kodu</p>
+                                            <p class="text-center mt-2" style="color: #8b8b8b">#{{ $danisman->code }}</p>
                                             <div class="stats-section mt-4">
                                                 <div class="row">
                                                     <div class="col-6 border-right border-top">
