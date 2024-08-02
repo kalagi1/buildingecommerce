@@ -67,9 +67,13 @@
                                                     @foreach ($projects as $project)
                                                     <div class="form-check mt-3">
                                                         <input type="hidden" name="user_id" value="{{ $item->id }}">
-                                                        <input class="form-check-input mr-3" type="checkbox" name="projectIds[]" value="{{ $project->id }}"
+                                                        <label class="switch ">
+                                                        <input class="form-check-input mr-3 success" type="checkbox" name="projectIds[]" value="{{ $project->id }}"
                                                             id="project{{ $index }}_{{ $project->id }}"
                                                             {{ in_array($project->id, $item->projectAssigments->pluck('id')->toArray()) ? 'checked' : '' }}>
+
+                                                                <span class="slider round"></span>
+                                                        </label>
                                                         <label class="form-check-label" for="project{{ $index }}_{{ $project->id }}"
                                                             style="margin-left: 24px !important;">
                                                             {{ $project->project_title }}
