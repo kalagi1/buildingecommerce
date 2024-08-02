@@ -679,11 +679,11 @@ class CrmController extends Controller
             }    
 
 
-    $bireysel_satislar = DB::table('cart_orders')->whereNull('reference_id')->where('status','1')->count();
-
-    $danismanlarin_toplam_satis_sayisi = DB::table('cart_orders')->whereNotNull('reference_id')->where('status','1')->count();
+    $bireysel_satislar = DB::table('cart_orders')->whereNull('reference_id')->where('store_id',Auth::id())->where('status','1')->count();
+    $danismanlarin_toplam_satis_sayisi = DB::table('cart_orders')->whereNotNull('reference_id')->where('store_id',Auth::id())->where('status','1')->count();
 
     $sirket_satis_sayisi = $bireysel_satislar + $danismanlarin_toplam_satis_sayisi;
+    // print_r($sirket_satis_sayisi);die;
 
     $sharerIndividualCount = CartOrder::join('sharer_prices','sharer_prices.cart_id','=','cart_orders.id')
         ->join('users','users.id','=','sharer_prices.user_id')->where('users.type',1)->count();
