@@ -180,7 +180,7 @@
                             <span id="vendor-info-title">Satıcı Bilgileri</span>
                         </div>
                         <div class="content">
-                            <p>Bu bölümde seçtiğiniz tanımlama bilgisi türüne göre satıcı bilgilerini görebilirsiniz.
+                            <p class="mb-0 pb-0"> Bu bölümde seçtiğiniz tanımlama bilgisi türüne göre satıcı bilgilerini görebilirsiniz.
                                 Aşağıdaki
                                 tablo
                                 detayları içerir.
