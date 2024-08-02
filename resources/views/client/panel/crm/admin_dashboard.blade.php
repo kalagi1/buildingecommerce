@@ -196,8 +196,6 @@
                 <h5>En İyi Danışmanlar</h5>
                 <hr>
                 <div class="row">
-                    <canvas id="canvas22"></canvas>
-                    {{-- {{dd($topCaller)}} --}}
                     @if ($topCaller)
                         <div class="col-md-6">
                             <div class="cardDanisman">
@@ -264,7 +262,7 @@
                             <div style="position: relative;">
                                 <img src="{{ asset('odul.jpeg') }}" alt="Ödül Arka Plan">
                                 <img src="{{ asset('awards/' . $award->award_image) }}" alt="{{ $award->title }}"
-                                    style="position: absolute; top: 56%; left: 82%;max-width: 50px;">
+                                    style="position: absolute; top: 56%; left: 82%; max-width: 50px;border-radius:15px;height:30%">
                                 <h4
                                     style="position: absolute; bottom: 65px; left: 135px; color: white; z-index: 10;font-size:14px;">
                                     {{ $award->title }}</h4>
@@ -470,15 +468,6 @@
         .carousel-control-prev,
         .carousel-control-next {
             width: 6% !important;
-        }
-
-        #canvas22 {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
         }
 
         #canvas23 {
