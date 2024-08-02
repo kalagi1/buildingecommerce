@@ -89,6 +89,10 @@
             margin-bottom: 10px;
         }
 
+        #vendor-info-table-body tr td {
+            padding: 10px
+        }
+
         .notification-card {
             cursor: pointer;
         }
