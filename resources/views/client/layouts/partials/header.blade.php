@@ -166,6 +166,24 @@
             margin-bottom: 0 !important;
         }
 
+        #cookie-management-content.hidden {
+            display: none !important;
+        }
+
+        #cookie-management-content.show {
+            display: block !important;
+        }
+
+        #vendor-info-content.hidden {
+            display: none !important;
+
+        }
+
+        #vendor-info-content.show {
+            display: block !important;
+
+        }
+
         .box {
             width: 300px;
             z-index: 9999;
@@ -398,20 +416,21 @@
     <!-- End Google Tag Manager (noscript) -->
     <!-- Wrapper -->
     <div id="wrapper">
-            <div class="slick-lancersl homeTopBanner">
-                <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px;;background-color:#D32729">
-                    <video autoplay loop muted style="width:100%;height:50px">
-                        <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4" style="height:50px;display:block">
-                    </video>
-                </div>
-            
-                {{-- @foreach ($adBanners as $adBanner)
+        <div class="slick-lancersl homeTopBanner">
+            <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px;;background-color:#D32729">
+                <video autoplay loop muted style="width:100%;height:50px">
+                    <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4"
+                        style="height:50px;display:block">
+                </video>
+            </div>
+
+            {{-- @foreach ($adBanners as $adBanner)
                     <div class="home-top-banner d-xl-block d-none d-lg-block"
                         style="background-color: {{ $adBanner->background_color }};padding:0 !important">
                         <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
                     </div>
                 @endforeach --}}
-            </div>
+        </div>
 
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
@@ -420,7 +439,8 @@
         <header id="header-container">
             <div class="container">
                 <div class="header-center">
-                    <div class="d-flex justify-content-between align-items-center" style="padding-top:12px !important">
+                    <div class="d-flex justify-content-between align-items-center"
+                        style="padding-top:12px !important">
                         <div class="leftSide">
                             <div class="mmenu-trigger d-xl-none d-block d-lg-none ">
                                 <button class="hamburger hamburger--collapse" type="button">
@@ -532,7 +552,10 @@
                                             'mainLink' => 'Hesabım',
                                             'links' => [
                                                 [
-                                                    'url' =>  route('institutional.dashboard', ['slug' =>Str::slug(auth()->user()->name), 'userID' => auth()->user()->id]),
+                                                    'url' => route('institutional.dashboard', [
+                                                        'slug' => Str::slug(auth()->user()->name),
+                                                        'userID' => auth()->user()->id,
+                                                    ]),
                                                     'icon' => 'fa fa-arrow-right',
                                                     'text' => 'Mağazama Git',
                                                 ],
@@ -620,7 +643,7 @@
                                                         Giriş Yap
                                                     </a></div>
                                                 <div class="signup-button signup-button-container"><a
-                                                        href="{{ route('client.register')}}" class="userIcon"
+                                                        href="{{ route('client.register') }}" class="userIcon"
                                                         style="color: black;
                                                     text-align: center;
                                                     justify-content: center; margin-right:0 !important">

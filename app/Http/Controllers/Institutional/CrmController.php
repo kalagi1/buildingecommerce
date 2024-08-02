@@ -54,19 +54,27 @@ class CrmController extends Controller
         return view('client.panel.sales_consultant.index', compact('sales_consultant', 'projects', 'consultantsWithProjects'));
     }//End
 
-    public function assignProjectUser(Request $request){
+    public function assignProjectUser(Request $request) {
+        $userId = $request->user_id;
         $projectIds = $request->projectIds;
-
-        foreach ($projectIds as $projectId) {
-            DB::table('project_assigment')->insert([
-                'user_id'    => $request->user_id,
-                'project_id' => $projectId,
-                'created_at' => now()
-            ]);
+    
+        // Önce, kullanıcının mevcut proje atamalarını temizle
+        DB::table('project_assigment')->where('user_id', $userId)->delete();
+    
+        // Ardından, seçilen projeleri ekle
+        if (!empty($projectIds)) {
+            foreach ($projectIds as $projectId) {
+                DB::table('project_assigment')->insert([
+                    'user_id'    => $userId,
+                    'project_id' => $projectId,
+                    'created_at' => now()
+                ]);
+            }
         }
-      
-      return redirect()->back()->with('success','Proje ataması başarıyla yapıldı.');  
+    
+        return redirect()->back()->with('success', 'Değişiklikler başarıyla gerçekleşti.');
     }//End
+    
 
     public function consultantCustomerList(){
         // $customers = DB::table('assigned_users')->where('danisman_id',Auth::id())->get(); // Yeni Müşteriler //arama kaydı olmayanları listele sorguyu güncelle
