@@ -32237,3 +32237,10 @@ a {
 .checked-image .image-checkbox{
   display: block !important;
 }
+
+.error-area{
+  background: red;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px 10px;
+}

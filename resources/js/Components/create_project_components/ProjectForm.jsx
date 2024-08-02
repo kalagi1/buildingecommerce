@@ -84,6 +84,30 @@ function ProjectForm({
       getNeighborhoods(projectData.county_id);
     }
   }, [projectData.county_id]);
+
+  const typeCheck = (formDataHousing) => {
+    if(slug == "satilik" && !formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")){
+      return true;
+    }
+
+    if(slug == "devren-satilik" && !formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")){
+      return true;
+    }
+
+    if(slug == "kiralik" && !formDataHousing?.className?.includes(' rent-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")){
+      return true;
+    }
+
+    if(slug == "devren-kiralik" && !formDataHousing?.className?.includes('rent-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")){
+      return true;
+    }
+
+    if(slug == "gunluk-kiralik" && !formDataHousing?.className?.includes('daily-rent-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-not-show-project")){
+      return true;
+    }
+
+    return false;
+  }
   useEffect(() => {
     var tempErrors = [];
     if (blocks.length > 0) {
@@ -91,72 +115,25 @@ function ProjectForm({
         for (var i = 0; i < block.roomCount; i++) {
           if (blocks[blockIndex].rooms[i]) {
             formDataHousing.forEach((formDataHousing) => {
-              if(slug == "satilik"){
-                if (!formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
-                  if (formDataHousing?.required) {
-                    if (blocks.length < 1) {
-                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
-                    } else {
-                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
-                        tempErrors.push(
-                          formDataHousing?.name?.replace("[]", "") +
-                            blockIndex +
-                            i
-                        );
+              if(typeCheck(formDataHousing)){
+                if(formDataHousing.className.includes('--if-show-checked-')){
+                  var parentName = formDataHousing?.className?.split("--if-show-checked-")[1];
+                  if(blocks[blockIndex].rooms[i][parentName+'[]'] != undefined && blocks[blockIndex].rooms[i][parentName+'[]'].length > 0 && blocks[blockIndex].rooms[i][parentName+'[]'] != "[]"){
+                    if (formDataHousing?.required) {
+                      if (blocks.length < 1) {
+                        tempErrors.push(formDataHousing?.name?.replace("[]", ""));
+                      } else {
+                        if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
+                          tempErrors.push(
+                            formDataHousing?.name?.replace("[]", "") +
+                              blockIndex +
+                              i
+                          );
+                        }
                       }
                     }
                   }
-                }
-              }else if(slug == "devren-satilik"){
-                if (!formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
-                  if (formDataHousing?.required) {
-                    if (blocks.length < 1) {
-                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
-                    } else {
-                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
-                        tempErrors.push(
-                          formDataHousing?.name?.replace("[]", "") +
-                            blockIndex +
-                            i
-                        );
-                      }
-                    }
-                  }
-                }
-              }else if(slug == "kiralik"){
-                if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
-                  if (formDataHousing?.required) {
-                    if (blocks.length < 1) {
-                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
-                    } else {
-                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
-                        tempErrors.push(
-                          formDataHousing?.name?.replace("[]", "") +
-                            blockIndex +
-                            i
-                        );
-                      }
-                    }
-                  }
-                }
-              }else if(slug == "devren-kiralik"){
-                if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
-                  if (formDataHousing?.required) {
-                    if (blocks.length < 1) {
-                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
-                    } else {
-                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
-                        tempErrors.push(
-                          formDataHousing?.name?.replace("[]", "") +
-                            blockIndex +
-                            i
-                        );
-                      }
-                    }
-                  }
-                }
-              }else if(slug == "gunluk-kiralik"){
-                if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                }else{
                   if (formDataHousing?.required) {
                     if (blocks.length < 1) {
                       tempErrors.push(formDataHousing?.name?.replace("[]", ""));
@@ -172,7 +149,6 @@ function ProjectForm({
                   }
                 }
               }
-              
             });
           } else {
             formDataHousing.forEach((formDataHousing) => {
@@ -183,7 +159,7 @@ function ProjectForm({
           }
         }
       });
-
+      console.log(tempErrors);
       if (tempErrors.length == 0) {
         setFullEnded(true);
       } else {

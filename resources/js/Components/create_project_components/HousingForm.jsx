@@ -292,6 +292,7 @@ function HousingForm({
   }, [mapRef.current, projectData]);
   
   useEffect(() => {
+    console.log(selectedLocation)
     setProjectDataFunc(
       "coordinates",
       `${selectedLocation.lat}-${selectedLocation.lng}`
@@ -351,7 +352,7 @@ function HousingForm({
           </div>
           <div className="form-group">
             <label htmlFor="project_title">
-              İlan Başlığı <span className="required">*</span>
+              İlan Başlığı <span className="required-span">*</span>
             </label>
             <div className="max-character-input">
               <div className="row" style={{ alignItems: "center" }}>
@@ -379,7 +380,7 @@ function HousingForm({
           </div>
           <div className="form-group">
             <label htmlFor="description">
-              İlan Açıklaması <span className="required">*</span>
+              İlan Açıklaması <span className="required-span">*</span>
             </label>
             <EditorToolbar />
             <ReactQuill
@@ -418,7 +419,7 @@ function HousingForm({
           <div className="row">
             <div className="col-md-4">
               <label htmlFor="city_id">
-                İl <span className="required">*</span>
+                İl <span className="required-span">*</span>
               </label>
               <select
                 value={projectData.city_id}
@@ -443,7 +444,7 @@ function HousingForm({
             </div>
             <div className="col-md-4">
               <label htmlFor="county_id">
-                İlçe <span className="required">*</span>
+                İlçe <span className="required-span">*</span>
               </label>
               <select
                 value={projectData.county_id}
@@ -468,7 +469,7 @@ function HousingForm({
             </div>
             <div className="col-md-4">
               <label htmlFor="neighbourhood_id">
-                Mahalle <span className="required">*</span>
+                Mahalle <span className="required-span">*</span>
               </label>
               <select
                 onChange={(e) => {
@@ -521,7 +522,7 @@ function HousingForm({
             ""
           )}
           {isLoaded ? (
-            <div className="mt-4">
+            <div className="mt-4 ">
               <GoogleMap
                 mapContainerStyle={{ height: "300px", width: "100%" }}
                 center={center}
@@ -538,6 +539,11 @@ function HousingForm({
                   <Marker position={selectedLocation} draggable />
                 )}
               </GoogleMap>
+              {
+                allErrors.includes('coordinates') ? 
+                  <div className="error-area mt-2">Lütfen harita üzerinde bir konum seçiniz</div>
+                : ""
+              }
             </div>
           ) : (
             <div className="loading-spinner">Harita Yükleniyor...</div>

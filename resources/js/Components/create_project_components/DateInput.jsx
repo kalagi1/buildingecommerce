@@ -7,7 +7,6 @@ const DateInputComponent = ({ blocks,selectedBlock, selectedRoom, data, blockDat
     const blocksRef = useRef(blocks); // blocks'un güncel değerini tutmak için useRef kullanılıyor
     const blockDataSetRef = useRef(blockDataSet);
     useEffect(() => {
-        console.log("asd");
       blocksRef.current = blocks; // blocks değiştikçe useRef güncelleniyor
       blockDataSetRef.current = blockDataSet;
     }, [blocks]);
