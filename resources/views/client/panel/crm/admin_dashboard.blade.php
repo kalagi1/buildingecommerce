@@ -11,7 +11,7 @@
                     CRM
                 </li>
                 <li>
-                    Admin Paneli
+                    Panelim
                 </li>
             </ul>
         </div>
