@@ -303,8 +303,6 @@ function Rooms({
     }
   };
 
-  console.log(checkedItems);
-
   const setCheckedItemsFunc = (name, checked, order) => {
     if (checked) {
       setCheckedItems([
@@ -353,7 +351,6 @@ function Rooms({
   }, []);
 
   const typeCheck = (formDataHousing) => {
-    console.log(formDataHousing);
     if(slug == "satilik" && !formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")){
       return true;
     }
@@ -486,7 +483,6 @@ function Rooms({
                         if (
                           typeCheck(data)
                         ) {
-                          console.log(data.name,slug);
                           if (1) {
                             var isX = null;
                             if (
@@ -557,11 +553,19 @@ function Rooms({
                                             : ""
                                         }
                                         onChange={(e) => {
-                                          blockDataSet(
-                                            selectedBlock,
-                                            data?.name,
-                                            dotNumberFormat(e.target.value)
-                                          );
+                                          if(e.target.value.trim() != ""){
+                                            blockDataSet(
+                                              selectedBlock,
+                                              data?.name,
+                                              dotNumberFormat(e.target.value)
+                                            );
+                                          }else{
+                                            blockDataSet(
+                                              selectedBlock,
+                                              data?.name,
+                                              ""
+                                            );
+                                          }
                                         }}
                                         className={
                                           "form-control " +
@@ -595,11 +599,19 @@ function Rooms({
                                             : ""
                                         }
                                         onChange={(e) => {
-                                          blockDataSet(
-                                            selectedBlock,
-                                            data?.name,
-                                            telNumberFormat(e.target.value)
-                                          );
+                                          if(e.target.value.trim() != ""){
+                                            blockDataSet(
+                                              selectedBlock,
+                                              data?.name,
+                                              telNumberFormat(e.target.value)
+                                            );
+                                          }else{
+                                            blockDataSet(
+                                              selectedBlock,
+                                              data?.name,
+                                              ""
+                                            );
+                                          }
                                         }}
                                         className={
                                           "form-control " +
@@ -631,11 +643,19 @@ function Rooms({
                                             : ""
                                         }
                                         onChange={(e) => {
-                                          blockDataSet(
-                                            selectedBlock,
-                                            data?.name,
-                                            e.target.value
-                                          );
+                                          if(e.target.value.trim() != ""){
+                                            blockDataSet(
+                                              selectedBlock,
+                                              data?.name,
+                                              e.target.value
+                                            );
+                                          }else{
+                                            blockDataSet(
+                                              selectedBlock,
+                                              data?.name,
+                                              ""
+                                            );
+                                          }
                                         }}
                                         className={
                                           "form-control " +
@@ -895,26 +915,39 @@ function Rooms({
                                               );
                                             })}
                                           </div>
-
-                                          <label htmlFor="" className="font-bold">
-                                            Ödeme Planı
-                                          </label>
-                                          <button
-                                            className="btn btn-primary add-project-pay-dec-button d-block"
-                                            onClick={() => {
-                                              setPayDecOpen(true);
-                                            }}
-                                          >
-                                            Ödeme Planını Yönet (
-                                            {blocks[selectedBlock]?.rooms[
-                                              selectedRoom
-                                            ]
-                                              ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ]?.payDecs?.length
-                                              : 0}
-                                            )
-                                          </button>
+                                          {
+                                            checkedItems.find((checkedItem) => {
+                                              if(
+                                                checkedItem.roomOrder == selectedRoom &&
+                                                checkedItem.name == "payment-plan"
+                                              ){
+                                                return checkedItem
+                                              }
+                                            }) ? 
+                                              <div>
+                                                <label htmlFor="" className="font-bold">
+                                                  Ödeme Planı
+                                                </label>
+                                                <button
+                                                  className="btn btn-primary add-project-pay-dec-button d-block"
+                                                  onClick={() => {
+                                                    setPayDecOpen(true);
+                                                  }}
+                                                >
+                                                  Ödeme Planını Yönet (
+                                                  {blocks[selectedBlock]?.rooms[
+                                                    selectedRoom
+                                                  ]
+                                                    ? blocks[selectedBlock]?.rooms[
+                                                      selectedRoom
+                                                    ]?.payDecs?.length
+                                                    : 0}
+                                                  )
+                                                </button>
+                                              </div>
+                                            : ''
+                                          }
+                                          
                                         </div>
                                       </div>
                                     </div>

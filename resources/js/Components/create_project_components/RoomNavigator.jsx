@@ -26,7 +26,6 @@ function RoomNavigator({
         if(typeCheck(field) && field.required){
           if(field?.className?.includes('--if-show-checked-')){
             var parentName = field?.className?.split("--if-show-checked-")[1];
-            console.log(blocks[selectedBlock].rooms[selectedRoom],parentName);
             if(blocks[selectedBlock].rooms[selectedRoom][parentName+'[]'] != undefined && blocks[selectedBlock].rooms[selectedRoom][parentName+'[]'].length > 0 && blocks[selectedBlock].rooms[selectedRoom][parentName+'[]'] != "[]"){
               if((!blocks[selectedBlock]?.rooms[selectedRoom][field.name] || blocks[selectedBlock]?.rooms[selectedRoom][field.name] === "" || blocks[selectedBlock]?.rooms[selectedRoom][field.name] === "Seçiniz")){
                 tempErrors.push(field.name);
@@ -42,7 +41,6 @@ function RoomNavigator({
         }
       }, []);
 
-      console.log(errors);
       if (errors.length === 0) {
         const newBlocks = [...blocks];
         if (!newBlocks[selectedBlock].rooms[selectedRoom + 1]) {
@@ -80,9 +78,7 @@ function RoomNavigator({
   }
 
   const scrollToErrorById = (id) => {
-    console.log(id)
     const errorElement = document.querySelector("#"+id);
-    console.log(errorElement);
     if (errorElement) {
       window.scrollTo({
         top: getCoords(errorElement).top - 30,
@@ -132,21 +128,6 @@ function RoomNavigator({
       }
     ).length;
 
-    console.log(formData.filter(
-      (field) => {
-        if(typeCheck(field) && field.required){
-          if(field.className.includes('--if-show-checked-')){
-            var parentName = field?.className?.split("--if-show-checked-")[1];
-            if(blocks[selectedBlock].rooms[selectedRoom][parentName+'[]'] != undefined && blocks[selectedBlock].rooms[selectedRoom][parentName+'[]'].length > 0 && blocks[0].rooms[0][parentName+'[]'] != "[]"){
-              return true;
-            }
-          }else{
-              return true;
-          }
-        }
-      }
-    ))
-
     const filledCount = formData.reduce((acc, field) => {
       if (
         typeCheck(field) &&
@@ -192,13 +173,11 @@ function RoomNavigator({
       }
     }
 
-    console.log("dadsds".tempItems2);
     setTempItems(tempItems2);
   }, [selectedBlock, selectedRoom]);
 
   const copyItem = (selectBlock, selectRoom) => {
     setCopyLoading(true);
-    console.log(blocks);
     const newBlocks = blocks.map((block, blockIndex) => {
       if (blockIndex === selectedBlock) {
         return {

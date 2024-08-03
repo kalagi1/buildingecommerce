@@ -103,7 +103,6 @@ function CreateProject(props) {
     async function fetchData() {
       const storedData = await getLargeData('projectData');
       if (storedData) {
-        console.log('Fetched Data:', storedData);
         setProjectData(storedData);
         setLoadingStart(true);
       } else {
@@ -129,7 +128,6 @@ function CreateProject(props) {
     async function saveData() {
       try {
         const newData = { ...projectData};
-        console.log('Saving Data:', newData);
         await saveLargeData('projectData', newData);
       } catch (e) {
         console.log(e);
@@ -259,11 +257,11 @@ function CreateProject(props) {
     localStorage.setItem("selectedBlock", JSON.stringify(selectedBlock));
   }, [selectedBlock]);
 
+
   const prevStep = () => {
     setStep(step - 1);
     window.scrollTo(0, 0);
   };
-  console.log(projectData);
   const nextStep = () => {
     if (step == 1) {
       setBlocks([]);
@@ -338,7 +336,7 @@ function CreateProject(props) {
 
     return false
   }
-
+  console.log(projectData);
   const createProject = () => {
     var formDataHousing = JSON.parse(
       selectedHousingType?.housing_type?.form_json
@@ -478,6 +476,8 @@ function CreateProject(props) {
                 }
               }
             });
+            
+          }else{
             if (anotherBlockErrorsTemp.length > 0) {
               var elementCity = document.getElementById("housing-forms");
               window.scrollTo({
@@ -488,8 +488,14 @@ function CreateProject(props) {
                 behavior: "smooth", // Yumuşak kaydırma efekti için
               });
             } else {
-              if (!projectData.city_id) {
-                var elementCity = document.getElementById("city_id");
+              if (
+                !projectData.create_company ||
+                !projectData.total_project_area ||
+                !projectData.end_date ||
+                !projectData.parcel ||
+                !projectData.island ||
+                !projectData.start_date) {
+                var elementCity = document.getElementById("projectGeneralForm");
                 window.scrollTo({
                   top:
                     getCoords(elementCity).top -
@@ -499,14 +505,9 @@ function CreateProject(props) {
                 });
               } else {
                 if (
-                  !projectData.create_company ||
-                  !projectData.total_project_area ||
-                  !projectData.end_date ||
-                  !projectData.parcel ||
-                  !projectData.island ||
-                  !projectData.start_date
+                  !projectData.city_id
                 ) {
-                  var element = document.getElementById("projectGeneralForm");
+                  var element = document.getElementById("city_id");
                   window.scrollTo({
                     top:
                       getCoords(element).top -
@@ -791,6 +792,19 @@ function CreateProject(props) {
       setStep(3);
     }
   };
+
+  useEffect(() => {
+    var newErrors = [];
+
+    for(var i = 0; i < allErrors.length; i++){
+      console.log(projectData[allErrors[i]],projectData,allErrors[i]);
+      if(!projectData[allErrors[i]] || projectData[allErrors[i]] == undefined || projectData[allErrors[i]] == "Seçiniz" || projectData[allErrors[i]] == ""){
+        newErrors.push(allErrors[i]);
+      }
+    }
+
+    setAllErrors(newErrors);
+  },[projectData])
 
   useEffect(() => {
     const savedFormData = localStorage.getItem("fillFormData");
