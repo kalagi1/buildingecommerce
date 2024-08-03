@@ -1,116 +1,233 @@
 @extends('client.layouts.masterPanel')
 @section('content')
     <div class="content">
-        <div class="text-header-title">
-            <p class="sales-consultants-heading">Satış Danışmanları ve Projeleri</p>
+        <div class="table-breadcrumb mb-5">
+            <ul>
+                <li>
+                    Hesabım
+                </li>
+                <li>
+                    CRM
+                </li>
+                <li>
+                    Satış Temsilcilerim
+                </li>
+            </ul>
         </div>
-        <div class="text-header">
-            <table id="example" class="display" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Ad Soyad</th>
-                        <th>E-posta</th>
-                        <th>Unvan</th>
-                        <th>Atanmış Projeler</th>
-                        <th>Proje Ataması Yap</th>
-                        <th>Bugün çalışıyor mu ?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($sales_consultant as $index => $item)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $item->name }}</td>
-                            <td>{{ $item->email }}</td>
-                            <td>{{ $item->role->name }}</td>
-                            <td>
-                                @foreach ($item->projectAssigments as $project)
-                                    {{ $project->project_title }}<br>
-                                @endforeach
-                            </td>
-                            <td>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btnProjectAssign" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal{{ $index }}">
-                                    Proje Ata
+        <div class="text-header-title">
+            <p class="sales-consultants-heading">Satış Temsilcilerim ve İlgilendikleri Projeler</p>
+        </div>
+       
+            <div class="project-table-content" style="border-radius: 4px;padding:5px">
+                <ul class="list-unstyled d-flex housing-item">
+                    <li style="width: 5%;font-weight: 800;">No.</li>
+                    <li style="width: 10%;font-weight: 800;">Ad Soyad</li>
+                    <li style="width: 25%;font-weight: 800;">E-posta</li>
+                    <li style="width: 15%;font-weight: 800;">Unvan</li>
+                    <li style="width: 15%;font-weight: 800;">İlgilendiği Projeler</li>
+                    {{-- <li style="width: 15%;font-weight: 800;">Proje Ataması Yap</1li> --}}
+                    <li style="width: 15%;font-weight: 800;">Bugün çalışıyor mu ?</li>
+                </ul>
+            </div>
+            <div class="project-table mb-5">
+                @foreach ($sales_consultant as $index => $item)
+                    <div class="project-table-content" style="border-radius: 4px;padding:10px 0px">
+                        <ul class="list-unstyled d-flex housing-item">                        
+                            <li style="width: 5%">{{ $index + 1 }}</li>
+                            <li style="width: 10%">{{ $item->name }}</li>                   
+                            <li style="width: 25%">{{ $item->email }}</li>                   
+                            <li style="width: 15%">{{ $item->role->name }}</li>                   
+                            {{-- <li style="width: 15%">
+                                <button type="button" class="btn btnProjectAssign" data-bs-toggle="modal" data-bs-target="#exampleModal2{{ $index }}">
+                                    İlgilendiği Projeler
                                 </button>
-                            </td>
-                            <td style="display: flex;align-items:center;justify-content:center;">
-                                {{-- <input type="checkbox" class="today-working-checkbox" data-user-id="{{ $item->id }}" 
-                                {{ $item->today_working ? 'checked' : '' }}> --}}
-                                <label class="switch ">
-                                    <input type="checkbox" class="success today-working-checkbox"  data-user-id="{{ $item->id }}" 
-                                    {{ $item->today_working ? 'checked' : '' }}>
-                                    <span class="slider round"></span>
-                                </label>
-                            </td>
-                        </tr>
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal{{ $index }}" tabindex="-1"
-                            aria-labelledby="exampleModalLabel{{ $index }}" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title fs-2" id="exampleModalLabel{{ $index }}">Projeler</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('institutional.assign.project.user') }}" method="POST">
-                                            @csrf
-                                            <div class="col-md-12 mb-3">
-                                                {{-- <label class="form-label mb-3 fs-1 text-center" for="projects{{$index}}">Proje Seç</label> --}}
-                                                <div id="projects{{ $index }}"
-                                                    style="max-height: 300px; overflow-y: auto;"> <!-- Scrollbar eklendi -->
-
-                                                    @foreach ($projects as $project)
-                                                    <div class="form-check mt-3">
+                            </li>                    --}}
+                            <li style="width: 15%">
+                                <button type="button" class="btn btnProjectAssign" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $index }}">
+                                    İlgilendiği Projeler
+                                </button>
+                            </li>                   
+                                <div class="modal fade" id="exampleModal{{ $index }}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel{{ $index }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header" >
+                                                <h5 class="modal-title fs-2" id="exampleModalLabel{{ $index }}">{{$item->name}} adlı temsilcinize eklenebilecek projeler
+                                                </h5>
+                                              
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" style="background-color: transparent;"
+                                                    aria-label="Close"></button>
+                                             
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('institutional.assign.project.user') }}" method="POST">
+                                                    @csrf
+                                                    <div class="col-md-12 mb-3">
+                                                    
+                                                      <div id="projects{{ $index }}" style="max-height: 600px; overflow-y: auto;">
+                                                        <div class="project-info mb-3">
+                                                            <ul class="list-unstyled d-flex flex-wrap"  style="border-bottom:1px solid;">
+                                                                <li style="width: 5%;font-weight: 800;">No.</li>
+                                                                <li style="width: 20%;font-size:12px;font-weight:800 !important"><strong>Görsel</strong></li>
+                                                                <li style="width: 20%;font-size:12px;font-weight:800 !important"><strong>Proje Adı</strong></li>
+                                                                <li style="width: 20%;font-size:12px;font-weight:800 !important"><strong>Açıklama</strong></li>
+                                                                <li style="width: 5%;font-size:12px;font-weight:800 !important"><Strong>İlan Sayısı</Strong></li>
+                                                                <li style="width: 15%;font-size:12px;font-weight:800 !important"><strong>Satılık / Kiralık</strong></li>
+                                                                <li style="width: 10%;font-size:12px;font-weight:800 !important"><strong>Ekle / Çıkar</strong></li>
+                                                            </ul>
+                                                            <hr>
+                                                        </div>
+                                                        @foreach ($projects as $key => $project)
                                                         <input type="hidden" name="user_id" value="{{ $item->id }}">
-                                                        <label class="switch ">
-                                                        <input class="form-check-input mr-3 success" type="checkbox" name="projectIds[]" value="{{ $project->id }}"
-                                                            id="project{{ $index }}_{{ $project->id }}"
-                                                            {{ in_array($project->id, $item->projectAssigments->pluck('id')->toArray()) ? 'checked' : '' }}>
-
-                                                                <span class="slider round"></span>
-                                                        </label>
-                                                        <label class="form-check-label" for="project{{ $index }}_{{ $project->id }}"
-                                                            style="margin-left: 24px !important;">
-                                                            {{ $project->project_title }}
-                                                        </label>
+                                            
+                                                            <div class="project-info mb-3">
+                                                                <ul class="list-unstyled d-flex flex-wrap">
+                                                                    <li style="width: 5%;">{{ $key + 1 }}</li>
+                                                                    <li style="width: 20%;">
+                                                                        <img src="{{ url($project->image) }}" alt="">
+                                                                    </li>
+                                                                    <li style="width: 20%;">{{ $project->project_title }}</li>
+                                                                    <li style="width: 20%;">{!! $project->description !!}</li>
+                                                                    <li style="width: 5%;">{{ $project->room_count }}</li>
+                                                                    <li style="width: 20%;">
+                                                                        @if($project->step2_slug == 'satilik')
+                                                                            Satılık
+                                                                        @else
+                                                                            Kiralık 
+                                                                        @endif       
+                                                                    </li>
+                                                                    <li style="width: 10%;">
+                                                                        <label class="switch " style="margin-bottom: 0px;">
+                                                                            <input class="form-check-input mr-3 success" type="checkbox" name="projectIds[]" value="{{ $project->id }}"
+                                                                                id="project{{ $index }}_{{ $project->id }}"
+                                                                            {{ in_array($project->id, $item->projectAssigments->pluck('id')->toArray()) ? 'checked' : '' }}>
+                
+                                                                                <span class="slider round"></span>
+                                                                        </label>
+                                                                    </li>
+                                                                </ul>
+                                                                <hr>
+                                                            </div>
+                                                        @endforeach                                                         
+                                                        </div>
                                                     </div>
-                                                @endforeach
-                                                
-                                                </div>
-
-                                                <div class="valid-feedback">Looks good!</div>
+                                                    <div class="col-12 d-flex justify-content-between mt-2 mb-2">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                        <button class="btn btn-primary" type="submit">Kaydet</button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <div class="col-12 d-flex justify-content-between mt-2 mb-2">
-                                                <!-- Flexbox ile düzenleme -->
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Kapat</button>
-
-                                                <button class="btn btn-primary" type="submit">Kaydet</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </tbody>
-            </table>
+                                {{-- <div class="modal fade" id="exampleModal2{{ $index }}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel{{ $index }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="padding: 25px;text-align:center;justify-content:center;">
+                                                <h5 class="modal-title fs-2" id="exampleModalLabel{{ $index }}" >Temsilcimizin İlgilendiği Projeler</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="project-info mb-3">
+                                                    <ul class="list-unstyled d-flex flex-wrap"  style="border-bottom:1px solid;">
+                                                        <li style="width: 5%;font-weight: 800;">No.</li>
+                                                        <li style="width: 20%;font-size:12px;font-weight:800 !important">Görsel</li>
+                                                        <li style="width: 20%;font-size:12px;font-weight:800 !important">Proje Adı</li>
+                                                        <li style="width: 20%;font-size:12px;font-weight:800 !important">Açıklama</li>
+                                                        <li style="width: 15%;font-size:12px;font-weight:800 !important">İlan Sayısı</li>
+                                                        <li style="width: 20%;font-size:12px;font-weight:800 !important">Satılık / Kiralık</li>
+                                                    </ul>
+                                                    <hr>
+                                                </div>
+                                                @if(count($item->projectAssigments) > 0) 
+                                                    @foreach ($item->projectAssigments as $key => $project)
+                                                        <div class="project-info mb-3">
+                                                            <ul class="list-unstyled d-flex flex-wrap">
+                                                                <li style="width: 5%;">{{ $key + 1 }}</li>
+                                                                <li style="width: 20%;">
+                                                                    <img src="{{ url($project->image) }}" alt="">
+                                                                </li>
+                                                                <li style="width: 20%;">{{ $project->project_title }}</li>
+                                                                <li style="width: 20%;">{!! $project->description !!}</li>
+                                                                <li style="width: 15%;">{{ $project->room_count }}</li>
+                                                                <li style="width: 20%;">
+                                                                    @if($project->step2_slug == 'satilik')
+                                                                        Satılık
+                                                                    @else
+                                                                        Kiralık 
+                                                                    @endif       
+                                                                </li>
+                                                            </ul>
+                                                            <hr>
+                                                        </div>
+                                                    @endforeach 
+                                                @else
+                                              
+                                                  <p style="width: 100%;font-size: 13px;text-align:center">
+                                                    Satış temsilcimin henüz ilgilendiği bir proje bulunmamaktadır.
+                                                  </p>
+                                           
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                                <li style="width: 15%; display: flex; align-items: center;flex-direction:row !important;">
+                                    <label class="switch" style="margin-bottom: 0px;">
+                                        <input type="checkbox" class="success today-working-checkbox" data-user-id="{{ $item->id }}" 
+                                        {{ $item->today_working ? 'checked' : '' }}>
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <i class="fas fa-info-circle info-icon" style="font-size: 16px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Satış temsilcim bugün çalışmıyorsa bugün gelecek veriler başka bir satış temsilcisine atanacak."></i>
+                                </li>
+                                              
+
+                        </ul>                       
+                    </div>
+                @endforeach            
         </div>
-    </div>
+ 
 @endsection
 @section('scripts')
- 
-
     <script>
         $(document).ready(function() {
-          
+
+            $('[data-bs-toggle="tooltip"]').tooltip();
+
+         // Formun başlangıç durumunu sakla
+         function initializeForm(index) {
+                let form = $(`#exampleModal${index} form`);
+                form.data('initial', form.serialize());
+            }
+
+            // Formda değişiklik olup olmadığını kontrol et
+            function hasChanges(index) {
+                let form = $(`#exampleModal${index} form`);
+                return form.serialize() !== form.data('initial');
+            }
+
+            // Modal formu hazırlama
+            @foreach ($sales_consultant as $index => $item)
+                initializeForm({{ $index }});
+            @endforeach
+
+            // Kaydet butonuna tıklama olayını dinle
+            $('body').on('submit', 'form', function (e) {
+                let form = $(this);
+                let index = form.closest('.modal').attr('id').match(/\d+/)[0];
+                if (!hasChanges(index)) {
+                    e.preventDefault(); // Formun gönderilmesini engelle
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Sanırım değişiklik yapmadınız...',
+                        text: 'Herhangi bir değişiklik yapmadan kaydetmeye çalışıyorsunuz.',
+                        confirmButtonText: 'Tamam'
+                    });
+                }
+            });
+
             $('.today-working-checkbox').on('change', function() {
                 var userId = $(this).data('user-id');
                 var isChecked = $(this).is(':checked');
@@ -150,157 +267,73 @@
         });
     </script>
 
-
+    
 @endsection
-@section('styles')
-    <style>
-        input.success:checked + .slider {
-        background-color: #8bc34a;
-        }
-        .sales-consultants-heading {
-            font-size: 2.2em;
-            color: #333;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: bold;
-            position: relative;
-        }
 
-        .sales-consultants-heading::after {
-            content: '';
-            display: block;
-            margin: 0 auto;
-            width: 50%;
-            /* Çizgi genişliğini ayarla */
-            padding-top: 10px;
-            border-bottom: 2px solid gray;
-        }
 
-        .text-header {
-            padding: 20px;
-            margin-bottom: 25px;
-            background-color: white;
-            border-radius: 18px;
-        }
+    @section('styles')
+        <style>
+            .modal-header{
+                background: #EC2F2E !important;
+                padding: 15px 25px 15px 25px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .modal-title{
+                font-size: 13px;
+                color: #fff;
+                margin: 0;
+            }
+            .info-icon {
+                font-size: 16px;
+                color: #007bff;
+                cursor: pointer;
+            }
 
-        .text-header-title {
-            padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 18px;
-        }
+            .info-icon:hover {
+                color: #0056b3;
+            }
 
-        /* .btnProjectAssign{
-                width: 100%;
-                border-color: #333;
-                background-color: #333;
+            .project-table-content ul li {
+                padding: 12px 0px;
+                flex: initial;
+            }
+
+            input.success:checked + .slider {
+                background-color: #8bc34a;
+            }
+            .sales-consultants-heading {
+                color: #333;
+                font-weight: bold;
+                position: relative;
+                font-size: 15px;
+            }
+
+        
+            .text-header {
+                padding: 30px;
+                margin-bottom: 25px;
+                background-color: white;
+                border-radius: 18px;
+            }
+
+            .text-header-title {
+                margin-bottom: 15px;
+            }
+
+            .btnProjectAssign {
+                width: 95%;
+                border-color: #EC2F2E;
+                background-color: #EC2F2E;
                 color: white;
                 border-radius: 6px !important;
             }
-            .btnProjectAssign:hover{
+
+            .btnProjectAssign:hover {
                 background-color: white !important;
-                color: #333;
-                border-color: #333;
-            }     */
-
-        .btnProjectAssign {
-            width: 95%;
-            border-color: #EC2F2E;
-            background-color: #EC2F2E;
-            color: white;
-            border-radius: 6px !important;
-        }
-
-        .btnProjectAssign:hover {
-            background-color: white !important;
-            color: #EC2F2E;
-            border-color: #EC2F2E;
-        }
-
-        .dataTables_length select {
-            width: 100px;
-            /* Adjust width as needed */
-        }
-
-        /* DataTables Select Box Styles */
-
-        .dataTables_wrapper .dataTables_length {
-            display: flex;
-            align-items: center;
-            font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-            font-size: 18px;
-            color: #60666D;
-        }
-
-        .dataTables_wrapper .dataTables_length select {
-            margin-left: 10px;
-            margin-right: 10px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            cursor: pointer;
-            transition: border-color 0.3s ease;
-        }
-
-        .dataTables_wrapper .dataTables_length select:hover,
-        .dataTables_wrapper .dataTables_length select:focus {
-            border-color: #333;
-        }
-
-        .dataTables_wrapper .dataTables_length label {
-            white-space: nowrap;
-        }
-
-        .dataTables_wrapper .dataTables_length .select-box__icon {
-            display: none;
-        }
-
-        .dataTables_wrapper .dataTables_filter {
-            display: flex;
-            align-items: center;
-        }
-
-        .dataTables_wrapper .dataTables_filter label {
-            margin-right: 10px;
-        }
-
-        .dataTables_wrapper .dataTables_filter input[type="search"] {
-            flex: 1;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-            font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-            color: #333;
-        }
-
-        .dataTables_wrapper .dataTables_filter input[type="search"]:hover,
-        .dataTables_wrapper .dataTables_filter input[type="search"]:focus {
-            border-color: #666;
-            outline: none;
-        }
-
-        #example {
-            border-spacing: 0 15px;
-        }
-
-        .dataTables_wrapper tbody tr {
-            background-color: white !important;
-        }
-
-        .dataTables_wrapper tbody tr td {
-            background-color: white !important;
-            text-align: center;
-
-            vertical-align: middle;
-        }
-
-        .dataTables_wrapper thead tr th {
-            background-color: white !important;
-            text-align: center;
-
-            vertical-align: middle;
-        }
-    </style>
-@endsection
+                color: #EC2F2E;
+                border-color: #EC2F2E;
+            }
+        </style>
+    @endsection
