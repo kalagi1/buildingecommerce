@@ -126,7 +126,6 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
             // Determine the user ID to use (parent ID if available)
             $userId = auth()->user()->parent_id ? : auth()->user()->id;
             $user = User::where("id", $userId)->first();
-            return $user;
 
             // Check if the project exists for the user
             $projectExists = $user->projects()
