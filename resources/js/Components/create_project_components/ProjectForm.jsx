@@ -11,6 +11,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { fromAddress, setDefaults } from "react-geocode";
 import FileUpload from "./FileUpload";
 import FinishArea from "./FinishArea";
+import { debounce } from "lodash";
 function ProjectForm({
   selectedTypesTitles,
   errorMessages,
@@ -110,6 +111,7 @@ function ProjectForm({
   }
   useEffect(() => {
     var tempErrors = [];
+    console.log(blocks);
     if (blocks.length > 0) {
       blocks.forEach((block, blockIndex) => {
         for (var i = 0; i < block.roomCount; i++) {
@@ -159,7 +161,6 @@ function ProjectForm({
           }
         }
       });
-      console.log(tempErrors);
       if (tempErrors.length == 0) {
         setFullEnded(true);
       } else {
@@ -208,8 +209,6 @@ function ProjectForm({
   }, []);
 
   const handleSwitchChange = (event) => {
-    console.log("Switch clicked");
-    console.log("Current haveBlocks value:", haveBlocks);
     setHaveBlocks(event.target.checked);
     if (!event.target.checked) {
       setBlocks([]);
@@ -241,9 +240,6 @@ function ProjectForm({
       (neighborhood) => neighborhood.mahalle_id == neighborhoodId
     );
 
-    console.log("City:", cityTemp);
-    console.log("County:", countyTemp);
-    console.log("Neighborhood:", neighborhoodTemp);
 
     if (cityId) {
       setZoom(8);
@@ -259,19 +255,15 @@ function ProjectForm({
       }`
     )
       .then(({ results }) => {
-        console.log("Geolocation Results:", results);
 
         if (neighborhoodTemp) {
           setIsShow(true);
           setZoom(12);
-          console.log("Neighborhood exists, isShow set to true");
         } else {
           setIsShow(false);
-          console.log("Neighborhood does not exist, isShow set to false");
         }
 
         setCenter(results[0].geometry.location);
-        console.log("Map Center:", results[0].geometry.location);
 
         // Define bounds based on the geolocation results
         const northeast = results[0].geometry.bounds.northeast;
@@ -302,7 +294,6 @@ function ProjectForm({
       const latLng = e.latLng;
       const lat = latLng.lat();
       const lng = latLng.lng();
-      console.log("Map clicked:", latLng);
 
       // Check if the clicked location is within Turkey's boundaries
       const isWithinTurkey =
@@ -377,6 +368,20 @@ function ProjectForm({
     },
   };
 
+
+
+  const projectDataSet = (value,func) => {
+    if(value.trim() != ""){
+      func(value);
+    }else{
+      func(value.trim())
+    }
+  }
+  
+  function stripHTMLTags(str) {
+    return str.replace(/<[^>]*>/g, '');
+  }
+
   return (
     <div>
       <div className="section-title mt-5">
@@ -430,7 +435,7 @@ function ProjectForm({
                   id="project_title"
                   value={projectData.project_title}
                   onChange={(e) => {
-                    setProjectTitle(e.target.value);
+                    projectDataSet(e.target.value,setProjectTitle)
                   }}
                   type="text"
                   className={
@@ -461,7 +466,11 @@ function ProjectForm({
             value={projectData.description}
             id="description"
             onChange={(e) => {
-              setProjectDataFunc("description", e);
+              if(stripHTMLTags(e).trim() == ""){
+                setProjectDataFunc("description", "");
+              }else{
+                setProjectDataFunc("description", e);
+              }
             }}
             modules={modules}
             formats={formats}
@@ -500,7 +509,11 @@ function ProjectForm({
                   type="text"
                   value={projectData.create_company}
                   onChange={(e) => {
-                    setProjectDataFunc("create_company", e.target.value);
+                    if(e.target.value.trim() != ""){
+                      setProjectDataFunc("create_company", e.target.value);
+                    }else{
+                      setProjectDataFunc("create_company", "");
+                    }
                   }}
                   className={
                     "create_company " +
@@ -534,10 +547,14 @@ function ProjectForm({
                   type="text"
                   value={projectData.total_project_area}
                   onChange={(e) => {
-                    setProjectDataFunc(
-                      "total_project_area",
-                      dotNumberFormat(e.target.value)
-                    );
+                    if(e.target.value.trim() != ""){
+                      setProjectDataFunc(
+                        "total_project_area",
+                        dotNumberFormat(e.target.value)
+                      );
+                    }else{
+                      setProjectDataFunc("total_project_area", "");
+                    }
                   }}
                   className={
                     "total_project_area price-only " +
@@ -571,7 +588,11 @@ function ProjectForm({
                   type="text"
                   value={projectData.island}
                   onChange={(e) => {
-                    setProjectDataFunc("island", e.target.value);
+                    if(e.target.value.trim() != ""){
+                      setProjectDataFunc("island", e.target.value);
+                    }else{
+                      setProjectDataFunc("island", "");
+                    }
                   }}
                   className={
                     "total_project_area create_company " +
@@ -605,7 +626,11 @@ function ProjectForm({
                   type="text"
                   value={projectData.parcel}
                   onChange={(e) => {
-                    setProjectDataFunc("parcel", e.target.value);
+                    if(e.target.value.trim() != ""){
+                      setProjectDataFunc("parcel", e.target.value);
+                    }else{
+                      setProjectDataFunc("parcel", "");
+                    }
                   }}
                   className={
                     "total_project_area price-only " +
@@ -680,7 +705,6 @@ function ProjectForm({
                   type="date"
                   value={projectData.end_date}
                   onChange={(e) => {
-                    console.log(e.target.value,e.target.value.length)
                     if (e.target.value.length <= 10) {
                       setProjectDataFunc("end_date", e.target.value);
                     }
@@ -850,7 +874,7 @@ function ProjectForm({
               </select>
             </div>
           </div>
-          {  !selectedLocation ? (
+          {  !selectedLocation || allErrors.includes('coordinates') ? (
             <Alert
               severity="error"
               className="mt-3"
