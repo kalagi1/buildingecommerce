@@ -523,11 +523,10 @@
                                 @else
                                     @if (!$off_sale_1)
                                         @if (
-                                            ($off_sale_1 &&
-                                                (isset($share_sale) &&
-                                                    $share_sale != '[]' &&
-                                                    isset($sumCartOrderQt[$keyIndex]) &&
-                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) ||
+                                            (isset($share_sale) &&
+                                                $share_sale != '[]' &&
+                                                isset($sumCartOrderQt[$keyIndex]) &&
+                                                $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
                                                 (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
                                         @else
                                             @if (Auth::user())
