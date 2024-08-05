@@ -522,26 +522,35 @@
                                     @endif
                                 @else
                                     @if ($off_sale_1)
-                                        @if (
-                                            (isset($share_sale) &&
-                                                $share_sale != '[]' &&
-                                                isset($sumCartOrderQt[$keyIndex]) &&
-                                                $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
-                                                (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
+                                        @if (Auth::user())
+                                            <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                                                data-bs-target="#approveProjectModal{{ $keyIndex }}">
+                                                BAŞVUR
+                                            </button>
+                                        @else
+                                            <a href="{{ route('client.login') }}"
+                                                class="first-btn payment-plan-button">
+                                                BAŞVUR
+                                            </a>
+                                        @endif
+                                        {{-- @if ((isset($share_sale) && $share_sale != '[]' && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) || (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
                                         @else
                                             @if (Auth::user())
                                                 <button class="first-btn payment-plan-button" data-bs-toggle="modal"
                                                     data-bs-target="#approveProjectModal{{ $keyIndex }}">
-                                                    Başvur
+                                                    BAŞVUR
                                                 </button>
                                             @else
                                                 <a href="{{ route('client.login') }}"
                                                     class="first-btn payment-plan-button">
-                                                    Başvur
+                                                    BAŞVUR
                                                 </a>
                                             @endif
-                                        @endif
-                                    @else
+
+                                        @endif --}}
+                                    @endif
+
+                                    @if ($off_sale_2 && Auth::user() && Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi')
                                         <button class="first-btn payment-plan-button"
                                             project-id="{{ $project->id }}"
                                             data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
@@ -549,10 +558,32 @@
                                             data-payment-order="{{ $projectOrder }}">
                                             Ödeme Detayı
                                         </button>
-
-
                                     @endif
 
+                                    @if (
+                                        ($off_sale_3 && Auth::user() && Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') ||
+                                            Auth::user()->type == '1')
+                                        <button class="first-btn payment-plan-button"
+                                            project-id="{{ $project->id }}"
+                                            data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
+                                            order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                            data-payment-order="{{ $projectOrder }}">
+                                            Ödeme Detayı
+                                        </button>
+                                    @endif
+                                    @if ($off_sale_4)
+                                        @if (Auth::user())
+                                            <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                                                data-bs-target="#approveProjectModal{{ $keyIndex }}">
+                                                TEKLİF AL
+                                            </button>
+                                        @else
+                                            <a href="{{ route('client.login') }}"
+                                                class="first-btn payment-plan-button">
+                                                TEKLİF AL
+                                            </a>
+                                        @endif
+                                    @endif
 
 
                                 @endif
