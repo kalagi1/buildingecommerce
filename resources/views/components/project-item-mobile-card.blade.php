@@ -43,6 +43,13 @@
     }
 
 @endphp
+@php
+    // Retrieve the necessary data
+    $canAddToProject = checkIfUserCanAddToProjectHousings($project->id, $keyIndex);
+    $user = Auth::user();
+    $isUserType2EmlakOfisi = $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
+    $isUserType1 = $user && $user->type == '1';
+@endphp
 
 @php
     if ($key == 0) {
