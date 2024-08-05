@@ -183,7 +183,7 @@
                 <div class="left">
                     <h3>Ödeme Planı Yükleniyor...</h3>
                 </div>
-                <div class="close"><span><i class="fa fa-times "></i></span></div>
+                <div class="close payment-plan-pop-close-icon"><span><i class="fa fa-times "></i></span></div>
             </div>
             <table class="payment-plan table">
                 <a id="whatsappButton" class="btn btn-outline-light"><svg xmlns="http://www.w3.org/2000/svg" x="0px"

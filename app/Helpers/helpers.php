@@ -5,6 +5,7 @@
 use Illuminate\Support\Facades\Crypt;
 use App\Models\HousingComment;
 use App\Models\ProjectComment;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 if (!function_exists('canUserAddComment')) {
@@ -18,9 +19,9 @@ if (!function_exists('canUserAddComment')) {
 
             // Check if a comment already exists for this housing by the user or their parent
             $commentExists = HousingComment::where('user_id', $userId)
-                                           ->where('housing_id', $housingId)
-                                           ->exists();
-            
+                ->where('housing_id', $housingId)
+                ->exists();
+
             return !$commentExists; // Return true if the user can add a comment (no existing comment found), false otherwise
         }
 
@@ -39,9 +40,9 @@ if (!function_exists('canUserAddProjectComment')) {
 
             // Check if a comment already exists for this project by the user or their parent
             $commentExists = ProjectComment::where('user_id', $userId)
-                                           ->where('project_id', $projectId)
-                                           ->exists();
-            
+                ->where('project_id', $projectId)
+                ->exists();
+
             return !$commentExists; // Return true if the user can add a comment (no existing comment found), false otherwise
         }
 
@@ -109,7 +110,7 @@ if (!function_exists('checkIfUserCanAddToProject')) {
                     ->where('id', $projectId)
                     ->exists();
             }
-            
+
             // Return true if the project does not exist (i.e., the user can add it)
             return !$exists;
         }
@@ -126,21 +127,31 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
         if ($user) {
             // Determine the user ID to use (parent ID if available)
             $userId = $user->parent_id ?: $user->id;
+            $user = User::where("id", $userId)->first();
 
-            // Check if the project contains housing with the given key index for the user or their parent
             $exists = $user->projects()
                 ->where('id', $projectId)
                 ->whereHas('housings', function ($query) use ($keyIndex) {
                     $query->where('room_order', $keyIndex);
                 })
                 ->exists();
-                
-            return !$exists; // Return true if the user can add the housing (housing not found), false otherwise
+
+            if (!$exists) {
+                return true; // User or parent is not associated with the project
+            }
+
+            // Check user type
+            if ($user->type == 1 || ($user->type == 2 && $user->corporate_type == 'Emlak Ofisi')) {
+
+
+                return false; // Return true if the user can add the housing (housing not found), false otherwise
+            }
         }
 
-        return true; // Return true if user is not logged in
+        return false; // Return false if user is not logged in or does not meet type criteria
     }
 }
+
 
 if (!function_exists('getInitials')) {
     function getInitials($name)
