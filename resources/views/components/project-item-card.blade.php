@@ -674,7 +674,6 @@
                                         @endphp
 
                                         @if (
-                                            $canAddToProject ||
                                                 ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi) ||
                                                 ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1))))
                                             <button class="CartBtn second-btn mobileCBtn" data-type='project'
@@ -687,7 +686,7 @@
                                                 <span class="text">Sepete Ekle asa {{ $off_sale_2 }}
                                                     {{ $off_sale_3 }}</span>
                                             </button>
-                                        @elseif ($canAddToProject)
+                                        @elseif (!$canAddToProject)
                                             <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
                                                 class="second-btn">
                                                 <span class="text">İlanı Düzenle</span>
