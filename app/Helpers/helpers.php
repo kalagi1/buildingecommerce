@@ -122,30 +122,41 @@ if (!function_exists('checkIfUserCanAddToProject')) {
 if (!function_exists('checkIfUserCanAddToProjectHousings')) {
     function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
     {
-        $user = auth()->user();
-
-        if ($user) {
+        if (auth()->user()) {
             // Determine the user ID to use (parent ID if available)
-            $userId = $user->parent_id ?: $user->id;
+            $userId = auth()->user()->parent_id ?: auth()->user()->id;
             $user = User::where("id", $userId)->first();
 
-            $exists = $user->projects()
+            // Check if the project exists for the user
+            $projectExists = $user->projects()
+                ->where('id', $projectId)
+                ->exists();
+
+            // Check if the housing exists for the user in the project
+            $housingExists = $user->projects()
                 ->where('id', $projectId)
                 ->whereHas('housings', function ($query) use ($keyIndex) {
                     $query->where('room_order', $keyIndex);
                 })
                 ->exists();
 
-            if ($user->type == "1" || ($user->type == "2" && $user->corporate_type == 'Emlak Ofisi')) {
-                return true; // User or parent is not associated with the project
+            // Determine if the user can add to project housings
+            if (!$projectExists) {
+                // If the project does not belong to the user and type criteria is met
+                if ($user->type == 1 || ($user->type == 2 && $user->corporate_type == 'Emlak Ofisi')) {
+                    return true; // User can add to project housings
+                }
+            } else if (!$housingExists) {
+                return true; // Housing not found in the project
             }
 
-         
+            return false; // Housing already exists or project belongs to the user
         }
 
-        return false; // Return false if user is not logged in or does not meet type criteria
+        return false; // User not logged in or does not meet type criteria
     }
 }
+
 
 
 if (!function_exists('getInitials')) {
