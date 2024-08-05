@@ -125,15 +125,11 @@
 
 @endphp
 @php
-// Retrieve the necessary data
-$canAddToProject = checkIfUserCanAddToProjectHousings(
-    $project->id,
-    $keyIndex,
-);
-$user = Auth::user();
-$isUserType2EmlakOfisi =
-    $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
-$isUserType1 = $user && $user->type == '1';
+    // Retrieve the necessary data
+    $canAddToProject = checkIfUserCanAddToProjectHousings($project->id, $keyIndex);
+    $user = Auth::user();
+    $isUserType2EmlakOfisi = $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
+    $isUserType1 = $user && $user->type == '1';
 @endphp
 
 @if (isset($projectHousingsList[$keyIndex]))
@@ -332,8 +328,8 @@ $isUserType1 = $user && $user->type == '1';
 
                                     @if (
                                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject)
-                                            || !$canAddToProject)
+                                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
+                                            !$canAddToProject)
                                         <li class="the-icons mobile-hidden">
                                             <span style="width:100%;text-align:center">
 
@@ -672,7 +668,6 @@ $isUserType1 = $user && $user->type == '1';
                                             @endif
                                         </button>
                                     @else
-                                      
                                         @if (
                                             ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                                                 ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
@@ -683,13 +678,33 @@ $isUserType1 = $user && $user->type == '1';
                                                 <span class="IconContainer">
                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                 </span>
-                                                <span class="text">Sepete Ekle asa {{ $off_sale_2 }}
+                                                <span class="text">Sepete Ekle
                                                     {{ $off_sale_3 }}</span>
                                             </button>
                                         @elseif (!$canAddToProject)
                                             <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
                                                 class="second-btn">
                                                 <span class="text">İlanı Düzenle</span>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('project.housings.detail', [
+                                                'projectSlug' =>
+                                                    $statusSlug .
+                                                    '-' .
+                                                    $project->step2_slug .
+                                                    '-' .
+                                                    $project->housingtype->slug .
+                                                    '-' .
+                                                    $project->slug .
+                                                    '-' .
+                                                    strtolower($project->city->title) .
+                                                    '-' .
+                                                    strtolower($project->county->ilce_title),
+                                                'projectID' => $project->id + 1000000,
+                                                'housingOrder' => $i + 1,
+                                            ]) }}"
+                                                class="second-btn">
+                                                <span class="text">İlanı Gör</span>
                                             </a>
                                         @endif
 
