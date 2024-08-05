@@ -95,11 +95,11 @@
     if (isset($projectHousingsList[$keyIndex]['off_sale[]'])) {
         // Convert the string to an array if needed
         $off_sale_array = json_decode($projectHousingsList[$keyIndex]['off_sale[]'], true);
-dd($off_sale_array);
         $off_sale_check = is_array($off_sale_array) && in_array('1', $off_sale_array);
     } else {
         $off_sale_check = false; // 'off_sale[]' key does not exist
     }
+    dd($off_sale_check);
 
     $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
     $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
