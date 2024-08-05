@@ -1,8 +1,8 @@
 import { openDB } from "idb";
 
 
-export const baseUrl = "https://private.emlaksepette.com/react/";
-export const frontEndUrl = "https://private.emlaksepette.com/";
+export const baseUrl = "https://emlaksepette.com/react/";
+export const frontEndUrl = "https://emlaksepette.com/";
 
 
 export const dotNumberFormat = (number) => {
