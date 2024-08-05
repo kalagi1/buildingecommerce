@@ -136,7 +136,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                 })
                 ->exists();
 
-            if ($exists && $user->type == "1" || $exists && ($user->type == "2" && $user->corporate_type == 'Emlak Ofisi')) {
+            if ($user->type == "1" || ($user->type == "2" && $user->corporate_type == 'Emlak Ofisi')) {
                 return true; // User or parent is not associated with the project
             }
 
