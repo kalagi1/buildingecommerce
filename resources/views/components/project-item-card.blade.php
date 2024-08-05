@@ -542,6 +542,7 @@ $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
 
                                 @endif
 
+                                {{dd($projectHousingsList[$keyIndex]['off_sale[]'])}}
                                 @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '1' && !$sold)
                                     <button class="btn second-btn"
                                         style="background: #EC2F2E !important; width: 100%; color: White; height: @if (
