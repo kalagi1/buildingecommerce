@@ -555,7 +555,7 @@
                                     @endif
 
                                     @if ($off_sale_2)
-                                        @if (Auth::user() && Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi')
+                                        @if (Auth::check() && Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi')
                                             <button class="first-btn payment-plan-button"
                                                 project-id="{{ $project->id }}"
                                                 data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
@@ -576,7 +576,7 @@
                                     @endif
 
                                     @if ($off_sale_3)
-                                        @if (Auth::user() && ((Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') || Auth::user()->type == '1'))
+                                        @if (Auth::check() && ((Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') || Auth::user()->type == '1'))
                                             <button class="first-btn payment-plan-button"
                                                 project-id="{{ $project->id }}"
                                                 data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
@@ -622,7 +622,7 @@
                                                 (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
                                         <span class="text"> Satışa Kapalı</span>
                                     </button>
-                                @elseif ($sold && $sold->status == '2' && !$off_sale_1)
+                                @elseif ($sold && $sold->status == '2' && $off_sale_1)
                                     <button class="btn second-btn"
                                         style="background: #EC2F2E !important; width: 100%; color: White; height: @if (
                                             ($off_sale_1 &&
@@ -662,11 +662,11 @@
                                         </button>
                                     @else
                                         @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex) ||
-                                                ($off_sale_2 && Auth::user() && Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') ||
+                                                ($off_sale_2 && Auth::check() && Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') ||
                                                 ($off_sale_3 &&
-                                                    Auth::user() &&
-                                                    ((Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') || Auth::user()->type == '1')) ||
-                                                !$off_sale_4)
+                                                    Auth::check() &&
+                                                    ((Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') || Auth::user()->type == '1')) 
+                                                )
                                             <button class="CartBtn second-btn mobileCBtn" data-type='project'
                                                 data-project='{{ $project->id }}' style="height: auto !important"
                                                 data-id='{{ $keyIndex }}' data-share="{{ $share_sale }}"
