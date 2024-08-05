@@ -674,8 +674,8 @@
                                         @endphp
 
                                         @if (
-                                                ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi) ||
-                                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1))))
+                                            ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
                                             <button class="CartBtn second-btn mobileCBtn" data-type='project'
                                                 data-project='{{ $project->id }}' style="height: auto !important"
                                                 data-id='{{ $keyIndex }}' data-share="{{ $share_sale }}"
