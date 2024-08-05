@@ -124,6 +124,18 @@
     }
 
 @endphp
+@php
+// Retrieve the necessary data
+$canAddToProject = checkIfUserCanAddToProjectHousings(
+    $project->id,
+    $keyIndex,
+);
+$user = Auth::user();
+$isUserType2EmlakOfisi =
+    $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
+$isUserType1 = $user && $user->type == '1';
+@endphp
+
 @if (isset($projectHousingsList[$keyIndex]))
     <div class="col-md-12 col-12 p-0" style="box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
     margin-bottom: 10px;
@@ -319,11 +331,9 @@
                                     </li>
 
                                     @if (
-                                        !$off_sale_1 ||
-                                            ($off_sale_2 && Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
-                                            ($off_sale_3 && Auth::check() && Auth::user()->type == '1') ||
-                                            !$off_sale_4 ||
-                                            !checkIfUserCanAddToProject($project->id))
+                                        ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject)
+                                            || !$canAddToProject)
                                         <li class="the-icons mobile-hidden">
                                             <span style="width:100%;text-align:center">
 
@@ -388,6 +398,7 @@
                                                 @endif
                                             </span>
                                         </li>
+
                                     @endif
 
 
@@ -661,18 +672,7 @@
                                             @endif
                                         </button>
                                     @else
-                                        @php
-                                            // Retrieve the necessary data
-                                            $canAddToProject = checkIfUserCanAddToProjectHousings(
-                                                $project->id,
-                                                $keyIndex,
-                                            );
-                                            $user = Auth::user();
-                                            $isUserType2EmlakOfisi =
-                                                $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
-                                            $isUserType1 = $user && $user->type == '1';
-                                        @endphp
-
+                                      
                                         @if (
                                             ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                                                 ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
