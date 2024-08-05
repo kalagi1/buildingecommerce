@@ -91,7 +91,7 @@
     }
 @endphp
 @php
-    $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
+    $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '1';
     $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
     $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
     $sold_check = $sold && in_array($sold->status, ['1', '0']);
@@ -178,7 +178,7 @@
                     </h3>
                     @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
 
-                        @if (($sold && !$sold->status == '1') || (!$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]'))
+                        @if (($sold && !$sold->status == '1') || (!$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '1'))
                             <span class="btn addCollection mobileAddCollection " data-type='project'
                                 data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                                 <i class="fa fa-bookmark-o"></i>
@@ -204,8 +204,8 @@
                                 align-items: center;">
 
                     @if (
-                        ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold) ||
-                            ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]'))
+                        ($projectHousingsList[$keyIndex]['off_sale[]'] != '1' && !$sold) ||
+                            ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '1'))
                         <button class="btn second-btn mobileCBtn"
                             style="background: #EC2F2E !important; width: 100%; color: White;">
                             <span class="text">Satışa Kapalı</span>
@@ -420,7 +420,7 @@
                     @endif
                 @else
                     @if (isset($projectHousingsList[$keyIndex]['off_sale[]']) &&
-                            $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' &&
+                            $projectHousingsList[$keyIndex]['off_sale[]'] != '1' &&
                             !$sold)
                         @if (Auth::user())
                             <button class="first-btn payment-plan-mobile-btn mobileCBtn" data-bs-toggle="modal"
