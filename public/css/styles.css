@@ -24417,9 +24417,9 @@ section.leve-comments {
 label {
   font-size: 11px;
   line-height: 24px;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 5px;
-  color: #666 !important;
+  color: black !important;
 }
 
 form label.error {
