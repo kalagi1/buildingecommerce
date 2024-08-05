@@ -327,7 +327,7 @@
                                         <li class="the-icons mobile-hidden">
                                             <span style="width:100%;text-align:center">
 
-                                                @if (!$off_sale_1 && !$sold_check && $share_sale_empty )
+                                                @if (!$off_sale_1 && !$sold_check && $share_sale_empty)
 
 
                                                     @if ($projectDiscountAmount)
@@ -661,7 +661,12 @@
                                             @endif
                                         </button>
                                     @else
-                                        @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
+                                        @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex) ||
+                                                ($off_sale_2 && Auth::user() && Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') ||
+                                                ($off_sale_3 &&
+                                                    Auth::user() &&
+                                                    ((Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') || Auth::user()->type == '1')) ||
+                                                !$off_sale_4)
                                             <button class="CartBtn second-btn mobileCBtn" data-type='project'
                                                 data-project='{{ $project->id }}' style="height: auto !important"
                                                 data-id='{{ $keyIndex }}' data-share="{{ $share_sale }}"
@@ -671,7 +676,7 @@
                                                 </span>
                                                 <span class="text">Sepete Ekle</span>
                                             </button>
-                                        @else
+                                        @elseif(checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
                                             <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
                                                 class="second-btn">
                                                 <span class="text">İlanı Düzenle</span>
