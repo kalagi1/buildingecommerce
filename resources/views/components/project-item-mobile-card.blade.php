@@ -20,36 +20,6 @@
     'blockStart',
 ])
 
-@php
-
-    if (!function_exists('checkIfUserCanAddToProjectHousings')) {
-        function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
-        {
-            $user = auth()->user();
-
-            if ($user) {
-                $exists = $user
-                    ->projects()
-                    ->where('id', $projectId)
-                    ->whereHas('housings', function ($query) use ($keyIndex) {
-                        $query->where('room_order', $keyIndex);
-                    })
-                    ->exists();
-                return !$exists;
-            }
-
-            return true;
-        }
-    }
-
-@endphp
-@php
-    // Retrieve the necessary data
-    $canAddToProject = checkIfUserCanAddToProjectHousings($project->id, $keyIndex);
-    $user = Auth::user();
-    $isUserType2EmlakOfisi = $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
-    $isUserType1 = $user && $user->type == '1';
-@endphp
 
 @php
     if ($key == 0) {
@@ -96,6 +66,38 @@
             return strtr($date, $aylar);
         }
     }
+@endphp
+
+
+@php
+
+    if (!function_exists('checkIfUserCanAddToProjectHousings')) {
+        function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
+        {
+            $user = auth()->user();
+
+            if ($user) {
+                $exists = $user
+                    ->projects()
+                    ->where('id', $projectId)
+                    ->whereHas('housings', function ($query) use ($keyIndex) {
+                        $query->where('room_order', $keyIndex);
+                    })
+                    ->exists();
+                return !$exists;
+            }
+
+            return true;
+        }
+    }
+
+@endphp
+@php
+    // Retrieve the necessary data
+    $canAddToProject = checkIfUserCanAddToProjectHousings($project->id, $keyIndex);
+    $user = Auth::user();
+    $isUserType2EmlakOfisi = $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
+    $isUserType1 = $user && $user->type == '1';
 @endphp
 @php
     // Initialize variables
@@ -305,7 +307,7 @@
                         @endif
                     @endif
 
-                 
+
 
 
                 </div>
@@ -349,8 +351,8 @@
                                 <span
                                     style="text-align: center; display: flex; align-items: center; justify-content: center;">
                                     <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor"
-                                        stroke-width="2" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round" class="css-i6dzq1" style="margin-right: 2px">
+                                        stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                        class="css-i6dzq1" style="margin-right: 2px">
                                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                         <circle cx="12" cy="12" r="3"></circle>
                                     </svg>
