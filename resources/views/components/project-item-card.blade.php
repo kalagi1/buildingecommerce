@@ -92,8 +92,8 @@
     }
 @endphp
 @php
-    $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
-    $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
+$off_sale_check = isset($projectHousingsList[$keyIndex]['off_sale[]']) && $projectHousingsList[$keyIndex]['off_sale[]'] == '1';
+$share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
     $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
     $sold_check = $sold && in_array($sold->status, ['1', '0']);
     $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
