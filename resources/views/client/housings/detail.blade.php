@@ -882,8 +882,6 @@
                         @endif
 
                         @if (checkIfUserCanAddToCart($housing->id))
-
-
                             @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
                                 @if ((isset($sold[0]) && $sold[0]->status == '2') || !$sold)
                                     <div class="add-to-collections-wrapper addCollection" data-type='housing'
