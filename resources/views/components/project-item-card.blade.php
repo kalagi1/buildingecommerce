@@ -327,7 +327,7 @@
                                         <li class="the-icons mobile-hidden">
                                             <span style="width:100%;text-align:center">
 
-                                                @if (!$off_sale_1 && !$sold_check && $share_sale_empty)
+                                                @if (!$sold_check && $share_sale_empty)
 
 
                                                     @if ($projectDiscountAmount)
@@ -366,7 +366,6 @@
                                                         isset($sumCartOrderQt[$keyIndex]) &&
                                                         $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
                                                         (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
-                                                    @if ($off_sale_1)
                                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                             <span class="text-center w-100">
                                                                 1 / {{ $number_of_share }} Fiyatı
@@ -384,7 +383,6 @@
                                                                 ₺
                                                             @endif
                                                         </h6>
-                                                    @endif
                                                 @endif
                                             </span>
                                         </li>
