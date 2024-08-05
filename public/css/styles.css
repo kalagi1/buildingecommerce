@@ -28759,20 +28759,6 @@ font {
   width: 100%;
 }
 
-.payment-plan-pop-close-icon {
-  position: absolute;
-  top: -15px;
-  right: -15px;
-  width: 30px;
-  height: 30px;
-  background: #333;
-  color: #fff;
-  border-radius: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
 
 #orders-container .header-bar {
   border: 1px solid #e2e2e2;
