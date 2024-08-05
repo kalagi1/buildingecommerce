@@ -213,7 +213,7 @@
                 <div style="width: 50%;
                                 align-items: center;">
 
-                    @if ((!$off_sale_check && !$sold) || ($sold && $sold->status == '2' && !$off_sale_check))
+                    @if (($off_sale_check && !$sold) || ($sold && $sold->status == '2'))
                         <button class="btn second-btn mobileCBtn"
                             style="background: #EC2F2E !important; width: 100%; color: White;">
                             <span class="text">Satışa Kapalı</span>

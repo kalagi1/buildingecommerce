@@ -158,7 +158,6 @@
                             </div>
                             <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                 <div class="button-effect-div">
-{{$off_sale_check}}
 
                                     @if (
                                         ($sold && $sold->status == '2' && $share_sale == '[]') ||
@@ -551,7 +550,7 @@
 
                                 @endif
 
-                                @if (!$off_sale_check && !$sold)
+                                @if ($off_sale_check && !$sold)
                                     <button class="btn second-btn"
                                         style="background: #EC2F2E !important; width: 100%; color: White; height: @if (
                                             ($off_sale_check &&
