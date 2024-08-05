@@ -126,7 +126,6 @@
         label {
             font-size: 11px;
             line-height: 24px;
-            font-weight: 700;
             margin-bottom: 5px;
             color: black !important;
         }
