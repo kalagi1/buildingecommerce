@@ -323,11 +323,11 @@
                                             ($off_sale_2 && Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
                                             ($off_sale_3 && Auth::check() && Auth::user()->type == '1') ||
                                             !$off_sale_4 ||
-                                            checkIfUserCanAddToProject($project->id))
+                                            !checkIfUserCanAddToProject($project->id))
                                         <li class="the-icons mobile-hidden">
                                             <span style="width:100%;text-align:center">
 
-                                                @if (!$sold_check && $share_sale_empty || checkIfUserCanAddToProject($project->id))
+                                                @if (!$sold_check && $share_sale_empty )
 
 
                                                     @if ($projectDiscountAmount)
@@ -366,7 +366,7 @@
                                                         isset($sumCartOrderQt[$keyIndex]) &&
                                                         $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
                                                         (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
-                                                    @if ($off_sale_1 || checkIfUserCanAddToProject($project->id))
+                                                    @if ($off_sale_1)
                                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                             <span class="text-center w-100">
                                                                 1 / {{ $number_of_share }} Fiyatı
