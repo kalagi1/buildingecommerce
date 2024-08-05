@@ -159,7 +159,6 @@
                                                 $sold &&
                                                 $sold->status != '2' &&
                                                 $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
-                                                {{dd(checkIfUserCanAddToProjectHousings($project->id, $keyIndex))}}
 
                                         @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
 
