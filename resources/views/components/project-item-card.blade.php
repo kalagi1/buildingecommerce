@@ -92,16 +92,24 @@
     }
 @endphp
 @php
+    // Initialize variables
+    $off_sale_1 = $off_sale_2 = $off_sale_3 = $off_sale_4 = false;
+
     // Check if 'off_sale[]' key exists
     if (isset($projectHousingsList[$keyIndex]['off_sale[]'])) {
         // Convert the string to an array if needed
         $off_sale_array = json_decode($projectHousingsList[$keyIndex]['off_sale[]'], true);
 
-        // Check if the conversion was successful and if '1' is in the array
-        $off_sale_check = is_array($off_sale_array) && in_array('1', $off_sale_array);
-    } else {
-        $off_sale_check = false; // 'off_sale[]' key does not exist
+        // Check if the conversion was successful and if each value is in the array
+        if (is_array($off_sale_array)) {
+            $off_sale_1 = in_array('1', $off_sale_array);
+            $off_sale_2 = in_array('2', $off_sale_array);
+            $off_sale_3 = in_array('3', $off_sale_array);
+            $off_sale_4 = in_array('4', $off_sale_array);
+        }
     }
+
+    // Now you have separate variables for each value
 
     $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
     $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
@@ -161,7 +169,7 @@
 
                                     @if (
                                         ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                            (!$sold && $off_sale_check) ||
+                                            (!$sold && $off_sale_1) ||
                                             ($sold && $sold->status == '2' && empty($share_sale)) ||
                                             (isset($sumCartOrderQt[$keyIndex]) &&
                                                 $sold &&
@@ -204,7 +212,7 @@
                         @if (
                             ($sold && $sold->status != '2' && $share_sale == '[]') ||
                                 ($sold && $sold->status != '2' && empty($share_sale)) ||
-                                !$off_sale_check ||
+                                !$off_sale_1 ||
                                 (isset($sumCartOrderQt[$keyIndex]) &&
                                     $sold &&
                                     $sold->status != '2' &&
@@ -314,7 +322,7 @@
                                         <li class="the-icons mobile-hidden">
                                             <span style="width:100%;text-align:center">
 
-                                                @if ($off_sale_check && !$sold_check && $share_sale_empty)
+                                                @if ($off_sale_1 && !$sold_check && $share_sale_empty)
 
 
                                                     @if ($projectDiscountAmount)
@@ -348,13 +356,13 @@
                                                         <h6 style="color: #27bb53 !important;">(Kampanyalı)</h6>
                                                     @endif
                                                 @elseif(
-                                                    ($off_sale_check &&
+                                                    ($off_sale_1 &&
                                                         (isset($share_sale) &&
                                                             $share_sale != '[]' &&
                                                             isset($sumCartOrderQt[$keyIndex]) &&
                                                             $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) ||
                                                         (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
-                                                    @if ($off_sale_check)
+                                                    @if ($off_sale_1)
                                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                             <span class="text-center w-100">
                                                                 1 / {{ $number_of_share }} Fiyatı
@@ -506,16 +514,16 @@
                                     @else
                                         <button class="first-btn payment-plan-button"
                                             project-id="{{ $project->id }}"
-                                            data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && !$off_sale_check) ? 1 : 0 }}"
+                                            data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && !$off_sale_1) ? 1 : 0 }}"
                                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                             data-payment-order="{{ $projectOrder }}">
                                             Ödeme Detayı
                                         </button>
                                     @endif
                                 @else
-                                    @if (!$off_sale_check)
+                                    @if (!$off_sale_1)
                                         @if (
-                                            ($off_sale_check &&
+                                            ($off_sale_1 &&
                                                 (isset($share_sale) &&
                                                     $share_sale != '[]' &&
                                                     isset($sumCartOrderQt[$keyIndex]) &&
@@ -550,21 +558,21 @@
 
                                 @endif
 
-                                @if ($off_sale_check && !$sold)
+                                @if ($off_sale_1 && !$sold)
                                     <button class="btn second-btn"
                                         style="background: #EC2F2E !important; width: 100%; color: White; height: @if (
-                                            ($off_sale_check &&
+                                            ($off_sale_1 &&
                                                 (isset($share_sale) &&
                                                     $share_sale != '[]' &&
                                                     isset($sumCartOrderQt[$keyIndex]) &&
                                                     $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) ||
                                                 (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
-                                        <span class="text">{{$off_sale_check}} Satışa Kapalı</span>
+                                        <span class="text">{{ $off_sale_1 }} Satışa Kapalı</span>
                                     </button>
-                                @elseif ($sold && $sold->status == '2' && !$off_sale_check)
+                                @elseif ($sold && $sold->status == '2' && !$off_sale_1)
                                     <button class="btn second-btn"
                                         style="background: #EC2F2E !important; width: 100%; color: White; height: @if (
-                                            ($off_sale_check &&
+                                            ($off_sale_1 &&
                                                 (isset($share_sale) &&
                                                     $share_sale != '[]' &&
                                                     isset($sumCartOrderQt[$keyIndex]) &&
