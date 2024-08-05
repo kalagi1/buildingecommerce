@@ -99,7 +99,6 @@
     } else {
         $off_sale_check = false; // 'off_sale[]' key does not exist
     }
-    dd($off_sale_check);
 
     $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
     $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;

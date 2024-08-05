@@ -549,6 +549,7 @@
 
 
                                 @endif
+                                {{dd($off_sale_check && !$sold)}}
 
                                 @if ($off_sale_check && !$sold)
                                     <button class="btn second-btn"
