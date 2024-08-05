@@ -212,7 +212,7 @@
                         @if (
                             ($sold && $sold->status != '2' && $share_sale == '[]') ||
                                 ($sold && $sold->status != '2' && empty($share_sale)) ||
-                                !$off_sale_1 ||
+                                $off_sale_1 ||
                                 (isset($sumCartOrderQt[$keyIndex]) &&
                                     $sold &&
                                     $sold->status != '2' &&
