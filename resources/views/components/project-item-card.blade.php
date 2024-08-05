@@ -566,7 +566,7 @@
                                                     isset($sumCartOrderQt[$keyIndex]) &&
                                                     $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) ||
                                                 (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
-                                        <span class="text">{{ $off_sale_1 }} Satışa Kapalı</span>
+                                        <span class="text"> Satışa Kapalı</span>
                                     </button>
                                 @elseif ($sold && $sold->status == '2' && !$off_sale_1)
                                     <button class="btn second-btn"
