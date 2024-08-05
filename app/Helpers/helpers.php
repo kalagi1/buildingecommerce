@@ -136,16 +136,11 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                 })
                 ->exists();
 
-            if (!$exists) {
+            if (!$exists && $user->type == 1 || ($user->type == 2 && $user->corporate_type == 'Emlak Ofisi')) {
                 return true; // User or parent is not associated with the project
             }
 
-            // Check user type
-            if ($user->type == 1 || ($user->type == 2 && $user->corporate_type == 'Emlak Ofisi')) {
-
-
-                return false; // Return true if the user can add the housing (housing not found), false otherwise
-            }
+         
         }
 
         return false; // Return false if user is not logged in or does not meet type criteria
