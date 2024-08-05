@@ -521,7 +521,7 @@
                                         </button>
                                     @endif
                                 @else
-                                    @if (!$off_sale_1)
+                                    @if ($off_sale_1)
                                         @if (
                                             (isset($share_sale) &&
                                                 $share_sale != '[]' &&
