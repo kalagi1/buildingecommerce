@@ -124,7 +124,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
     {
         if (auth()->user()) {
             // Determine the user ID to use (parent ID if available)
-            $userId = auth()->user()->parent_id ?: auth()->user()->id;
+            $userId = auth()->user()->parent_id ? : auth()->user()->id;
             $user = User::where("id", $userId)->first();
 
             // Check if the project exists for the user
@@ -143,7 +143,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
             // Determine if the user can add to project housings
             if (!$projectExists) {
                 // If the project does not belong to the user and type criteria is met
-                if ($user->type == 1 || ($user->type == 2 && $user->corporate_type == 'Emlak Ofisi')) {
+                if ($user->type ==  "1" || ($user->type == "2" && $user->corporate_type == 'Emlak Ofisi')) {
                     return true; // User can add to project housings
                 }
             } else if (!$housingExists) {
