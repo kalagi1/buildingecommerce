@@ -160,19 +160,23 @@
                                                 $sold->status != '2' &&
                                                 $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
 
-                                        @if (!($sold_check && $sold->status == '1'))
-                                            <span class="btn addCollection mobileAddCollection" data-type='project'
-                                                data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
-                                                <i class="fa fa-bookmark-o"></i>
-                                            </span>
-                                        @endif
+                                        @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
 
-                                        @if (!($sold_check && $sold->status == '1'))
-                                            <span class="btn toggle-project-favorite bg-white"
-                                                data-project-housing-id="{{ $keyIndex }}"
-                                                data-project-id={{ $project->id }}>
-                                                <i class="fa fa-heart-o"></i>
-                                            </span>
+                                            @if (!($sold_check && $sold->status == '1'))
+                                                <span class="btn addCollection mobileAddCollection" data-type='project'
+                                                    data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
+                                                    <i class="fa fa-bookmark-o"></i>
+                                                </span>
+                                            @endif
+
+
+                                            @if (!($sold_check && $sold->status == '1'))
+                                                <span class="btn toggle-project-favorite bg-white"
+                                                    data-project-housing-id="{{ $keyIndex }}"
+                                                    data-project-id={{ $project->id }}>
+                                                    <i class="fa fa-heart-o"></i>
+                                                </span>
+                                            @endif
                                         @endif
                                     @endif
                                 </div>
@@ -510,12 +514,12 @@
                                             @if (Auth::user())
                                                 <button class="first-btn payment-plan-button" data-bs-toggle="modal"
                                                     data-bs-target="#approveProjectModal{{ $keyIndex }}">
-                                                    Teklif Ver
+                                                    Başvur
                                                 </button>
                                             @else
                                                 <a href="{{ route('client.login') }}"
                                                     class="first-btn payment-plan-button">
-                                                    Teklif Ver
+                                                    Başvur
                                                 </a>
                                             @endif
                                         @endif

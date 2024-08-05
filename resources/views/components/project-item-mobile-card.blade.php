@@ -176,6 +176,8 @@
                             {{ $project->step1_slug }}
                         @endif
                     </h3>
+                    @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
+
                     @if (($sold && !$sold->status == '1') || (!$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]'))
                         <span class="btn addCollection mobileAddCollection " data-type='project'
                             data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
@@ -188,6 +190,8 @@
                             <i class="fa fa-heart-o"></i>
                         </span>
                     @endif
+                    @endif
+
                 </div>
                 <span
                 style="    font-size: 9px !important;
@@ -419,7 +423,7 @@
                             <button class="first-btn payment-plan-mobile-btn mobileCBtn" data-bs-toggle="modal"
                                 data-bs-target="#approveProjectModal{{ $keyIndex }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
-                                Teklif Ver
+                                Başvur
                             </button>
                         @else
                             <a href="{{ route('client.login') }}"
@@ -429,7 +433,7 @@
                             display: flex;
                             justify-content: center;background-color:black !important;border:1px solid black;color:white"
                                 class="first-btn payment-plan-mobile-btn mobileCBtn">
-                                Teklif Ver
+                                Başvur
                             </a>
                         @endif
                     @else
@@ -498,7 +502,7 @@
             <div class="modal-body" style="height: calc(100vh - 200px); overflow-y: scroll;">
                 {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
                     id="approveProjectModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
-                    Teklif Ver</h3>
+                    Başvur</h3>
                 <hr> --}}
                 <form method="POST" action="{{ route('give_offer') }}">
                     @csrf

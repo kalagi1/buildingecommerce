@@ -152,7 +152,7 @@
                                                 <li class="d-flex align-items-center itemCircleFont icons">
                                                     <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                                     <span>
-                                                        Villa
+                                                        Villa Pay
                                                     </span>
                                                 </li>
                                                 <li class="d-flex align-items-center itemCircleFont icons">

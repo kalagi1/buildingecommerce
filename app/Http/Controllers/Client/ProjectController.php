@@ -1733,7 +1733,7 @@ class ProjectController extends Controller
     } //End
 
 
-    //Teklif ver fonksiyonu
+    //Başvur fonksiyonu
     public function give_offer(Request $request)
     {
 

@@ -16,8 +16,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <a href="https://emlaksepette.com">
-                <img src="https://emlaksepette.com/images/emlaksepettelogo.png" alt="Emlak Sepette Logo">
+            <a href="https://private.emlaksepette.com">
+                <img src="https://private.emlaksepette.com/images/emlaksepettelogo.png" alt="Emlak Sepette Logo">
             </a>
         </div>
 

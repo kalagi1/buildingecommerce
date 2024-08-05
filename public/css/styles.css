@@ -21270,17 +21270,22 @@ body.dashboard-bd {
   color: #18ba60;
 }
 
-.my-properties {
-  background: #ffffff;
-  -webkit-box-shadow: 0 0 20px rgba(38, 38, 38, 0.2);
-  box-shadow: 0 0 20px rgba(38, 38, 38, 0.2);
-  padding: 10px;
-  overflow-x: auto;
+.payment-plan-pop-content {
+  background: #fff;
+  position: relative;
+  z-index: 999;
+  width: 50%;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .my-properties table {
   width: 100%;
   display: table;
+}
+
+.my-properties{
+  padding: 0 !important
 }
 
 .my-properties table thead tr th {
@@ -28722,15 +28727,15 @@ font {
 
 .payment-plan-pop-up {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100vh;
-  left: 0;
-  top: 0;
-  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 99999;
+  z-index: 999;
+
 }
 
 .payment-plan-pop-back {
