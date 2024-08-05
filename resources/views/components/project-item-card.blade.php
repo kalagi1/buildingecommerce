@@ -661,12 +661,22 @@
                                             @endif
                                         </button>
                                     @else
-                                        @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex) ||
-                                                ($off_sale_2 && Auth::check() && Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') ||
-                                                ($off_sale_3 &&
-                                                    Auth::check() &&
-                                                    ((Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') || Auth::user()->type == '1')) 
-                                                )
+                                        @php
+                                            // Retrieve the necessary data
+                                            $canAddToProject = checkIfUserCanAddToProjectHousings(
+                                                $project->id,
+                                                $keyIndex,
+                                            );
+                                            $user = Auth::user();
+                                            $isUserType2EmlakOfisi =
+                                                $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
+                                            $isUserType1 = $user && $user->type == '1';
+                                        @endphp
+
+                                        @if (
+                                            $canAddToProject ||
+                                                ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi) ||
+                                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1))))
                                             <button class="CartBtn second-btn mobileCBtn" data-type='project'
                                                 data-project='{{ $project->id }}' style="height: auto !important"
                                                 data-id='{{ $keyIndex }}' data-share="{{ $share_sale }}"
@@ -674,14 +684,16 @@
                                                 <span class="IconContainer">
                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                 </span>
-                                                <span class="text">Sepete Ekle</span>
+                                                <span class="text">Sepete Ekle asa {{ $off_sale_2 }}
+                                                    {{ $off_sale_3 }}</span>
                                             </button>
-                                        @elseif(checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
+                                        @elseif ($canAddToProject)
                                             <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
                                                 class="second-btn">
                                                 <span class="text">İlanı Düzenle</span>
                                             </a>
                                         @endif
+
                                     @endif
                                 @endif
 
