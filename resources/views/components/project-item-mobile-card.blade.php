@@ -91,13 +91,21 @@
     }
 @endphp
 @php
+    // Initialize variables
+    $off_sale_1 = $off_sale_2 = $off_sale_3 = $off_sale_4 = false;
+
     // Check if 'off_sale[]' key exists
     if (isset($projectHousingsList[$keyIndex]['off_sale[]'])) {
         // Convert the string to an array if needed
         $off_sale_array = json_decode($projectHousingsList[$keyIndex]['off_sale[]'], true);
-        $off_sale_check = is_array($off_sale_array) && in_array('1', $off_sale_array);
-    } else {
-        $off_sale_check = false; // 'off_sale[]' key does not exist
+
+        // Check if the conversion was successful and if each value is in the array
+        if (is_array($off_sale_array)) {
+            $off_sale_1 = in_array('1', $off_sale_array);
+            $off_sale_2 = in_array('2', $off_sale_array);
+            $off_sale_3 = in_array('3', $off_sale_array);
+            $off_sale_4 = in_array('4', $off_sale_array);
+        }
     }
 
     $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
@@ -186,7 +194,7 @@
                     </h3>
                     @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
 
-                        @if (($sold && !$sold->status == '1') || (!$sold && $off_sale_check))
+                        @if (($sold && !$sold->status == '1') || (!$sold && $off_sale_1))
                             <span class="btn addCollection mobileAddCollection " data-type='project'
                                 data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                                 <i class="fa fa-bookmark-o"></i>
@@ -211,16 +219,23 @@
                 <div style="width: 50%;
                                 align-items: center;">
 
-                    @if (($off_sale_check && !$sold) || ($sold && $sold->status == '2'))
+                    @if ($off_sale_1 && !$sold)
+                        <button class="btn second-btn mobileCBtn"
+                            style="background: #EC2F2E !important; width: 100%; color: White;">
+                            <span class="text">Satışa Kapalı</span>
+                        </button>
+                    @elseif ($sold && $sold->status == '2' && $off_sale_1)
                         <button class="btn second-btn mobileCBtn"
                             style="background: #EC2F2E !important; width: 100%; color: White;">
                             <span class="text">Satışa Kapalı</span>
                         </button>
                     @else
                         @if (
-                            ($sold_check && $share_sale_empty) ||
+                            ($sold && $sold->status != '2' && $share_sale == '[]') ||
+                                ($sold && $sold->status != '2' && empty($share_sale)) ||
                                 (isset($sumCartOrderQt[$keyIndex]) &&
-                                    $sold_check &&
+                                    $sold &&
+                                    $sold->status != '2' &&
                                     $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                             <button class="btn second-btn mobileCBtn"
                                 @if (
@@ -229,10 +244,10 @@
                                             $share_sale != '[]' &&
                                             isset($sumCartOrderQt[$keyIndex]) &&
                                             $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) style="background: orange !important; color: White;"
-                    @elseif ($sold->status == '1')
-                        style="background: #EC2F2E !important; color: White; "
-                    @else
-                        style="background: #EC2F2E !important; color: White; " @endif>
+                @elseif ($sold->status == '1')
+                    style="background: #EC2F2E !important; color: White; "
+                @else
+                    style="background: #EC2F2E !important; color: White; " @endif>
                                 @if ($sold->status == '0' && $share_sale_empty)
                                     <span class="text">Rezerve Edildi</span>
                                 @elseif (
@@ -242,75 +257,48 @@
                                 @endif
                             </button>
                         @else
-                            <div>
-                                @if (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi')
-
-                                    <span class="ml-auto text-primary priceFont">
-
-                                        @if ($off_sale_check && $projectDiscountAmount)
-
-                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                <span class="text-center w-100 d-block">
-                                                    1 / {{ $number_of_share }} Fiyatı
-                                                </span>
-                                            @endif
-                                            <h6
-                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;text-align:center">
-                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                    {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
-                                                    ₺
-                                                @else
-                                                    {{ number_format($discounted_price, 0, ',', '.') }}
-                                                    ₺
-                                                @endif
-                                            </h6>
-
-                                            <h6
-                                                style="color: #ea2a28!important;position: relative;font-weight:700;font-size: 11px;text-decoration:line-through;">
-                                                {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
-                                                ₺
-                                            </h6>
-                                        @elseif ($off_sale_check)
-                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                <span class="text-center w-100 d-block">
-                                                    1 / {{ $number_of_share }} Fiyatı
-                                                </span>
-                                            @endif
-                                            <h6
-                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;text-align:Center">
-                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                    {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
-                                                    ₺
-                                                @else
-                                                    {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
-                                                    ₺
-                                                @endif
-                                            </h6>
-
-                                        @endif
+                            @if (
+                                ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                    ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
+                                <button class="CartBtn second-btn mobileCBtn" data-type='project'
+                                    data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'
+                                    data-share="{{ $share_sale }}" data-number-share="{{ $number_of_share }}">
+                                    <span class="IconContainer">
+                                        <img src="{{ asset('sc.png') }}" alt="">
                                     </span>
-                                @endif
+                                    <span class="text">Sepete Ekle</span>
+                                </button>
+                            @elseif (!$canAddToProject)
+                                <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
+                                    class="second-btn">
+                                    <span class="text">İlanı Düzenle</span>
+                                </a>
+                            @else
+                                <a href="{{ route('project.housings.detail', [
+                                    'projectSlug' =>
+                                        $statusSlug .
+                                        '-' .
+                                        $project->step2_slug .
+                                        '-' .
+                                        $project->housingtype->slug .
+                                        '-' .
+                                        $project->slug .
+                                        '-' .
+                                        strtolower($project->city->title) .
+                                        '-' .
+                                        strtolower($project->county->ilce_title),
+                                    'projectID' => $project->id + 1000000,
+                                    'housingOrder' => $i + 1,
+                                ]) }}"
+                                    class="second-btn">
+                                    <span class="text">İlanı Gör</span>
+                                </a>
+                            @endif
 
-                                @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
-                                    <button class="CartBtn second-btn mobileCBtn" data-type='project'
-                                        data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'
-                                        data-share="{{ $share_sale }}" data-number-share="{{ $number_of_share }}">
-                                        <span class="IconContainer">
-                                            <img src="{{ asset('sc.png') }}" alt="">
-                                        </span>
-                                        <span class="text">Sepete Ekle</span>
-                                    </button>
-                                @else
-                                    <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
-                                        class="second-btn">
-                                        <span class="text">İlanı Düzenle</span>
-                                    </a>
-                                @endif
-
-
-                            </div>
                         @endif
                     @endif
+
+                 
 
 
                 </div>
@@ -354,8 +342,8 @@
                                 <span
                                     style="text-align: center; display: flex; align-items: center; justify-content: center;">
                                     <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor"
-                                        stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                        class="css-i6dzq1" style="margin-right: 2px">
+                                        stroke-width="2" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round" class="css-i6dzq1" style="margin-right: 2px">
                                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                         <circle cx="12" cy="12" r="3"></circle>
                                     </svg>
@@ -425,7 +413,7 @@
                         </button>
                     @endif
                 @else
-                    @if (isset($projectHousingsList[$keyIndex]['off_sale[]']) && !$off_sale_check && !$sold)
+                    @if (isset($projectHousingsList[$keyIndex]['off_sale[]']) && !$off_sale_1 && !$sold)
                         @if (Auth::user())
                             <button class="first-btn payment-plan-mobile-btn mobileCBtn" data-bs-toggle="modal"
                                 data-bs-target="#approveProjectModal{{ $keyIndex }}"
