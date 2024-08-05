@@ -578,6 +578,14 @@
                                                 data-payment-order="{{ $projectOrder }}">
                                                 ÖDEME DETAYI (Sadece Emlak Ofisleri Görür)
                                             </button>
+                                            @else
+                                            <button class="first-btn payment-plan-button"
+                                            project-id="{{ $project->id }}"
+                                            data-sold="1"
+                                            order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                            data-payment-order="{{ $projectOrder }}">
+                                            ÖDEME DETAYI
+                                        </button>
                                         @endif
 
                                     @endif
@@ -678,8 +686,7 @@
                                                 <span class="IconContainer">
                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                 </span>
-                                                <span class="text">Sepete Ekle
-                                                    {{ $off_sale_3 }}</span>
+                                                <span class="text">Sepete Ekle</span>
                                             </button>
                                         @elseif (!$canAddToProject)
                                             <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
