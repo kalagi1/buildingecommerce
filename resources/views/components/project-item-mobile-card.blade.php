@@ -178,23 +178,23 @@
                     </h3>
                     @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
 
-                    @if (($sold && !$sold->status == '1') || (!$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]'))
-                        <span class="btn addCollection mobileAddCollection " data-type='project'
-                            data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
-                            <i class="fa fa-bookmark-o"></i>
-                        </span>
+                        @if (($sold && !$sold->status == '1') || (!$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]'))
+                            <span class="btn addCollection mobileAddCollection " data-type='project'
+                                data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
+                                <i class="fa fa-bookmark-o"></i>
+                            </span>
 
-                        <span class="btn toggle-project-favorite bg-white"
-                            data-project-housing-id="{{ $keyIndex }}" style="color: white;"
-                            data-project-id="{{ $project->id }}">
-                            <i class="fa fa-heart-o"></i>
-                        </span>
-                    @endif
+                            <span class="btn toggle-project-favorite bg-white"
+                                data-project-housing-id="{{ $keyIndex }}" style="color: white;"
+                                data-project-id="{{ $project->id }}">
+                                <i class="fa fa-heart-o"></i>
+                            </span>
+                        @endif
                     @endif
 
                 </div>
                 <span
-                style="    font-size: 9px !important;
+                    style="    font-size: 9px !important;
                                 width: 50% !important;
                                 text-align: right;
                                 margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
@@ -237,50 +237,53 @@
                             </button>
                         @else
                             <div>
-                                <span class="ml-auto text-primary priceFont">
+                                @if (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi')
 
-                                    @if ($off_sale_check && $projectDiscountAmount)
+                                    <span class="ml-auto text-primary priceFont">
 
-                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                            <span class="text-center w-100 d-block">
-                                                1 / {{ $number_of_share }} Fiyatı
-                                            </span>
-                                        @endif
-                                        <h6
-                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;text-align:center">
+                                        @if ($off_sale_check && $projectDiscountAmount)
+
                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
-                                                ₺
-                                            @else
-                                                {{ number_format($discounted_price, 0, ',', '.') }}
-                                                ₺
+                                                <span class="text-center w-100 d-block">
+                                                    1 / {{ $number_of_share }} Fiyatı
+                                                </span>
                                             @endif
-                                        </h6>
+                                            <h6
+                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;text-align:center">
+                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                    {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
+                                                    ₺
+                                                @else
+                                                    {{ number_format($discounted_price, 0, ',', '.') }}
+                                                    ₺
+                                                @endif
+                                            </h6>
 
-                                        <h6
-                                            style="color: #ea2a28!important;position: relative;font-weight:700;font-size: 11px;text-decoration:line-through;">
-                                            {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
-                                            ₺
-                                        </h6>
-                                    @elseif ($off_sale_check)
-                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                            <span class="text-center w-100 d-block">
-                                                1 / {{ $number_of_share }} Fiyatı
-                                            </span>
-                                        @endif
-                                        <h6
-                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;text-align:Center">
-                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
-                                                ₺
-                                            @else
+                                            <h6
+                                                style="color: #ea2a28!important;position: relative;font-weight:700;font-size: 11px;text-decoration:line-through;">
                                                 {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
                                                 ₺
+                                            </h6>
+                                        @elseif ($off_sale_check)
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                <span class="text-center w-100 d-block">
+                                                    1 / {{ $number_of_share }} Fiyatı
+                                                </span>
                                             @endif
-                                        </h6>
+                                            <h6
+                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;text-align:Center">
+                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                    {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                    ₺
+                                                @else
+                                                    {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                                                    ₺
+                                                @endif
+                                            </h6>
 
-                                    @endif
-                                </span>
+                                        @endif
+                                    </span>
+                                @endif
 
                                 @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
                                     <button class="CartBtn second-btn mobileCBtn" data-type='project'

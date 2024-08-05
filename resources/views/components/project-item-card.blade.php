@@ -302,6 +302,7 @@
                                         </span>
                                     </li>
 
+                                    @if (Auth::check() && Auth::user()->type == "2" && Auth::user()->corporate_type == "Emlak Ofisi")
                                     <li class="the-icons mobile-hidden">
                                         <span style="width:100%;text-align:center">
 
@@ -366,7 +367,9 @@
                                                 @endif
                                             @endif
                                         </span>
-                                    </li>
+                                    </li>  
+                                    @endif 
+                                   
 
 
                                 </ul>
