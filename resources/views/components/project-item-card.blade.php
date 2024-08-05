@@ -567,6 +567,7 @@
                                                 data-payment-order="{{ $projectOrder }}">
                                                 ÖDEME DETAYI (Sadece Emlak Ofisleri Görür)
                                             </button>
+                                            
                                         @endif
 
                                     @endif
