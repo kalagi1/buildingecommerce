@@ -53,31 +53,29 @@ if (!function_exists('canUserAddProjectComment')) {
 if (!function_exists('checkIfUserCanAddToCart')) {
     function checkIfUserCanAddToCart($housingId)
     {
-        $user = auth()->user();
-
-        if ($user) {
+        if (auth()->user()) {
             // Determine the user ID to use (parent ID if available)
-            if ($user->parent_id) {
-                // Get the parent user
-                $parentUser = \App\Models\User::find($user->parent_id);
+            $userId = auth()->user()->parent_id ?: auth()->user()->id;
+            $user = User::where("id", $userId)->first();
 
-                if ($parentUser) {
-                    // Check if the housing exists for the parent user
-                    $exists = $parentUser->housings()->where('id', $housingId)->exists();
-                } else {
-                    // If the parent user is not found, fallback to current user
-                    $exists = $user->housings()->where('id', $housingId)->exists();
+
+
+            $exists = $user->housings()->where('id', $housingId)->exists();
+
+
+            // Determine if the user can add to project housings
+            if (!$exists) {
+                // If the project does not belong to the user and type criteria is met
+                if ($user->type ==  "1" || ($user->type == "2" && $user->corporate_type == 'Emlak Ofisi')) {
+                    return true; // User can add to project housings
                 }
-            } else {
-                // No parent ID, use the current user
-                $exists = $user->housings()->where('id', $housingId)->exists();
             }
 
-            // Return true if the housing does not exist (i.e., the user can add it)
-            return !$exists;
+            return false; // Housing already exists or project belongs to the user
         }
 
-        return true; // Return true if the user is not logged in
+        return false; // User not logged in or does not meet type criteria
+
     }
 }
 
@@ -124,7 +122,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
     {
         if (auth()->user()) {
             // Determine the user ID to use (parent ID if available)
-            $userId = auth()->user()->parent_id ? : auth()->user()->id;
+            $userId = auth()->user()->parent_id ?: auth()->user()->id;
             $user = User::where("id", $userId)->first();
 
             // Check if the project exists for the user
