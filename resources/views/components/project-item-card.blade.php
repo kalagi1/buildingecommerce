@@ -318,7 +318,12 @@
                                         </span>
                                     </li>
 
-                                    @if (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi')
+                                    @if (
+                                        !$off_sale_1 ||
+                                            ($off_sale_2 && Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
+                                            ($off_sale_3 && Auth::check() && Auth::user()->type == '1') ||
+                                            !$off_sale_4 ||
+                                            checkIfUserCanAddToProject($project->id))
                                         <li class="the-icons mobile-hidden">
                                             <span style="width:100%;text-align:center">
 
