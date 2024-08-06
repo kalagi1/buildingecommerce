@@ -95,7 +95,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-12">
+                <div class="col-md-4 col-12 mt-2">
+                    <hr>
                     @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
                         <span
                             style="    color: green;
@@ -108,6 +109,7 @@
                           align-items: center;">SATIŞTAN
                             %{{ $project->club_rate }} KOMİSYON KAZAN!</span>
                     @endif
+                    <hr>
                 </div>
             </div>
             <div class="row">
