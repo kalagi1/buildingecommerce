@@ -504,12 +504,21 @@
 
 
                                     @if (auth()->user()->type == 1)
-                                        @php
-                                            $links = [
+                                        @include('client.layouts.partials.dropdown_user_icon', [
+                                            'mainLink' => 'Hesabım',
+                                            'links' => [
                                                 [
                                                     'url' => route('institutional.index'),
                                                     'icon' => 'fa fa-user',
                                                     'text' => 'Hesabım',
+                                                ],
+                                                [
+                                                    'url' => route('institutional.sharer.index'),
+                                                    'icon' => 'fa fa-bookmark',
+                                                    'text' =>
+                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                            ? 'Portföylerim'
+                                                            : 'Koleksiyonlarım',
                                                 ],
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),
@@ -531,27 +540,7 @@
                                                     'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
                                                 ],
-                                            ];
-
-                                            // Koşula göre "Koleksiyonlarım" veya "Portföylerim" linkini ekleyin
-                                            if (
-                                                Auth::check() &&
-                                                (Auth::user()->user_type == 1 || Auth::user()->user_type == 2)
-                                            ) {
-                                                $links[] = [
-                                                    'url' => route('institutional.sharer.index'),
-                                                    'icon' => 'fa fa-bookmark',
-                                                    'text' =>
-                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
-                                                            ? 'Portföylerim'
-                                                            : 'Koleksiyonlarım',
-                                                ];
-                                            }
-                                        @endphp
-
-                                        @include('client.layouts.partials.dropdown_user_icon', [
-                                            'mainLink' => 'Hesabım',
-                                            'links' => $links,
+                                            ],
                                         ])
 
                                         <a href="{{ route('cart') }}"
@@ -585,12 +574,18 @@
                                                     'text' => 'Panelim',
                                                 ],
                                                 [
-                                                    'url' => route('institutional.sharer.index'),
+                                                    'url' =>
+                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                            ? route('institutional.sharer.index')
+                                                            : route('club.dashboardSatisNoktalari', [
+                                                                'slug' => Str::slug(Auth::user()->name),
+                                                                'userID' => Auth::user()->id,
+                                                            ]),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
                                                         Auth::user()->corporate_type == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
-                                                            : 'Koleksiyonlarım',
+                                                            : 'Satış Noktalarımız',
                                                 ],
                                                 [
                                                     'url' => url('hesabim/ilan-tipi-sec'),
