@@ -55,12 +55,14 @@
             }
             return $html;
         }
-    $projectHousings = []; @endphp @php// Retrieve the necessary data
-                        $canAddToProject = checkIfUserCanAddToProjectHousings($project->id, $housingOrder);
-                        $user = Auth::user();
-                        $isUserType2EmlakOfisi = $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
-                        $isUserType1 = $user && $user->type == '1';
-            @endphp ?> ?>
+    $projectHousings = []; @endphp
+
+    @php
+        $canAddToProject = checkIfUserCanAddToProjectHousings($project->id, $housingOrder);
+        $user = Auth::user();
+        $isUserType2EmlakOfisi = $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
+        $isUserType1 = $user && $user->type == '1';
+    @endphp
 
     @php
 
@@ -3297,24 +3299,25 @@
         }
 
         .buttonDetail {
-    display: flex;
-    justify-content: space-between;
-}
+            display: flex;
+            justify-content: space-between;
+        }
 
-.buttonContent,
-.buttonAction {
-    flex: 1;
-}
+        .buttonContent,
+        .buttonAction {
+            flex: 1;
+        }
 
-.buttonDetail > .buttonContent:not(:empty),
-.buttonDetail > .buttonAction:not(:empty) {
-    flex: 1 1 100%; /* Make sure the non-empty div takes full width */
-}
+        .buttonDetail>.buttonContent:not(:empty),
+        .buttonDetail>.buttonAction:not(:empty) {
+            flex: 1 1 100%;
+            /* Make sure the non-empty div takes full width */
+        }
 
-.buttonDetail > .buttonContent:empty,
-.buttonDetail > .buttonAction:empty {
-    display: none; /* Hide the empty div */
-}
-
+        .buttonDetail>.buttonContent:empty,
+        .buttonDetail>.buttonAction:empty {
+            display: none;
+            /* Hide the empty div */
+        }
     </style>
 @endsection
