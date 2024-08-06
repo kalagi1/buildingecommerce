@@ -2,7 +2,7 @@
 
 @section('content')
     <x-store-card :store="$store" />
-    <section >
+    <section>
         <div class="container featured portfolio rec-pro disc bg-white">
             <div class="row">
                 @foreach ($usersFromCollections as $index => $usersFromCollection)
@@ -94,6 +94,13 @@
             -ms-flex-preferred-size: 48.5%;
             flex-basis: 48.5%;
             position: relative;
+        }
+
+        .news-item-sm {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            margin-bottom: 2.5rem;
         }
     </style>
 @endsection
