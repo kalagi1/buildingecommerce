@@ -184,10 +184,10 @@
                                                 $sold->status != '2' &&
                                                 $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
 
-@if (
-    ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-        ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-        (!$canAddToProject && Auth::check()))
+                                        @if (
+                                            ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
+                                                (!$canAddToProject && Auth::check()))
                                             @if (!$sold_check)
                                                 <span class="btn addCollection mobileAddCollection" data-type='project'
                                                     data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
@@ -327,8 +327,9 @@
 
                                     @if (
                                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-                                            (!$canAddToProject && Auth::check()))
+                                            !$off_sale_1 ||
+                                            !$off_sale_4 ||
+                                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
                                         <li class="the-icons mobile-hidden">
                                             <span style="width:100%;text-align:center">
 
@@ -588,7 +589,8 @@
                                     @endif
 
                                     @if ($off_sale_3)
-                                        @if (Auth::check() && ((Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') || Auth::user()->type == '1'))
+                                        @if (Auth::check() &&
+                                                ((Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') || Auth::user()->type == '1'))
                                             <button class="first-btn payment-plan-button"
                                                 project-id="{{ $project->id }}"
                                                 data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
