@@ -544,11 +544,72 @@
         <ul class="d-flex align-items-center h-100 w-100"
             style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:space-between !important;margin-bottom:0 !important">
 
+            @if ($project->id == 431)
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                <span>
+                    1+1
+                </span>
+            </li>
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                <span>
+                    Suit Oda
+                </span>
+            </li>
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                <span>
+                    Konya/Ilgın
+                </span>
+            </li>
+        @elseif($project->id == 433)
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                <span>
+                    2+1
+                </span>
+            </li>
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                <span>
+                    Suit Oda
+                </span>
+            </li>
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                <span>
+                    Konya/Ilgın
+                </span>
+            </li>
+        @elseif($project->id == 434)
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                <span>
+                    3+1
+                </span>
+            </li>
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                <span>
+                    Villa
+                </span>
+            </li>
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                <span>
+                    Konya/Ilgın
+                </span>
+            </li>
+        @else
             @foreach (['column1', 'column2', 'column3'] as $column)
                 @php
                     $column_name = $project->listItemValues->{$column . '_name'} ?? '';
-                    $column_additional = $project->listItemValues->{$column . '_additional'} ?? '';
-                    $column_name_exists = $column_name && isset($projectHousingsList[$keyIndex][$column_name . '[]']);
+                    $column_additional =
+                        $project->listItemValues->{$column . '_additional'} ?? '';
+                    $column_name_exists =
+                        $column_name &&
+                        isset($projectHousingsList[$keyIndex][$column_name . '[]']);
                 @endphp
 
                 @if ($column_name_exists)
@@ -556,13 +617,14 @@
                         <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                         <span>
                             {{ $projectHousingsList[$keyIndex][$column_name . '[]'] }}
-                            @if ($column_additional)
+                            @if ($column_additional && is_numeric($projectHousingsList[$keyIndex][$column_name . '[]']))
                                 {{ $column_additional }}
                             @endif
                         </span>
                     </li>
                 @endif
             @endforeach
+        @endif
             {{-- <li class="d-flex align-items-center itemCircleFont">
                 <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                 <span>
