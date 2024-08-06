@@ -111,7 +111,7 @@
         }
 
         .news-item-sm .news-item-text {
-            padding: 20px !important;
+            padding: 5px !important;
         }
 
         .portfolio .homes-tag.featured {
