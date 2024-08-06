@@ -2,13 +2,13 @@
 
 @section('content')
     <x-store-card :store="$store" />
-    <section>
+    <section class="portfolio">
         <div class="container">
             <div class="row">
                 @foreach ($usersFromCollections as $index => $usersFromCollection)
                     <div class="col-md-12 col-xs-12">
                         <div class="news-item news-item-sm">
-                            <a href="agent-details.html" class="news-img-link">
+                            <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($usersFromCollection->name), 'userID' => $usersFromCollection->id]) }}" class="news-img-link">
                                 <div class="news-item-img homes">
                                     @if ($usersFromCollection->profile_image == 'indir.png')
                                         @php
@@ -30,7 +30,7 @@
                                 </div>
                             </a>
                             <div class="news-item-text">
-                                <a href="agent-details.html">
+                                <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($usersFromCollection->name), 'userID' => $usersFromCollection->id]) }}">
                                     <h3>{{ $usersFromCollection->name }}</h3>
                                 </a>
                                 <div class="the-agents">
@@ -74,4 +74,22 @@
 @endsection
 
 @section('styles')
+<style>
+    .news-item-sm .news-img-link .news-item-img {
+    position: absolute;
+    max-width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.news-item-sm:last-child {
+    border-radius: 0 0 8px 8px;
+}
+.news-item-sm .news-img-link {
+    -ms-flex-preferred-size: 48.5%;
+    flex-basis: 48.5%;
+    position: relative;
+}
+</style>
 @endsection
