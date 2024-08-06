@@ -2,7 +2,7 @@
 
 @section('content')
     <x-store-card :store="$store" />
-    <section class="inner-pages ">
+    <section >
         <div class="blog blog-section" >
             <div class="container featured portfolio rec-pro disc bg-white">
                 <div class="row">
