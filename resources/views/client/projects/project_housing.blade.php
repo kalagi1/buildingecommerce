@@ -357,11 +357,12 @@
 
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton mb-5">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
-                                <div class="buttonContent">
                                     @if (
                                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                                             ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
                                             (!$canAddToProject && Auth::check()))
+                                                                            <div class="buttonContent">
+
                                         <div class="mobile-action-move p-0">
 
 
@@ -427,19 +428,20 @@
                                                     @endif
                                                 @endif
                                             </span>
-                                            {{--
-                    @if (Auth::check() && Auth::user()->id == $project->user_id)
-                    <div class="col-md-12 col-12 p-0 ml-3">
-                        <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
-                            style="color:#007bff !important;cursor: pointer; ">
-                            Fiyatı Güncelle
-                        </a>
-                    </div>
-                    @endif --}}
+                                                                        {{--
+                                                @if (Auth::check() && Auth::user()->id == $project->user_id)
+                                                <div class="col-md-12 col-12 p-0 ml-3">
+                                                    <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
+                                                        style="color:#007bff !important;cursor: pointer; ">
+                                                        Fiyatı Güncelle
+                                                    </a>
+                                                </div>
+                                                @endif --}}
 
                                         </div>
-                                    @endif
                                 </div>
+
+                                    @endif
                                 <div class="buttonAction">
 
                                     <div
@@ -3330,12 +3332,12 @@
 
 
         /* Ensure buttonContent or buttonAction takes full width when the other is empty */
-        .buttonDetail>.buttonContent:not(:empty){
+        .buttonDetail>.buttonContent:not(:empty) {
             flex: 1 1 50%;
             /* Hide buttonContent if it's empty */
         }
 
-        .buttonDetail>.buttonAction:not(:empty)  {
+        .buttonDetail>.buttonAction:not(:empty) {
             flex: 1 1 50%;
             /* Hide buttonAction if it's empty */
         }
@@ -3350,7 +3352,5 @@
         .buttonDetail>.buttonContent:empty~.buttonAction {
             flex: 1 1 100%;
         }
-
-       
     </style>
 @endsection
