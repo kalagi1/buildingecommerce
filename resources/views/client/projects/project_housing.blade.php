@@ -356,21 +356,27 @@
                         @endphp
 
 
-                        @php
-                            // Determine if buttonDetail div is empty
-                            $isButtonDetailEmpty = !isset($buttonDetailContent) || empty($buttonDetailContent);
-                        @endphp
 
-                        <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton mb-5" id="scheduleDiv"
-                            style="{{ $isButtonDetailEmpty ? 'display:none;' : '' }}">
+                        <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton mb-5">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
+
+
+
+
+
+
                                 @if (
                                     ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                                         ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
                                         (!$canAddToProject && Auth::check()))
                                     <div class="col-md-6 col-6 mobile-action-move p-0">
+
+
                                         <span style="width:100%;text-align:center">
+
                                             @if (!$off_sale_1 && !$sold_check && $share_sale_empty)
+
+
                                                 @if ($projectDiscountAmount)
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
                                                         stroke="#EC2F2E" stroke-width="2" fill="#EC2F2E"
@@ -381,19 +387,23 @@
                                                     </svg>
                                                     <del
                                                         style="color: #ea2a28!important;font-weight: 700;font-size: 11px;">
+
                                                         {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
                                                         ₺
                                                     </del>
                                                     <h6
                                                         style="color: #27bb53 !important; position: relative; top: 4px; font-weight: 700">
-                                                        {{ number_format($discounted_price, 0, ',', '.') }} ₺
+                                                        {{ number_format($discounted_price, 0, ',', '.') }}
+                                                        ₺
                                                     </h6>
                                                 @else
                                                     <h6
                                                         style="color:#274abb; position: relative; top: 4px; font-weight: 700">
-                                                        {{ number_format($discounted_price, 0, ',', '.') }} ₺
+                                                        {{ number_format($discounted_price, 0, ',', '.') }}
+                                                        ₺
                                                     </h6>
                                                 @endif
+
                                                 @if ($projectDiscountAmount)
                                                     <h6 style="color: #27bb53 !important;">(Kampanyalı)</h6>
                                                 @endif
@@ -424,17 +434,29 @@
                                                 @endif
                                             @endif
                                         </span>
+                                        {{-- 
+                                        @if (Auth::check() && Auth::user()->id == $project->user_id)
+                                            <div class="col-md-12 col-12 p-0 ml-3">
+                                                <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
+                                                    style="color:#007bff !important;cursor: pointer; ">
+                                                    Fiyatı Güncelle
+                                                </a>
+                                            </div>
+                                        @endif --}}
+
                                     </div>
                                 @endif
 
-                                <div class="@if (
-                                    ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                        $off_sale_1 ||
-                                        ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-                                        (!$canAddToProject && Auth::check())) col-md-12 col-12
-        @else
-            col-md-6 col-6 @endif"
+                                <div class="
+                                 @if (
+                                     ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                         $off_sale_1 ||
+                                         ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
+                                         (!$canAddToProject && Auth::check())) col-md-12 col-12
+                                @else
+                                    col-md-6 col-6 @endif"
                                     style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
+
                                     @if ($offSale || $saleClosed)
                                         <button class="btn second-btn" {!! $style !!}>
                                             <span class="text">Satışa Kapalı</span>
@@ -469,10 +491,17 @@
                                             </a>
                                         @endif
                                     @endif
+
+
+
+                                    {{-- <div class="button-effect toggle-project-favorite" style="margin-left:13px;width:40px !important"
+                                         data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}" data-project-id={{ $project->id }}>
+                                        <i class="fa fa-heart-o"></i>
+                                    </div> --}}
                                 </div>
+
                             </div>
                         </div>
-
 
                     </div>
 
@@ -1725,8 +1754,8 @@
             });
         });
     </script>
-   
 
+    </script>
     <script>
         $('.citySelect').change(function() {
             var selectedCity = $(this).val();
