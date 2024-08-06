@@ -329,9 +329,9 @@
 
                                     @if (
                                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                            !$off_sale_1 ||
-                                            !$off_sale_4 ||
+                                            (!$off_sale_4 && $canAddToProject) ||
                                             ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
+
                                         <li class="the-icons mobile-hidden">
                                             <span style="width:100%;text-align:center">
 
