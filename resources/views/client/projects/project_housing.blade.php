@@ -88,23 +88,23 @@
         }
     @endphp
     @php
-  // Initialize variables
-  $off_sale_1 = $off_sale_2 = $off_sale_3 = $off_sale_4 = false;
+        // Initialize variables
+        $off_sale_1 = $off_sale_2 = $off_sale_3 = $off_sale_4 = false;
 
-// Check if 'off_sale[]' key exists
-if (isset($projectHousingsList[$housingOrder]['off_sale[]'])) {
-    // Convert the string to an array if needed
-    $off_sale_array = json_decode($projectHousingsList[$housingOrder]['off_sale[]'], true);
+        // Check if 'off_sale[]' key exists
+        if (isset($projectHousingsList[$housingOrder]['off_sale[]'])) {
+            // Convert the string to an array if needed
+            $off_sale_array = json_decode($projectHousingsList[$housingOrder]['off_sale[]'], true);
 
-    // Check if the conversion was successful and if each value is in the array
-    if (is_array($off_sale_array)) {
-        $off_sale_1 = in_array('1', $off_sale_array);
-        $off_sale_2 = in_array('2', $off_sale_array);
-        $off_sale_3 = in_array('3', $off_sale_array);
-        $off_sale_4 = in_array('4', $off_sale_array);
-    }
-}
-    $share_sale = $projectHousingsList[$housingOrder]['share_sale[]'] ?? null;
+            // Check if the conversion was successful and if each value is in the array
+            if (is_array($off_sale_array)) {
+                $off_sale_1 = in_array('1', $off_sale_array);
+                $off_sale_2 = in_array('2', $off_sale_array);
+                $off_sale_3 = in_array('3', $off_sale_array);
+                $off_sale_4 = in_array('4', $off_sale_array);
+            }
+        }
+        $share_sale = $projectHousingsList[$housingOrder]['share_sale[]'] ?? null;
         $number_of_share = $projectHousingsList[$housingOrder]['number_of_shares[]'] ?? null;
         $sold_check = $sold && in_array($sold->status, ['1', '0']);
         $discounted_price = $projectHousingsList[$housingOrder]['price[]'] - $projectDiscountAmount;
