@@ -265,3 +265,5 @@ Route::post('/delete/comment/{commentId}',[ProjectController::class,'deleteComme
 
 Route::get('/user/{userId}/comments',[ProjectController::class,'userComments']);
 Route::post('/user/{userId}/{projectId}/comments/{commentId}/update', [ProjectController::class, 'userCommentUpdate']);
+
+Route::get('/profile/info/mobile/dashboard',[ClientPageController::class,'profileInfo']);

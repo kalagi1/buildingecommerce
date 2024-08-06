@@ -20,6 +20,7 @@ use App\Models\Neighborhood;
 use App\Models\Offer;
 use App\Models\Project;
 use App\Models\Rate;
+use App\Models\Bid;
 use App\Models\ShareLink;
 use App\Models\SharerPrice;
 use App\Models\StandOutUser;
@@ -1452,4 +1453,47 @@ class PageController extends Controller
             'term' => $term,
         ]);
     }
+
+    public function profileInfo($userId){
+       $user = User::find($userId);
+
+       if($user){
+            $activeAdvertProjects = Project::where('status','1')->where('user_id', $user->id)->count();
+            $activeAdvertHousings = Housing::where('status','1')->where('user_id', $user->id)->count();
+            $pendingAdvertProjects = Project::where('status','2')->where('user_id', $user->id)->count();
+            $pendingAdvertHousings = Housing::where('status','2')->where('user_id', $user->id)->count();
+            $passiveAdvertHousings = Housing::where('status','0')->where('user_id', $user->id)->count();
+            $passiveAdvertProjects = Project::where('status','0')->where('user_id', $user->id)->count();
+            $rejectAdvertProjects = Project::where('status','3')->where('user_id', $user->id)->count();
+            $rejectAdvertHousings = Housing::where('status','3')->where('user_id', $user->id)->count();
+
+            $userDetails = User::select('profile_image', 'name', 'mail', 'corporate_type')->find($userId);
+            $viewCountProjects = Project::where('user_id', $user->id)->pluck('view_count')->sum();
+            $viewCountHousings = Housing::where('user_id', $user->id)->pluck('view_count')->sum();
+            $mostViewedHousings = Housing::where('user_id', $user->id)->orderBy('view_count', 'desc')->limit(5)->get(); 
+            $mostViewedProjects = Project::where('user_id', $user->id)->orderBy('view_count', 'desc')->limit(5)->get(); 
+            
+            $totalSales = CartOrder::where('status','1')->where('store_id',$user->id)->sum('amount');
+            $bidsCount = Bid::where('user_id',$user->id)->count();
+
+       }
+       return response()->json([
+        'user' => $userDetails,
+        'activeAdvertProjects' => $activeAdvertProjects,
+        'activeAdvertHousings' => $activeAdvertHousings,
+        'pendingAdvertProjects' => $pendingAdvertProjects,
+        'pendingAdvertHousings' => $pendingAdvertHousings,
+        'passiveAdvertHousings' => $passiveAdvertHousings,
+        'passiveAdvertProjects' => $passiveAdvertProjects,
+        'rejectAdvertProjects' => $rejectAdvertProjects,
+        'rejectAdvertHousings' => $rejectAdvertHousings,
+        'viewCountProjects' => $viewCountProjects,
+        'viewCountHousings' => $viewCountHousings,
+        'mostViewedHousings' => $mostViewedHousings,
+        'mostViewedProjects' => $mostViewedProjects,
+        'totalSales' => $totalSales,
+        'bidsCount' => $bidsCount
+    ]);
+       
+    }//End
 }
