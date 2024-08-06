@@ -184,10 +184,12 @@
                                                 $sold->status != '2' &&
                                                 $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
 
-@if (
-    ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-        (!$off_sale_4 && $canAddToProject) ||
-        ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
+                                                {{$canAddToProject}}
+
+                                        @if (
+                                            ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                                (!$off_sale_4 && Auth::check() && $canAddToProject) ||
+                                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
 
                                             @if (!$sold_check)
                                                 <span class="btn addCollection mobileAddCollection" data-type='project'
@@ -329,12 +331,12 @@
                                     @if (
                                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                                             !$off_sale_1 ||
-                                            (!$off_sale_4) ||
+                                            !$off_sale_4 ||
                                             ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
                                         <li class="the-icons mobile-hidden">
                                             <span style="width:100%;text-align:center">
 
-                                                @if ((!$off_sale_1 && !$off_sale_4) && !$sold_check && $share_sale_empty)
+                                                @if (!$off_sale_1 && !$off_sale_4 && !$sold_check && $share_sale_empty)
 
 
                                                     @if ($projectDiscountAmount)
