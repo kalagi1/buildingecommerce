@@ -50,11 +50,11 @@ class ClubController extends Controller
     
         // Proje ve emlak ilanlarını içeren koleksiyonları al
         $collectionsWithProjects = Collection::whereHas('links.project', function($query) use ($projects) {
-            $query->whereIn('project_id', $projects->pluck('id'));
+            $query->whereIn('item_type', $projects->pluck('id'));
         })->with('user')->get();
     
         $collectionsWithHousings = Collection::whereHas('links.housing', function($query) use ($housings) {
-            $query->whereIn('housing_id', $housings->pluck('id'));
+            $query->whereIn('item_type', $housings->pluck('id'));
         })->with('user')->get();
     
         // Koleksiyonların kullanıcılarını al
