@@ -3318,8 +3318,8 @@
         }
 
         /* If one of the divs is empty, make the other take full width */
-        .buttonDetail>.buttonContent:empty~.buttonAction,
-        .buttonDetail>.buttonAction:empty~.buttonContent {
+        .buttonDetail>.buttonContent:empty,
+        .buttonDetail>.buttonAction:empty {
             flex: 1 1 100%;
         }
 
