@@ -2,8 +2,8 @@
 
 @section('content')
     <x-store-card :store="$store" />
-    <section class="portfolio">
-        <div class="container">
+    <section >
+        <div class="container featured portfolio rec-pro disc bg-white">
             <div class="row">
                 @foreach ($usersFromCollections as $index => $usersFromCollection)
                     <div class="col-md-12 col-xs-12">
