@@ -418,61 +418,53 @@
                                 @endif
 
                                 <div class="
-                                @if ($soldOut || (!$offSale && !$sold) || !$soldAndNotStatus2 || (!$offSale || !$saleClosed))
-                                    col-md-6 col-6
+                                @if ($soldOut || (!$offSale && !$sold) || !$soldAndNotStatus2 || (!$sold && !$saleClosed)) col-md-6 col-6
                                 @else
-                                    col-md-12 col-12
-                                @endif
+                                    col-md-12 col-12 @endif
                                 "
-                                style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important"
-                            >
-                                @if ($offSale || $saleClosed)
-                                    <button class="btn second-btn" {!! $style !!}>
-                                        <span class="text">Satışa Kapalı</span>
-                                    </button>
-                                @elseif ($soldAndNotStatus2)
-                                    <button class="btn second-btn" {!! $btnStyle !!}>
-                                        @if ($sold->status == '0' && empty($share_sale))
-                                            <span class="text">Rezerve Edildi</span>
-                                        @elseif (
-                                            ($sold->status == '1' && empty($share_sale)) ||
-                                            (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share)
-                                        )
-                                            <span class="text">Satıldı</span>
-                                        @endif
-                                    </button>
-                                @else
-                                    @if (checkIfUserCanAddToProject($project->id))
-                                        <button class="CartBtn second-btn" 
-                                            data-type="project"
-                                            data-project="{{ $project->id }}"
-                                            data-id="{{ $housingOrder }}"
-                                            data-share="{{ $share_sale }}"
-                                            data-number-share="{{ $number_of_share }}"
-                                        >
-                                            <span class="IconContainer">
-                                                <img src="{{ asset('sc.png') }}" alt="">
-                                            </span>
-                                            <span class="text">Sepete Ekle</span>
+                                    style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
+                                    @if ($offSale || $saleClosed)
+                                        <button class="btn second-btn" {!! $style !!}>
+                                            <span class="text">Satışa Kapalı</span>
+                                        </button>
+                                    @elseif ($soldAndNotStatus2)
+                                        <button class="btn second-btn" {!! $btnStyle !!}>
+                                            @if ($sold->status == '0' && empty($share_sale))
+                                                <span class="text">Rezerve Edildi</span>
+                                            @elseif (
+                                                ($sold->status == '1' && empty($share_sale)) ||
+                                                    (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
+                                                <span class="text">Satıldı</span>
+                                            @endif
                                         </button>
                                     @else
-                                        <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug, 'project_id' => $project->id]) }}"
-                                            class="btn btn-success"
-                                        >
-                                            <span class="text">Projeyi Düzenle</span>
-                                        </a>
+                                        @if (checkIfUserCanAddToProject($project->id))
+                                            <button class="CartBtn second-btn" data-type="project"
+                                                data-project="{{ $project->id }}" data-id="{{ $housingOrder }}"
+                                                data-share="{{ $share_sale }}"
+                                                data-number-share="{{ $number_of_share }}">
+                                                <span class="IconContainer">
+                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                </span>
+                                                <span class="text">Sepete Ekle</span>
+                                            </button>
+                                        @else
+                                            <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug, 'project_id' => $project->id]) }}"
+                                                class="btn btn-success">
+                                                <span class="text">Projeyi Düzenle</span>
+                                            </a>
+                                        @endif
                                     @endif
-                                @endif
-                            
-                                {{-- Uncomment if needed --}}
-                                {{-- <div class="button-effect toggle-project-favorite" 
+
+                                    {{-- Uncomment if needed --}}
+                                    {{-- <div class="button-effect toggle-project-favorite" 
                                      style="margin-left:13px; width:40px !important"
                                      data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}" 
                                      data-project-id="{{ $project->id }}">
                                     <i class="fa fa-heart-o"></i>
                                 </div> --}}
-                            </div>
-                            
+                                </div>
+
 
                             </div>
                         </div>
