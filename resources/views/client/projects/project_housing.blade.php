@@ -443,46 +443,52 @@
 
                                 @endif
 
-                                @if (( $offSale || $saleClosed) || ($soldAndNotStatus2) || (!$canAddToProject && Auth::check()) || ($off_sale_4) || 
-                                ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject)||
-                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
-                                    
-                              
-                                <div class="buttonAction">
+                                @if (
+                                    $offSale ||
+                                        $saleClosed ||
+                                        $soldAndNotStatus2 ||
+                                        (!$canAddToProject && Auth::check()) ||
+                                        $off_sale_4 ||
+                                        ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                        ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
 
-                                    <div
-                                        style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
 
-                                        @if ($offSale || $saleClosed)
-                                            <button class="btn second-btn" {!! $style !!}>
-                                                <span class="text">Satışa Kapalı</span>
-                                            </button>
-                                        @elseif ($soldAndNotStatus2)
-                                            <button class="btn second-btn" {!! $btnStyle !!}>
-                                                @if ($sold->status == '0' && ($share_sale == '[]' || empty($share_sale)))
-                                                    <span class="text">Rezerve Edildi</span>
-                                                @elseif (
-                                                    ($sold->status == '1' && ($share_sale == '[]' || empty($share_sale))) ||
-                                                        (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
-                                                    <span class="text">Satıldı</span>
-                                                @endif
-                                            </button>
-                                        @else
-                                            @if (
-                                                ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                                    ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
-                                                <button class="CartBtn second-btn mobileCBtn" data-type='project'
-                                                    data-project='{{ $project->id }}' style="height: 40px !important"
-                                                    data-id='{{ $housingOrder }}' data-share="{{ $share_sale }}"
-                                                    data-number-share="{{ $number_of_share }}">
-                                                    <span class="IconContainer">
-                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                    </span>
-                                                    <span class="text">Sepete Ekle</span>
+                                    <div class="buttonAction">
+
+                                        <div
+                                            style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
+
+                                            @if ($offSale || $saleClosed)
+                                                <button class="btn second-btn" {!! $style !!}>
+                                                    <span class="text">Satışa Kapalı</span>
                                                 </button>
-                                            @elseif (!$canAddToProject && Auth::check())
-                                                <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug, 'project_id' => $project->id]) }}"
-                                                    style="    height: 40px;
+                                            @elseif ($soldAndNotStatus2)
+                                                <button class="btn second-btn" {!! $btnStyle !!}>
+                                                    @if ($sold->status == '0' && ($share_sale == '[]' || empty($share_sale)))
+                                                        <span class="text">Rezerve Edildi</span>
+                                                    @elseif (
+                                                        ($sold->status == '1' && ($share_sale == '[]' || empty($share_sale))) ||
+                                                            (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
+                                                        <span class="text">Satıldı</span>
+                                                    @endif
+                                                </button>
+                                            @else
+                                                @if (
+                                                    ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                                        ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
+                                                    <button class="CartBtn second-btn mobileCBtn" data-type='project'
+                                                        data-project='{{ $project->id }}'
+                                                        style="height: 40px !important" data-id='{{ $housingOrder }}'
+                                                        data-share="{{ $share_sale }}"
+                                                        data-number-share="{{ $number_of_share }}">
+                                                        <span class="IconContainer">
+                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                        </span>
+                                                        <span class="text">Sepete Ekle</span>
+                                                    </button>
+                                                @elseif (!$canAddToProject && Auth::check())
+                                                    <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug, 'project_id' => $project->id]) }}"
+                                                        style="    height: 40px;
                                                     /* padding: 15px; */
                                                     color: white;
                                                     font-size: 11px;
@@ -496,13 +502,14 @@
                                                     display: flex;
                                                     align-items: center;
                                                     justify-content: center;"
-                                                    class="second-btn">
-                                                    <span class="text">İlanı Düzenle</span>
-                                                </a>
-                                            @elseif ($off_sale_4)
-                                                @if (Auth::user())
-                                                    <button class="first-btn payment-plan-button" data-bs-toggle="modal"
-                                                        style="    height: 40px;
+                                                        class="second-btn">
+                                                        <span class="text">İlanı Düzenle</span>
+                                                    </a>
+                                                @elseif ($off_sale_4)
+                                                    @if (Auth::user())
+                                                        <button class="first-btn payment-plan-button"
+                                                            data-bs-toggle="modal"
+                                                            style="    height: 40px;
                                                         /* padding: 15px; */
                                                         color: white;
                                                         font-size: 11px;
@@ -516,14 +523,14 @@
                                                         display: flex;
                                                         align-items: center;
                                                         justify-content: center;"
-                                                        data-bs-target="#approveProjectModal{{ $housingOrder }}">
+                                                            data-bs-target="#approveProjectModal{{ $housingOrder }}">
 
 
-                                                        TEKLİF VER
-                                                    </button>
-                                                @else
-                                                    <a href="{{ route('client.login') }}"
-                                                        style="    height: 40px;
+                                                            TEKLİF VER
+                                                        </button>
+                                                    @else
+                                                        <a href="{{ route('client.login') }}"
+                                                            style="    height: 40px;
                                                             /* padding: 15px; */
                                                             color: white;
                                                             font-size: 11px;
@@ -537,18 +544,18 @@
                                                             display: flex;
                                                             align-items: center;
                                                             justify-content: center;"
-                                                        class="first-btn payment-plan-button">
-                                                        TEKLİF VER
-                                                    </a>
+                                                            class="first-btn payment-plan-button">
+                                                            TEKLİF VER
+                                                        </a>
+                                                    @endif
                                                 @endif
                                             @endif
-                                        @endif
 
 
 
 
+                                        </div>
                                     </div>
-                                </div>
                                 @endif
                             </div>
                         </div>
@@ -3243,7 +3250,7 @@
             // Iterate over each .buttonDetail div
             $('.buttonDetail').each(function() {
                 // Check if the .buttonDetail div is empty
-                if ($(this).children().length === 0 && $.trim($(this).text()).length === 0) {
+                if ($(this).html() == null) {
                     // Add 'd-none' class to the parent div if .buttonDetail is empty
                     $(this).closest('div').addClass('d-none');
                 }
