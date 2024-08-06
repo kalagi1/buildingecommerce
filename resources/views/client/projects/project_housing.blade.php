@@ -59,6 +59,14 @@
         $projectHousings = [];
     @endphp
     @php
+        // Retrieve the necessary data
+        $canAddToProject = checkIfUserCanAddToProjectHousings($project->id, $keyIndex);
+        $user = Auth::user();
+        $isUserType2EmlakOfisi = $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
+        $isUserType1 = $user && $user->type == '1';
+    @endphp
+
+    @php
 
         if (isset($projectCartOrders[$housingOrder])) {
             $sold = $projectCartOrders[$housingOrder];
@@ -322,10 +330,7 @@
 
                                     $offSale = $off_sale_1 && !$sold;
 
-                                    $saleClosed =
-                                        $sold &&
-                                        $sold->status == '2' &&
-                                        $off_sale_1;
+                                    $saleClosed = $sold && $sold->status == '2' && $off_sale_1;
 
                                     $soldAndNotStatus2 =
                                         ($sold && $sold->status != '2' && $share_sale == '[]') ||
@@ -359,7 +364,10 @@
 
 
                                 @if (
-                                    ($sold && $sold->status == '2' && $share_sale == '[]') ||
+                                    ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                        ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
+                                        (!$canAddToProject && Auth::check()) ||
+                                        ($sold && $sold->status == '2' && $share_sale == '[]') ||
                                         !$sold ||
                                         ($sold && $sold->status == '2' && empty($share_sale)) ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
@@ -462,7 +470,7 @@
                                             @endif
                                         </button>
                                     @else
-                                        @if (checkIfUserCanAddToProject($project->id))
+                                        @if (checkIfUserCanAddToProject($project->id) && Auth::check())
                                             <button class="CartBtn second-btn" data-type='project'
                                                 data-project='{{ $project->id }}' data-id='{{ $housingOrder }}'
                                                 data-share="{{ $share_sale }}"
@@ -474,8 +482,20 @@
                                             </button>
                                         @else
                                             <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug, 'project_id' => $project->id]) }}"
-                                                class="btn btn-success">
-                                                <span class="text">Projeyi Düzenle</span>
+                                                class="btn btn-success"
+                                                style="width: 100%;
+                                    height: 40px;
+                                    border: none;
+                                    background-color: green;
+                                    display: flex;
+                                    border-radius: 0;
+                                    align-items: center;
+                                    justify-content: center;
+                                    cursor: pointer;
+                                    transition-duration: .5s;
+                                    overflow: hidden;
+                                    position: relative;">
+                                                <span class="text">İlanı Düzenle</span>
                                             </a>
                                         @endif
                                     @endif
