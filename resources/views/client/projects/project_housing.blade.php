@@ -363,20 +363,12 @@
                                 @endphp
 
 
+
+
                                 @if (
-                                    ($off_sale_2 && (Auth::check() && $isUserType2EmlakOfisi && $canAddToProject)) ||
-                                        ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                        ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                        ($share_sale && $projectDiscountAmount) ||
-                                        (($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1))) ||
-                                            ($sold && $sold->status == '2' && $share_sale == '[]')) ||
-                                        ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                        ($share_sale && $projectDiscountAmount) ||
-                                        !$off_sale_1 ||
-                                        (isset($sumCartOrderQt[$housingOrder]) &&
-                                            $sold &&
-                                            $sold->status != '2' &&
-                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share))
+                                    ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                        ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
+                                        (!$canAddToProject && Auth::check()))
                                     <div class="col-md-6 col-6 mobile-action-move p-0">
 
 
@@ -444,20 +436,10 @@
                                 @endif
 
                                 <div class="
-                                @if (
-                                    ($off_sale_2 && (Auth::check() && $isUserType2EmlakOfisi && $canAddToProject)) ||
-                                        ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                        ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                        ($share_sale && $projectDiscountAmount) ||
-                                        (($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1))) ||
-                                            ($sold && $sold->status == '2' && $share_sale == '[]')) ||
-                                        ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                        ($share_sale && $projectDiscountAmount) ||
-                                        !$off_sale_1 ||
-                                        (isset($sumCartOrderQt[$housingOrder]) &&
-                                            $sold &&
-                                            $sold->status != '2' &&
-                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)) col-md-12 col-12
+                                 @if (
+                                     ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                         ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
+                                         (!$canAddToProject && Auth::check())) col-md-12 col-12
                                 @else
                                     col-md-6 col-6 @endif
                             "
