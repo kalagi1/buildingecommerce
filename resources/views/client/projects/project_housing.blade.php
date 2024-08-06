@@ -388,7 +388,7 @@
                                                     <del
                                                         style="color: #ea2a28!important;font-weight: 700;font-size: 11px;">
 
-                                                        {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
                                                         ₺
                                                     </del>
                                                     <h6
@@ -410,9 +410,9 @@
                                             @elseif(
                                                 (isset($share_sale) &&
                                                     $share_sale != '[]' &&
-                                                    isset($sumCartOrderQt[$keyIndex]) &&
-                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
-                                                    (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
+                                                    isset($sumCartOrderQt[$housingOrder]) &&
+                                                    $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share) ||
+                                                    (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$housingOrder])))
                                                 @if (!$off_sale_1)
                                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                         <span class="text-center w-100">
@@ -424,10 +424,10 @@
                                                         @if (
                                                             (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) ||
                                                                 (isset($share_sale) && empty($share_sale) && $number_of_share != 0))
-                                                            {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
                                                             ₺
                                                         @else
-                                                            {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
                                                             ₺
                                                         @endif
                                                     </h6>
@@ -478,7 +478,7 @@
                                                 ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
                                             <button class="CartBtn second-btn mobileCBtn" data-type='project'
                                                 data-project='{{ $project->id }}' style="height: auto !important"
-                                                data-id='{{ $keyIndex }}' data-share="{{ $share_sale }}"
+                                                data-id='{{ $housingOrder }}' data-share="{{ $share_sale }}"
                                                 data-number-share="{{ $number_of_share }}">
                                                 <span class="IconContainer">
                                                     <img src="{{ asset('sc.png') }}" alt="">
@@ -491,18 +491,17 @@
                                                 <span class="text">İlanı Düzenle</span>
                                             </a>
                                         @elseif ($off_sale_4)
-                                        ($off_sale_4)
-                                        @if (Auth::user())
-                                            <button class="first-btn payment-plan-button" data-bs-toggle="modal"
-                                                data-bs-target="#approveProjectModal{{ $keyIndex }}">
-                                                TEKLİF VER
-                                            </button>
-                                        @else
-                                            <a href="{{ route('client.login') }}"
-                                                class="first-btn payment-plan-button">
-                                                TEKLİF VER
-                                            </a>
-                                        @endif
+                                            @if (Auth::user())
+                                                <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                                                    data-bs-target="#approveProjectModal{{ $housingOrder }}">
+                                                    TEKLİF VER
+                                                </button>
+                                            @else
+                                                <a href="{{ route('client.login') }}"
+                                                    class="first-btn payment-plan-button">
+                                                    TEKLİF VER
+                                                </a>
+                                            @endif
                                         @endif
                                     @endif
 
