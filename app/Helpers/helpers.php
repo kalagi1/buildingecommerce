@@ -74,7 +74,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
             return false; // Housing already exists or project belongs to the user
         }
 
-        return true; // User not logged in or does not meet type criteria
+        return false; // User not logged in or does not meet type criteria
 
     }
 }

@@ -688,7 +688,7 @@
                                                 </span>
                                                 <span class="text">Sepete Ekle</span>
                                             </button>
-                                        @elseif (!$canAddToProject)
+                                        @elseif (!$canAddToProject && Auth::check())
                                             <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
                                                 class="second-btn">
                                                 <span class="text">İlanı Düzenle</span>
