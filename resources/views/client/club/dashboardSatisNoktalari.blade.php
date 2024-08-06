@@ -35,7 +35,7 @@
                                         <img loading="lazy"
                                             src="{{ asset('storage/profile_images/' . $usersFromCollection->profile_image) }}"
                                             alt="{{ $usersFromCollection->name }}" class="esp-img"
-                                            style="object-fit:contain;">
+                                            style="object-fit:contain;width:100%;height:100%">
                                     @endif
                                 </div>
                             </a>
