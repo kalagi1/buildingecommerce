@@ -578,7 +578,7 @@
                             (!$off_sale_4 && Auth::check() && $canAddToProject) ||
                             (!$off_sale_1 && Auth::check() && $canAddToProject) ||
                             ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
-
+dsfdsfds
                         @if (($sold && $sold->status == '2') || !$sold || $off_sale_1)
                             <div class="moveCollection mb-3">
                                 <div class="add-to-collections-wrapper addCollectionMobile addCollection"
