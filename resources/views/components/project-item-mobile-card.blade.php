@@ -563,12 +563,12 @@
                     </li>
                 @endif
             @endforeach
-            <li class="d-flex align-items-center itemCircleFont">
+            {{-- <li class="d-flex align-items-center itemCircleFont">
                 <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                 <span>
                     {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
                 </span>
-            </li>
+            </li> --}}
 
         </ul>
 
