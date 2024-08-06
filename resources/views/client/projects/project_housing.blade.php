@@ -455,7 +455,7 @@
                                          ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
                                          (!$canAddToProject && Auth::check())) col-md-12 col-12
                                 @else
-                                    col-md-6 col-6 @endif homes-button"
+                                    col-md-6 col-6 @endif "
                                     style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
 
                                     @if ($offSale || $saleClosed)
@@ -493,15 +493,11 @@
                                         @elseif ($off_sale_4)
                                             @if (Auth::user())
                                                 <button class="first-btn payment-plan-button" data-bs-toggle="modal"
-                                                style="height: 40px !important;position: inherit !important;"
-
                                                     data-bs-target="#approveProjectModal{{ $housingOrder }}">
                                                     TEKLİF VER
                                                 </button>
                                             @else
                                                 <a href="{{ route('client.login') }}"
-                                                style="height: 40px !important;position: inherit !important;"
-
                                                     class="first-btn payment-plan-button">
                                                     TEKLİF VER
                                                 </a>
