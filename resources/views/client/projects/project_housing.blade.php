@@ -3317,7 +3317,7 @@
             justify-content: space-between;
         }
 
-    
+
 
         /* When either .buttonContent or .buttonAction is empty, make the other take full width */
         .buttonDetail>.buttonContent:empty~.buttonAction,
@@ -3327,10 +3327,14 @@
         }
 
         /* When both .buttonContent and .buttonAction are not empty, align them side by side */
-        .buttonDetail>.buttonContent:not(:empty)~.buttonAction,
-        .buttonDetail>.buttonAction:not(:empty)~.buttonContent {
+        .buttonDetail>.buttonContent:not(:empty)~.buttonAction {
             flex: 1 1 50%;
             /* Both divs will take equal width when not empty */
+        }
+
+        .buttonDetail>.buttonAction:not(:empty)~.buttonContent {
+            flex: 1 1 50%;
+
         }
     </style>
 @endsection
