@@ -37,6 +37,49 @@ class ClubController extends Controller
     
         return view('client.club.dashboard', compact('store', 'collections', 'slug'));
     }
+    public function dashboardSatisNoktalari($slug, $userID)
+    {
+        // Mağazayı ve ilişkili verileri al
+        $store = User::where('id', $userID)
+            ->with('projects.housings', 'housings', 'city', 'town', 'district', 'parent', 'neighborhood', 'brands', 'child.collections.clicks', 'banners')
+            ->first();
+    
+        // Kullanıcının emlak ilanlarını ve projelerini al
+        $projects = $store->projects; // Mağazanın projeleri
+        $housings = $store->housings; // Mağazanın emlak ilanları
+    
+        // Proje ve emlak ilanlarını içeren koleksiyonları al
+        $collectionsWithProjects = Collection::whereHas('links.project', function($query) use ($projects) {
+            $query->whereIn('project_id', $projects->pluck('id'));
+        })->with('user')->get();
+    
+        $collectionsWithHousings = Collection::whereHas('links.housing', function($query) use ($housings) {
+            $query->whereIn('housing_id', $housings->pluck('id'));
+        })->with('user')->get();
+    
+        // Koleksiyonların kullanıcılarını al
+        $usersFromCollections = $collectionsWithProjects->merge($collectionsWithHousings)
+            ->pluck('user')
+            ->unique()
+            ->values();
+    
+            return response()->json([
+                'store' => $store,
+                'collectionsWithProjects' => $collectionsWithProjects,
+                'collectionsWithHousings' => $collectionsWithHousings,
+                'usersFromCollections' => $usersFromCollections,
+                'slug' => $slug
+            ]);
+        // İlgili verileri view'a gönder
+        return view('client.club.dashboardSatisNoktalari', [
+            'store' => $store,
+            'collectionsWithProjects' => $collectionsWithProjects,
+            'collectionsWithHousings' => $collectionsWithHousings,
+            'usersFromCollections' => $usersFromCollections,
+            'slug' => $slug
+        ]);
+    }
+    
 
     public function dashboard2( $slug, $userID, )
     {    

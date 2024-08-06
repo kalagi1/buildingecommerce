@@ -188,6 +188,14 @@
                                 ]) }}" @endif>
                                     Koleksiyonlar
                                 </a>
+                            @else
+                                <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
+                                    href="{{ route('club.dashboardSatisNoktalari', [
+                                        'slug' => Str::slug($store->name),
+                                        'userID' => $store->id,
+                                    ]) }}">
+                                    Satış Noktalarımız
+                                </a>
                             @endif
 
 

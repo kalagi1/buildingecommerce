@@ -158,7 +158,6 @@ Route::get('/get-sell-type', [SellTypeController::class, 'getSellType'])->name('
 Route::post('/update-sell-type', [SellTypeController::class, 'updateSellType'])->name('update_sell_type');
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
-
 });
 Route::post('/project/{id}/send-comment', [ClientProjectController::class, "sendComment"])->name('project.send-comment');
 Route::get('/get-project-comment/{id}', [ClientProjectController::class, 'getComment'])->name('project.get-comment');
@@ -172,6 +171,9 @@ Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "das
 
 Route::get('/magaza/{parentSlug?}/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])
     ->name('club.dashboard');
+
+Route::get('/magaza/{slug}/{userID}/satis-noktalari', [ClubController::class, "dashboardSatisNoktalari"])
+    ->name('club.dashboardSatisNoktalari');
 
 Route::get('/proje/{slug}/{id}/detay', [ClientProjectController::class, "index"])->name('project.detail');
 Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])->name('project.detail.ajax');
@@ -863,7 +865,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
 
     //sıfırdan crm rotaları
     //raporlarim
-    Route::get("crm/istatistik/verileri", [InstitutionalCrmController::class,'raporlarim'])->name('crm.raporlarim');
+    Route::get("crm/istatistik/verileri", [InstitutionalCrmController::class, 'raporlarim'])->name('crm.raporlarim');
     //satış danışmanlarını listele ve proje atama
     Route::post('/update-today-working', [InstitutionalCrmController::class, 'updateTodayWorking'])->name('update.today.working');
 
@@ -881,23 +883,23 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
 
 
 
-        //yeni armakaydı ve müşteri bilgileri isteği
-        // Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo'])->name('new.call.customer.info');
-        Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo']);
-        Route::post('/arama/kaydi/musteri/ekle', [InstitutionalCrmController::class,'newCustomerInfo']);
-        Route::post('/setRating', [InstitutionalCrmController::class,'setRating'])->name('setRating');
-      
-        Route::post('/danisman/musteri/ekleme',[InstitutionalCrmController::class,'addNewCustomer']);
-   
-        //crm admin dashboard
-        Route::get('/crm/admin/dashboard',[InstitutionalCrmController::class,'adminDashboard'])->name('admin.dashboard');
-        Route::get('/crm/danisman/dashboard',[InstitutionalCrmController::class,'danismanDashboard'])->name('danisman.dashboard');
-                
-        //crm admini odul ekleme
-        Route::get('/crm/admin/odul',[InstitutionalCrmController::class,'adminOdulEkle'])->name('crm.admin.odul');
-        Route::post('/crm/admin/odul/ekle',[InstitutionalCrmController::class,'adminOdulEklePost'])->name('crm.admin.odul.ekle.post');
-        Route::get('/awards/{id}/edit',[InstitutionalCrmController::class,'awardEdit'])->name('crm.award.edit');
-        Route::post('/awards/{id}',[InstitutionalCrmController::class,'awardUpdate'])->name('crm.award.update');
+    //yeni armakaydı ve müşteri bilgileri isteği
+    // Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo'])->name('new.call.customer.info');
+    Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class, 'newCallCustomerInfo']);
+    Route::post('/arama/kaydi/musteri/ekle', [InstitutionalCrmController::class, 'newCustomerInfo']);
+    Route::post('/setRating', [InstitutionalCrmController::class, 'setRating'])->name('setRating');
+
+    Route::post('/danisman/musteri/ekleme', [InstitutionalCrmController::class, 'addNewCustomer']);
+
+    //crm admin dashboard
+    Route::get('/crm/admin/dashboard', [InstitutionalCrmController::class, 'adminDashboard'])->name('admin.dashboard');
+    Route::get('/crm/danisman/dashboard', [InstitutionalCrmController::class, 'danismanDashboard'])->name('danisman.dashboard');
+
+    //crm admini odul ekleme
+    Route::get('/crm/admin/odul', [InstitutionalCrmController::class, 'adminOdulEkle'])->name('crm.admin.odul');
+    Route::post('/crm/admin/odul/ekle', [InstitutionalCrmController::class, 'adminOdulEklePost'])->name('crm.admin.odul.ekle.post');
+    Route::get('/awards/{id}/edit', [InstitutionalCrmController::class, 'awardEdit'])->name('crm.award.edit');
+    Route::post('/awards/{id}', [InstitutionalCrmController::class, 'awardUpdate'])->name('crm.award.update');
 
 
     Route::get('/proje-ilanlarim', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
@@ -1212,7 +1214,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('/reservation/refund', [ClientPanelProfileController::class, 'reservationRefund'])->name('reservation.order.refund');
 });
 
-Route::get('/degerlendirmelerim',[ClientPageController::class,'myReviews'])->name('my.reviews');
+Route::get('/degerlendirmelerim', [ClientPageController::class, 'myReviews'])->name('my.reviews');
 
 Route::post('/order/comment', [HomeController::class, 'commentAfterPayment'])->name('client.commentAfterPayment');
 
@@ -1278,17 +1280,17 @@ Route::group(['prefix' => 'react'], function () {
     Route::get('/render_pdf/{project_id}/{room_order}', [ApiProjectController::class, "renderPdf"]);
     Route::get('/get_sale/{project_id}/{room_order}', [ApiProjectController::class, "getSale"]);
     Route::apiResource('customer', CrmController::class);
-    Route::get('/get_lockeds',[LockedController::class,"getLockeds"]);
-    Route::get('/subUsers',[SubuserController::class,"getSubusers"]);
-    Route::get('/get_lockers/{projectId}/{roomOrder}',[LockedController::class,"getLockers"]);
-    Route::post('/save_lockers/{projectId}/{roomOrder}',[LockedController::class,"saveLockers"]);
-    Route::post('/update_locked/{projectId}/{roomOrder}',[LockedController::class,"updateLock"]);
-    Route::get('/get_user_locked_information/{projectId}/{roomOrder}',[LockedController::class,"getUserLockedInformation"]);
-    
-    Route::post('new-call-record',[CrmController::class,'newCallRecord']);
-    Route::post('new-appointment',[CrmController::class,'newAppointment']);
-    Route::get('fetch-customers/{customerId}',[CrmController::class,'fetchCustomers']);
-    Route::get('all-appointments',[CrmController::class,'allAppointments']);
+    Route::get('/get_lockeds', [LockedController::class, "getLockeds"]);
+    Route::get('/subUsers', [SubuserController::class, "getSubusers"]);
+    Route::get('/get_lockers/{projectId}/{roomOrder}', [LockedController::class, "getLockers"]);
+    Route::post('/save_lockers/{projectId}/{roomOrder}', [LockedController::class, "saveLockers"]);
+    Route::post('/update_locked/{projectId}/{roomOrder}', [LockedController::class, "updateLock"]);
+    Route::get('/get_user_locked_information/{projectId}/{roomOrder}', [LockedController::class, "getUserLockedInformation"]);
+
+    Route::post('new-call-record', [CrmController::class, 'newCallRecord']);
+    Route::post('new-appointment', [CrmController::class, 'newAppointment']);
+    Route::get('fetch-customers/{customerId}', [CrmController::class, 'fetchCustomers']);
+    Route::get('all-appointments', [CrmController::class, 'allAppointments']);
 
     Route::post('new-call-record', [CrmController::class, 'newCallRecord']);
     Route::post('new-appointment', [CrmController::class, 'newAppointment']);
