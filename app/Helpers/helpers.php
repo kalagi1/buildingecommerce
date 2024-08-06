@@ -55,7 +55,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
     {
         if (auth()->user()) {
             // Determine the user ID to use (parent ID if available)
-            $userId = auth()->user()->parent_id ?: auth()->user()->id;
+            $userId = auth()->user()->parent_id ? auth()->user()->parent_id : auth()->user()->id;
             $user = User::where("id", $userId)->first();
 
 
@@ -122,7 +122,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
     {
         if (auth()->user()) {
             // Determine the user ID to use (parent ID if available)
-            $userId = auth()->user()->parent_id ?: auth()->user()->id;
+            $userId = auth()->user()->parent_id ? auth()->user()->parent_id : auth()->user()->id;
             $user = User::where("id", $userId)->first();
 
             // Check if the project exists for the user
