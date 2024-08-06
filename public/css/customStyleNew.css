@@ -11042,10 +11042,11 @@ a.int_btn,
   position: absolute;
   z-index: 99;
   bottom: 0;
-  right: 0;
+  left: 0;
   padding: 0 !important;
   height: 50px;
-  width: 60%;
+  width: 70%;
+  border-radius:0 20px 0 0;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding: 25px 30px;
@@ -30917,9 +30918,10 @@ a {
   width: 70px !important;
   height: 50px;
   position: absolute;
-  left: 35%;
+  left: 0;
   top: 0;
   z-index: 9;
+  border-radius: 0 0 20px 0;
   background-color: white;
 }
 
