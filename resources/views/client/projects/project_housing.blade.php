@@ -559,7 +559,7 @@
                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                             ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
                             (!$canAddToProject && Auth::check()))
-                            
+
                         @if (($sold && $sold->status == '2') || !$sold || $off_sale_1)
                             <div class="moveCollection">
                                 <div class="add-to-collections-wrapper addCollectionMobile addCollection"
@@ -3235,6 +3235,17 @@
                             .ilce_title +
                             '</option>');
                     });
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            // Iterate over each .buttonDetail div
+            $('.buttonDetail').each(function() {
+                // Check if the .buttonDetail div is empty
+                if ($(this).children().length === 0 && $.trim($(this).text()).length === 0) {
+                    // Add 'd-none' class to the parent div if .buttonDetail is empty
+                    $(this).closest('div').addClass('d-none');
                 }
             });
         });

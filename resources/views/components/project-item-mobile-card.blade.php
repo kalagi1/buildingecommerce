@@ -709,16 +709,7 @@
 
 
     <script>
-        $(document).ready(function() {
-            // Iterate over each .buttonDetail div
-            $('.buttonDetail').each(function() {
-                // Check if the .buttonDetail div is empty
-                if ($(this).children().length === 0 && $.trim($(this).text()).length === 0) {
-                    // Add 'd-none' class to the parent div if .buttonDetail is empty
-                    $(this).closest('div').addClass('d-none');
-                }
-            });
-        });
+      
         document.getElementById('price').addEventListener('input', function(e) {
             var value = e.target.value;
             // Sadece rakamları ve virgülü tut
