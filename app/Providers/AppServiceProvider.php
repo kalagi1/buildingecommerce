@@ -104,8 +104,11 @@ class AppServiceProvider extends ServiceProvider
                 if (File::exists($jsonFilePath)) {
                     $menuJson = File::get($jsonFilePath);
                     $menuData = json_decode($menuJson, true);
-
-                    $this->filterMenuPermissions($menuData, $permissions);
+                    $userType = Auth::user()->user_type;
+                    $corporateType = Auth::user()->corporate_type;
+                    
+                    $this->filterMenuPermissions($menuData, $permissions, $userType, $corporateType);
+                    
 
                     $view->with('menuData', $menuData);
                 }
@@ -148,22 +151,30 @@ class AppServiceProvider extends ServiceProvider
 
         return $permissions;
     }
-
-    private function filterMenuPermissions(&$menuData, $permissions)
+    private function filterMenuPermissions(&$menuData, $permissions, $userType, $corporateType)
     {
         foreach ($menuData as &$menuItem) {
-            $this->setMenuVisibility($menuItem, $permissions);
-
+            $this->setMenuVisibility($menuItem, $permissions, $userType, $corporateType);
+    
             if (isset($menuItem['subMenu'])) {
                 foreach ($menuItem['subMenu'] as &$subMenuItem) {
-                    $this->setMenuVisibility($subMenuItem, $permissions);
+                    $this->setMenuVisibility($subMenuItem, $permissions, $userType, $corporateType);
                 }
             }
         }
     }
-
-    private function setMenuVisibility(&$menuItem, $permissions)
+    
+    private function setMenuVisibility(&$menuItem, $permissions, $userType, $corporateType)
     {
+        // Kontrol etmek istediğiniz özel metin
+        $specialText = 'Emlak Kulüp';
+    
+        // Kullanıcı bilgilerini kontrol edin
+        if ($userType == 2 && $corporateType != 'Emlak Ofisi' && $menuItem['text'] == $specialText) {
+            $menuItem['visible'] = false;
+            return; // Daha fazla kontrol yapmayın, görünürlüğü ayarladınız.
+        }
+    
         if (isset($menuItem['subMenu'])) {
             $subMenuKeys = collect($menuItem['subMenu'])->pluck('key');
             $menuItem['visible'] = $subMenuKeys->intersect($permissions)->isNotEmpty();
@@ -171,7 +182,7 @@ class AppServiceProvider extends ServiceProvider
             $menuItem['visible'] = in_array($menuItem['key'], $permissions);
         }
     }
-
+    
     private function extendValidator()
     {
         Validator::extend('iban', function ($attribute, $value, $parameters, $validator) {
