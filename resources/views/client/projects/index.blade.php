@@ -80,7 +80,7 @@
     <section class="recently  bg-white homepage-5 ">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-8 col-12">
                     <div class="headings-2 pt-0 pb-0">
                         <div class="pro-wrapper mb-3" style="width: 100%; justify-content: space-between;">
 
@@ -92,22 +92,23 @@
                                     <h3>{{ $project->project_title }}</h3>
                                 </div>
                             </div>
-                            @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
-                                <span
-                                    style="    color: green;
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
+                        <span
+                            style="    color: green;
                           font-weight: 700;
                           font-size: 16px;
                           text-align: center;
-                          /* width: 35%; */
-                          flex: 0 0 33.333333%;
-                          max-width: 33.333333%;
+                          width:100%;
                           display: flex;
                           justify-content: center;
                           align-items: center;">SATIŞTAN
-                                    %{{ $project->club_rate }} KOMİSYON KAZAN!</span>
-                            @endif
-                        </div>
-                    </div>
+                            %{{ $project->club_rate }} KOMİSYON KAZAN!</span>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -333,9 +334,10 @@
                                                         </td>
                                                     </tr>
                                                 @endif --}}
-                                                @if((isset($projectHousingsList[1]['share_sale[]']) && $projectHousingsList[1]['share_sale[]'] != "[]") || (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != "[]"))
-                                                
-                                                @else 
+                                                @if (
+                                                    (isset($projectHousingsList[1]['share_sale[]']) && $projectHousingsList[1]['share_sale[]'] != '[]') ||
+                                                        (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]'))
+                                                @else
                                                     <tr>
                                                         <td colspan="2">
                                                             <strong class="autoWidthTr"><span>Toplam
@@ -878,9 +880,18 @@
                             role="tabpanel" aria-labelledby="contact-tab">
                             @php
                                 $housingTypeFormJson = json_decode($project->housingType->form_json);
-                                $column1Order = array_search($project->listItemValues->column1_name."[]",array_column(json_decode($project->housingType->form_json), 'name'));
-                                $column2Order = array_search($project->listItemValues->column2_name."[]",array_column(json_decode($project->housingType->form_json), 'name'));
-                                $column3Order = array_search($project->listItemValues->column3_name."[]",array_column(json_decode($project->housingType->form_json), 'name'));
+                                $column1Order = array_search(
+                                    $project->listItemValues->column1_name . '[]',
+                                    array_column(json_decode($project->housingType->form_json), 'name'),
+                                );
+                                $column2Order = array_search(
+                                    $project->listItemValues->column2_name . '[]',
+                                    array_column(json_decode($project->housingType->form_json), 'name'),
+                                );
+                                $column3Order = array_search(
+                                    $project->listItemValues->column3_name . '[]',
+                                    array_column(json_decode($project->housingType->form_json), 'name'),
+                                );
                             @endphp
 
                             @if ($project->have_blocks == 1)
@@ -973,31 +984,51 @@
                                                 <div class="col-md-12">
                                                     <div class="row">
                                                         <div class="col-md-3 pr-0">
-                                                            <div style="background:#ea2b2e;width: 100%;height: 100%;border-top-left-radius: 7px;"></div>
+                                                            <div
+                                                                style="background:#ea2b2e;width: 100%;height: 100%;border-top-left-radius: 7px;">
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-9" >
+                                                        <div class="col-md-9">
                                                             <div class="row" style="width: 102%;">
-                                                                <div class="col-md-9" style="background:#ea2b2e;color:#fff;padding : 5px 15px;">
-                                                                    @if($project->id == 434 || $project->id == 433 || $project->id == 431)
-                                                                    <div class="d-flex">
-                                                                        <li style="width:20%;list-style:none;">Oda Sayısı</li>
-                                                                        <li style="width:20%;list-style:none;">Oda Tipi</li>
-                                                                        <li style="width:20%;list-style:none;">İl/İlçe</li>
-                                                                        <li style="width:20%;list-style:none;">Eklenme Tarihi</li>
-                                                                        <li style="width:20%;display:flex;justify-content:center">Fiyat</li>
-                                                                    </div>
-                                                                @else
-                                                                <div class="d-flex">
-                                                                    <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column1Order]->label}}</li>
-                                                                    <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column2Order]->label}}</li>
-                                                                    @if($project->listItemValues->column3_name)
-                                                                    <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column3Order]->label}}</li>@endif
-                                                                    <li style="width:20%;list-style:none;">Eklenme Tarihi</li>
-                                                                    <li style="width:20%;display:flex;justify-content:center">Fiyat</li>
+                                                                <div class="col-md-9"
+                                                                    style="background:#ea2b2e;color:#fff;padding : 5px 15px;">
+                                                                    @if ($project->id == 434 || $project->id == 433 || $project->id == 431)
+                                                                        <div class="d-flex">
+                                                                            <li style="width:20%;list-style:none;">Oda
+                                                                                Sayısı</li>
+                                                                            <li style="width:20%;list-style:none;">Oda Tipi
+                                                                            </li>
+                                                                            <li style="width:20%;list-style:none;">İl/İlçe
+                                                                            </li>
+                                                                            <li style="width:20%;list-style:none;">Eklenme
+                                                                                Tarihi</li>
+                                                                            <li
+                                                                                style="width:20%;display:flex;justify-content:center">
+                                                                                Fiyat</li>
+                                                                        </div>
+                                                                    @else
+                                                                        <div class="d-flex">
+                                                                            <li style="width:20%;list-style:none;">
+                                                                                {{ $housingTypeFormJson[$column1Order]->label }}
+                                                                            </li>
+                                                                            <li style="width:20%;list-style:none;">
+                                                                                {{ $housingTypeFormJson[$column2Order]->label }}
+                                                                            </li>
+                                                                            @if ($project->listItemValues->column3_name)
+                                                                                <li style="width:20%;list-style:none;">
+                                                                                    {{ $housingTypeFormJson[$column3Order]->label }}
+                                                                                </li>
+                                                                            @endif
+                                                                            <li style="width:20%;list-style:none;">Eklenme
+                                                                                Tarihi</li>
+                                                                            <li
+                                                                                style="width:20%;display:flex;justify-content:center">
+                                                                                Fiyat</li>
+                                                                        </div>
+                                                                    @endif
                                                                 </div>
-                                                                @endif
-                                                                </div>
-                                                                <div class="col-md-3" style="background:#ea2b2e;width: 100%;height: 26px;border-bottom-right-radius: 7px;">
+                                                                <div class="col-md-3"
+                                                                    style="background:#ea2b2e;width: 100%;height: 26px;border-bottom-right-radius: 7px;">
 
                                                                 </div>
                                                             </div>
@@ -1046,8 +1077,8 @@
 
                                                         $statusSlug = $status->slug;
                                                     @endphp
-                                                    
-                                                    
+
+
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
                                                         :blockStart="0" :towns="$towns" :cities="$cities"
                                                         :key="$key" :statusSlug="$statusSlug" :blockName="$blockName"
