@@ -186,7 +186,7 @@
 
                                         @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
 
-                                            @if (!($sold_check && $sold->status == '1'))
+                                            @if (!$sold_check)
                                                 <span class="btn addCollection mobileAddCollection" data-type='project'
                                                     data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                                                     <i class="fa fa-bookmark-o"></i>
