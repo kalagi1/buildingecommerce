@@ -493,11 +493,39 @@
                                         @elseif ($off_sale_4)
                                             @if (Auth::user())
                                                 <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                                                style="    height: 40px;
+    /* padding: 15px; */
+    color: white;
+    font-size: 11px;
+    background-color: black;
+    font-weight: 600;
+    border: none;
+    right: 0;
+    position: inherit !important;
+    top: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;"
                                                     data-bs-target="#approveProjectModal{{ $housingOrder }}">
                                                     TEKLİF VER
                                                 </button>
                                             @else
                                                 <a href="{{ route('client.login') }}"
+                                                style="    height: 40px;
+                                                /* padding: 15px; */
+                                                color: white;
+                                                font-size: 11px;
+                                                background-color: black;
+                                                font-weight: 600;
+                                                border: none;
+                                                right: 0;
+                                                position: inherit !important;
+                                                top: 0;
+                                                width: 100%;
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;"
                                                     class="first-btn payment-plan-button">
                                                     TEKLİF VER
                                                 </a>
