@@ -261,10 +261,9 @@
                             @elseif (!$canAddToProject)
                                 <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
                                     class="second-btn mobileCBtn"
-                                    style="width:50% !important;background-color:#274abb !important;border:1px solid #274abb;color:white"
+                                    style="width:50% !important;background-color:#274abb !important;border:1px solid #274abb;color:white;display:block"
                                     >
-                                    <span class="text">İlanı Düzenle</span>
-                                </a>
+                                    İlanı Düzenle                                </a>
                             @else
                                 <a href="{{ route('project.housings.detail', [
                                     'projectSlug' =>
