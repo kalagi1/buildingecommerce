@@ -8,14 +8,14 @@
                 <div class="homes">
                     <div class="homes-img">
                         <div class="homes-tag button alt featured" style="width:auto !important">
-                            {{-- No: {{ $housing->id + 2000000 }} --}}  
+                            {{-- No: {{ $housing->id + 2000000 }} --}}
                             @if ($housing->step2_slug == 'kiralik')
                                 Kiralık
-                                @elseif ($housing->step2_slug == 'gunluk-kiralik')
-                                    Günlük Kiralık
-                                @else
-                                    Satılık
-                                @endif
+                            @elseif ($housing->step2_slug == 'gunluk-kiralik')
+                                Günlük Kiralık
+                            @else
+                                Satılık
+                            @endif
                         </div>
 
                         {{-- <div class="type-tag button alt featured">
@@ -28,14 +28,14 @@
                             @endif
                         </div> --}}
 
-                        {{-- @if($housing->step2_slug == 'gunluk-kiralik')
+                        {{-- @if ($housing->step2_slug == 'gunluk-kiralik')
                         <p class="chakra-text css-1nm0gly">Max {{json_decode($housing->housing_type_data)->max_user[0]}} kişi</p>
                         @endif --}}
                         @if (checkIfUserCanAddToCart($housing->id))
 
-                        @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
-                            <div class="homes-price"><i class="fa fa-handshake-o"></i> Paylaşımlı İlan</div>
-                        @endif
+                            @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
+                                <div class="homes-price"><i class="fa fa-handshake-o"></i> Paylaşımlı İlan</div>
+                            @endif
                         @endif
 
                         <img loading="lazy"
@@ -45,57 +45,57 @@
                 </div>
                 @if (checkIfUserCanAddToCart($housing->id))
 
-                <div class="button-effect-div">
-                    @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
-                        <span
-                            class="btn @if (($sold && $sold[0] == '1') || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif"
-                            data-type='housing' data-id="{{ $housing->id }}">
-                            <i class="fa fa-bookmark-o"></i>
-                        </span>
-                    @endif
+                    <div class="button-effect-div">
+                        @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
+                            <span
+                                class="btn @if (($sold && $sold[0] == '1') || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif"
+                                data-type='housing' data-id="{{ $housing->id }}">
+                                <i class="fa fa-bookmark-o"></i>
+                            </span>
+                        @endif
 
-                    <span class="btn toggle-favorite bg-white" data-housing-id={{ $housing->id }}>
-                        <i class="fa fa-heart-o"></i>
-                    </span>
-                </div>
+                        <span class="btn toggle-favorite bg-white" data-housing-id={{ $housing->id }}>
+                            <i class="fa fa-heart-o"></i>
+                        </span>
+                    </div>
                 @endif
             </div>
             <div class="homes-content p-3" style="padding:20px !important">
                 <span style="text-decoration: none">
 
-                    <h4 class="mb-1" >
+                    <h4 class="mb-1">
                         {{ $housing->title }}
                     </h4>
 
-<p class="homes-address mb-1">
-    <i class="fa fa-map-marker"></i>
-    <span>
-        @php
-            // Initialize an empty array to hold the address parts
-            $addressParts = [];
+                    <p class="homes-address mb-1">
+                        <i class="fa fa-map-marker"></i>
+                        <span>
+                            @php
+                                // Initialize an empty array to hold the address parts
+                                $addressParts = [];
 
-            // Add city if it exists
-            if ($housing->city) {
-                $addressParts[] = ucfirst($housing->city->title);
-            }
+                                // Add city if it exists
+                                if ($housing->city) {
+                                    $addressParts[] = ucfirst($housing->city->title);
+                                }
 
-            // Add district if it exists
-            if ($housing->district) {
-                $addressParts[] = ucfirst($housing->district->ilce_title);
-            }
+                                // Add district if it exists
+                                if ($housing->district) {
+                                    $addressParts[] = ucfirst($housing->district->ilce_title);
+                                }
 
-            // Add neighborhood if it exists
-            if ($housing->neighborhood) {
-                $addressParts[] = ucfirst($housing->neighborhood->mahalle_title);
-            }
+                                // Add neighborhood if it exists
+                                if ($housing->neighborhood) {
+                                    $addressParts[] = ucfirst($housing->neighborhood->mahalle_title);
+                                }
 
-            // Join all parts with ' / ' and ensure that there's no trailing or leading space
-            $formattedAddress = implode(' / ', $addressParts);
-        @endphp
+                                // Join all parts with ' / ' and ensure that there's no trailing or leading space
+$formattedAddress = implode(' / ', $addressParts);
+                            @endphp
 
-        {{ $formattedAddress }}
-    </span>
-</p>
+                            {{ $formattedAddress }}
+                        </span>
+                    </p>
 
                 </span>
                 <!-- homes List -->
@@ -188,7 +188,7 @@
                                             ₺
                                         @endif
                                         <span style="font-size:11px; color:#EC2F2E">
-                                           / gecelik</span>
+                                            / gecelik</span>
                                     @else
                                         @if ($housing->discount_amount)
                                             <del style="font-size:11px; color:#EC2F2E">
@@ -237,9 +237,9 @@
 
 
                     </li>
-                  <li style="display: flex; justify-content: right; width: 100%">
-    {{ date('d.m.Y', strtotime($housing->created_at)) }}
-</li>
+                    <li style="display: flex; justify-content: right; width: 100%">
+                        {{ date('d.m.Y', strtotime($housing->created_at)) }}
+                    </li>
 
 
                 </ul>
