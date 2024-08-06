@@ -15,34 +15,30 @@
                 </li>
             </ul>
         </div>
-        {{-- <div class="text-header-title">
-            <p class="sales-consultants-heading">İstatistik Verileri</p>
-        </div> --}}
 
         <div class="row">
             <div class="text-header-title">
                 <p class="sales-consultants-heading"> İletişim Faaliyetleri ve Performans Göstergeleri</p>
-            </div>
-            <div class="col-6 text-header">
-                <!-- Sekme Başlıkları -->
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" id="daily-tab">Günlük</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" id="weekly-tab">Haftalık</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" id="monthly-tab">Aylık</a>
-                    </li>
-                </ul>
-                <!-- Tablo Alanı -->
-                <div class="tab-content mt-3">
-                    <div id="data-table" class="table-responsive">
-                        <!-- Tablo Burada Gösterilecek -->
-                    </div>
-                </div>
+            </div>          
+        </div>
 
+        <div class="row">
+            <div class="col-6">
+                <div class="data-title">
+                    <span>Randevu İstatistikleri</span>
+                </div>
+                <div style="background-color:white;padding: 10px;border-radius: 13px;">
+                    <ul style="display: flex">
+                        <li class="nav-item active">Günlük</li>
+                        <li class="nav-item">Haftalık</li>
+                        <li class="nav-item">Aylık</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="data-title">
+                    <span>Arama İstatistikleri</span>
+                </div>
             </div>
         </div>
     </div>
@@ -111,17 +107,16 @@
 
     @section('styles')
         <style>
-            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-                border-bottom: none;
+            .data-title{
                 background-color: #ea2a28;
-                color: white;
-                border-radius: 5px;
-            }
-
-            .nav-item{
-                color: #ea2a28 !important;
-                border: #ea2a28 !important;
-                background-color: white !important;
+                color: #ffffff;
+                padding: 7px;
+                font-size: 18px;
+                border-radius: 13px;
+                text-align: center;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
             }
             .card-header{
                 background-color: #ea2a28;
@@ -143,9 +138,6 @@
                 flex: initial;
             }
 
-            input.success:checked + .slider {
-                background-color: #8bc34a;
-            }
             .sales-consultants-heading {
                 color: #333;
                 font-weight: bold;
