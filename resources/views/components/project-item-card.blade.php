@@ -184,17 +184,16 @@
                                                 $sold->status != '2' &&
                                                 $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
 
-                                        @if (
-                                            (checkIfUserCanAddToProjectHousings($project->id, $keyIndex) && Auth::check()) ||
-                                                ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
-
+@if (
+    ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+        ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
+        (!$canAddToProject && Auth::check()))
                                             @if (!$sold_check)
                                                 <span class="btn addCollection mobileAddCollection" data-type='project'
                                                     data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                                                     <i class="fa fa-bookmark-o"></i>
                                                 </span>
-                                                
+
                                                 <span class="btn toggle-project-favorite bg-white"
                                                     data-project-housing-id="{{ $keyIndex }}"
                                                     data-project-id={{ $project->id }}>
