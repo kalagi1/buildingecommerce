@@ -28,7 +28,7 @@
                     <img loading="lazy"
                         src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
                         alt="">
-                    <span class="country">{{ $project->city->title }}/{{ $project->county->ilce_title }}</span>
+                    {{-- <span class="country">{{ $project->city->title }}/{{ $project->county->ilce_title }}</span> --}}
                 </span>
                 @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
                     <span class="project_estate_club_rate">

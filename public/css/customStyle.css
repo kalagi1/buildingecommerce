@@ -11044,8 +11044,8 @@ a.int_btn,
   bottom: 0;
   right: 0;
   padding: 0 !important;
-  height: 40px;
-  width: 100%;
+  height: 50px;
+  width: 60%;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding: 25px 30px;
@@ -30865,7 +30865,8 @@ a {
 
 .project_brand_profile_image img {
   width: 100%;
-  height: 55px;
+  height: 100%;
+  border-radius: 0 0 20px 0;
   object-fit: contain;
 }
 
@@ -30913,8 +30914,8 @@ a {
 }
 
 .project_brand_profile_image {
-  width: 100px !important;
-  height: 70px;
+  width: 70px !important;
+  height: 50px;
   position: absolute;
   left: 35%;
   top: 0;
