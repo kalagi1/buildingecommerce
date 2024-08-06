@@ -555,8 +555,11 @@
 
                     </div>
 
-                    @if (checkIfUserCanAddToProjectHousings($project->id, $housingOrder))
-
+                    @if (
+                        ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
+                            (!$canAddToProject && Auth::check()))
+                            
                         @if (($sold && $sold->status == '2') || !$sold || $off_sale_1)
                             <div class="moveCollection">
                                 <div class="add-to-collections-wrapper addCollectionMobile addCollection"
