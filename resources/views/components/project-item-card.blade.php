@@ -161,12 +161,9 @@
                                                 $sold->status != '2' &&
                                                 $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
 
-                                        {{ $off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject }}
-                                        {{-- {{!$off_sale_4 && Auth::check() && $canAddToProject}}
-{{$off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject}} --}}
                                         @if (
                                             ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                                (!$off_sale_4 && Auth::check() && $canAddToProject) ||
+                                                (!$off_sale_2 && !$off_sale_3 && !$off_sale_4 && Auth::check() && $canAddToProject) ||
                                                 ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
 
                                             @if (!$sold_check)
