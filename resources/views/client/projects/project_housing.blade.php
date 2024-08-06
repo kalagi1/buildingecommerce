@@ -357,11 +357,11 @@
 
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton mb-5">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
-                                    @if (
-                                        ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-                                            (!$canAddToProject && Auth::check()))
-                                                                            <div class="buttonContent">
+                                @if (
+                                    ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                        ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
+                                        (!$canAddToProject && Auth::check()))
+                                    <div class="buttonContent">
 
                                         <div class="mobile-action-move p-0">
 
@@ -428,7 +428,7 @@
                                                     @endif
                                                 @endif
                                             </span>
-                                                                        {{--
+                                            {{--
                                                 @if (Auth::check() && Auth::user()->id == $project->user_id)
                                                 <div class="col-md-12 col-12 p-0 ml-3">
                                                     <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
@@ -439,9 +439,9 @@
                                                 @endif --}}
 
                                         </div>
-                                </div>
+                                    </div>
 
-                                    @endif
+                                @endif
                                 <div class="buttonAction">
 
                                     <div
@@ -497,19 +497,19 @@
                                                 @if (Auth::user())
                                                     <button class="first-btn payment-plan-button" data-bs-toggle="modal"
                                                         style="    height: 40px;
-                        /* padding: 15px; */
-                        color: white;
-                        font-size: 11px;
-                        background-color: black;
-                        font-weight: 600;
-                        border: none;
-                        right: 0;
-                        position: inherit !important;
-                        top: 0;
-                        width: 100%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;"
+                                                        /* padding: 15px; */
+                                                        color: white;
+                                                        font-size: 11px;
+                                                        background-color: black;
+                                                        font-weight: 600;
+                                                        border: none;
+                                                        right: 0;
+                                                        position: inherit !important;
+                                                        top: 0;
+                                                        width: 100%;
+                                                        display: flex;
+                                                        align-items: center;
+                                                        justify-content: center;"
                                                         data-bs-target="#approveProjectModal{{ $housingOrder }}">
 
 
@@ -518,19 +518,19 @@
                                                 @else
                                                     <a href="{{ route('client.login') }}"
                                                         style="    height: 40px;
-                        /* padding: 15px; */
-                        color: white;
-                        font-size: 11px;
-                        background-color: black;
-                        font-weight: 600;
-                        border: none;
-                        right: 0;
-                        position: inherit !important;
-                        top: 0;
-                        width: 100%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;"
+                                                            /* padding: 15px; */
+                                                            color: white;
+                                                            font-size: 11px;
+                                                            background-color: black;
+                                                            font-weight: 600;
+                                                            border: none;
+                                                            right: 0;
+                                                            position: inherit !important;
+                                                            top: 0;
+                                                            width: 100%;
+                                                            display: flex;
+                                                            align-items: center;
+                                                            justify-content: center;"
                                                         class="first-btn payment-plan-button">
                                                         TEKLİF VER
                                                     </a>
@@ -540,12 +540,7 @@
 
 
 
-                                        {{-- <div class="button-effect toggle-project-favorite"
-                    style="margin-left:13px;width:40px !important"
-                    data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
-                    data-project-id={{ $project->id }}>
-                    <i class="fa fa-heart-o"></i>
-                </div> --}}
+
                                     </div>
                                 </div>
                             </div>
@@ -1851,6 +1846,29 @@
             e.target.value = value;
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            // Check if any of the conditions in .buttonAction are met
+            var buttonActionVisible = false;
+
+            // Iterate through child elements to check if any condition is met
+            $('.buttonAction').children().each(function() {
+                // If the child element is visible, set the flag to true
+                if ($(this).is(':visible')) {
+                    buttonActionVisible = true;
+                    return false; // Exit loop early if a visible child is found
+                }
+            });
+
+            // Show or hide .buttonAction based on the flag
+            if (buttonActionVisible) {
+                $('.buttonAction').show();
+            } else {
+                $('.buttonAction').hide();
+            }
+        });
+    </script>
+
     <script>
         function initMap() {
             // İlk harita görüntüsü
