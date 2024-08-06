@@ -675,7 +675,7 @@
                                             auth()->user()->type != 3 &&
                                             auth()->user()->type != 21)
 
-                                            {{dd(auth()->user()->corporate_type)}}
+{{ dd(auth()->user()->corporate_type, gettype(auth()->user()->corporate_type)) }}
                                         @include('client.layouts.partials.dropdown_user_icon', [
                                             'mainLink' => 'Hesabım',
                                             'links' => [
