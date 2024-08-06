@@ -302,7 +302,7 @@
                                     'projectID' => $project->id + 1000000,
                                     'housingOrder' => $i + 1,
                                 ]) }}"
-                                    class="second-btn CartBtn">
+                                    class="second-btn CartBtn mobileCBtn">
                                     <span class="text">İlanı Gör</span>
                                 </a>
                             @endif
