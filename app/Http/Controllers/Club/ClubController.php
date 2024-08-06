@@ -65,6 +65,7 @@ class ClubController extends Controller
     
         return view('client.club.dashboardSatisNoktalari', [
             'usersFromCollections' => $usersFromCollections,
+            'store' => $store
         ]);
     }
     
