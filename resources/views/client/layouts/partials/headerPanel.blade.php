@@ -701,7 +701,7 @@
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
                                                         Auth::user()->corporate_type == 'Emlak Ofisi'
-                                                            ? 'Portföylerim' + Auth::user()->corporate_type
+                                                            ? 'Portföylerim' .  Auth::user()->corporate_type
                                                             : 'Satış Noktalarımız',
                                                 ],
                                                 [
