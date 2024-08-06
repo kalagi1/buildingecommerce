@@ -368,7 +368,7 @@
                                         ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
                                         ($sold && $sold->status == '2' && $share_sale == '[]') ||
                                         ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                       ( $share_sale && $projectDiscountAmount) ||
+                                        ($share_sale && $projectDiscountAmount) ||
                                         !$off_sale_1 ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
                                             $sold &&
@@ -442,21 +442,36 @@
 
                                 <div class="
                                 @if (
-                                    ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                        ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-                                        ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                        ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                       ( $share_sale && $projectDiscountAmount) ||
-                                        !$off_sale_1 ||
-                                        (isset($sumCartOrderQt[$housingOrder]) &&
-                                            $sold &&
-                                            $sold->status != '2' &&
-                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)) col-md-6 col-6
+                                    ($off_sale_2 &&
+                                        Auth::check() &&
+                                        $isUserType2EmlakOfisi &&
+                                        $canAddToProject &&
+                                        $sold &&
+                                        $sold->status == '2' &&
+                                        $share_sale == '[]') ||
+                                    ($sold && $sold->status == '2' && empty($share_sale)) ||
+                                    ($share_sale && $projectDiscountAmount) ||
+                                    ($off_sale_3 &&
+                                        Auth::check() &&
+                                        ($isUserType2EmlakOfisi || $isUserType1) &&
+                                        $sold &&
+                                        $sold->status == '2' &&
+                                        $share_sale == '[]') ||
+                                    ($sold && $sold->status == '2' && empty($share_sale)) ||
+                                    ($share_sale && $projectDiscountAmount) ||
+                                    !$off_sale_1 ||
+                                    (isset($sumCartOrderQt[$housingOrder]) &&
+                                        $sold &&
+                                        $sold->status != '2' &&
+                                        $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)
+                                )
+                                    col-md-6 col-6
                                 @else
-                                    col-md-12 col-12 @endif
+                                    col-md-12 col-12
+                                @endif
                             "
-                                    style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
-
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
+                            
                                     @if ($offSale || $saleClosed)
                                         <button class="btn second-btn" {!! $style !!}>
                                             <span class="text">Satışa Kapalı</span>
