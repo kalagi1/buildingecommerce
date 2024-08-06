@@ -442,10 +442,12 @@
 
                                 <div class="
                                 @if (
-                                    ($sold && $sold->status == '2' && $share_sale == '[]') ||
+                                    ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                        ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
+                                        (!$canAddToProject && Auth::check()) ||
+                                        ($sold && $sold->status == '2' && $share_sale == '[]') ||
                                         !$sold ||
                                         ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                        (!$off_sale_1 && !$sold) ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
                                             $sold &&
                                             $sold->status != '2' &&
