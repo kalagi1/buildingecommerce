@@ -458,19 +458,19 @@
                             <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
                                 data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                data-payment-order="{{ $projectOrder }}">
+                                data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI
                             </button>
                         @elseif (!checkIfUserCanAddToProject($project->id))
                             <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
                                 data-sold="0" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                data-payment-order="{{ $projectOrder }}">
+                                data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI (Sadece Emlak Ofisleri Görür)
                             </button>
                         @else
                             <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
                                 data-sold="1" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                data-payment-order="{{ $projectOrder }}">
+                                data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI
                             </button>
                         @endif
@@ -482,19 +482,19 @@
                             <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
                                 data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                data-payment-order="{{ $projectOrder }}">
+                                data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI
                             </button>
                         @elseif (!checkIfUserCanAddToProject($project->id))
                             <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
                                 data-sold="0" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                data-payment-order="{{ $projectOrder }}">
+                                data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI (Sadece Tüm Emlak Kulüp Üyeleri Görür)
                             </button>
                         @else
                             <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
                                 data-sold="1" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                data-payment-order="{{ $projectOrder }}">
+                                data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI
                             </button>
                         @endif
