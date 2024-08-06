@@ -16795,7 +16795,7 @@ a.button {
   width: 100%;
   text-align: center !important;
   text-align: -webkit-center;
-  position: absolute;
+  position: absolute !important;
   /* top: 0; */
 }
 
