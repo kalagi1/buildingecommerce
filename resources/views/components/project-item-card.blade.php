@@ -329,7 +329,7 @@
                                     @if (
                                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                                             ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-                                            !$canAddToProject && Auth::check())
+                                            (!$canAddToProject && Auth::check()))
                                         <li class="the-icons mobile-hidden">
                                             <span style="width:100%;text-align:center">
 
@@ -578,14 +578,13 @@
                                                 data-payment-order="{{ $projectOrder }}">
                                                 ÖDEME DETAYI (Sadece Emlak Ofisleri Görür)
                                             </button>
-                                            @else
+                                        @else
                                             <button class="first-btn payment-plan-button"
-                                            project-id="{{ $project->id }}"
-                                            data-sold="1"
-                                            order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                            data-payment-order="{{ $projectOrder }}">
-                                            ÖDEME DETAYI
-                                        </button>
+                                                project-id="{{ $project->id }}" data-sold="1"
+                                                order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                                data-payment-order="{{ $projectOrder }}">
+                                                ÖDEME DETAYI
+                                            </button>
                                         @endif
 
                                     @endif
@@ -606,6 +605,13 @@
                                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                                 data-payment-order="{{ $projectOrder }}">
                                                 ÖDEME DETAYI (Sadece Tüm Emlak Kulüp Üyeleri Görür)
+                                            </button>
+                                        @else
+                                            <button class="first-btn payment-plan-button"
+                                                project-id="{{ $project->id }}" data-sold="1"
+                                                order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                                data-payment-order="{{ $projectOrder }}">
+                                                ÖDEME DETAYI
                                             </button>
                                         @endif
                                     @endif
