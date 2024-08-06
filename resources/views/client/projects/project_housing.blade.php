@@ -442,6 +442,10 @@
                                     </div>
 
                                 @endif
+
+                                @if (( $offSale || $saleClosed) || ($soldAndNotStatus2) || (!$canAddToProject && Auth::check()) || ($off_sale_4))
+                                    
+                                @endif
                                 <div class="buttonAction">
 
                                     <div
