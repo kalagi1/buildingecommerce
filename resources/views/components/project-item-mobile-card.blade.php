@@ -282,7 +282,7 @@
                                 </button>
                             @elseif (!$canAddToProject)
                                 <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
-                                    class="second-btn">
+                                    class="second-btn mobileCBtn">
                                     <span class="text">İlanı Düzenle</span>
                                 </a>
                             @else
@@ -456,6 +456,8 @@
                     @if ($off_sale_2)
                         @if (Auth::check() && Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi')
                             <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
+
                                 data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
@@ -463,6 +465,8 @@
                             </button>
                         @elseif (!checkIfUserCanAddToProject($project->id))
                             <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
+
                                 data-sold="0" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI (Sadece Emlak Ofisleri Görür)
@@ -480,6 +484,8 @@
                     @if ($off_sale_3)
                         @if (Auth::check() && ((Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') || Auth::user()->type == '1'))
                             <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
+
                                 data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
@@ -487,12 +493,16 @@
                             </button>
                         @elseif (!checkIfUserCanAddToProject($project->id))
                             <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
+
                                 data-sold="0" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI (Sadece Tüm Emlak Kulüp Üyeleri Görür)
                             </button>
                         @else
                             <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
+
                                 data-sold="1" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI
@@ -502,15 +512,14 @@
                     @if ($off_sale_4)
                         @if (Auth::user())
                             <button class="first-btn payment-plan-button" data-bs-toggle="modal"
-                            style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
-
+                                style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
                                 data-bs-target="#approveProjectModal{{ $keyIndex }}">
                                 TEKLİF VER
                             </button>
                         @else
                             <a href="{{ route('client.login') }}" class="first-btn payment-plan-button"
-                            style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
-                            >
+                                style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
+                                >
                                 TEKLİF VER
                             </a>
                         @endif
