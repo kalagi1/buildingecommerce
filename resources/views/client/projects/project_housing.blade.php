@@ -575,10 +575,10 @@
 
                     @if (
                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                            ((!$off_sale_4 || !$off_sale_1) && $canAddToProject) ||
+                            (!$off_sale_4 && $canAddToProject) ||
                             ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
 
-@if (($sold && $sold->status == '2') || !$sold || $off_sale_1)
+                        @if (($sold && $sold->status == '2') || !$sold || $off_sale_1)
                             <div class="moveCollection mb-3">
                                 <div class="add-to-collections-wrapper addCollectionMobile addCollection"
                                     data-type='project' data-id="{{ $housingOrder }}"
