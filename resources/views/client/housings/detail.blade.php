@@ -307,8 +307,7 @@
                             <div class="tab-content" id="myTabContent">
                                 @if ($housing->step2_slug == 'gunluk-kiralik')
                                     <div class="tab-pane fade show active blog-info details p-0" id="rez"
-                                    style="border:none"
-                                        role="tabpanel" aria-labelledby="rez-tab">
+                                        style="border:none" role="tabpanel" aria-labelledby="rez-tab">
                                         <div class="row">
                                             <div class="col-md-12 col-12">
                                                 <div id="reservation-calendar"></div>
@@ -321,21 +320,54 @@
                                 <div class="tab-pane fade blog-info details mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
                                     id="home" role="tabpanel" aria-labelledby="home-tab">
                                     {!! $housing->description !!}
-                                   
-                                    {{--  <hr> <div class="uiBox uiBoxContainer yourSecurity">
-                                        <h4 style="    color: #EC2F2E !important;">Bunlara dikkat edin!</h4>
 
-                                        <span>
-                                            emlaksepette.com, tüm kullanıcılar için tam bir güvenlik sağlamayı amaç
-                                            edinmiştir. Siz de kendi güvenliğiniz ve diğer kullanıcılar için, satın almak ya
-                                            da kiralamak istediğiniz vasıta ile ilgili kesin karar vermeden ön ödeme
-                                            yapmamaya, avans ya da kapora ödememeye özen gösteriniz. İlan sahiplerinin
-                                            ilanlarda belirttiği herhangi bir bilgi ya da görselin gerçeği yansıtmadığını
-                                            düşünüyorsanız veya ilan sahiplerinin hesap profillerindeki bilgilerin doğru
-                                            olmadığını düşünüyorsanız, lütfen bize <a href="/destek" rel="nofollow"
-                                                class="trackLinkClick trackId_vasita_uyari_haber_ver">haber veriniz.</a>
-                                        </span>
-                                    </div> --}}
+                                    <hr>
+                                    <div class="uiBox uiBoxContainer yourSecurity">
+                                        <h4 style="color: #EC2F2E !important;">Emlak Alırken/Kiralarken Dikkat Edilmesi Gerekenler!</h4>
+                                    
+                                        <p>
+                                            Emlaksepette.com olarak, kullanıcılarımızın güvenliğini en üst düzeyde tutmak önceliğimizdir. 
+                                            Bu nedenle, satın almak veya kiralamak istediğiniz emlak ile ilgili işlemleri yaparken dikkatli 
+                                            olmanız büyük önem taşımaktadır. İşte dikkat etmeniz gereken bazı önemli noktalar:
+                                        </p>
+                                    
+                                        <p>
+                                            <strong>Ödeme Yapmadan Önce:</strong> Satın alma veya kiralama işlemlerinde kesin karar vermeden 
+                                            önce hiçbir şekilde ön ödeme yapmayınız. Kapora veya avans ödemeleri konusunda dikkatli olunuz 
+                                            ve dolandırıcılık riski taşıyan durumlara karşı tedbirli davranınız.
+                                        </p>
+                                    
+                                        <p>
+                                            <strong>İlan Bilgilerini Doğrulama:</strong> İlan sahiplerinin verdikleri bilgileri dikkatlice 
+                                            kontrol ediniz. İlanlarda belirtilen bilgilerin ve görsellerin doğruluğunu teyit etmek için 
+                                            mümkünse yerinde inceleme yapınız veya güvenilir kaynaklardan doğrulama isteyiniz.
+                                        </p>
+                                    
+                                        <p>
+                                            <strong>İletişim ve Profil Bilgileri:</strong> İlan sahiplerinin hesap profillerindeki bilgilerin 
+                                            doğruluğunu kontrol ediniz. Şüpheli veya eksik bilgiye sahip ilan sahipleri ile iletişimde temkinli 
+                                            olunuz. Güvenliğiniz için, kimlik doğrulaması yapmış kullanıcılar ile iletişim kurmayı tercih ediniz.
+                                        </p>
+                                    
+                                        <p>
+                                            <strong>Sözleşme ve Hukuki Belgeler:</strong> Satın alma veya kiralama işlemlerinde sözleşme 
+                                            yapmadan önce hukuki belgeleri dikkatlice inceleyiniz ve gerektiğinde bir uzmana danışınız. Tüm 
+                                            koşulların net bir şekilde belirtildiği ve taraflarca kabul edildiği belgeler üzerinden işlem yapınız.
+                                        </p>
+                                    
+                                        <p>
+                                            <strong>Geri Bildirim ve Şikayetler:</strong> Emlaksepette.com olarak, kullanıcı deneyimini ve 
+                                            güvenliğini sürekli olarak iyileştirmek için geri bildirimlerinizi önemsiyoruz. Eğer ilanlarda 
+                                            belirtilen bilgi veya görsellerin gerçeği yansıtmadığını düşünüyorsanız veya ilan sahiplerinin 
+                                            hesap profillerindeki bilgilerin doğru olmadığını fark ederseniz, lütfen bize hemen bildirin.
+                                        </p>
+                                    
+                                        <p>
+                                            Güvenli bir emlak deneyimi için bu önemli noktalara dikkat ederek, dolandırıcılık ve benzeri 
+                                            olumsuz durumlardan korunabilirsiniz.
+                                        </p>
+                                    </div>
+                                    
                                 </div>
                                 <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
                                     aria-labelledby="profile-tab">
