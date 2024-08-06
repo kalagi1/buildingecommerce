@@ -450,7 +450,7 @@
                                 <div class="
                                  @if (
                                      ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                     $off_sale_1 ||
+                                         $off_sale_1 ||
                                          ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
                                          (!$canAddToProject && Auth::check())) col-md-12 col-12
                                 @else
@@ -473,37 +473,27 @@
                                             @endif
                                         </button>
                                     @else
-                                        @if (checkIfUserCanAddToProject($project->id) && Auth::check())
-                                            <button class="CartBtn second-btn" data-type='project'
-                                                data-project='{{ $project->id }}' data-id='{{ $housingOrder }}'
-                                                data-share="{{ $share_sale }}"
+                                        @if (
+                                            ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
+                                            <button class="CartBtn second-btn mobileCBtn" data-type='project'
+                                                data-project='{{ $project->id }}' style="height: auto !important"
+                                                data-id='{{ $keyIndex }}' data-share="{{ $share_sale }}"
                                                 data-number-share="{{ $number_of_share }}">
                                                 <span class="IconContainer">
                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                 </span>
                                                 <span class="text">Sepete Ekle</span>
                                             </button>
-                                        @else
+                                        @elseif (!$canAddToProject && Auth::check())
                                             <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug, 'project_id' => $project->id]) }}"
-                                                class="btn btn-success"
-                                                style="width: 100%;
-                                    height: 40px;
-                                    border: none;
-                                    background-color: green;
-                                    display: flex;
-                                    border-radius: 0;
-                                    align-items: center;
-                                    justify-content: center;
-                                    cursor: pointer;
-                                    transition-duration: .5s;
-                                    overflow: hidden;
-                                    position: relative;">
+                                                class="second-btn">
                                                 <span class="text">İlanı Düzenle</span>
                                             </a>
                                         @endif
-                                    @endif
 
-                                    {{-- <div class="button-effect toggle-project-favorite" style="margin-left:13px;width:40px !important"
+
+                                        {{-- <div class="button-effect toggle-project-favorite" style="margin-left:13px;width:40px !important"
                                          data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}" data-project-id={{ $project->id }}>
                                         <i class="fa fa-heart-o"></i>
                                     </div> --}}
