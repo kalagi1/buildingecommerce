@@ -1455,7 +1455,7 @@ class PageController extends Controller
     }
 
     public function profileInfo($userId){
-       $user = User::find($userId);
+        $user = auth()->user();
 
        if($user){
             $activeAdvertProjects = Project::where('status','1')->where('user_id', $user->id)->count();

@@ -141,6 +141,8 @@ Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{coun
 Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('api.sharer.links.showClientLinks');
 
 Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/profile/info/mobile/dashboard',[ClientPageController::class,'profileInfo']);
+
     Route::get('housing_type_parents',[TempOrderController::class,"getHousingTypeParents"]);
     Route::get('housing_type_parent_by_parent_id/{parent_id}',[TempOrderController::class,"getHousingTypeParentByParentId"]);
     Route::get('support', [ApiSupportController::class, 'index']);
@@ -266,4 +268,3 @@ Route::post('/delete/comment/{commentId}',[ProjectController::class,'deleteComme
 Route::get('/user/{userId}/comments',[ProjectController::class,'userComments']);
 Route::post('/user/{userId}/{projectId}/comments/{commentId}/update', [ProjectController::class, 'userCommentUpdate']);
 
-Route::get('/profile/info/mobile/dashboard',[ClientPageController::class,'profileInfo']);
