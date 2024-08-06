@@ -59,10 +59,13 @@ class ClubController extends Controller
     
         // Koleksiyonların kullanıcılarını al
         $usersFromCollections = $collectionsWithProjects->merge($collectionsWithHousings)
+        ->load('links', 'parent') // İlgili ilişkileri yükle
+
             ->pluck('user')
             ->unique()
             ->values();
     
+            return $usersFromCollections;
         return view('client.club.dashboardSatisNoktalari', [
             'usersFromCollections' => $usersFromCollections,
             'store' => $store
