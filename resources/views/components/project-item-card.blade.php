@@ -572,7 +572,8 @@
                                             </button>
                                         @elseif (!checkIfUserCanAddToProject($project->id))
                                             <button class="first-btn payment-plan-button"
-                                                project-id="{{ $project->id }}" data-sold="0"
+                                                project-id="{{ $project->id }}"
+                                                data-sold="0"
                                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                                 data-payment-order="{{ $projectOrder }}">
                                                 ÖDEME DETAYI (Sadece Emlak Ofisleri Görür)
@@ -599,7 +600,8 @@
                                             </button>
                                         @elseif (!checkIfUserCanAddToProject($project->id))
                                             <button class="first-btn payment-plan-button"
-                                                project-id="{{ $project->id }}" data-sold="0"
+                                                project-id="{{ $project->id }}"
+                                                data-sold="0"
                                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                                 data-payment-order="{{ $projectOrder }}">
                                                 ÖDEME DETAYI (Sadece Tüm Emlak Kulüp Üyeleri Görür)
@@ -616,12 +618,11 @@
                                     @if ($off_sale_4)
                                         @if (Auth::user())
                                             <button class="first-btn payment-plan-button" data-bs-toggle="modal"
-                                                style="height: 40px !important"
                                                 data-bs-target="#approveProjectModal{{ $keyIndex }}">
                                                 TEKLİF VER
                                             </button>
                                         @else
-                                            <a href="{{ route('client.login') }}" style="height: 40px !important"
+                                            <a href="{{ route('client.login') }}"
                                                 class="first-btn payment-plan-button">
                                                 TEKLİF VER
                                             </a>

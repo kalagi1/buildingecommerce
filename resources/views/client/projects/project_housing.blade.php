@@ -493,11 +493,15 @@
                                         @elseif ($off_sale_4)
                                             @if (Auth::user())
                                                 <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                                                style="height: 40px !important"
+
                                                     data-bs-target="#approveProjectModal{{ $housingOrder }}">
                                                     TEKLİF VER
                                                 </button>
                                             @else
                                                 <a href="{{ route('client.login') }}"
+                                                style="height: 40px !important"
+
                                                     class="first-btn payment-plan-button">
                                                     TEKLİF VER
                                                 </a>
