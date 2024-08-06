@@ -3319,8 +3319,8 @@
         }
 
         /* When both .buttonContent and .buttonAction are not empty, align them side by side */
-        .buttonDetail>.buttonContent:not(:empty),
-        .buttonDetail>.buttonAction:not(:empty) {
+        .buttonDetail>.buttonContent:not(:empty)~.buttonAction,
+        .buttonDetail>.buttonAction:not(:empty)~.buttonContent {
             flex: 1;
             /* Both divs will take equal width when not empty */
         }
