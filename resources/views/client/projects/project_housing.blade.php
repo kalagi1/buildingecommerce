@@ -3208,37 +3208,6 @@
                 }
             });
         });
-
-
-        $(document).ready(function() {
-    function adjustButtonLayout() {
-        var $buttonDetail = $('.buttonDetail');
-        var $buttonContent = $buttonDetail.find('.buttonContent');
-        var $buttonAction = $buttonDetail.find('.buttonAction');
-
-        // Reset flex basis
-        $buttonContent.css('flex-basis', '');
-        $buttonAction.css('flex-basis', '');
-
-        if ($buttonContent.text().trim() === '' && $buttonAction.text().trim() !== '') {
-            // buttonContent is empty, buttonAction takes full width
-            $buttonAction.css('flex-basis', '100%');
-        } else if ($buttonContent.text().trim() !== '' && $buttonAction.text().trim() === '') {
-            // buttonAction is empty, buttonContent takes full width
-            $buttonContent.css('flex-basis', '100%');
-        } else if ($buttonContent.text().trim() !== '' && $buttonAction.text().trim() !== '') {
-            // Both are not empty, each takes 50% width
-            $buttonContent.css('flex-basis', '50%');
-            $buttonAction.css('flex-basis', '50%');
-        }
-    }
-
-    // Call the function to adjust layout on page load
-    adjustButtonLayout();
-
-    // Optionally, call this function on window resize if needed
-    $(window).resize(adjustButtonLayout);
-});
     </script>
 @endsection
 
@@ -3342,6 +3311,36 @@
                 margin-bottom: 30px !important;
             }
         }
+
+        .buttonDetail {
+    display: flex;
+    width: 100%;
+}
+
+/* Ensure buttonContent or buttonAction takes full width when the other is empty */
+.buttonDetail > .buttonContent:empty {
+    display: none; /* Hide buttonContent if it's empty */
+}
+
+.buttonDetail > .buttonAction:empty {
+    display: none; /* Hide buttonAction if it's empty */
+}
+
+/* If buttonContent is visible, it takes full width if buttonAction is empty */
+.buttonDetail > .buttonContent:visible {
+    flex: 1 1 100%;
+}
+
+/* If buttonAction is visible, it takes full width if buttonContent is empty */
+.buttonDetail > .buttonAction:visible {
+    flex: 1 1 100%;
+}
+
+/* If both are visible, they each take 50% width */
+.buttonDetail > .buttonContent:visible,
+.buttonDetail > .buttonAction:visible {
+    flex: 1 1 50%;
+}
 
     </style>
 @endsection
