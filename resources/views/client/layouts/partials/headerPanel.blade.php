@@ -58,7 +58,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/menu.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/css/customStyleNew.css?v=3">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/customStyle.css?v=3">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/panel.css">
 
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
@@ -615,7 +615,7 @@
                                         $notifications = App\Models\DocumentNotification::with('user')
                                             ->orderBy('created_at', 'desc')
                                             ->where('readed', 0)
-                                            ->where('owner_id', auth()->user()->id)
+                                            ->where('owner_id', Auth::user()->id)
                                             ->get();
                                     @endphp
 
@@ -633,7 +633,7 @@
                                                     'url' => route('institutional.sharer.index'),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
-                                                        auth()->user()->corporate_type == 'Emlak Ofisi'
+                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
                                                             : 'Koleksiyonlarım',
                                                 ],
@@ -674,7 +674,6 @@
                                             auth()->user()->parent_id != 4 &&
                                             auth()->user()->type != 3 &&
                                             auth()->user()->type != 21)
-
                                         @include('client.layouts.partials.dropdown_user_icon', [
                                             'mainLink' => 'Hesabım',
                                             'links' => [
@@ -692,18 +691,12 @@
                                                     'text' => 'Panelim',
                                                 ],
                                                 [
-                                                    'url' =>
-                                                        auth()->user()->corporate_type == 'Emlak Ofisi'
-                                                            ? route('institutional.sharer.index')
-                                                            : route('club.dashboardSatisNoktalari', [
-                                                                'slug' => Str::slug(auth()->user()->name),
-                                                                'userID' => auth()->user()->id,
-                                                            ]),
+                                                    'url' => route('institutional.sharer.index'),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
-                                                        auth()->user()->corporate_type == 'Emlak Ofisi'
-                                                            ? 'Portföylerim' 
-                                                            : 'Satış Noktalarımız',
+                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                            ? 'Portföylerim'
+                                                            : 'Koleksiyonlarım',
                                                 ],
                                                 [
                                                     'url' => url('hesabim/ilan-tipi-sec'),
@@ -846,7 +839,7 @@
                                                                                         <div class="flex-1 me-sm-3">
                                                                                             <h4 class="fs-9 text-body-emphasis"
                                                                                                 style="font-size: 11px;text-align:left;margin-bottom:0 !important">
-                                                                                                {{ auth()->user()->name }}
+                                                                                                {{ Auth::user()->name }}
                                                                                             </h4>
                                                                                             <p
                                                                                                 class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
@@ -892,7 +885,7 @@
                                         </div>
                                     </div>
                                     @php
-                                        $userType = auth()->user()->type;
+                                        $userType = Auth::user()->type;
                                     @endphp
 
                                     @php
@@ -1029,7 +1022,7 @@
                                                                     'neighborhood',
                                                                 )
                                                                     ->where('status', 2)
-                                                                    ->where('user_id', auth()->user()->id)
+                                                                    ->where('user_id', Auth::user()->id)
                                                                     ->leftJoin(
                                                                         'housing_types',
                                                                         'housing_types.id',
@@ -1055,7 +1048,7 @@
                                                                 null;
                                                         } elseif ($menuItem['key'] == 'Projects') {
                                                             $pendingProjects = \App\Models\Project::where('status', 2)
-                                                                ->where('user_id', auth()->user()->id)
+                                                                ->where('user_id', Auth::user()->id)
                                                                 ->orderByDesc('updated_at')
                                                                 ->get();
                                                         } elseif ($menuItem['key'] == 'GetOrders') {
@@ -1087,7 +1080,7 @@
                                                                 <i class="{{ $menuItem['icon'] }}"></i>
                                                             @endif
                                                             @if ($menuItem['key'] == 'GetMyCollection')
-                                                                @if (auth()->user()->corporate_type == 'Emlak Ofisi')
+                                                                @if (Auth::user()->corporate_type == 'Emlak Ofisi')
                                                                     Portföylerim
                                                                 @else
                                                                     Koleksiyonlarım
@@ -1145,7 +1138,7 @@
                             @endforeach
 
                             @php
-                                $currentUser = auth()->user();
+                                $currentUser = Auth::user();
                             @endphp
 
                             @if ($currentUser->id == 106 || $currentUser->parent_id == 106)
@@ -1162,14 +1155,12 @@
                                                     Paneli</a></li>
                                         @endif
                                         @if ($currentUser->id == 106)
-                                            <li><a href="{{ route('institutional.crm.danisman.proje.atama') }}">Satış
-                                                    Temsilcilerim</a></li>
-                                            <li><a href="{{ route('institutional.crm.raporlarim') }}">İstatistik
-                                                    Verileri</a></li>
-                                            <li><a href="{{ route('institutional.admin.dashboard') }}">Panelim</a>
-                                            </li>
-                                            <li><a href="{{ route('institutional.crm.admin.odul') }}">Ödül Sistemi</a>
-                                            </li>
+
+                                            <li><a href="{{route('institutional.crm.danisman.proje.atama')}}">Satış Temsilcilerim</a></li>
+                                            <li><a href="{{route('institutional.crm.raporlarim')}}">İstatistik Verileri</a></li>
+                                            <li><a href="{{route('institutional.admin.dashboard')}}">Panelim</a></li>
+                                            <li><a href="{{route('institutional.crm.admin.odul')}}">Ödül Sistemi</a></li>
+
                                         @endif
                                     </ul>
                                 </li>

@@ -558,7 +558,6 @@
                                             auth()->user()->type != 3 &&
                                             auth()->user()->type != 21)
 
-                                            {{dd(Auth::user()->corporate_type)}}
                                         @include('client.layouts.partials.dropdown_user_icon', [
                                             'mainLink' => 'Hesabım',
                                             'links' => [
