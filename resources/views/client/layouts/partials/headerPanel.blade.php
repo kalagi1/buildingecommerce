@@ -629,21 +629,15 @@
                                                     'icon' => 'fa fa-user',
                                                     'text' => 'Hesabım',
                                                 ],
+                                                
                                                 [
-                                                    'url' =>
-                                                    Auth::user()->getOriginal('corporate_type') == 'Emlak Ofisi'
-                                                            ? route('institutional.sharer.index')
-                                                            : route('club.dashboardSatisNoktalari', [
-                                                                'slug' => Str::slug(Auth::user()->name),
-                                                                'userID' => Auth::user()->id,
-                                                            ]),
+                                                    'url' => route('institutional.sharer.index'),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
-                                                    Auth::user()->getOriginal('corporate_type') == 'Emlak Ofisi'
+                                                        Auth::user()->getOriginal('corporate_type') == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
-                                                            : 'Satış Noktalarımız',
+                                                            : 'Koleksiyonlarım',
                                                 ],
-                                                
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),
                                                     'icon' => 'fa fa-shopping-cart',
@@ -698,12 +692,18 @@
                                                     'text' => 'Panelim',
                                                 ],
                                                 [
-                                                    'url' => route('institutional.sharer.index'),
+                                                    'url' =>
+                                                        Auth::user()->getOriginal('corporate_type') == 'Emlak Ofisi'
+                                                            ? route('institutional.sharer.index')
+                                                            : route('club.dashboardSatisNoktalari', [
+                                                                'slug' => Str::slug(Auth::user()->name),
+                                                                'userID' => Auth::user()->id,
+                                                            ]),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
                                                         Auth::user()->getOriginal('corporate_type') == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
-                                                            : 'Koleksiyonlarım',
+                                                            : 'Satış Noktalarımız',
                                                 ],
                                                 [
                                                     'url' => url('hesabim/ilan-tipi-sec'),
