@@ -79,7 +79,7 @@
 
     <section class="recently  bg-white homepage-5 ">
         <div class="container">
-            <div class="row mb-3">
+            <div class="row mb-3" style="align-items:center">
                 <div class="col-md-8 col-12">
                     <div class="headings-2 pt-0 pb-0">
                         <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
@@ -96,8 +96,8 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-12 mt-2">
-                    <hr>
                     @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
+                    <hr>
                         <span
                             style="    color: green;
                           font-weight: 700;
@@ -108,8 +108,8 @@
                           justify-content: center;
                           align-items: center;">SATIŞTAN
                             %{{ $project->club_rate }} KOMİSYON KAZAN!</span>
+                            <hr>
                     @endif
-                    <hr>
                 </div>
             </div>
             <div class="row">
