@@ -3318,14 +3318,14 @@
         }
 
         /* If one of the divs is empty, make the other take full width */
-        .buttonDetail>.buttonContent:empty,
-        .buttonDetail>.buttonAction:empty {
+        .buttonDetail>.buttonContent:empty>.buttonAction,
+        .buttonDetail>.buttonAction:empty>.buttonContent {
             flex: 1 1 100%;
         }
 
         /* If both divs are not empty, make each take half of the width */
-        .buttonDetail>.buttonContent:not(:empty),
-        .buttonDetail>.buttonAction:not(:empty) {
+        .buttonDetail>.buttonContent:not(:empty)>.buttonAction,
+        .buttonDetail>.buttonAction:not(:empty)>.buttonContent{
             flex: 1 1 50%;
         }
     </style>
