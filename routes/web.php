@@ -862,6 +862,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
 
 
     //sıfırdan crm rotaları
+    //raporlarim
+    Route::get("crm/istatistik/verileri", [InstitutionalCrmController::class,'raporlarim'])->name('crm.raporlarim');
     //satış danışmanlarını listele ve proje atama
     Route::post('/update-today-working', [InstitutionalCrmController::class, 'updateTodayWorking'])->name('update.today.working');
 

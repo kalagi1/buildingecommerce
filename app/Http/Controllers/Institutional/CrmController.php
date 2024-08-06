@@ -276,7 +276,8 @@ class CrmController extends Controller
             'conclusion'              => $request->gorusme_sonucu,
             'gorusme_degerlendirme'   => $request->rating,
             'note'                    => $request->note,
-            'meeting_date'            => now()
+            'meeting_date'            => now(),
+            'created_at'              =>now()   
 
         ]);
 
@@ -789,5 +790,188 @@ class CrmController extends Controller
     
         return response()->json(['status' => 'success']);
     }//End
+
+    public function raporlarim(){
+        $parentId = Auth::id();
+
+        $consultantAppointments  = $this->consultantAppointments();
+        $housingPreferences      = $this->housingPreferences();
+        $assetManagements        = $this->assetManagements();
+        $budgetCounts            = $this->budgetCounts();
+        $regionCounts            = $this->regionCounts();
+        $consultantCalls         = $this->consultantCalls();
+        $getDailyCallCounts      = $this->getDailyCallCounts();
+        $getWeeklyCallCounts     = $this->getWeeklyCallCounts();
+        $getMonthlyCallCounts    = $this->getMonthlyCallCounts();
+        $getCallConclusions      = $this->getCallConclusions();
+        $getCallCustomerStatus   = $this->getCallCustomerStatus();
+
+        $salesDetails = $this->getSalesDetailsForConsultants($parentId);
+        $monthlySalesDetails = $this->getMonthlySalesForConsultants($parentId);
+     
+        // dd($getMonthlyCallCounts);
+
+        return view('client.panel.crm.raporlarim', compact('consultantAppointments','housingPreferences','assetManagements',
+        'budgetCounts','regionCounts','consultantCalls','getDailyCallCounts','getWeeklyCallCounts','getMonthlyCallCounts',
+        'getCallConclusions','getCallCustomerStatus','salesDetails','monthlySalesDetails'        
+        ));
+    }//End
+
+    //Raporlarim sayfası için fonksiyonlar
     
+    private function consultantAppointments() { //danışmanlar ve randevu sayıları (bilgileri)
+        $consultantAppointments = Appointment::select('assigned_users.danisman_id', 'users.id as user_id', 'users.name', 'users.email', \DB::raw('COUNT(appointments.id) as randevu_sayisi'))
+        ->join('assigned_users', 'appointments.customer_id', '=', 'assigned_users.id')
+        ->join('users', 'assigned_users.danisman_id', '=', 'users.id')
+        ->groupBy('assigned_users.danisman_id', 'users.id', 'users.name', 'users.email')
+        ->orderBy('randevu_sayisi', 'DESC')
+        ->get();
+
+        return $consultantAppointments;
+    }//End
+
+    private function housingPreferences(){   // Konut tercihi seçenekleri için müşteri sayıları
+        $housingPreferences = DB::table('assigned_users')
+        ->select('konut_tercihi', DB::raw('COUNT(*) as total'))
+        ->whereIn('konut_tercihi', ['Projeden Konut', 'Hazır Konut'])
+        ->groupBy('konut_tercihi')
+        ->get();
+        return $housingPreferences;
+    }//End
+
+    private function assetManagements(){    // Varlık yönetimi seçenekleri için müşteri sayıları
+        $assetManagements = DB::table('assigned_users')
+        ->select('varlik_yonetimi', DB::raw('COUNT(*) as total'))
+        ->whereIn('varlik_yonetimi', ['Yatırım', 'Oturum', 'Yatırım/Oturum'])
+        ->groupBy('varlik_yonetimi')
+        ->get();
+        return $assetManagements;
+    }//End
+
+    private function budgetCounts(){   // Müşteri bütçesi seçenekleri için müşteri sayıları
+        $budgetCounts = DB::table('assigned_users')
+        ->select('musteri_butcesi', DB::raw('COUNT(*) as total'))
+        ->groupBy('musteri_butcesi')
+        ->get();
+        return $budgetCounts;
+    }//End
+
+    private function regionCounts(){  // İlgilendiği bölge seçenekleri için müşteri sayıları
+        $regionCounts = DB::table('assigned_users')
+        ->select('ilgilendigi_bolge', DB::raw('COUNT(*) as total'))
+        ->groupBy('ilgilendigi_bolge')
+        ->get();
+        return $regionCounts;
+    }//End
+
+    private function consultantCalls(){  // Danışmanlar ve görüşmeler bilgilerini tek bir sorguda getir
+        $consultantCalls = DB::table('customer_calls')
+        ->join('users', 'customer_calls.gorusmeyi_yapan_kisi_id', '=', 'users.id')
+        ->select(
+            'customer_calls.id as call_id',
+            'customer_calls.note',
+            'customer_calls.conclusion',
+            'customer_calls.meet_type',
+            'customer_calls.gorusme_durumu',
+            'users.id as consultant_id',
+            'users.name as consultant_name',
+            'users.email as consultant_email'
+        )
+        ->get();
+
+        return $consultantCalls;
+    }//End
+
+    private function getDailyCallCounts(){ //Danışmanların günlük arama sayıları
+        $today = Carbon::now()->startOfDay();
+        return DB::table('customer_calls')
+        ->join('users', 'customer_calls.gorusmeyi_yapan_kisi_id', '=', 'users.id')
+        ->select('users.id as consultant_id', 'users.name as consultant_name', DB::raw('COUNT(*) as total'))
+        ->whereDate('customer_calls.created_at', $today)
+        ->groupBy('users.id', 'users.name')
+        ->get();
+    }//End
+    private function getWeeklyCallCounts() { // Danışmanların haftalık arama sayıları
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+        return DB::table('customer_calls')
+            ->join('users', 'customer_calls.gorusmeyi_yapan_kisi_id', '=', 'users.id')
+            ->select('users.id as consultant_id', 'users.name as consultant_name', DB::raw('COUNT(*) as total'))
+            ->whereBetween('customer_calls.created_at', [$startOfWeek, $endOfWeek])
+            ->groupBy('users.id', 'users.name')
+            ->get();
+    }
+    
+    private function getMonthlyCallCounts() { // Danışmanların aylık arama sayıları
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+        return DB::table('customer_calls')
+            ->join('users', 'customer_calls.gorusmeyi_yapan_kisi_id', '=', 'users.id')
+            ->select('users.id as consultant_id', 'users.name as consultant_name', DB::raw('COUNT(*) as total'))
+            ->whereBetween('customer_calls.created_at', [$startOfMonth, $endOfMonth])
+            ->groupBy('users.id', 'users.name')
+            ->get();
+    }
+
+    private function getCallConclusions(){ // Görüşme sonuçlarını gruplandırarak ve sayarak döndür
+    return   DB::table('customer_calls')
+                ->join('users', 'customer_calls.gorusmeyi_yapan_kisi_id', '=', 'users.id')
+                ->select(
+                    'users.id as consultant_id',
+                    'users.name as consultant_name',
+                    'customer_calls.conclusion',
+                    DB::raw('COUNT(*) as total')
+                )
+                ->whereIn('customer_calls.conclusion', ['Randevu (Telefon)', 'Randevu (Yüz Yüze)'])
+                ->groupBy('users.id', 'users.name', 'customer_calls.conclusion')
+                ->get();
+    }//End
+
+    private function getCallCustomerStatus(){ // Müşteri durumlarını olumlu gruplandırarak ve sayarak döndür
+        return   DB::table('customer_calls')
+        ->join('users', 'customer_calls.gorusmeyi_yapan_kisi_id', '=', 'users.id')
+        ->select(
+            'users.id as consultant_id',
+            'users.name as consultant_name',
+            'customer_calls.gorusme_durumu',
+            DB::raw('COUNT(*) as total')
+        )
+        ->where('customer_calls.gorusme_durumu','Olumlu')
+        ->groupBy('users.id', 'users.name', 'customer_calls.gorusme_durumu')
+        ->get();
+    }//End
+
+    private function getSalesDetailsForConsultants($parentId){ // Danışmanlar ve yaptıkları satışlar
+        return DB::table('cart_orders')
+            ->join('users', 'cart_orders.reference_id', '=', 'users.id')
+            ->select(
+                'users.id as consultant_id',
+                'users.name as consultant_name',
+                'cart_orders.id as order_id',
+                'cart_orders.created_at',
+                'cart_orders.amount'
+            )
+            ->where('users.parent_id', $parentId)
+            ->where('cart_orders.status','1')
+            ->get();
+    }//End
+
+
+    private function getMonthlySalesForConsultants($parentId){ //Danışmanların ay bazlı satış verileri
+        return DB::table('cart_orders')
+            ->join('users', 'cart_orders.reference_id', '=', 'users.id')
+            ->select(
+                'users.id as consultant_id',
+                'users.name as consultant_name',
+                DB::raw('MONTH(cart_orders.created_at) as month'),
+                DB::raw('YEAR(cart_orders.created_at) as year'),
+                DB::raw('COUNT(cart_orders.id) as total_sales'),
+                DB::raw('SUM(cart_orders.amount) as total_amount')
+            )
+            ->where('users.parent_id', $parentId)
+            ->groupBy('users.id', 'users.name', DB::raw('MONTH(cart_orders.created_at)'), DB::raw('YEAR(cart_orders.created_at)'))
+            ->orderBy('year')
+            ->orderBy('month')
+            ->get();
+    }
 }
