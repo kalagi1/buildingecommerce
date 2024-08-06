@@ -543,6 +543,7 @@
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
+    {{dd(Auth::user())}}
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-55Q6HGHL" height="0" width="0"
             style="display:none;visibility:hidden"></iframe></noscript>
