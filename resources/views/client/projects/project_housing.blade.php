@@ -417,8 +417,23 @@
                                     </div>
                                 @endif
 
-                                <div class="@if ($soldOut || (!$offSale && !$sold) || !$soldAndNotStatus2 || (!$sold && !$saleClosed)) col-md-6 col-6 @else col-md-12 col-12 @endif"
-                                    style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
+                                <div class="
+                                @if (
+                                    ($sold && $sold->status == '2' && $share_sale == '[]') ||
+                                    !$sold ||
+                                    ($sold && $sold->status == '2' && empty($share_sale)) ||
+                                    (isset($sumCartOrderQt[$housingOrder]) &&
+                                        $sold &&
+                                        $sold->status != '2' &&
+                                        $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)
+                                )
+                                    col-md-6 col-6
+                                @else
+                                    col-md-12 col-12
+                                @endif
+                            "
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
+                            
                                     @if ($offSale || $saleClosed)
                                         <button class="btn second-btn" {!! $style !!}>
                                             <span class="text">Satışa Kapalı</span>
