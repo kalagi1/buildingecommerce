@@ -731,7 +731,6 @@
                                                 ],
                                             ],
                                         ])
-                                        {{dd(Auth::user()->corporate_type)}}
                                         <a href="{{ route('cart') }}"
                                             style="border-left: 1px solid #666;
                                          padding-left: 15px;
