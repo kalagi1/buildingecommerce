@@ -16,7 +16,7 @@
     </div>
     <section>
         <div class="alert alert-primary" role="alert">
-            A simple primary alert—check it out!
+            Koleksiyona eklediğiniz ilanlar başkası tarafından satıldığında listenizden silinecektir.
           </div>
         @foreach ($mergedItems as $key => $item)
             @php
