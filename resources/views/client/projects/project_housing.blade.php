@@ -357,7 +357,7 @@ for ($i = 0; $i < count($array); $i++) { if ($i==0) { $html .=' ' . $array[$i]; 
                                     ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) &&
                                     $canAddToProject) ||
                                     (!$canAddToProject && Auth::check()))
-                                    <div class="col-md-6 col-6 mobile-action-move p-0">
+                                    <div class="mobile-action-move p-0">
 
 
                                         <span style="width:100%;text-align:center">
@@ -436,15 +436,7 @@ for ($i = 0; $i < count($array); $i++) { if ($i==0) { $html .=' ' . $array[$i]; 
                                     </div>
                                     @endif
 
-                                    <div class="
-                                 @if (
-                                     ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                         $off_sale_1 ||
-                                         $off_sale_4 ||
-                                         ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-                                         (!$canAddToProject && Auth::check())) col-md-12 col-12
-                                @else
-                                    col-md-6 col-6 @endif "
+                                    <div 
                                         style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
 
                                         @if ($offSale || $saleClosed)
@@ -3295,6 +3287,12 @@ for ($i = 0; $i < count($array); $i++) { if ($i==0) { $html .=' ' . $array[$i]; 
                 .add-to-swap-wrapper {
                     margin-bottom: 30px !important;
                 }
+            }
+
+            .buttonDetail{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
             }
         </style>
         @endsection
