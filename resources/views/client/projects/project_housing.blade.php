@@ -357,7 +357,6 @@
                         @if (
                             ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                                 ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-                                (!$canAddToProject && Auth::check()) ||
                                 $offSale ||
                                 $saleClosed ||
                                 $soldAndNotStatus2 ||
@@ -577,10 +576,10 @@
                     @if (
                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                             ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-                            (!$canAddToProject && Auth::check()))
+                            ($canAddToProject && Auth::check()))
 
                         @if (($sold && $sold->status == '2') || !$sold || $off_sale_1)
-                            <div class="moveCollection">
+                            <div class="moveCollection mb-3">
                                 <div class="add-to-collections-wrapper addCollectionMobile addCollection"
                                     data-type='project' data-id="{{ $housingOrder }}"
                                     data-project="{{ $project->id }}">
@@ -625,7 +624,7 @@
                                 </div>
 
                                 @if ($isSwap == '["Evet"]')
-                                    <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
+                                    <div class="add-to-swap-wrapper mb-3" data-bs-toggle="modal" data-bs-target="#takasModal">
                                         <div class="add-to-collection-button-wrapper">
                                             <div class="add-to-collection-button">
 
