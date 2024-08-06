@@ -386,13 +386,13 @@
                                                             ₺
                                                         </del>
                                                         <h6
-                                                            style="color: #27bb53 !important; position: relative; top: 4px; font-weight: 700">
+                                                            style="color: #27bb53 !important; position: relative; top: 4px; font-weight: 700;font-size:16px !important">
                                                             {{ number_format($discounted_price, 0, ',', '.') }}
                                                             ₺
                                                         </h6>
                                                     @else
                                                         <h6
-                                                            style="color:#274abb; position: relative; top: 4px; font-weight: 700">
+                                                            style="color:#274abb; position: relative; top: 4px; font-weight: 700;font-size:16px !important">
                                                             {{ number_format($discounted_price, 0, ',', '.') }}
                                                             ₺
                                                         </h6>
@@ -414,7 +414,7 @@
                                                             </span>
                                                         @endif
                                                         <h6
-                                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:16px !important">
                                                             @if (
                                                                 (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) ||
                                                                     (isset($share_sale) && empty($share_sale) && $number_of_share != 0))
