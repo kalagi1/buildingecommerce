@@ -1454,7 +1454,7 @@ class PageController extends Controller
         ]);
     }
 
-    public function profileInfo($userId){
+    public function profileInfo(){
         $user = auth()->user();
 
        if($user){
