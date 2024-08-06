@@ -79,7 +79,7 @@
 
     <section class="recently  bg-white homepage-5 ">
         <div class="container">
-            <div class="row mb-5">
+            <div class="row mb-3">
                 <div class="col-md-8 col-12">
                     <div class="headings-2 pt-0 pb-0">
                         <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
