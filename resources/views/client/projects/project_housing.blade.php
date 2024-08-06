@@ -357,6 +357,7 @@
                         @if (
                             ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                                 ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
+                                (!$canAddToProject && Auth::check()) ||
                                 $offSale ||
                                 $saleClosed ||
                                 $soldAndNotStatus2 ||
@@ -370,8 +371,9 @@
                                 <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
                                     @if (
                                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-                                            (!$canAddToProject && Auth::check()))
+                                            !$off_sale_1 ||
+                                            (!$off_sale_4) ||
+                                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
                                         <div class="buttonContent">
 
                                             <div class="mobile-action-move p-0">
