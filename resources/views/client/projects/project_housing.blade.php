@@ -53,13 +53,9 @@
                     $html .= ', ' . $array[$i];
                 }
             }
-
             return $html;
         }
-        $projectHousings = [];
-    @endphp
-    @php
-        // Retrieve the necessary data
+    $projectHousings = []; @endphp @php// Retrieve the necessary data
         $canAddToProject = checkIfUserCanAddToProjectHousings($project->id, $housingOrder);
         $user = Auth::user();
         $isUserType2EmlakOfisi = $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
@@ -169,18 +165,19 @@
                                                 {{ ucfirst($project->step2_slug) }}
                                                 {{ ucfirst($project->step1_slug) }}
                                             </span>
-                                        @endif --}}
+                                            @endif --}}
                                     </h3>
                                     {{-- <div class="mt-0">
-                                        <a href="#listing-location" class="listing-address">
-                                            <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
-                                            {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
-                                            @if ($project->neighbourhood)
+                                            <a href="#listing-location" class="listing-address">
+                                                <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
+                                                {!! optional($project->city)->title . ' / ' .
+                                                optional($project->county)->ilce_title !!}
+                                                @if ($project->neighbourhood)
                                                 {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
-                                            @endif
+                                                @endif
 
-                                        </a>
-                                    </div> --}}
+                                            </a>
+                                        </div> --}}
 
 
                                 </div>
@@ -434,14 +431,14 @@
                                                 @endif
                                             @endif
                                         </span>
-                                        {{-- 
+                                        {{--
                                         @if (Auth::check() && Auth::user()->id == $project->user_id)
-                                            <div class="col-md-12 col-12 p-0 ml-3">
-                                                <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
-                                                    style="color:#007bff !important;cursor: pointer; ">
-                                                    Fiyatı Güncelle
-                                                </a>
-                                            </div>
+                                        <div class="col-md-12 col-12 p-0 ml-3">
+                                            <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
+                                                style="color:#007bff !important;cursor: pointer; ">
+                                                Fiyatı Güncelle
+                                            </a>
+                                        </div>
                                         @endif --}}
 
                                     </div>
@@ -453,9 +450,9 @@
                                          $off_sale_1 ||
                                          $off_sale_4 ||
                                          ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-                                         (!$canAddToProject && Auth::check())) col-md-12 col-12
+                                         (!$canAddToProject && Auth::check())) col-md-6 col-6
                                 @else
-                                    col-md-6 col-6 @endif "
+                                    col-md-12 col-12 @endif "
                                     style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
 
                                     @if ($offSale || $saleClosed)
@@ -493,7 +490,7 @@
                                         @elseif ($off_sale_4)
                                             @if (Auth::user())
                                                 <button class="first-btn payment-plan-button" data-bs-toggle="modal"
-                                                style="    height: 40px;
+                                                    style="    height: 40px;
     /* padding: 15px; */
     color: white;
     font-size: 11px;
@@ -512,7 +509,7 @@
                                                 </button>
                                             @else
                                                 <a href="{{ route('client.login') }}"
-                                                style="    height: 40px;
+                                                    style="    height: 40px;
                                                 /* padding: 15px; */
                                                 color: white;
                                                 font-size: 11px;
@@ -535,10 +532,12 @@
 
 
 
-                                    {{-- <div class="button-effect toggle-project-favorite" style="margin-left:13px;width:40px !important"
-                                         data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}" data-project-id={{ $project->id }}>
-                                        <i class="fa fa-heart-o"></i>
-                                    </div> --}}
+                                    {{-- <div class="button-effect toggle-project-favorite"
+                                            style="margin-left:13px;width:40px !important"
+                                            data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
+                                            data-project-id={{ $project->id }}>
+                                            <i class="fa fa-heart-o"></i>
+                                        </div> --}}
                                 </div>
 
                             </div>
@@ -1144,7 +1143,11 @@
                                                 <td>
                                                     İlan Tarihi:
                                                     <span class="det" style="color: #274abb !important;">
-                                                        {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
+                                                        {{ date('j', strtotime($project->created_at)) .
+                                                            ' ' .
+                                                            convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) .
+                                                            ' ' .
+                                                            date('Y', strtotime($project->created_at)) }}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -1212,14 +1215,17 @@
                                                 <td>
                                                     <span class="autoWidthTr">Bitiş Tarihi:</span>
                                                     <span class="det" style="color: black;">
-                                                        {{ $project->project_end_date ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                        {{ $project->project_end_date
+                                                            ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y')
+                                                            : 'Belirtilmedi' }}
                                                     </span>
                                                 </td>
                                             </tr>
 
                                             <tr>
                                                 <td>
-                                                    <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>
+                                                    <span class="autoWidthTr">Toplam Proje Alanı
+                                                        m<sup>2</sup>:</span>
                                                     <span class="det"
                                                         style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
                                                 </td>
@@ -1460,12 +1466,16 @@
                                                 );
 
                                                 if ($isArrayCheck && isset($valueArray) && $valueArray != null) {
-                                                    echo "<div class='mt-5'><h5>{$projectHousing[$housingSetting->column_name .
-                '[]']['key']}:</h5><ul class='homes-list clearfix checkSquareIcon'>";
+                                                    echo "<div class='mt-5'>
+                                            <h5>{$projectHousing[$housingSetting->column_name .
+                '[]']['key']}:</h5>
+                                            <ul class='homes-list clearfix checkSquareIcon'>";
                                                     foreach ($valueArray as $ozellik) {
-                                                        echo "<li><i class='fa fa-check-square' aria-hidden='true'></i><span>{$ozellik}</span></li>";
+                                                        echo "<li><i class='fa fa-check-square'
+                                                        aria-hidden='true'></i><span>{$ozellik}</span></li>";
                                                     }
-                                                    echo '</ul></div>';
+                                                    echo '</ul>
+                                        </div>';
                                                 }
                                             }
                                         @endphp
