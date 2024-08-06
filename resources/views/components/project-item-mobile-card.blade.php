@@ -401,7 +401,7 @@
                             data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? 1 : 0 }}"
                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                             data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
-                            Ödeme Detayı
+                            ÖDEME DETAYI
                         </button>
                     @endif
                 @else
@@ -453,7 +453,7 @@
 
                                 data-sold="0" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
-                                ÖDEME DETAYI (Sadece Emlak Ofisleri Görür)
+                                ÖDEME DETAYI 
                             </button>
                         @else
                             <button class="first-btn payment-plan-button mobileCBtn" project-id="{{ $project->id }}"
@@ -483,7 +483,7 @@
 
                                 data-sold="0" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
-                                ÖDEME DETAYI (Sadece Tüm Emlak Kulüp Üyeleri Görür)
+                                ÖDEME DETAYI
                             </button>
                         @else
                             <button class="first-btn payment-plan-button mobileCBtn" project-id="{{ $project->id }}"
