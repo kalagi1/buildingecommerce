@@ -428,11 +428,15 @@
                     @if ($off_sale_1)
                         @if (Auth::user())
                             <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                            style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
+
                                 data-bs-target="#approveProjectModal{{ $keyIndex }}">
                                 BAŞVUR
                             </button>
                         @else
-                            <a href="{{ route('client.login') }}" class="first-btn payment-plan-button">
+                            <a href="{{ route('client.login') }}" class="first-btn payment-plan-button"
+                            style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
+                            >
                                 BAŞVUR
                             </a>
                         @endif
@@ -473,6 +477,8 @@
                             </button>
                         @else
                             <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
+
                                 data-sold="1" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI
