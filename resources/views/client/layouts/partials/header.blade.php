@@ -55,7 +55,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/menu.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/css/customStyle.css?v=2">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/customStyle.css">
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
