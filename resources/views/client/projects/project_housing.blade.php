@@ -93,7 +93,7 @@
 
         // Check if 'off_sale[]' key exists
         if (isset($projectHousingsList[$housingOrder]['off_sale[]'])) {
-            // Convert the string to an array if needed
+            // Convert the string to an array if neededx
             $off_sale_array = json_decode($projectHousingsList[$housingOrder]['off_sale[]'], true);
 
             // Check if the conversion was successful and if each value is in the array
@@ -320,12 +320,12 @@
                                             $sold->status != '2' &&
                                             $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share);
 
-                                    $offSale = $projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold;
+                                    $offSale = $off_sale_1 && !$sold;
 
                                     $saleClosed =
                                         $sold &&
                                         $sold->status == '2' &&
-                                        $projectHousingsList[$housingOrder]['off_sale[]'] != '[]';
+                                        $off_sale_1;
 
                                     $soldAndNotStatus2 =
                                         ($sold && $sold->status != '2' && $share_sale == '[]') ||
@@ -437,7 +437,7 @@
                                     ($sold && $sold->status == '2' && $share_sale == '[]') ||
                                         !$sold ||
                                         ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                        !$off_sale_1 ||
+                                        (!$off_sale_1 && !$sold) ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
                                             $sold &&
                                             $sold->status != '2' &&
@@ -492,7 +492,7 @@
 
                     @if (checkIfUserCanAddToProjectHousings($project->id, $housingOrder))
 
-                        @if (($sold && $sold->status == '2') || !$sold || $projectHousingsList[$housingOrder]['off_sale[]'] != '[]')
+                        @if (($sold && $sold->status == '2') || !$sold || $off_sale_1)
                             <div class="moveCollection">
                                 <div class="add-to-collections-wrapper addCollectionMobile addCollection"
                                     data-type='project' data-id="{{ $housingOrder }}"
@@ -1278,7 +1278,7 @@
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
                                 project-id="{{ $project->id }}" order="{{ $housingOrder }}"
-                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || ((!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $projectHousingsList[$housingOrder]['off_sale'] != '[]') || $offSale || $saleClosed) ? 1 : 0 }}"
+                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || ((!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $off_sale_1) || $offSale || $saleClosed) ? 1 : 0 }}"
                                 aria-selected="false">Ödeme Planı</button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -1630,7 +1630,7 @@
                                 $offSaleValue = $projectHousingsList[$housingOrder]['off_sale[]'];
                                 $soldStatus = optional($sold)->status;
                             @endphp
-                            @if ($offSaleValue == '[]')
+                            @if (!$off_sale_1)
                                 @if (($sold && $soldStatus != '0') || $soldStatus != '1')
                                     <div class="table-responsive">
                                         <table class="payment-plan-table table">
