@@ -701,7 +701,7 @@
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
                                                         Auth::user()->corporate_type == 'Emlak Ofisi'
-                                                            ? 'Portföylerim'
+                                                            ? 'Portföylerim' + Auth::user()->corporate_type
                                                             : 'Satış Noktalarımız',
                                                 ],
                                                 [
@@ -1161,12 +1161,14 @@
                                                     Paneli</a></li>
                                         @endif
                                         @if ($currentUser->id == 106)
-
-                                            <li><a href="{{route('institutional.crm.danisman.proje.atama')}}">Satış Temsilcilerim</a></li>
-                                            <li><a href="{{route('institutional.crm.raporlarim')}}">İstatistik Verileri</a></li>
-                                            <li><a href="{{route('institutional.admin.dashboard')}}">Panelim</a></li>
-                                            <li><a href="{{route('institutional.crm.admin.odul')}}">Ödül Sistemi</a></li>
-
+                                            <li><a href="{{ route('institutional.crm.danisman.proje.atama') }}">Satış
+                                                    Temsilcilerim</a></li>
+                                            <li><a href="{{ route('institutional.crm.raporlarim') }}">İstatistik
+                                                    Verileri</a></li>
+                                            <li><a href="{{ route('institutional.admin.dashboard') }}">Panelim</a>
+                                            </li>
+                                            <li><a href="{{ route('institutional.crm.admin.odul') }}">Ödül Sistemi</a>
+                                            </li>
                                         @endif
                                     </ul>
                                 </li>
