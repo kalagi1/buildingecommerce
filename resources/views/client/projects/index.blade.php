@@ -79,11 +79,10 @@
 
     <section class="recently  bg-white homepage-5 ">
         <div class="container">
-            <div class="row">
+            <div class="row mb-5">
                 <div class="col-md-8 col-12">
                     <div class="headings-2 pt-0 pb-0">
-                        <div class="pro-wrapper mb-3" style="width: 100%; justify-content: space-between;">
-
+                        <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
                             <div class="detail-wrapper-body">
                                 <div class="listing-title-bar">
                                     <strong
