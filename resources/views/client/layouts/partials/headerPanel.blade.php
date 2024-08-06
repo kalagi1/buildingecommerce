@@ -691,12 +691,18 @@
                                                     'text' => 'Panelim',
                                                 ],
                                                 [
-                                                    'url' => route('institutional.sharer.index'),
+                                                    'url' =>
+                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                            ? route('institutional.sharer.index')
+                                                            : route('club.dashboardSatisNoktalari', [
+                                                                'slug' => Str::slug(Auth::user()->name),
+                                                                'userID' => Auth::user()->id,
+                                                            ]),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
                                                         Auth::user()->corporate_type == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
-                                                            : 'Koleksiyonlarım',
+                                                            : 'Satış Noktalarımız',
                                                 ],
                                                 [
                                                     'url' => url('hesabim/ilan-tipi-sec'),
