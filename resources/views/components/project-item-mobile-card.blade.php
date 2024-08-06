@@ -204,7 +204,6 @@
                     @if (
                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                             (!$off_sale_4 && $canAddToProject) ||
-                            (!$off_sale_1 && $canAddToProject) ||
                             ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
 
                         @if (!$sold_check)

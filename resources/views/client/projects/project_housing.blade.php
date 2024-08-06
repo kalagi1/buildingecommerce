@@ -130,7 +130,7 @@
         <x-store-card :store="$project->user" :project="$project" :housingOrder="$housingOrder" />
 
         <div class="container">
-            <div class="row mb-3" style="align-items: center">
+            <div class="row mb-5" style="align-items: center">
                 <div class="col-md-8">
                     <div class="headings-2 pt-0 pb-0">
                         <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
@@ -237,7 +237,7 @@
                 <div class="col-lg-8 col-md-12 blog-pots">
                     <div class="row">
                         <div class="col-md-12">
-                            <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
+                            <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-50">
                                 <div class="button-effect-div favorite-move">
 
                                     <div class="button-effect toggle-project-favorite" style="width:35px !important"
@@ -311,7 +311,7 @@
                     <div class="single widget buyBtn">
                         @if (isset($projectHousingsList[$housingOrder]['projected_earnings[]']) ||
                                 isset($projectHousingsList[$housingOrder]['ong_kira[]']))
-                            <div class="schedule widget-boxed move-mobile-gain mb-30 mobile-show"
+                            <div class="schedule widget-boxed move-mobile-gain mb-50 mobile-show"
                                 style="background-color: transparent "></div>
                         @endif
                         @php
@@ -579,7 +579,7 @@
                             ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
 
                         @if (($sold && $sold->status == '2') || !$sold || $off_sale_1)
-                            <div class="moveCollection mb-3">
+                            <div class="moveCollection mb-5">
                                 <div class="add-to-collections-wrapper addCollectionMobile addCollection"
                                     data-type='project' data-id="{{ $housingOrder }}"
                                     data-project="{{ $project->id }}">
@@ -624,7 +624,7 @@
                                 </div>
 
                                 @if ($isSwap == '["Evet"]')
-                                    <div class="add-to-swap-wrapper mb-3" data-bs-toggle="modal"
+                                    <div class="add-to-swap-wrapper mb-5" data-bs-toggle="modal"
                                         data-bs-target="#takasModal">
                                         <div class="add-to-collection-button-wrapper">
                                             <div class="add-to-collection-button">
@@ -1096,7 +1096,7 @@
                                                             </div>
 
                                                             <div id="isyeriyse" style="display: none;"
-                                                                class="mb-3 col-md-12 col-12">
+                                                                class="mb-5 col-md-12 col-12">
 
                                                                 <div class="mb-2">
 
@@ -1387,7 +1387,7 @@
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade blog-info details mb-30" id="home" role="tabpanel"
+                        <div class="tab-pane fade blog-info details mb-50" id="home" role="tabpanel"
                             aria-labelledby="home-tab">
                             {!! $project->description !!}
                             <hr>
@@ -1456,7 +1456,7 @@
                             </div>
 
                         </div>
-                        <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
+                        <div class="tab-pane fade blog-info details mb-50" id="profile" role="tabpanel"
                             aria-labelledby="profile-tab">
                             <div class="similar-property featured portfolio p-0 bg-white">
                                 <div class="single homes-content">
@@ -1580,7 +1580,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade show active   blog-info details housingsListTab mb-30 " id="contact"
+                        <div class="tab-pane fade show active   blog-info details housingsListTab mb-50 " id="contact"
                             style="border: none !important;box-shadow: none !important; padding: 0 !important"
                             role="tabpanel" aria-labelledby="contact-tab">
 
@@ -1787,7 +1787,7 @@
                             @endif
 
                         </div>
-                        <div class="tab-pane fad blog-info details mb-30" id="payment" role="tabpanel"
+                        <div class="tab-pane fad blog-info details mb-50" id="payment" role="tabpanel"
                             aria-labelledby="payment">
                             @php
                                 $offSaleValue = $projectHousingsList[$housingOrder]['off_sale[]'];
@@ -1814,14 +1814,14 @@
                                 @endif
                             @endif
                         </div>
-                        <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
+                        <div class="tab-pane fade  blog-info details mb-50" id="map" role="tabpanel"
                             aria-labelledby="contact-tab">
                             <iframe width="100%" height="100%" frameborder="0" style="border:0;"
                                 src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&q={{ explode(',', $project->location)[0] }},{{ explode(',', $project->location)[1] }}"
                                 allowfullscreen="">
                             </iframe>
                         </div>
-                        <div class="tab-pane fade blog-info details mb-30" id="situation" role="tabpanel"
+                        <div class="tab-pane fade blog-info details mb-50" id="situation" role="tabpanel"
                             aria-labelledby="situation-tab">
                             <div class="situation-images-project">
                                 <div class="row w-100 m-auto">
