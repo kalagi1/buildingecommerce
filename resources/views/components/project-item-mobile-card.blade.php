@@ -205,7 +205,7 @@
                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                             ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
                             (!$canAddToProject && Auth::check()))
-                            
+
                         @if (!$sold_check)
                             <span class="btn addCollection mobileAddCollection " data-type='project'
                                 data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
@@ -709,6 +709,16 @@
 
 
     <script>
+        $(document).ready(function() {
+            // Iterate over each .buttonDetail div
+            $('.buttonDetail').each(function() {
+                // Check if the .buttonDetail div is empty
+                if ($(this).is(':empty')) {
+                    // Add 'd-none' class to the parent div if .buttonDetail is empty
+                    $(this).closest('div').addClass('d-none');
+                }
+            });
+        });
         document.getElementById('price').addEventListener('input', function(e) {
             var value = e.target.value;
             // Sadece rakamları ve virgülü tut
