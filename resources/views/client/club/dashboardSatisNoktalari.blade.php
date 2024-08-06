@@ -6,11 +6,20 @@
         <div class="container featured portfolio rec-pro disc bg-white">
             <div class="row">
                 @foreach ($usersFromCollections as $index => $usersFromCollection)
-                    <div class="col-md-12 col-xs-12">
+                    <div class="col-md-6 col-xs-6 col-12">
                         <div class="news-item news-item-sm">
                             <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($usersFromCollection->name), 'userID' => $usersFromCollection->id]) }}"
                                 class="news-img-link">
                                 <div class="news-item-img homes">
+                                    <div class="homes-tag button alt featured">
+                                        @if ($usersFromCollection->type == 1)
+                                            Bireysel Hesap
+                                        @elseif($usersFromCollection->type == 2)
+                                            {{ $usersFromCollection->corporate_type }}
+                                        @else
+                                            Emlak Sepette Üyesi
+                                        @endif
+                                    </div>
                                     @if ($usersFromCollection->profile_image == 'indir.png')
                                         @php
                                             $nameInitials = collect(preg_split('/\s+/', $usersFromCollection->name))
