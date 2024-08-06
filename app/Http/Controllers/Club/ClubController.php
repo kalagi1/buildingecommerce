@@ -64,11 +64,7 @@ class ClubController extends Controller
             ->values();
     
             return response()->json([
-                'store' => $store,
-                'collectionsWithProjects' => $collectionsWithProjects,
-                'collectionsWithHousings' => $collectionsWithHousings,
                 'usersFromCollections' => $usersFromCollections,
-                'slug' => $slug
             ]);
         // İlgili verileri view'a gönder
         return view('client.club.dashboardSatisNoktalari', [
