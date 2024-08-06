@@ -3208,6 +3208,35 @@
                 }
             });
         });
+
+        function adjustButtonLayout() {
+    const buttonDetail = document.querySelector('.buttonDetail');
+    const buttonContent = buttonDetail.querySelector('.buttonContent');
+    const buttonAction = buttonDetail.querySelector('.buttonAction');
+
+    // Reset flex basis
+    buttonContent.style.flexBasis = '';
+    buttonAction.style.flexBasis = '';
+
+    if (!buttonContent.textContent.trim() && buttonAction.textContent.trim()) {
+        // buttonContent is empty, buttonAction takes full width
+        buttonAction.style.flexBasis = '100%';
+    } else if (buttonContent.textContent.trim() && !buttonAction.textContent.trim()) {
+        // buttonAction is empty, buttonContent takes full width
+        buttonContent.style.flexBasis = '100%';
+    } else if (buttonContent.textContent.trim() && buttonAction.textContent.trim()) {
+        // Both are not empty, each takes 50% width
+        buttonContent.style.flexBasis = '50%';
+        buttonAction.style.flexBasis = '50%';
+    }
+}
+
+// Call the function to adjust layout on page load
+document.addEventListener('DOMContentLoaded', adjustButtonLayout);
+
+// Optionally, you can call this function on window resize if needed
+window.addEventListener('resize', adjustButtonLayout);
+
     </script>
 @endsection
 
@@ -3311,26 +3340,6 @@
                 margin-bottom: 30px !important;
             }
         }
-        .buttonDetail {
-    display: flex;
-    width: 100%;
-}
-
-/* If buttonAction is empty, buttonContent takes the full width */
-.buttonDetail > .buttonAction:empty ~ .buttonContent {
-    flex: 1 1 100%;
-}
-
-/* If buttonContent is empty, buttonAction takes the full width */
-.buttonDetail > .buttonContent:empty ~ .buttonAction {
-    flex: 1 1 100%;
-}
-
-/* If both buttonContent and buttonAction have content, each takes 50% width */
-.buttonDetail > .buttonContent:not(:empty),
-.buttonDetail > .buttonAction:not(:empty) {
-    flex: 1 1 50%;
-}
 
     </style>
 @endsection
