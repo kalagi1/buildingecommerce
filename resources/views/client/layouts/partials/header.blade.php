@@ -858,7 +858,8 @@
                                         @endif
                                         {{ $menuItem['text'] }}
                                         @if ($menuItem['text'] == 'Paylaşımlı İlanlar')
-                                            <img src="{{ asset('fa6-regular_handshake.png') }}" alt="">
+                                            <img src="{{ asset('fa6-regular_handshake.png') }}" class="ml-2"
+                                                alt="">
                                         @endif
                                         @if (!empty($menuItem['children']))
                                             <span class="caret"></span>
