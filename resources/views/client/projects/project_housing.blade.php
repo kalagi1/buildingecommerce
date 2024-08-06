@@ -361,7 +361,7 @@
                                 (!$canAddToProject && Auth::check()))
 
 
-                            <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
+                            <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton mb-5">
                                 <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
 
 
