@@ -504,21 +504,12 @@
 
 
                                     @if (auth()->user()->type == 1)
-                                        @include('client.layouts.partials.dropdown_user_icon', [
-                                            'mainLink' => 'Hesabım',
-                                            'links' => [
+                                        @php
+                                            $links = [
                                                 [
                                                     'url' => route('institutional.index'),
                                                     'icon' => 'fa fa-user',
                                                     'text' => 'Hesabım',
-                                                ],
-                                                [
-                                                    'url' => route('institutional.sharer.index'),
-                                                    'icon' => 'fa fa-bookmark',
-                                                    'text' =>
-                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
-                                                            ? 'Portföylerim'
-                                                            : 'Koleksiyonlarım',
                                                 ],
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),
@@ -540,7 +531,27 @@
                                                     'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
                                                 ],
-                                            ],
+                                            ];
+
+                                            // Koşula göre "Koleksiyonlarım" veya "Portföylerim" linkini ekleyin
+                                            if (
+                                                Auth::check() &&
+                                                (Auth::user()->user_type == 1 || Auth::user()->user_type == 2)
+                                            ) {
+                                                $links[] = [
+                                                    'url' => route('institutional.sharer.index'),
+                                                    'icon' => 'fa fa-bookmark',
+                                                    'text' =>
+                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                            ? 'Portföylerim'
+                                                            : 'Koleksiyonlarım',
+                                                ];
+                                            }
+                                        @endphp
+
+                                        @include('client.layouts.partials.dropdown_user_icon', [
+                                            'mainLink' => 'Hesabım',
+                                            'links' => $links,
                                         ])
 
                                         <a href="{{ route('cart') }}"
