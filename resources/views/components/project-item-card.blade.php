@@ -561,7 +561,7 @@
                                     @endif
 
                                     @if ($off_sale_2)
-                                        @if (Auth::check() && Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi')
+                                        @if (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi')
                                             <button class="first-btn payment-plan-button"
                                                 project-id="{{ $project->id }}"
                                                 data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
@@ -588,7 +588,7 @@
                                     @endif
 
                                     @if ($off_sale_3)
-                                        @if (Auth::check() && ((Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') || Auth::user()->type == '1'))
+                                        @if (Auth::check() && ((Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') || Auth::user()->type == '1'))
                                             <button class="first-btn payment-plan-button"
                                                 project-id="{{ $project->id }}"
                                                 data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"

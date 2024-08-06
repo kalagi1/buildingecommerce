@@ -458,7 +458,7 @@
                     @endif
 
                     @if ($off_sale_2)
-                        @if (Auth::check() && Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi')
+                        @if (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi')
                             <button class="first-btn payment-plan-button mobileCBtn" project-id="{{ $project->id }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
 
@@ -488,7 +488,7 @@
                     @endif
 
                     @if ($off_sale_3)
-                        @if (Auth::check() && ((Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') || Auth::user()->type == '1'))
+                        @if (Auth::check() && ((Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') || Auth::user()->type == '1'))
                             <button class="first-btn payment-plan-button mobileCBtn" project-id="{{ $project->id }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
 
