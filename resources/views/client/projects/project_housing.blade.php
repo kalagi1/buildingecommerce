@@ -358,7 +358,7 @@
                                         <div class="listing-title-bar text-start w-100">
 
 
-                                            @if ($off_sale_check && $projectDiscountAmount)
+                                            @if ($share_sale && $projectDiscountAmount)
                                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                     <span class="text-center w-100">
                                                         1 Hisse Fiyatı
@@ -391,7 +391,7 @@
 
                                                     </div>
                                                 </h4>
-                                            @elseif ($off_sale_check)
+                                            @elseif ($share_sale)
                                                 <h4
                                                     style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
                                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
@@ -404,7 +404,7 @@
                                                 </h4>
                                             @endif
                                         </div>
-
+                                        {{-- 
                                         @if (Auth::check() && Auth::user()->id == $project->user_id)
                                             <div class="col-md-12 col-12 p-0 ml-3">
                                                 <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
@@ -412,7 +412,7 @@
                                                     Fiyatı Güncelle
                                                 </a>
                                             </div>
-                                        @endif
+                                        @endif --}}
 
                                     </div>
                                 @endif
@@ -420,20 +420,18 @@
                                 <div class="
                                 @if (
                                     ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                    !$sold ||
-                                    ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                    (isset($sumCartOrderQt[$housingOrder]) &&
-                                        $sold &&
-                                        $sold->status != '2' &&
-                                        $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)
-                                )
-                                    col-md-6 col-6
+                                        !$sold ||
+                                        ($sold && $sold->status == '2' && empty($share_sale)) ||
+                                        ($off_sa) ||
+                                        (isset($sumCartOrderQt[$housingOrder]) &&
+                                            $sold &&
+                                            $sold->status != '2' &&
+                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)) col-md-6 col-6
                                 @else
-                                    col-md-12 col-12
-                                @endif
+                                    col-md-12 col-12 @endif
                             "
-                            style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
-                            
+                                    style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
+
                                     @if ($offSale || $saleClosed)
                                         <button class="btn second-btn" {!! $style !!}>
                                             <span class="text">Satışa Kapalı</span>
