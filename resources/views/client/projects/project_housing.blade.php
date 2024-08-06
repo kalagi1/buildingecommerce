@@ -3209,34 +3209,36 @@
             });
         });
 
-        function adjustButtonLayout() {
-    const buttonDetail = document.querySelector('.buttonDetail');
-    const buttonContent = buttonDetail.querySelector('.buttonContent');
-    const buttonAction = buttonDetail.querySelector('.buttonAction');
 
-    // Reset flex basis
-    buttonContent.style.flexBasis = '';
-    buttonAction.style.flexBasis = '';
+        $(document).ready(function() {
+    function adjustButtonLayout() {
+        var $buttonDetail = $('.buttonDetail');
+        var $buttonContent = $buttonDetail.find('.buttonContent');
+        var $buttonAction = $buttonDetail.find('.buttonAction');
 
-    if (!buttonContent.textContent.trim() && buttonAction.textContent.trim()) {
-        // buttonContent is empty, buttonAction takes full width
-        buttonAction.style.flexBasis = '100%';
-    } else if (buttonContent.textContent.trim() && !buttonAction.textContent.trim()) {
-        // buttonAction is empty, buttonContent takes full width
-        buttonContent.style.flexBasis = '100%';
-    } else if (buttonContent.textContent.trim() && buttonAction.textContent.trim()) {
-        // Both are not empty, each takes 50% width
-        buttonContent.style.flexBasis = '50%';
-        buttonAction.style.flexBasis = '50%';
+        // Reset flex basis
+        $buttonContent.css('flex-basis', '');
+        $buttonAction.css('flex-basis', '');
+
+        if ($buttonContent.text().trim() === '' && $buttonAction.text().trim() !== '') {
+            // buttonContent is empty, buttonAction takes full width
+            $buttonAction.css('flex-basis', '100%');
+        } else if ($buttonContent.text().trim() !== '' && $buttonAction.text().trim() === '') {
+            // buttonAction is empty, buttonContent takes full width
+            $buttonContent.css('flex-basis', '100%');
+        } else if ($buttonContent.text().trim() !== '' && $buttonAction.text().trim() !== '') {
+            // Both are not empty, each takes 50% width
+            $buttonContent.css('flex-basis', '50%');
+            $buttonAction.css('flex-basis', '50%');
+        }
     }
-}
 
-// Call the function to adjust layout on page load
-document.addEventListener('DOMContentLoaded', adjustButtonLayout);
+    // Call the function to adjust layout on page load
+    adjustButtonLayout();
 
-// Optionally, you can call this function on window resize if needed
-window.addEventListener('resize', adjustButtonLayout);
-
+    // Optionally, call this function on window resize if needed
+    $(window).resize(adjustButtonLayout);
+});
     </script>
 @endsection
 
