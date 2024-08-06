@@ -329,7 +329,7 @@
                                     @if (
                                         ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                                             ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-                                            !$canAddToProject)
+                                            !$canAddToProject && Auth::check())
                                         <li class="the-icons mobile-hidden">
                                             <span style="width:100%;text-align:center">
 
