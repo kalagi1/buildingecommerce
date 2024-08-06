@@ -543,7 +543,6 @@
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
-    {{dd(Auth::user()->getOriginal('corporate_type'))}}
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-55Q6HGHL" height="0" width="0"
             style="display:none;visibility:hidden"></iframe></noscript>
@@ -631,13 +630,20 @@
                                                     'text' => 'Hesabım',
                                                 ],
                                                 [
-                                                    'url' => route('institutional.sharer.index'),
+                                                    'url' =>
+                                                    Auth::user()->getOriginal('corporate_type') == 'Emlak Ofisi'
+                                                            ? route('institutional.sharer.index')
+                                                            : route('club.dashboardSatisNoktalari', [
+                                                                'slug' => Str::slug(Auth::user()->name),
+                                                                'userID' => Auth::user()->id,
+                                                            ]),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
-                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                    Auth::user()->getOriginal('corporate_type') == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
-                                                            : 'Koleksiyonlarım',
+                                                            : 'Satış Noktalarımız',
                                                 ],
+                                                
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),
                                                     'icon' => 'fa fa-shopping-cart',
@@ -695,7 +701,7 @@
                                                     'url' => route('institutional.sharer.index'),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
-                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                        Auth::user()->getOriginal('corporate_type') == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
                                                             : 'Koleksiyonlarım',
                                                 ],
@@ -1081,7 +1087,7 @@
                                                                 <i class="{{ $menuItem['icon'] }}"></i>
                                                             @endif
                                                             @if ($menuItem['key'] == 'GetMyCollection')
-                                                                @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                                @if (Auth::user()->getOriginal('corporate_type') == 'Emlak Ofisi')
                                                                     Portföylerim
                                                                 @else
                                                                     Koleksiyonlarım
