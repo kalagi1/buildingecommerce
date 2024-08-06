@@ -615,7 +615,7 @@
                                         $notifications = App\Models\DocumentNotification::with('user')
                                             ->orderBy('created_at', 'desc')
                                             ->where('readed', 0)
-                                            ->where('owner_id', Auth::user()->id)
+                                            ->where('owner_id', auth()->user()->id)
                                             ->get();
                                     @endphp
 
@@ -633,7 +633,7 @@
                                                     'url' => route('institutional.sharer.index'),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
-                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                        auth()->user()->corporate_type == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
                                                             : 'Koleksiyonlarım',
                                                 ],
@@ -692,15 +692,15 @@
                                                 ],
                                                 [
                                                     'url' =>
-                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                        auth()->user()->corporate_type == 'Emlak Ofisi'
                                                             ? route('institutional.sharer.index')
                                                             : route('club.dashboardSatisNoktalari', [
-                                                                'slug' => Str::slug(Auth::user()->name),
-                                                                'userID' => Auth::user()->id,
+                                                                'slug' => Str::slug(auth()->user()->name),
+                                                                'userID' => auth()->user()->id,
                                                             ]),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
-                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                        auth()->user()->corporate_type == 'Emlak Ofisi'
                                                             ? 'Portföylerim' 
                                                             : 'Satış Noktalarımız',
                                                 ],
@@ -845,7 +845,7 @@
                                                                                         <div class="flex-1 me-sm-3">
                                                                                             <h4 class="fs-9 text-body-emphasis"
                                                                                                 style="font-size: 11px;text-align:left;margin-bottom:0 !important">
-                                                                                                {{ Auth::user()->name }}
+                                                                                                {{ auth()->user()->name }}
                                                                                             </h4>
                                                                                             <p
                                                                                                 class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
@@ -891,7 +891,7 @@
                                         </div>
                                     </div>
                                     @php
-                                        $userType = Auth::user()->type;
+                                        $userType = auth()->user()->type;
                                     @endphp
 
                                     @php
@@ -1028,7 +1028,7 @@
                                                                     'neighborhood',
                                                                 )
                                                                     ->where('status', 2)
-                                                                    ->where('user_id', Auth::user()->id)
+                                                                    ->where('user_id', auth()->user()->id)
                                                                     ->leftJoin(
                                                                         'housing_types',
                                                                         'housing_types.id',
@@ -1054,7 +1054,7 @@
                                                                 null;
                                                         } elseif ($menuItem['key'] == 'Projects') {
                                                             $pendingProjects = \App\Models\Project::where('status', 2)
-                                                                ->where('user_id', Auth::user()->id)
+                                                                ->where('user_id', auth()->user()->id)
                                                                 ->orderByDesc('updated_at')
                                                                 ->get();
                                                         } elseif ($menuItem['key'] == 'GetOrders') {
@@ -1086,7 +1086,7 @@
                                                                 <i class="{{ $menuItem['icon'] }}"></i>
                                                             @endif
                                                             @if ($menuItem['key'] == 'GetMyCollection')
-                                                                @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                                @if (auth()->user()->corporate_type == 'Emlak Ofisi')
                                                                     Portföylerim
                                                                 @else
                                                                     Koleksiyonlarım
@@ -1144,7 +1144,7 @@
                             @endforeach
 
                             @php
-                                $currentUser = Auth::user();
+                                $currentUser = auth()->user();
                             @endphp
 
                             @if ($currentUser->id == 106 || $currentUser->parent_id == 106)
