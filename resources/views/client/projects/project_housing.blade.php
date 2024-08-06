@@ -3328,6 +3328,19 @@
             /* Hide buttonAction if it's empty */
         }
 
+
+        /* Ensure buttonContent or buttonAction takes full width when the other is empty */
+        .buttonDetail>.buttonContent {
+            flex: 1 1 50%;
+            /* Hide buttonContent if it's empty */
+        }
+
+        .buttonDetail>.buttonAction {
+            flex: 1 1 50%;
+            /* Hide buttonAction if it's empty */
+        }
+
+
         /* If buttonAction is empty, buttonContent takes the full width */
         .buttonDetail>.buttonAction:empty~.buttonContent {
             flex: 1 1 100%;
@@ -3338,10 +3351,6 @@
             flex: 1 1 100%;
         }
 
-        /* If both buttonContent and buttonAction have content, each takes 50% width */
-        .buttonDetail>.buttonContent:not(:empty)~.buttonAction,
-        .buttonDetail>.buttonAction:not(:empty)~.buttonContent {
-            flex: 1 1 50%;
-        }
+       
     </style>
 @endsection
