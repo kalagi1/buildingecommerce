@@ -261,9 +261,13 @@
                             @elseif (!$canAddToProject)
                                 <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
                                     class="second-btn mobileCBtn"
-                                    style="width:50% !important;background-color:#274abb !important;border:1px solid #274abb;color:white;display:block"
-                                    >
-                                    İlanı Düzenle                                </a>
+                                    style="    background-color: #274abb !important;
+                                        border: 1px solid #274abb;
+                                        color: white;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;">
+                                    İlanı Düzenle </a>
                             @else
                                 <a href="{{ route('project.housings.detail', [
                                     'projectSlug' =>
@@ -407,15 +411,13 @@
                     @if ($off_sale_1)
                         @if (Auth::user())
                             <button class="first-btn payment-plan-button mobileCBtn" data-bs-toggle="modal"
-                            style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
-
+                                style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
                                 data-bs-target="#approveProjectModalmobile{{ $keyIndex }}">
                                 BAŞVUR
                             </button>
                         @else
                             <a href="{{ route('client.login') }}" class="first-btn payment-plan-button mobileCBtn"
-                            style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
-                            >
+                                style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
                                 BAŞVUR
                             </a>
                         @endif
@@ -440,7 +442,6 @@
                         @if (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi')
                             <button class="first-btn payment-plan-button mobileCBtn" project-id="{{ $project->id }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
-
                                 data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
@@ -449,15 +450,13 @@
                         @elseif (!checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
                             <button class="first-btn payment-plan-button mobileCBtn" project-id="{{ $project->id }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
-
                                 data-sold="0" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
-                                ÖDEME DETAYI 
+                                ÖDEME DETAYI
                             </button>
                         @else
                             <button class="first-btn payment-plan-button mobileCBtn" project-id="{{ $project->id }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
-
                                 data-sold="1" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI
@@ -467,10 +466,10 @@
                     @endif
 
                     @if ($off_sale_3)
-                        @if (Auth::check() && ((Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') || Auth::user()->type == '1'))
+                        @if (Auth::check() &&
+                                ((Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') || Auth::user()->type == '1'))
                             <button class="first-btn payment-plan-button mobileCBtn" project-id="{{ $project->id }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
-
                                 data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
@@ -479,7 +478,6 @@
                         @elseif (!checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
                             <button class="first-btn payment-plan-button mobileCBtn" project-id="{{ $project->id }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
-
                                 data-sold="0" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI
@@ -487,7 +485,6 @@
                         @else
                             <button class="first-btn payment-plan-button mobileCBtn" project-id="{{ $project->id }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
-
                                 data-sold="1" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                 data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI
@@ -524,86 +521,84 @@
             style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:space-between !important;margin-bottom:0 !important">
 
             @if ($project->id == 431)
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                <span>
-                    1+1
-                </span>
-            </li>
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                <span>
-                    Suit Oda
-                </span>
-            </li>
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                <span>
-                    Konya/Ilgın
-                </span>
-            </li>
-        @elseif($project->id == 433)
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                <span>
-                    2+1
-                </span>
-            </li>
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                <span>
-                    Suit Oda
-                </span>
-            </li>
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                <span>
-                    Konya/Ilgın
-                </span>
-            </li>
-        @elseif($project->id == 434)
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                <span>
-                    3+1
-                </span>
-            </li>
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                <span>
-                    Villa
-                </span>
-            </li>
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                <span>
-                    Konya/Ilgın
-                </span>
-            </li>
-        @else
-            @foreach (['column1', 'column2', 'column3'] as $column)
-                @php
-                    $column_name = $project->listItemValues->{$column . '_name'} ?? '';
-                    $column_additional =
-                        $project->listItemValues->{$column . '_additional'} ?? '';
-                    $column_name_exists =
-                        $column_name &&
-                        isset($projectHousingsList[$keyIndex][$column_name . '[]']);
-                @endphp
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                    <span>
+                        1+1
+                    </span>
+                </li>
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                    <span>
+                        Suit Oda
+                    </span>
+                </li>
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                    <span>
+                        Konya/Ilgın
+                    </span>
+                </li>
+            @elseif($project->id == 433)
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                    <span>
+                        2+1
+                    </span>
+                </li>
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                    <span>
+                        Suit Oda
+                    </span>
+                </li>
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                    <span>
+                        Konya/Ilgın
+                    </span>
+                </li>
+            @elseif($project->id == 434)
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                    <span>
+                        3+1
+                    </span>
+                </li>
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                    <span>
+                        Villa
+                    </span>
+                </li>
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                    <span>
+                        Konya/Ilgın
+                    </span>
+                </li>
+            @else
+                @foreach (['column1', 'column2', 'column3'] as $column)
+                    @php
+                        $column_name = $project->listItemValues->{$column . '_name'} ?? '';
+                        $column_additional = $project->listItemValues->{$column . '_additional'} ?? '';
+                        $column_name_exists =
+                            $column_name && isset($projectHousingsList[$keyIndex][$column_name . '[]']);
+                    @endphp
 
-                @if ($column_name_exists)
-                    <li class="d-flex align-items-center itemCircleFont">
-                        <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                        <span>
-                            {{ $projectHousingsList[$keyIndex][$column_name . '[]'] }}
-                            @if ($column_additional && is_numeric($projectHousingsList[$keyIndex][$column_name . '[]']))
-                                {{ $column_additional }}
-                            @endif
-                        </span>
-                    </li>
-                @endif
-            @endforeach
-        @endif
+                    @if ($column_name_exists)
+                        <li class="d-flex align-items-center itemCircleFont">
+                            <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                            <span>
+                                {{ $projectHousingsList[$keyIndex][$column_name . '[]'] }}
+                                @if ($column_additional && is_numeric($projectHousingsList[$keyIndex][$column_name . '[]']))
+                                    {{ $column_additional }}
+                                @endif
+                            </span>
+                        </li>
+                    @endif
+                @endforeach
+            @endif
             {{-- <li class="d-flex align-items-center itemCircleFont">
                 <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                 <span>
