@@ -104,6 +104,9 @@
         .news-item-sm .news-item-text {
             padding: 20px !important;
         }
+        .portfolio .homes-tag.featured{
+            width: auto !important;
+        }
 
         .news-item {
             background: #fff;
