@@ -701,7 +701,7 @@
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
                                                         Auth::user()->corporate_type == 'Emlak Ofisi'
-                                                            ? 'Portföylerim' .  Auth::user()->corporate_type
+                                                            ? 'Portföylerim' 
                                                             : 'Satış Noktalarımız',
                                                 ],
                                                 [
@@ -731,6 +731,7 @@
                                                 ],
                                             ],
                                         ])
+                                        {{dd(Auth::user()->corporate_type)}}
                                         <a href="{{ route('cart') }}"
                                             style="border-left: 1px solid #666;
                                          padding-left: 15px;
