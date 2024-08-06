@@ -1725,16 +1725,16 @@
             });
         });
     </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var buttonDetail = document.querySelector('.buttonDetail');
-        var scheduleDiv = document.getElementById('scheduleDiv');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var buttonDetail = document.querySelector('.buttonDetail');
+            var scheduleDiv = document.getElementById('scheduleDiv');
 
-        if (buttonDetail && buttonDetail.innerHTML.trim() === '') {
-            scheduleDiv.style.display = 'none';
-        }
-    });
-</script>
+            if (buttonDetail && buttonDetail.innerHTML.trim() === '') {
+                scheduleDiv.style.display = 'none';
+            }
+        });
+    </script>
 
     <script>
         $('.citySelect').change(function() {
