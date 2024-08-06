@@ -323,7 +323,7 @@
 
                                     <hr>
                                     <div class="uiBox uiBoxContainer yourSecurity">
-                                        <h2 style="color: #EC2F2E !important;">Emlak Alırken/Kiralarken Dikkat Edilmesi Gerekenler!</h2>
+                                        <h2 style="color: #EC2F2E !important;">Gayrimenkul Alırken/Kiralarken Dikkat Edilmesi Gerekenler!</h2>
                                     
                                         <p>
                                             Emlaksepette.com olarak, kullanıcılarımızın güvenliğini en üst düzeyde tutmak önceliğimizdir. 
