@@ -3303,13 +3303,7 @@
             justify-content: space-between;
         }
 
-        .buttonContent,
-        .buttonAction {
-            flex: 1;
-            /* Allow both to grow and shrink */
-            min-width: 0;
-            /* Prevent them from overflowing */
-        }
+    
 
         /* When either .buttonContent or .buttonAction is empty, make the other take full width */
         .buttonDetail>.buttonContent:empty~.buttonAction,
