@@ -312,7 +312,7 @@
                         @if (isset($projectHousingsList[$housingOrder]['projected_earnings[]']) ||
                                 isset($projectHousingsList[$housingOrder]['ong_kira[]']))
                             <div class="schedule widget-boxed move-mobile-gain mb-30 mobile-show"
-                                style="background-color: green "></div>
+                                style="background-color: transparent "></div>
                         @endif
                         @php
                             $soldOut =
@@ -3349,11 +3349,11 @@
 
             .gainStyle strong,
             .gainStyle span {
-                color: white
+                color: green
             }
 
             .gainStyle svg {
-                stroke: white
+                stroke: green
             }
 
             .add-to-swap-wrapper {
