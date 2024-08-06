@@ -430,7 +430,7 @@
                             <button class="first-btn payment-plan-button mobileCBtn" data-bs-toggle="modal"
                             style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
 
-                                data-bs-target="#approveProjectModal{{ $keyIndex }}">
+                                data-bs-target="#approveProjectModalmobile{{ $keyIndex }}">
                                 BAŞVUR
                             </button>
                         @else
@@ -444,7 +444,7 @@
                 @else
                     @if (Auth::user())
                         <button class="first-btn payment-plan-button mobileCBtn" data-bs-toggle="modal"
-                            data-bs-target="#approveProjectModal{{ $keyIndex }}">
+                            data-bs-target="#approveProjectModalmobile{{ $keyIndex }}">
                             BAŞVUR
                         </button>
                     @else
@@ -519,7 +519,7 @@
                         @if (Auth::user())
                             <button class="first-btn payment-plan-button mobileCBtn" data-bs-toggle="modal"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
-                                data-bs-target="#approveProjectModal{{ $keyIndex }}">
+                                data-bs-target="#approveProjectModalmobile{{ $keyIndex }}">
                                 TEKLİF VER
                             </button>
                         @else
@@ -581,13 +581,13 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="approveProjectModal{{ $keyIndex }}" tabindex="-1" role="dialog"
-    aria-labelledby="approveProjectModalLabel" aria-hidden="true">
+<div class="modal fade" id="approveProjectModalmobile{{ $keyIndex }}" tabindex="-1" role="dialog"
+    aria-labelledby="approveProjectModalmobileLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-body" style="height: calc(100vh - 200px); overflow-y: scroll;">
                 {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
-                    id="approveProjectModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
+                    id="approveProjectModalmobileLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
                     Başvur</h3>
                 <hr> --}}
                 <form method="POST" action="{{ route('give_offer') }}">
