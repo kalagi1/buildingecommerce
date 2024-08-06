@@ -391,7 +391,7 @@
 
                                                     </div>
                                                 </h4>
-                                            @elseif ($share_sale)
+                                            @elseif (!$off_sale_1)
                                                 <h4
                                                     style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
                                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
