@@ -184,7 +184,6 @@
                                                 $sold->status != '2' &&
                                                 $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
 
-                                                {{$canAddToProject}}
 
                                         @if (
                                             ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
@@ -573,7 +572,7 @@
                                                 data-payment-order="{{ $projectOrder }}">
                                                 ÖDEME DETAYI
                                             </button>
-                                        @elseif (!checkIfUserCanAddToProject($project->id))
+                                        @elseif (!checkIfUserCanAddToProjectHousings($project->id, $projectOrder))
                                             <button class="first-btn payment-plan-button"
                                                 project-id="{{ $project->id }}" data-sold="0"
                                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"
@@ -601,7 +600,7 @@
                                                 data-payment-order="{{ $projectOrder }}">
                                                 ÖDEME DETAYI
                                             </button>
-                                        @elseif (!checkIfUserCanAddToProject($project->id))
+                                        @elseif (!checkIfUserCanAddToProjectHousings($project->id, $projectOrder))
                                             <button class="first-btn payment-plan-button"
                                                 project-id="{{ $project->id }}" data-sold="0"
                                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"

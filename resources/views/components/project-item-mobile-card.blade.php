@@ -467,7 +467,7 @@
                                 data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI
                             </button>
-                        @elseif (!checkIfUserCanAddToProject($project->id))
+                        @elseif (!checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
                             <button class="first-btn payment-plan-button mobileCBtn" project-id="{{ $project->id }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
 
@@ -497,7 +497,7 @@
                                 data-payment-order="{{ $keyIndex }}">
                                 ÖDEME DETAYI
                             </button>
-                        @elseif (!checkIfUserCanAddToProject($project->id))
+                        @elseif (!checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
                             <button class="first-btn payment-plan-button mobileCBtn" project-id="{{ $project->id }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
 

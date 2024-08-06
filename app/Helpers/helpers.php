@@ -145,7 +145,9 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                     return true; // User can add to project housings
                 }
             } else if (!$housingExists) {
-                return true; // Housing not found in the project
+                if ($user->type ==  "1" || ($user->type == "2" && $user->corporate_type == 'Emlak Ofisi')) {
+                    return true; // User can add to project housings
+                }
             }
 
             return false; // Housing already exists or project belongs to the user
