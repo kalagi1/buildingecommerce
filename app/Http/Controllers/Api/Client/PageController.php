@@ -1467,7 +1467,7 @@ class PageController extends Controller
             $rejectAdvertProjects = Project::where('status','3')->where('user_id', $user->id)->count();
             $rejectAdvertHousings = Housing::where('status','3')->where('user_id', $user->id)->count();
 
-            $userDetails = User::select('profile_image', 'name', 'mail', 'corporate_type')->find($user->id);
+            // $userDetails = User::select('profile_image', 'name', 'email', 'corporate_type')->find($user->id);
             $viewCountProjects = Project::where('user_id', $user->id)->pluck('view_count')->sum();
             $viewCountHousings = Housing::where('user_id', $user->id)->pluck('view_count')->sum();
             $mostViewedHousings = Housing::where('user_id', $user->id)->orderBy('view_count', 'desc')->limit(5)->get(); 
@@ -1478,7 +1478,7 @@ class PageController extends Controller
 
        }
        return response()->json([
-        'user' => $userDetails,
+        'user' => $user,
         'activeAdvertProjects' => $activeAdvertProjects,
         'activeAdvertHousings' => $activeAdvertHousings,
         'pendingAdvertProjects' => $pendingAdvertProjects,
