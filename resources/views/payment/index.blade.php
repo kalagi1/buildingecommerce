@@ -60,12 +60,20 @@
                                     </a>
                                 </div>
                                 <div class="box-1">
-                                    <div class="">
+                                    <div class="mb-3">
                                         {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
                                     </div>
-                                    <div class="title-heading fs-30 fw-7 lh-45">{{ $project->project_title }}</div>
+                                    <div class="title-heading fs-30 fw-7 lh-45">{{ $project->project_title }}
+                                        {{ $cart['type'] != 'housing' ? 'Projesi' : null }}
+                                        {{ $cart['item']['housing'] }} No'lu
+                                        @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
+                                            PAY
+                                        @else
+                                            İLAN
+                                        @endif
+</div>
                                     <div class="inner flex">
-                                        <div class="sales fs-12 fw-7 font-2 text-color-1">
+                                        {{-- <div class="sales fs-12 fw-7 font-2 text-color-1">
                                             @if ($project->step2_slug)
                                                 @if ($project->step2_slug == 'kiralik')
                                                     Kiralık {{ $project->housingType->title }}
@@ -75,34 +83,111 @@
                                                     Günlük Kiralık {{ $project->housingType->title }}
                                                 @endif
                                             @endif
-                                        </div>
-                                        <div class="icon-inner flex">
+                                        </div> --}}
+                                        <div class="icon-inner flex mb-3">
                                             <div class="years-icon flex align-center">
                                                 <i class="fa fa-map-marker"></i>
-                                                <p class="text-color-2">
+                                                <span class="text-color-2">
                                                     {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                     @if ($project->neighbourhood)
                                                         {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
                                                     @endif
-                                                </p>
+                                                </span>
                                             </div>
-                                            <div class="view-icon flex align-center">
-                                                {{-- <i class="far fa-eye"></i> --}}
+                                            {{-- <div class="view-icon flex align-center">
                                                 <p class="text-color-2">{{ $project->create_company }}</p>
-                                            </div>
+                                            </div> --}}
 
                                         </div>
                                     </div>
 
                                     <div class="icon-box flex">
-                                        <div class="icons icon-1 flex">
-                                            <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i>
-                                            <span class="fw-6">
-                                                {{ $cart['item']['housing'] }} No'lu
-                                            </span>
-                                        </div>
 
-                                        @foreach (['column1', 'column2', 'column3'] as $column)
+                                        @if ($cart['type'] != 'housing')
+                                            @if ($cart['item']['id'] == 431)
+                                                <li class="d-flex align-items-center itemCircleFont">
+                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                    <span>
+                                                        1+1
+                                                    </span>
+                                                </li>
+                                                <li class="d-flex align-items-center itemCircleFont icons">
+                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                    <span>
+                                                        Suit Oda
+                                                    </span>
+                                                </li>
+                                                <li class="d-flex align-items-center itemCircleFont icons">
+                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                    <span>
+                                                        Konya/Ilgın
+                                                    </span>
+                                                </li>
+                                            @elseif($cart['item']['id'] == 433)
+                                                <li class="d-flex align-items-center itemCircleFont">
+                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                    <span>
+                                                        2+1
+                                                    </span>
+                                                </li>
+                                                <li class="d-flex align-items-center itemCircleFont icons">
+                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                    <span>
+                                                        Suit Oda
+                                                    </span>
+                                                </li>
+                                                <li class="d-flex align-items-center itemCircleFont icons">
+                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                    <span>
+                                                        Konya/Ilgın
+                                                    </span>
+                                                </li>
+                                            @elseif($cart['item']['id'] == 434)
+                                                <li class="d-flex align-items-center itemCircleFont">
+                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                    <span>
+                                                        3+1
+                                                    </span>
+                                                </li>
+                                                <li class="d-flex align-items-center itemCircleFont icons">
+                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                    <span>
+                                                        Villa Pay
+                                                    </span>
+                                                </li>
+                                                <li class="d-flex align-items-center itemCircleFont icons">
+                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                    <span>
+                                                        Konya/Ilgın
+                                                    </span>
+                                                </li>
+                                            @else
+                                                @foreach (['column1', 'column2', 'column3'] as $key => $column)
+                                                    @php
+                                                        $column_name =
+                                                            $project->listItemValues->{$column . '_name'} ?? '';
+                                                        $column_additional =
+                                                            $project->listItemValues->{$column . '_additional'} ?? '';
+                                                        $column_name_exists =
+                                                            $column_name &&
+                                                            isset($projectHousingsList[$cart['item']['housing']][$column_name . '[]']);
+                                                    @endphp
+
+                                                    @if ($column_name_exists)
+                                                        <li class="d-flex align-items-center itemCircleFont @if($key != 0) icons @endif">
+                                                            <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                            <span>
+                                                                {{ $projectHousingsList[$cart['item']['housing']][$column_name . '[]'] }}
+                                                                @if ($column_additional && is_numeric($projectHousingsList[$cart['item']['housing']][$column_name . '[]']))
+                                                                    {{ $column_additional }}
+                                                                @endif
+                                                            </span>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @else
+                                            @foreach (['column1', 'column2', 'column3'] as $key => $column)
                                             @php
                                                 $column_name = $project->listItemValues->{$column . '_name'} ?? '';
                                                 $column_additional =
@@ -116,8 +201,8 @@
                                                     );
                                             @endphp
                                             @if ($column_name_exists)
-                                                <div class="icons icon-1 flex">
-                                                    <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i>
+                                            <li class="d-flex align-items-center itemCircleFont @if($key != 0) icons @endif">
+                                                <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i>
                                                     <span class="fw-6">
                                                         {{ $projectHousingsList[$cart['item']['housing']][$column_name . '[]'] }}
                                                         @if ($column_additional)
@@ -127,6 +212,9 @@
                                                 </div>
                                             @endif
                                         @endforeach
+                                        @endif
+
+                                     
                                     </div>
 
                                 </div>
@@ -155,7 +243,8 @@
                                         TL</div>
                                     <div class="text-sq fs-12 lh-16">
                                         @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
-                                            <span style="color:#EC2F2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse
+                                            <span style="color:#EC2F2E" class="mt-3">{{ $cart['item']['qt'] }} adet
+                                                tapulu pay
                                                 satın
                                                 alıyorsunuz!</span>
                                         @endif
@@ -392,7 +481,7 @@
                             } else {
                                 $project = App\Models\Project::find($cart['item']['id']);
                                 $roomOrder = $cart['item']['housing'];
-                                $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
+                                $projectHousing = App\Models\ProjectHousing::where('project_id', $cart['item']['id'])
                                     ->where('room_order', $roomOrder)
                                     ->get()
                                     ->keyBy('name');
@@ -556,7 +645,7 @@
 
 
 
-                                        <div class="col-sm-12 pt-2">
+                                        {{-- <div class="col-sm-12 pt-2">
                                             <div class="d-flex align-items-center mb-3">
                                                 <input id="checkPay" type="checkbox" name="checkPay">
 
@@ -567,7 +656,7 @@
                                                     okudum ve kabul ediyorum
                                                 </label>
                                             </div>
-                                        </div>
+                                        </div> --}}
 
 
 
@@ -1217,7 +1306,7 @@
 
         $(document).ready(function() {
             const cart =
-            @json($cart); // Use Laravel Blade directive to safely pass PHP data to JavaScript
+                @json($cart); // Use Laravel Blade directive to safely pass PHP data to JavaScript
             const uniqueCode = cart.type === 'housing' ?
                 cart.item.id + 2000000 :
                 `${cart.item.id + 1000000}-${cart.item.housing}`;

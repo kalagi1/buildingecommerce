@@ -882,8 +882,6 @@
                         @endif
 
                         @if (checkIfUserCanAddToCart($housing->id))
-
-
                             @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
                                 @if ((isset($sold[0]) && $sold[0]->status == '2') || !$sold)
                                     <div class="add-to-collections-wrapper addCollection" data-type='housing'
@@ -986,7 +984,7 @@
                         @endif
 
 
-                        <!-- Teklif Ver Modal -->
+                        <!-- Başvur Modal -->
                         <div class="modal fade" id="bidModal" tabindex="-1" role="dialog"
                             aria-labelledby="bidModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">

@@ -85,7 +85,8 @@
 
         #whatsappButton {
             height: 100% !important;
-            background: green;
+            background: transparent;
+            color: green;
             margin-bottom: 10px;
         }
 

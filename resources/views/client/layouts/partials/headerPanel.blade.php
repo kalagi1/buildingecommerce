@@ -26,8 +26,8 @@
         <meta property="og:image:width" content="300">
     @endif
 
-   <link rel="stylesheet" href="{{ URL::to('/') }}/build/assets/app-6b2945bb.css" />
-   <link rel="stylesheet" href="{{ URL::to('/') }}/build/assets/app-eb9269d2.css" />
+    <link rel="stylesheet" href="{{ URL::to('/') }}/build/assets/app-6b2945bb.css" />
+    <link rel="stylesheet" href="{{ URL::to('/') }}/build/assets/app-eb9269d2.css" />
 
     <!-- FAVICON -->
     <!-- Canonical URL için bölüm -->
@@ -58,7 +58,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/menu.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=3">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/panel.css">
 
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
@@ -70,7 +70,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @yield('styles')
 
@@ -87,17 +88,18 @@
         gtag('config', 'G-FVHQEVC6S0');
     </script>
     <style>
-        #navigation ul li ul{
-            border-top:2px solid #ea2a28 !important;
+        #navigation ul li ul {
+            border-top: 2px solid #ea2a28 !important;
         }
 
-        #navigation ul li ul a:hover{
+        #navigation ul li ul a:hover {
             background-color: ghostwhite;
         }
 
         .table td {
             display: table-cell !important;
         }
+
         .notification-card.unread {
             background-color: #eff2f6;
         }
@@ -116,8 +118,16 @@
 
         #whatsappButton {
             height: 100% !important;
-            background: green;
+            background: transparent;
+            color: green;
             margin-bottom: 10px;
+        }
+
+        label {
+            font-size: 11px;
+            line-height: 24px;
+            margin-bottom: 5px;
+            color: black !important;
         }
 
         .notification-card {
@@ -131,14 +141,14 @@
             text-align: center;
         }
 
-        .h-120{
+        .h-120 {
             height: 120px !important;
         }
 
         .file-input {
             width: 100% !important;
             height: 220px !important;
-        }   
+        }
 
         .fa-cloud-upload {
             color: #1ABC9C;
@@ -202,6 +212,7 @@
         .file-input:focus {
             outline: none;
         }
+
         .box::-webkit-scrollbar-track {
             -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
             background-color: #F5F5F5;
@@ -464,7 +475,7 @@
             margin-top: 5px;
             width: 200px;
             z-index: 1000;
-            border-top:2px solid #ea2a28;
+            border-top: 2px solid #ea2a28;
 
         }
 
@@ -541,7 +552,8 @@
         <div class="slick-lancersl">
             <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px;background-color:#EC2F2E">
                 <video autoplay loop muted style="width:100%;height:50px">
-                    <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4" style="height:50px;display:block">
+                    <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4"
+                        style="height:50px;display:block">
                 </video>
             </div>
         </div>
@@ -553,7 +565,8 @@
         <header id="header-container">
             <div class="container">
                 <div class="header-center">
-                    <div class="d-flex justify-content-between align-items-center" style="padding-top:12px !important">
+                    <div class="d-flex justify-content-between align-items-center"
+                        style="padding-top:12px !important">
                         <div class="leftSide">
                             <div class="mmenu-trigger d-xl-none d-block d-lg-none ">
                                 <button class="hamburger hamburger--collapse" type="button">
@@ -1106,10 +1119,10 @@
 
                                                     </li>
                                                 @endif
-                                            @endforeach                                        
+                                            @endforeach
                                         </ul>
-                                    @endif                                 
-                                </li>                           
+                                    @endif
+                                </li>
 
                                 @if (!$hasVisibleMenus)
                                     <!-- Eğer bu label'a ait görüntülenecek menü yoksa, label'ı kaldır -->
@@ -1127,25 +1140,31 @@
                             @php
                                 $currentUser = Auth::user();
                             @endphp
-                            
+
                             @if ($currentUser->id == 106 || $currentUser->parent_id == 106)
-                                <li  class="navbar-vertical-label" style="font-weight: 600;color: #333;font-size: 12px;line-height: 34px;padding: 0; display: flex;cursor: pointer;
-                                    justify-content: center; align-items: center; text-decoration: none;  box-sizing: border-box; letter-spacing: 0.18px;" id="crm-menu">
+                                <li class="navbar-vertical-label"
+                                    style="font-weight: 600;color: #333;font-size: 12px;line-height: 34px;padding: 0; display: flex;cursor: pointer;
+                                    justify-content: center; align-items: center; text-decoration: none;  box-sizing: border-box; letter-spacing: 0.18px;"
+                                    id="crm-menu">
                                     CRM
                                     <ul class="dropdown-menu">
                                         @if ($currentUser->parent_id == 106)
-                                            <li><a href="{{route('institutional.crm.danisman.musteri.listesi')}}">Danışman Müşterileri</a></li>
-                                            <li><a href="{{route('institutional.danisman.dashboard')}}">Danışman Paneli</a></li>
-                                        @endif    
+                                            <li><a href="{{ route('institutional.crm.danisman.musteri.listesi') }}">Danışman
+                                                    Müşterileri</a></li>
+                                            <li><a href="{{ route('institutional.danisman.dashboard') }}">Danışman
+                                                    Paneli</a></li>
+                                        @endif
                                         @if ($currentUser->id == 106)
+
                                             <li><a href="{{route('institutional.crm.danisman.proje.atama')}}">Satış Temsilcilerim</a></li>
                                             <li><a href="{{route('institutional.crm.raporlarim')}}">İstatistik Verileri</a></li>
                                             <li><a href="{{route('institutional.admin.dashboard')}}">Panelim</a></li>
                                             <li><a href="{{route('institutional.crm.admin.odul')}}">Ödül Sistemi</a></li>
+
                                         @endif
                                     </ul>
                                 </li>
-                            @endif                         
+                            @endif
                         </ul>
                     </nav>
                 </div>
@@ -1201,4 +1220,4 @@
         </div>
 
         <div style="background-color: ghostwhite;" class="pb-5 pt-5">
-        <div class="container">
+            <div class="container">
