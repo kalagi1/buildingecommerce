@@ -675,7 +675,7 @@
                                             auth()->user()->type != 3 &&
                                             auth()->user()->type != 21)
 
-                                            {{dd(auth()->user()->type)}}
+                                            {{dd(auth()->user()->parent_id)}}
                                         @include('client.layouts.partials.dropdown_user_icon', [
                                             'mainLink' => 'Hesabım',
                                             'links' => [
