@@ -619,12 +619,12 @@
                                         @if (Auth::user())
                                             <button class="first-btn payment-plan-button" data-bs-toggle="modal"
                                                 data-bs-target="#approveProjectModal{{ $keyIndex }}">
-                                                TEKLİF AL
+                                                TEKLİF VER
                                             </button>
                                         @else
                                             <a href="{{ route('client.login') }}"
                                                 class="first-btn payment-plan-button">
-                                                TEKLİF AL
+                                                TEKLİF VER
                                             </a>
                                         @endif
                                     @endif

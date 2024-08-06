@@ -451,6 +451,7 @@
                                  @if (
                                      ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                                          $off_sale_1 ||
+                                         $off_sale_4 ||
                                          ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
                                          (!$canAddToProject && Auth::check())) col-md-12 col-12
                                 @else
@@ -489,6 +490,19 @@
                                                 class="second-btn">
                                                 <span class="text">İlanı Düzenle</span>
                                             </a>
+                                        @elseif ($off_sale_4)
+                                        ($off_sale_4)
+                                        @if (Auth::user())
+                                            <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                                                data-bs-target="#approveProjectModal{{ $keyIndex }}">
+                                                TEKLİF VER
+                                            </button>
+                                        @else
+                                            <a href="{{ route('client.login') }}"
+                                                class="first-btn payment-plan-button">
+                                                TEKLİF VER
+                                            </a>
+                                        @endif
                                         @endif
                                     @endif
 
