@@ -201,8 +201,11 @@
                             {{ $project->step1_slug }}
                         @endif
                     </h3>
-                    @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
-
+                    @if (
+                        (checkIfUserCanAddToProjectHousings($project->id, $keyIndex) && Auth::check()) ||
+                            ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
+                            
                         @if (($sold && !$sold->status == '1') || (!$sold && $off_sale_1))
                             <span class="btn addCollection mobileAddCollection " data-type='project'
                                 data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
