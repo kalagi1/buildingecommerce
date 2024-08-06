@@ -443,7 +443,9 @@
 
                                 @endif
 
-                                @if (( $offSale || $saleClosed) || ($soldAndNotStatus2) || (!$canAddToProject && Auth::check()) || ($off_sale_4))
+                                @if (( $offSale || $saleClosed) || ($soldAndNotStatus2) || (!$canAddToProject && Auth::check()) || ($off_sale_4) || 
+                                ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject)||
+                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
                                     
                               
                                 <div class="buttonAction">
