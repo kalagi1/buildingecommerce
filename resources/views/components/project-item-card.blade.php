@@ -184,7 +184,10 @@
                                                 $sold->status != '2' &&
                                                 $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
 
-                                        @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
+                                        @if (
+                                            (checkIfUserCanAddToProjectHousings($project->id, $keyIndex) && Auth::check()) ||
+                                                ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
 
                                             @if (!$sold_check)
                                                 <span class="btn addCollection mobileAddCollection" data-type='project'
@@ -572,8 +575,7 @@
                                             </button>
                                         @elseif (!checkIfUserCanAddToProject($project->id))
                                             <button class="first-btn payment-plan-button"
-                                                project-id="{{ $project->id }}"
-                                                data-sold="0"
+                                                project-id="{{ $project->id }}" data-sold="0"
                                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                                 data-payment-order="{{ $projectOrder }}">
                                                 ÖDEME DETAYI (Sadece Emlak Ofisleri Görür)
@@ -600,8 +602,7 @@
                                             </button>
                                         @elseif (!checkIfUserCanAddToProject($project->id))
                                             <button class="first-btn payment-plan-button"
-                                                project-id="{{ $project->id }}"
-                                                data-sold="0"
+                                                project-id="{{ $project->id }}" data-sold="0"
                                                 order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                                 data-payment-order="{{ $projectOrder }}">
                                                 ÖDEME DETAYI (Sadece Tüm Emlak Kulüp Üyeleri Görür)
