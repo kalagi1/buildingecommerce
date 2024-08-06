@@ -464,7 +464,7 @@
                                                 ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                                                     ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
                                                 <button class="CartBtn second-btn mobileCBtn" data-type='project'
-                                                    data-project='{{ $project->id }}' style="height: auto !important"
+                                                    data-project='{{ $project->id }}' style="height: 40px !important"
                                                     data-id='{{ $housingOrder }}' data-share="{{ $share_sale }}"
                                                     data-number-share="{{ $number_of_share }}">
                                                     <span class="IconContainer">
@@ -3299,27 +3299,24 @@
         }
 
         .buttonDetail {
-    display: flex;
-    width: 100%;
-}
+            display: flex;
+            justify-content: space-between;
+        }
 
-/* If one of the divs is empty, make the other take full width */
-.buttonDetail > .buttonContent:empty ~ .buttonAction,
-.buttonDetail > .buttonAction:empty ~ .buttonContent {
-    flex: 1 1 100%;
-}
+    
 
-/* If both divs are not empty, they will take up half of the width each */
-.buttonDetail > .buttonContent:not(:empty),
-.buttonDetail > .buttonAction:not(:empty) {
-    flex: 1;
-}
+        /* When either .buttonContent or .buttonAction is empty, make the other take full width */
+        .buttonDetail>.buttonContent:empty~.buttonAction,
+        .buttonDetail>.buttonAction:empty~.buttonContent {
+            flex: 1 1 100%;
+            /* Make the non-empty div take full width */
+        }
 
-/* Ensures that both elements take equal width if neither is empty */
-.buttonDetail > .buttonContent:not(:empty) ~ .buttonAction:not(:empty),
-.buttonDetail > .buttonAction:not(:empty) ~ .buttonContent:not(:empty) {
-    flex: 1 1 50%; /* Both divs will take up 50% width each */
-}
-
+        /* When both .buttonContent and .buttonAction are not empty, align them side by side */
+        .buttonDetail>.buttonContent:not(:empty)~.buttonAction,
+        .buttonDetail>.buttonAction:not(:empty)~.buttonContent {
+            flex: 1 1 50%;
+            /* Both divs will take equal width when not empty */
+        }
     </style>
 @endsection
