@@ -3299,24 +3299,27 @@
         }
 
         .buttonDetail {
-            display: flex;
-            justify-content: space-between;
-        }
+    display: flex;
+    width: 100%;
+}
 
-    
+/* If one of the divs is empty, make the other take full width */
+.buttonDetail > .buttonContent:empty ~ .buttonAction,
+.buttonDetail > .buttonAction:empty ~ .buttonContent {
+    flex: 1 1 100%;
+}
 
-        /* When either .buttonContent or .buttonAction is empty, make the other take full width */
-        .buttonDetail>.buttonContent:empty~.buttonAction,
-        .buttonDetail>.buttonAction:empty~.buttonContent {
-            flex: 1 1 100%;
-            /* Make the non-empty div take full width */
-        }
+/* If both divs are not empty, they will take up half of the width each */
+.buttonDetail > .buttonContent:not(:empty),
+.buttonDetail > .buttonAction:not(:empty) {
+    flex: 1;
+}
 
-        /* When both .buttonContent and .buttonAction are not empty, align them side by side */
-        .buttonDetail>.buttonContent:not(:empty)~.buttonAction,
-        .buttonDetail>.buttonAction:not(:empty)~.buttonContent {
-            flex: 1;
-            /* Both divs will take equal width when not empty */
-        }
+/* Ensures that both elements take equal width if neither is empty */
+.buttonDetail > .buttonContent:not(:empty) ~ .buttonAction:not(:empty),
+.buttonDetail > .buttonAction:not(:empty) ~ .buttonContent:not(:empty) {
+    flex: 1 1 50%; /* Both divs will take up 50% width each */
+}
+
     </style>
 @endsection
