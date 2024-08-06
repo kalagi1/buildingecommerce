@@ -69,29 +69,7 @@
 @endphp
 
 
-@php
 
-    if (!function_exists('checkIfUserCanAddToProjectHousings')) {
-        function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
-        {
-            $user = auth()->user();
-
-            if ($user) {
-                $exists = $user
-                    ->projects()
-                    ->where('id', $projectId)
-                    ->whereHas('housings', function ($query) use ($keyIndex) {
-                        $query->where('room_order', $keyIndex);
-                    })
-                    ->exists();
-                return !$exists;
-            }
-
-            return true;
-        }
-    }
-
-@endphp
 @php
     // Retrieve the necessary data
     $canAddToProject = checkIfUserCanAddToProjectHousings($project->id, $keyIndex);
