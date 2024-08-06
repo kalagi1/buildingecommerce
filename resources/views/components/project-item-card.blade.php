@@ -194,10 +194,7 @@
                                                     data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                                                     <i class="fa fa-bookmark-o"></i>
                                                 </span>
-                                            @endif
-
-
-                                            @if (!($sold_check && $sold->status == '1'))
+                                                
                                                 <span class="btn toggle-project-favorite bg-white"
                                                     data-project-housing-id="{{ $keyIndex }}"
                                                     data-project-id={{ $project->id }}>
