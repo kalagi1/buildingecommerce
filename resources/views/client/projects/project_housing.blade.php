@@ -370,6 +370,8 @@
                                         ($sold && $sold->status == '2' && $share_sale == '[]') ||
                                         !$sold ||
                                         ($sold && $sold->status == '2' && empty($share_sale)) ||
+                                        $share_sale && $projectDiscountAmount ||
+                                        !$off_sale_1 ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
                                             $sold &&
                                             $sold->status != '2' &&
@@ -448,6 +450,8 @@
                                         ($sold && $sold->status == '2' && $share_sale == '[]') ||
                                         !$sold ||
                                         ($sold && $sold->status == '2' && empty($share_sale)) ||
+                                        $share_sale && $projectDiscountAmount ||
+                                        !$off_sale_1 ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
                                             $sold &&
                                             $sold->status != '2' &&
