@@ -474,6 +474,20 @@
                                                 </button>
                                             @elseif (!$canAddToProject && Auth::check())
                                                 <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug, 'project_id' => $project->id]) }}"
+                                                    style="    height: 40px;
+                                                    /* padding: 15px; */
+                                                    color: white;
+                                                    font-size: 11px;
+                                                    background-color: green;
+                                                    font-weight: 600;
+                                                    border: none;
+                                                    right: 0;
+                                                    position: inherit !important;
+                                                    top: 0;
+                                                    width: 100%;
+                                                    display: flex;
+                                                    align-items: center;
+                                                    justify-content: center;"
                                                     class="second-btn">
                                                     <span class="text">İlanı Düzenle</span>
                                                 </a>
