@@ -184,12 +184,12 @@
                                                 $sold->status != '2' &&
                                                 $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
 
-                                        @if (
-                                            ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
-                                            (!$off_sale_4) ||
-                                            (!$off_sale_1) ||
-                                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
-                                                ($canAddToProject && Auth::check()))
+@if (
+    ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+        (!$off_sale_4 && $canAddToProject) ||
+        (!$off_sale_1 && $canAddToProject) ||
+        ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
+
                                             @if (!$sold_check)
                                                 <span class="btn addCollection mobileAddCollection" data-type='project'
                                                     data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
