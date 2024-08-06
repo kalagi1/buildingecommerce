@@ -1145,7 +1145,7 @@
 
 
                     <div class="mobileMove">
-                        <div class="single widget storeInfo">
+                        <div class="single widget storeInfo mt-0">
                             <div class="widget-boxed">
                                 <div class="widget-boxed-body pt-0">
                                     <div class="sidebar-widget author-widget2">
