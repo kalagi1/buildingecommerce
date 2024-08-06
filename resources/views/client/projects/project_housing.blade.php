@@ -417,7 +417,7 @@
                                     </div>
                                 @endif
 
-                                <div class="@if ($soldOut || (!$offSale && !$sold) || !$soldAndNotStatus2) col-md-6 col-6 @else col-md-12 col-12 @endif"
+                                <div class="@if ($soldOut || (!$offSale && !$sold) || !$soldAndNotStatus2 || (!$offSale || !$saleClosed)) col-md-6 col-6 @else col-md-12 col-12 @endif"
                                     style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
                                     @if ($offSale || $saleClosed)
                                         <button class="btn second-btn" {!! $style !!}>
