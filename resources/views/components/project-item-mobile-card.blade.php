@@ -425,34 +425,98 @@
                         </button>
                     @endif
                 @else
-                    @if (isset($projectHousingsList[$keyIndex]['off_sale[]']) && !$off_sale_1 && !$sold)
+                    @if ($off_sale_1)
                         @if (Auth::user())
-                            <button class="first-btn payment-plan-mobile-btn mobileCBtn" data-bs-toggle="modal"
-                                data-bs-target="#approveProjectModal{{ $keyIndex }}"
-                                style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
-                                Başvur
+                            <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                                data-bs-target="#approveProjectModal{{ $keyIndex }}">
+                                BAŞVUR
                             </button>
                         @else
-                            <a href="{{ route('client.login') }}"
-                                style="width:50% !important;
-                            text-align: center;
-                            align-items: center;
-                            display: flex;
-                            justify-content: center;background-color:black !important;border:1px solid black;color:white"
-                                class="first-btn payment-plan-mobile-btn mobileCBtn">
-                                Başvur
+                            <a href="{{ route('client.login') }}" class="first-btn payment-plan-button">
+                                BAŞVUR
                             </a>
                         @endif
-                    @else
-                        <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
-                            style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
-                            project-id="{{ $project->id }}"
-                            data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? 1 : 0 }}"
-                            order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                            data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
-                            Ödeme Detayı
+                        {{-- @if ((isset($share_sale) && $share_sale != '[]' && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) || (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
+                @else
+                    @if (Auth::user())
+                        <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                            data-bs-target="#approveProjectModal{{ $keyIndex }}">
+                            BAŞVUR
                         </button>
+                    @else
+                        <a href="{{ route('client.login') }}"
+                            class="first-btn payment-plan-button">
+                            BAŞVUR
+                        </a>
                     @endif
+
+                @endif --}}
+                    @endif
+
+                    @if ($off_sale_2)
+                        @if (Auth::check() && Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi')
+                            <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
+                                order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                data-payment-order="{{ $projectOrder }}">
+                                ÖDEME DETAYI
+                            </button>
+                        @elseif (!checkIfUserCanAddToProject($project->id))
+                            <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                data-sold="0" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                data-payment-order="{{ $projectOrder }}">
+                                ÖDEME DETAYI (Sadece Emlak Ofisleri Görür)
+                            </button>
+                        @else
+                            <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                data-sold="1" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                data-payment-order="{{ $projectOrder }}">
+                                ÖDEME DETAYI
+                            </button>
+                        @endif
+
+                    @endif
+
+                    @if ($off_sale_3)
+                        @if (Auth::check() && ((Auth::user()->type == '2' && Auth::user() == 'Emlak Ofisi') || Auth::user()->type == '1'))
+                            <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '1') ? 1 : 0 }}"
+                                order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                data-payment-order="{{ $projectOrder }}">
+                                ÖDEME DETAYI
+                            </button>
+                        @elseif (!checkIfUserCanAddToProject($project->id))
+                            <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                data-sold="0" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                data-payment-order="{{ $projectOrder }}">
+                                ÖDEME DETAYI (Sadece Tüm Emlak Kulüp Üyeleri Görür)
+                            </button>
+                        @else
+                            <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                data-sold="1" order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                data-payment-order="{{ $projectOrder }}">
+                                ÖDEME DETAYI
+                            </button>
+                        @endif
+                    @endif
+                    @if ($off_sale_4)
+                        @if (Auth::user())
+                            <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                            style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
+
+                                data-bs-target="#approveProjectModal{{ $keyIndex }}">
+                                TEKLİF VER
+                            </button>
+                        @else
+                            <a href="{{ route('client.login') }}" class="first-btn payment-plan-button"
+                            style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
+                            >
+                                TEKLİF VER
+                            </a>
+                        @endif
+                    @endif
+
+
                 @endif
 
             </div>
@@ -709,7 +773,6 @@
 
 
     <script>
-      
         document.getElementById('price').addEventListener('input', function(e) {
             var value = e.target.value;
             // Sadece rakamları ve virgülü tut
