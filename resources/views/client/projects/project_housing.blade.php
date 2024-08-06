@@ -60,7 +60,7 @@
     @endphp
     @php
         // Retrieve the necessary data
-        $canAddToProject = checkIfUserCanAddToProjectHousings($project->id, $keyIndex);
+        $canAddToProject = checkIfUserCanAddToProjectHousings($project->id, $housingOrder);
         $user = Auth::user();
         $isUserType2EmlakOfisi = $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
         $isUserType1 = $user && $user->type == '1';
