@@ -74,23 +74,24 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="#" onclick="shareOnWhatsApp('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}')">
+                                                        <a class="dropdown-item" href="#"
+                                                            onclick="shareOnWhatsApp('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}')">
                                                             <i class="fas fa-share-alt mr-2"></i>
                                                             Whatsapp'ta Paylaş
                                                         </a>
                                                     </li>
-                                                    
+
                                                     <script>
                                                         function shareOnWhatsApp(url) {
                                                             // URL'yi WhatsApp paylaşım URL'sine dönüştür
                                                             const whatsappUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(url);
-                                                            
+
                                                             // Yeni sekmede WhatsApp paylaşım sayfasını aç
                                                             window.open(whatsappUrl, '_blank');
                                                         }
                                                     </script>
-                                                    
-                                                    
+
+
                                                 </ul>
 
                                             </div>
@@ -185,13 +186,12 @@
                                                 @endphp
 
 
-                                                <img src="{{ 
-                                                    $link->item_type == 1 
-                                                    ? URL::to('/') . '/project_housing_images/' . $projectFirstImage 
-                                                    : ($link->housing && $link->housing->housing_type_data 
-                                                        ? URL::to('/') . '/housing_images/' . json_decode($link->housing->housing_type_data)->image 
-                                                        : '') 
-                                                }}" alt="product-image">
+                                                <img src="{{ $link->item_type == 1
+                                                    ? URL::to('/') . '/project_housing_images/' . $projectFirstImage
+                                                    : ($link->housing && $link->housing->housing_type_data
+                                                        ? URL::to('/') . '/housing_images/' . json_decode($link->housing->housing_type_data)->image
+                                                        : '') }}"
+                                                    alt="product-image">
                                             @endforeach
                                         </div>
                                         {{-- <div class="col-md-5 p-0 m-0">
@@ -293,7 +293,7 @@
                                             <button
                                                 style="width:100%;font-size:10px;padding:8px 0;background-color:#ea2a28;border:1px solid #ea2a28;border-radius:20px !important;color:white"
                                                 type="button">
-                                                <i class="fa fa-pencil" aria-hidden="true"></i> Koleksiyonu Düzenle
+                                                <i class="fa fa-pencil" aria-hidden="true"></i> Koleksiyonu Görüntüle
 
                                             </button> </a>
                                     </div>

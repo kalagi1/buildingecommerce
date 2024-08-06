@@ -15,7 +15,10 @@
         </ul>
     </div>
     <section>
-
+        <div class="notification notice closeable">
+            <p><span>Notice!</span> Please edit the information below.</p>
+            <a class="close"></a>
+        </div>
         @foreach ($mergedItems as $key => $item)
             @php
                 $discountedPrice = (float) 0;
