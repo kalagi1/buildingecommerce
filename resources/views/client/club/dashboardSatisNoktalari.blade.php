@@ -60,8 +60,17 @@
                                     </ul>
                                 </div>
                                 <div class="news-item-bottom">
-                                    <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($usersFromCollection->name), 'userID' => $usersFromCollection->id]) }}"
-                                        class="news-link">Görüntüle</a>
+                                    <a @if (isset($usersFromCollection->parent)) href="{{ route('club.dashboard', [
+                                        'parentSlug' => Str::slug($usersFromCollection->parent->name),
+                                        'slug' => Str::slug($usersFromCollection->name),
+                                        'userID' => $usersFromCollection->id,
+                                    ]) }}"
+                                @else
+                                href="{{ route('club.dashboard2', [
+                                    'slug' => Str::slug($usersFromCollection->name),
+                                    'userID' => $usersFromCollection->id,
+                                ]) }}" @endif
+                                        class="news-link">Koleksiyonları Gör</a>
                                     @if ($usersFromCollection->parent_id)
                                         <div class="admin">
                                             <p>{{ $usersFromCollection->parent->name }}</p>
@@ -104,7 +113,8 @@
         .news-item-sm .news-item-text {
             padding: 20px !important;
         }
-        .portfolio .homes-tag.featured{
+
+        .portfolio .homes-tag.featured {
             width: auto !important;
         }
 
