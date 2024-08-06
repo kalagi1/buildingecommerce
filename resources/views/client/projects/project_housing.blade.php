@@ -3304,21 +3304,25 @@
         }
 
         .buttonContent,
-.buttonAction {
-    flex: 1; /* Allow both to grow and shrink */
-    min-width: 0; /* Prevent them from overflowing */
-}
+        .buttonAction {
+            flex: 1;
+            /* Allow both to grow and shrink */
+            min-width: 0;
+            /* Prevent them from overflowing */
+        }
 
-/* When either .buttonContent or .buttonAction is empty, make the other take full width */
-.buttonDetail > .buttonContent:empty ~ .buttonAction,
-.buttonDetail > .buttonAction:empty ~ .buttonContent {
-    flex: 1 1 100%; /* Make the non-empty div take full width */
-}
+        /* When either .buttonContent or .buttonAction is empty, make the other take full width */
+        .buttonDetail>.buttonContent:empty~.buttonAction,
+        .buttonDetail>.buttonAction:empty~.buttonContent {
+            flex: 1 1 100%;
+            /* Make the non-empty div take full width */
+        }
 
-/* When both .buttonContent and .buttonAction are not empty, align them side by side */
-.buttonDetail > .buttonContent:not(:empty),
-.buttonDetail > .buttonAction:not(:empty) {
-    flex: 1; /* Both divs will take equal width when not empty */
-}
+        /* When both .buttonContent and .buttonAction are not empty, align them side by side */
+        .buttonDetail>.buttonContent:not(:empty),
+        .buttonDetail>.buttonAction:not(:empty) {
+            flex: 1;
+            /* Both divs will take equal width when not empty */
+        }
     </style>
 @endsection
