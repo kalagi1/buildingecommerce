@@ -455,7 +455,7 @@
                                          ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
                                          (!$canAddToProject && Auth::check())) col-md-12 col-12
                                 @else
-                                    col-md-6 col-6 @endif"
+                                    col-md-6 col-6 @endif homes-button"
                                     style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
 
                                     @if ($offSale || $saleClosed)
