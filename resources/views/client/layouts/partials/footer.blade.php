@@ -1265,10 +1265,7 @@
                                                     orderHousing), response.room_info[i]
                                                 .room_order); l++) {
 
-                                            if (l == 0) {
-                                                html +=
-                                                    "<tr><th style='background-color: #EEE !important;' colspan='3'>Ara Ödemeler</th></tr>";
-                                            }
+
 
                                             if (getDataJS(response, "pay_desc_price" + (
                                                         orderHousing) + l, response.room_info[i]
@@ -1285,6 +1282,10 @@
 
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
+                                                    if (l == 0) {
+                                                        html +=
+                                                            "<tr><th style='background-color: #EEE !important;' colspan='3'>Ara Ödemeler</th></tr>";
+                                                    }
                                                     html += "<tr>";
 
                                                     // Ara Ödeme
