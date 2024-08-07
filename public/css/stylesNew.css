@@ -28765,10 +28765,11 @@ font {
 }
 
 .payment-plan-pop-content {
-  width: 85% !important;
+  width: 50% !important;
   background-color: white;
   z-index: 9999;
   position: relative;
+  height:100%;
 }
 
 .payment-plan {
