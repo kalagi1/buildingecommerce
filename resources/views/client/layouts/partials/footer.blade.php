@@ -1261,7 +1261,7 @@
                                     if (getDataJS(response, "pay-dec-count" + (orderHousing),
                                             response.room_info[i].room_order)) {
                                         html +=
-                                            "<tr style='background-color: #EEE !important;' colspan='3'>Ara Ödemeler</tr>";
+                                            "<tr><th style='background-color: #EEE !important;' colspan='3'>Ara Ödemeler</th></tr>";
                                         for (var l = 0; l < getDataJS(response, "pay-dec-count" + (
                                                     orderHousing), response.room_info[i]
                                                 .room_order); l++) {
