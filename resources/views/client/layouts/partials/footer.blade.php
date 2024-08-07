@@ -882,6 +882,8 @@
     $('body').on('click', '.payment-plan-button', function(event) {
         var order = $(this).attr('order');
         var block = $(this).data("block");
+        var message = $(this).data("message");
+
         var paymentOrder = $(this).data("payment-order");
         var soldStatus = $(this).data('sold');
 
@@ -912,20 +914,57 @@
 
 
         if (userCheck == 0) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Uyarı',
-                text: 'Ödeme detayını görüntülemek için lütfen giriş yapınız.',
-                showCancelButton: true,
-                confirmButtonText: 'Giriş Yap',
-                cancelButtonText: 'Kapat',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
-                    window.location.href = '/login'; // Giriş sayfanızın URL'sini buraya koyun
+            if (message) {
+                if (message == "approve") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Uyarı',
+                        text: 'Projeye teklif göndermek için lütfen giriş yapınız.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Giriş Yap',
+                        cancelButtonText: 'Kapat',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                            window.location.href = '/login'; // Giriş sayfanızın URL'sini buraya koyun
+                        }
+                    });
+
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Uyarı',
+                        text: 'Projeye başvurmak için lütfen giriş yapınız.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Giriş Yap',
+                        cancelButtonText: 'Kapat',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                            window.location.href = '/login'; // Giriş sayfanızın URL'sini buraya koyun
+                        }
+                    });
                 }
-            });
+
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Uyarı',
+                    text: 'Ödeme detayını görüntülemek için lütfen giriş yapınız.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Giriş Yap',
+                    cancelButtonText: 'Kapat',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                        window.location.href = '/login'; // Giriş sayfanızın URL'sini buraya koyun
+                    }
+                });
+            }
+
         } else if (soldStatus == "1") {
             Swal.fire({
                 icon: 'warning',

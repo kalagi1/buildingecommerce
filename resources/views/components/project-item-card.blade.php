@@ -516,8 +516,7 @@
                                                 BAŞVUR
                                             </button>
                                         @else
-                                            <a href="{{ route('client.login') }}"
-                                                class="first-btn payment-plan-button">
+                                            <a data-message="approve2" class="first-btn payment-plan-button">
                                                 BAŞVUR
                                             </a>
                                         @endif
@@ -598,8 +597,7 @@
                                                 TEKLİF VER
                                             </button>
                                         @else
-                                            <a href="{{ route('client.login') }}"
-                                                class="first-btn payment-plan-button">
+                                            <a class="first-btn payment-plan-button" data-message="approve">
                                                 TEKLİF VER
                                             </a>
                                         @endif
