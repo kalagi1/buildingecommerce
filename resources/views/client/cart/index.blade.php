@@ -24,13 +24,13 @@
                         <div class="clearButtons">
                             @if (isset($cart['item']))
                                 <button type="button" class="btn btn-close-cart remove-from-cart"
-                                    style="background: #EC2F2E;padding:5px;height:auto !important; color: white; font-size: 12px;">
+                                style="background: transparent;padding: 10px;margin-right:5px;height: auto !important;color: black;font-size: 12px;border: 1px solid #f3f3f3;">
                                     <i class="fa fa-times"></i> Sepeti Temizle
                                 </button>
                             @endif
                             <button type="button" class="btn btn-close-cart"
-                                style="background: black;padding:5px;height:auto !important; color: white; font-size: 12px;"
-                                onclick="window.location.href='{{ route('index') }}'">
+                            style="background: transparent;padding: 10px;height: auto !important;color: black;font-size: 12px;border: 1px solid #f3f3f3;"
+                            onclick="window.location.href='{{ route('index') }}'">
                                 <i class="fa fa-times"></i> Kapat
                             </button>
                         </div>
