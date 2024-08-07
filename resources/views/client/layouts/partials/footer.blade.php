@@ -927,7 +927,8 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
-                            window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                            window.location.href =
+                            '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
                         }
                     });
 
@@ -943,7 +944,8 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
-                            window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                            window.location.href =
+                            '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
                         }
                     });
                 }
@@ -1159,20 +1161,7 @@
 
 
 
-                                        for (var l = 1; l <= getDataJS(response,
-                                                "pay-dec-count" + (orderHousing), response
-                                                .room_info[i].room_order); l++) {
-                                            html += "<tr><td>" +
-                                                l + ". Ara Ödeme</td>";
-                                        }
 
-
-                                        if (ongKiraData) {
-                                            html += "<td></td>";
-
-                                        }
-
-                                        html += "</tr>";
                                     }
 
                                     html += "<tr>";
@@ -1271,6 +1260,21 @@
                                     var payDecPrice = 0;
                                     if (getDataJS(response, "pay-dec-count" + (orderHousing),
                                             response.room_info[i].room_order)) {
+
+                                        for (var l = 1; l <= getDataJS(response,
+                                                "pay-dec-count" + (orderHousing), response
+                                                .room_info[i].room_order); l++) {
+                                            html += "<tr><td>" +
+                                                l + ". Ara Ödeme</td>";
+                                        }
+
+
+                                        if (ongKiraData) {
+                                            html += "<td></td>";
+
+                                        }
+
+                                        html += "</tr>";
 
                                         for (var l = 0; l < getDataJS(response,
                                                 "pay-dec-count" + (orderHousing), response
