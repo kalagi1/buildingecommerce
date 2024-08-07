@@ -927,7 +927,8 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
-                            window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                            window.location.href =
+                            '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
                         }
                     });
 
@@ -943,7 +944,8 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
-                            window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                            window.location.href =
+                            '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
                         }
                     });
                 }
@@ -1159,7 +1161,7 @@
 
 
 
-                                     
+
                                     }
 
                                     html += "<tr>";
@@ -1256,40 +1258,54 @@
 
 
                                     var payDecPrice = 0;
-                                    if (getDataJS(response, "pay-dec-count" + (orderHousing), response.room_info[i].room_order)) {
+                                    if (getDataJS(response, "pay-dec-count" + (orderHousing),
+                                            response.room_info[i].room_order)) {
 
-for (var l = 0; l < getDataJS(response, "pay-dec-count" + (orderHousing), response.room_info[i].room_order); l++) {
+                                        for (var l = 0; l < getDataJS(response, "pay-dec-count" + (
+                                                orderHousing), response.room_info[i]
+                                            .room_order); l++) {
 
-    if (getDataJS(response, "pay_desc_price" + (orderHousing) + l, response.room_info[i].room_order)) {
-        var price = parseFloat(getDataJS(response, "pay_desc_price" + (orderHousing) + l, response.room_info[i].room_order));
-        var payDecPrice = numberOfShares ? price / numberOfShares : price;
-        var payDescDate = new Date(getDataJS(response, "pay_desc_date" + (orderHousing) + l, response.room_info[i].room_order));
+                                            if (getDataJS(response, "pay_desc_price" + (
+                                                        orderHousing) + l, response.room_info[i]
+                                                    .room_order)) {
+                                                var price = parseFloat(getDataJS(response,
+                                                    "pay_desc_price" + (orderHousing) + l,
+                                                    response.room_info[i].room_order));
+                                                var payDecPrice = numberOfShares ? price /
+                                                    numberOfShares : price;
+                                                var payDescDate = new Date(getDataJS(response,
+                                                    "pay_desc_date" + (orderHousing) + l,
+                                                    response.room_info[i].room_order));
 
-        console.log(payDecPrice);
+                                                console.log(payDecPrice);
 
-        if (paymentPlanDatax[paymentPlanData[j]] == "Taksitli") {
-            html += "<tr>";
+                                                if (paymentPlanDatax[paymentPlanData[j]] ==
+                                                    "Taksitli") {
+                                                    html += "<tr>";
 
-            // Ara Ödeme
-            html += "<td>" +  "<strong>" + (l + 1) + ". Ara Ödeme :</strong> <br>" + "</td>";
+                                                    // Ara Ödeme
+                                                    html += "<td>" + "<strong>" + (l + 1) +
+                                                        ". Ara Ödeme :</strong> <br>" + "</td>";
 
-            // Price
-            html += "<td>" + formatPrice(payDecPrice) + "₺" + "</td>";
+                                                    // Price
+                                                    html += "<td>" + formatPrice(payDecPrice) +
+                                                        "₺" + "</td>";
 
-            // Tarih
-            html += "<td>" + (months[payDescDate.getMonth()] + ' ' + payDescDate.getDate() + ', ' + payDescDate.getFullYear()) + "</td>";
+                                                    // Tarih
+                                                    html += "<td>" + (months[payDescDate
+                                                        .getMonth()] + ' ' + payDescDate.getDate() +
+                                                            ', ' + payDescDate.getFullYear()) +
+                                                        "</td>";
 
-            if (ongKiraData) {
-                html += "<td></td>";
-            }
+                                                    if (ongKiraData) {
+                                                        html += "<td></td>";
+                                                    }
 
-            html += "</tr>";
-        } else {
-            html += "<tr><td colspan='3'></td></tr>"; // Boş bir satır ekleyin
-        }
-    }
-}
-}
+                                                    html += "</tr>";
+                                                }
+                                            }
+                                        }
+                                    }
 
 
                                     html += "</tr>";
