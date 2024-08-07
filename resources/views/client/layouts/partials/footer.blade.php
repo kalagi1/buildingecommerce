@@ -1073,6 +1073,7 @@
                                 " No'lu İlan Ödeme Planı"
                             )
                             var userCheck = {!! json_encode(auth()->user()) !!};
+                            console.log(userCheck);
 
                             if (userCheck) {
                                 if (userCheck.account_type === "Emlak Ofisi" && userCheck.type ===
