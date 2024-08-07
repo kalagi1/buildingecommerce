@@ -191,7 +191,7 @@
                         @if (
                             (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
                                 (Auth::check() && Auth::user()->type == '1'))
-                            <span class="textAlert alert alert-success" style="width: 100%"></span>
+                            <span class="textAlert" style="width: 100%"></span>
                         @endif
                     </div>
                     <div class="col-md-4">
@@ -1077,21 +1077,28 @@
                                 " No'lu İlan Ödeme Planı"
                             )
                             var userCheck = {!! json_encode(auth()->user()) !!};
-
                             if (userCheck) {
-                                if (userCheck.corporate_type === "Emlak Ofisi" && userCheck.type ===
-                                    "2") {
-                                    $(".textAlert").html(
-                                        response.project_title + " Projesinde " + block + " " +
-                                        paymentOrder + " No'lu İlan Ödeme Planı"
-                                    );
-                                } else if (userCheck.type === "1") {
-                                    $(".textAlert").html(
-                                        response.project_title + " Projesinde " + block + " " +
-                                        paymentOrder + " No'lu İlan Ödeme Planı"
-                                    );
-                                }
-                            }
+    if (userCheck.corporate_type === "Emlak Ofisi" && userCheck.type === "2") {
+        $(".textAlert").html(
+            "Emlak Sepeti, " + response.project_title +
+            " projesindeki " + block + " " +
+            paymentOrder +
+            " numaralı ilanınızı koleksiyonunuza ekleyerek, %" +
+            getDataJS(response, "number_of_shares[]", response.room_info[i].room_order) +
+            " oranındaki indirimle müşterilerinize sunmanıza aracılık eder. Bu fırsatı değerlendirin ve ilanın avantajlarını müşterilerinize daha etkili bir şekilde iletin."
+        );
+    } else if (userCheck.type === "1") {
+        $(".textAlert").html(
+            "En yakın emlak ofisinizden, " + response.project_title +
+            " projesindeki " + block + " " +
+            paymentOrder +
+            " numaralı ilanda büyük bir indirim fırsatını kaçırmayın! Şu kadar %" +
+            getDataJS(response, "number_of_shares[]", response.room_info[i].room_order) +
+            " indirimle bu ilanı satın alabilirsiniz. Detaylar ve daha fazla bilgi için hemen ofisinizle iletişime geçin."
+        );
+    }
+}
+
 
 
 
