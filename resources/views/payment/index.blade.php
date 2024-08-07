@@ -521,12 +521,12 @@
                                 value="{{ $cart['item']['payment-plan'] ?? null }}">
                             <div class="row">
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <label for="tc">TC: </label>
                                     <input type="number" class="form-control" id="tc" name="tc" required
                                         oninput="validateTCLength(this)">
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <label for="fullName">Ad Soyad:</label>
                                     <input type="text" class="form-control" id="fullName" name="fullName" required>
                                 </div>
