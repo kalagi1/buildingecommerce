@@ -677,7 +677,7 @@
             <div class="col-md-12 col-lg-12 col-xl-5 mb-5">
                 <div class="row">
 
-                    <div class="col-md-12" style="background: white !important;">
+                    <div class="col-md-12" >
                         <div class="tr-single-box">
 
                             <div class="tr-single-body">
@@ -790,7 +790,7 @@
                                 @endif
 
                                 {{-- <div class="col-md-12 col-lg-12 col-xl-6">  --}}
-                                <div class="col-md-12" style="background: white !important;">
+                                <div class="col-md-12" >
                                     <div class="mt-5">
                                         <div class="tr-single-header">
 
