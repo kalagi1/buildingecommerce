@@ -1256,66 +1256,41 @@
 
 
                                     var payDecPrice = 0;
-                                    if (getDataJS(response, "pay-dec-count" + (orderHousing),
-                                            response.room_info[i].room_order)) {
+                                    if (getDataJS(response, "pay-dec-count" + (orderHousing), response.room_info[i].room_order)) {
 
-                                        for (var l = 0; l < getDataJS(response,
-                                                "pay-dec-count" + (orderHousing), response
-                                                .room_info[i].room_order); l++) {
+for (var l = 0; l < getDataJS(response, "pay-dec-count" + (orderHousing), response.room_info[i].room_order); l++) {
 
-                                            if (getDataJS(response, "pay_desc_price" + (
-                                                        orderHousing) + l, response.room_info[i]
-                                                    .room_order)) {
-                                                payDecPrice += numberOfShares ? parseFloat(
-                                                        getDataJS(response,
-                                                            "pay_desc_price" + (orderHousing) +
-                                                            l,
-                                                            response.room_info[i].room_order)) /
-                                                    numberOfShares : parseFloat(getDataJS(response,
-                                                        "pay_desc_price" + (orderHousing) +
-                                                        l,
-                                                        response.room_info[i].room_order));
-                                                var payDecPrice2 = numberOfShares ? parseFloat(
-                                                        getDataJS(response,
-                                                            "pay_desc_price" + (orderHousing) +
-                                                            l,
-                                                            response.room_info[i].room_order)) /
-                                                    numberOfShares : parseFloat(getDataJS(response,
-                                                        "pay_desc_price" + (orderHousing) +
-                                                        l,
-                                                        response.room_info[i].room_order));
-                                                var payDescDate = new Date(getDataJS(response,
-                                                    "pay_desc_date" + (orderHousing) +
-                                                    l,
-                                                    response.room_info[i].room_order));
-                                                console.log(payDecPrice);
-                                                if (paymentPlanDatax[paymentPlanData[j]] ==
-                                                    "Taksitli") {
-                                                    html += "<td>" + (isMobile ? "<strong>" + (l +
-                                                                1) +
-                                                            ". Ara Ödeme :</strong> <br>" :
-                                                            "") +
-                                                        formatPrice(payDecPrice2) + "₺" +
-                                                        (isMobile ? " <br>" : "<br>") +
-                                                        (months[payDescDate.getMonth()] + ' ' +
-                                                            payDescDate.getDate() + ', ' +
-                                                            payDescDate
-                                                            .getFullYear()) + "</td>";
+    if (getDataJS(response, "pay_desc_price" + (orderHousing) + l, response.room_info[i].room_order)) {
+        var price = parseFloat(getDataJS(response, "pay_desc_price" + (orderHousing) + l, response.room_info[i].room_order));
+        var payDecPrice = numberOfShares ? price / numberOfShares : price;
+        var payDescDate = new Date(getDataJS(response, "pay_desc_date" + (orderHousing) + l, response.room_info[i].room_order));
 
+        console.log(payDecPrice);
 
-                                                    if (ongKiraData) {
-                                                        html += "<td></td>";
+        if (paymentPlanDatax[paymentPlanData[j]] == "Taksitli") {
+            html += "<tr>";
 
-                                                    }
-                                                } else {
-                                                    html += null;
-                                                }
+            // Ara Ödeme
+            html += "<td>" +  "<strong>" + (l + 1) + ". Ara Ödeme :</strong> <br>" + "</td>";
 
+            // Price
+            html += "<td>" + formatPrice(payDecPrice) + "₺" + "</td>";
 
-                                            }
+            // Tarih
+            html += "<td>" + (months[payDescDate.getMonth()] + ' ' + payDescDate.getDate() + ', ' + payDescDate.getFullYear()) + "</td>";
 
-                                        }
-                                    }
+            if (ongKiraData) {
+                html += "<td></td>";
+            }
+
+            html += "</tr>";
+        } else {
+            html += "<tr><td colspan='3'></td></tr>"; // Boş bir satır ekleyin
+        }
+    }
+}
+}
+
 
                                     html += "</tr>";
                                 }
