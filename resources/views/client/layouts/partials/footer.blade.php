@@ -1257,24 +1257,7 @@
                                     }
 
 
-                                    var payDecPrice = 0;
-                                    if (getDataJS(response, "pay-dec-count" + (orderHousing),
-                                            response.room_info[i].room_order)) {
-
-                                        for (var l = 1; l <= getDataJS(response,
-                                                "pay-dec-count" + (orderHousing), response
-                                                .room_info[i].room_order); l++) {
-                                            html += "<tr><td>" +
-                                                l + ". Ara Ödeme</td>";
-                                        }
-
-
-                                        if (ongKiraData) {
-                                            html += "<td></td>";
-
-                                        }
-
-                                        html += "</tr>";
+                                    
 
                                         for (var l = 0; l < getDataJS(response,
                                                 "pay-dec-count" + (orderHousing), response
@@ -1310,7 +1293,7 @@
                                                     "Taksitli") {
                                                     html += "<td>" + (isMobile ? "<strong>" + (l +
                                                                 1) +
-                                                            ". Ara Ödeme :</strong> <br>" :
+                                                            ". Ara Ödeme :</strong> </td><td>" :
                                                             "") +
                                                         formatPrice(payDecPrice2) + "₺" +
                                                         (isMobile ? " <br>" : "<br>") +
