@@ -188,9 +188,9 @@
             <table class="payment-plan table">
                 <div class="row">
                     <div class="col-md-9">
-
+                        <span class="textAlert"></span>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <a id="whatsappButton" class="btn btn-outline-light"><svg xmlns="http://www.w3.org/2000/svg" x="0px"
                             y="0px" width="18" height="18" viewBox="0 0 48 48">
                             <path fill="#fff"

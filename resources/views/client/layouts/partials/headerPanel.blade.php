@@ -120,8 +120,9 @@
             height: 100% !important;
             background: transparent;
             color: green;
-            margin-bottom: 10px;
-            margin-top: 10px;
+            /* margin-bottom: 10px; */
+            /* margin-top: 10px; */
+            width: 100%;
 
         }
 
@@ -631,12 +632,13 @@
                                                     'icon' => 'fa fa-user',
                                                     'text' => 'Hesabım',
                                                 ],
-                                                
+                                        
                                                 [
                                                     'url' => route('institutional.sharer.index'),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
-                                                        Auth::user()->getOriginal('corporate_type') == 'Emlak Ofisi'
+                                                        Auth::user()->getOriginal('corporate_type') ==
+                                                        'Emlak Ofisi'
                                                             ? 'Portföylerim'
                                                             : 'Koleksiyonlarım',
                                                 ],
@@ -695,7 +697,8 @@
                                                 ],
                                                 [
                                                     'url' =>
-                                                        Auth::user()->getOriginal('corporate_type') == 'Emlak Ofisi'
+                                                        Auth::user()->getOriginal('corporate_type') ==
+                                                        'Emlak Ofisi'
                                                             ? route('institutional.sharer.index')
                                                             : route('club.dashboardSatisNoktalari', [
                                                                 'slug' => Str::slug(Auth::user()->name),
@@ -703,7 +706,8 @@
                                                             ]),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
-                                                        Auth::user()->getOriginal('corporate_type') == 'Emlak Ofisi'
+                                                        Auth::user()->getOriginal('corporate_type') ==
+                                                        'Emlak Ofisi'
                                                             ? 'Portföylerim'
                                                             : 'Satış Noktalarımız',
                                                 ],
@@ -1164,12 +1168,14 @@
                                                     Paneli</a></li>
                                         @endif
                                         @if ($currentUser->id == 106)
-
-                                            <li><a href="{{route('institutional.crm.danisman.proje.atama')}}">Satış Temsilcilerim</a></li>
-                                            <li><a href="{{route('institutional.crm.raporlarim')}}">İstatistik Verileri</a></li>
-                                            <li><a href="{{route('institutional.admin.dashboard')}}">Panelim</a></li>
-                                            <li><a href="{{route('institutional.crm.admin.odul')}}">Ödül Sistemi</a></li>
-
+                                            <li><a href="{{ route('institutional.crm.danisman.proje.atama') }}">Satış
+                                                    Temsilcilerim</a></li>
+                                            <li><a href="{{ route('institutional.crm.raporlarim') }}">İstatistik
+                                                    Verileri</a></li>
+                                            <li><a href="{{ route('institutional.admin.dashboard') }}">Panelim</a>
+                                            </li>
+                                            <li><a href="{{ route('institutional.crm.admin.odul') }}">Ödül Sistemi</a>
+                                            </li>
                                         @endif
                                     </ul>
                                 </li>

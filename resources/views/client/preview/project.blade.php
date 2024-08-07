@@ -33,7 +33,9 @@
         <link rel="canonical" href="{{ $canonicalUrl }}" />
     @endif
     <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('/') }}/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.3/themes/base/jquery-ui.min.css" integrity="sha512-8PjjnSP8Bw/WNPxF6wkklW6qlQJdWJc/3w/ZQPvZ/1bjVDkrrSqLe9mfPYrMxtnzsXFPc434+u4FHLnLjXTSsg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.3/themes/base/jquery-ui.min.css"
+        integrity="sha512-8PjjnSP8Bw/WNPxF6wkklW6qlQJdWJc/3w/ZQPvZ/1bjVDkrrSqLe9mfPYrMxtnzsXFPc434+u4FHLnLjXTSsg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i%7CMontserrat:600,800" rel="stylesheet">
     <!-- FONT AWESOME -->
@@ -95,10 +97,12 @@
             height: 100% !important;
             background: transparent;
             color: green;
-            margin-bottom: 10px;
-            margin-top: 10px;
+            /* margin-bottom: 10px; */
+            /* margin-top: 10px; */
+            width: 100%;
 
         }
+
         .notification-card {
             cursor: pointer;
         }
@@ -292,7 +296,7 @@
 
         .circleIcon {
             font-size: 5px !important;
-            color: #ea2a28!important;
+            color: #ea2a28 !important;
             padding-right: 5px
         }
 
@@ -370,248 +374,253 @@
     </script>
     <!-- End Google Tag Manager -->
 </head>
+
 <body>
-    
 
 
-<div class="loading-full d-none">
-    <div class="back-opa">
 
-    </div>
-    <div class="content-loading">
-        <i class="fa fa-spinner"></i>
-    </div>
-</div>
+    <div class="loading-full d-none">
+        <div class="back-opa">
 
-<section class="recently  bg-white homepage-5 " style="margin-top: 30px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="headings-2 pt-0 pb-0">
-                    <div class="pro-wrapper mb-3" style="width: 100%; justify-content: space-between;">
-
-                        <div class="detail-wrapper-body">
-                            <div class="listing-title-bar">
-                                <strong
-                                    style="color: black;font-size: 11px !important;text-align:left;width:100%;display:block">İlan
-                                    No: <span style="color: #274abb;">{{ $project->id + 1000000 }}</span></strong>
-                                <h3>{{ $project->project_title }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-        <div class="row">
-            <div class="col-md-8">
-                <div class="headings-2 pt-0 pb-0">
+        <div class="content-loading">
+            <i class="fa fa-spinner"></i>
+        </div>
+    </div>
 
-                    <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                        <div class="carousel-inner">
-                            {{-- Kapak Görseli --}}
-                            <div class="item carousel-item active" data-slide-number="0" style="position: absolute">
-                                <a href="{{ $coverImage }}"
-                                    data-lightbox="project-images">
-                                    <img src="{{ $coverImage }}"
-                                        class="img-fluid" alt="slider-listing">
-                                </a>
-                            </div>
+    <section class="recently  bg-white homepage-5 " style="margin-top: 30px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="headings-2 pt-0 pb-0">
+                        <div class="pro-wrapper mb-3" style="width: 100%; justify-content: space-between;">
 
-                            @foreach ($projectImages as $key => $projectImage)
-                                <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
-                                    <a href="{{ $projectImage }}"
-                                        data-lightbox="project-images">
-                                        <img src="data:{{$mimeTypes[$key]}};base64,{{ $projectImage }}"
-                                            class="img-fluid" alt="slider-listing">
-                                    </a>
+                            <div class="detail-wrapper-body">
+                                <div class="listing-title-bar">
+                                    <strong
+                                        style="color: black;font-size: 11px !important;text-align:left;width:100%;display:block">İlan
+                                        No: <span style="color: #274abb;">{{ $project->id + 1000000 }}</span></strong>
+                                    <h3>{{ $project->project_title }}</h3>
                                 </div>
-                            @endforeach
-                        </div>
-
-                        {{-- Küçük Resim Navigasyonu --}}
-                        <div class="listingDetailsSliderNav mt-3">
-                            <div class="item active" style="margin: 10px; cursor: pointer">
-                                <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
-                                    <img src="{{ $coverImage }}"
-                                        class="img-fluid carousel-indicator-image" alt="listing-small">
-                                </a>
                             </div>
-                            @foreach ($projectImages as $key => $projectImage)
-                                <div class="item" style="margin: 10px; cursor: pointer">
-                                    <a id="carousel-selector-{{ $key + 1 }}" data-slide-to="{{ $key + 1 }}"
-                                        data-target="#listingDetailsSlider">
-                                        <img src="data:{{$mimeTypes[$key]}};base64,{{ $projectImage }}"
-                                            class="img-fluid carousel-indicator-image" alt="listing-small">
-                                    </a>
-                                </div>
-                            @endforeach
                         </div>
-                        <nav aria-label="Page navigation example" style="margin-top: 7px">
-                            <ul class="pagination">
-                                <li class="page-item page-item-left"><a class="page-link" href="#"><</a></li>
-                                <li class="page-item page-item-middle"><a class="page-link" href="#"></a></li>
-                                <li class="page-item page-item-right"><a class="page-link" href="#">></a></li>
-                            </ul>
-                        </nav>
                     </div>
-
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="headings-2 pt-0 pb-0">
 
-            <div class="col-md-4">
-                <div class="mobileMove">
-                    <div class="single widget storeInfo ">
-                        <div class="widget-boxed">
-                            <div class="widget-boxed-body" style="padding: 0 !important">
-                                <div class="sidebar-widget author-widget2">
+                        <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
+                            <div class="carousel-inner">
+                                {{-- Kapak Görseli --}}
+                                <div class="item carousel-item active" data-slide-number="0"
+                                    style="position: absolute">
+                                    <a href="{{ $coverImage }}" data-lightbox="project-images">
+                                        <img src="{{ $coverImage }}" class="img-fluid" alt="slider-listing">
+                                    </a>
+                                </div>
 
-                                    <table class="table homes-content" style="margin-bottom: 0 !important">
-                                        <tbody>
-                                            <tr style="border-top: none !important">
-                                                <td style="border-top: none !important">
-                                                    <span class="det" style="color: #EC2F2E !important;">
-                                                        {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
-                                                        @if ($project->neighbourhood)
-                                                            {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
-                                                        @endif
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="autoWidthTr">İlan No:</span>
-                                                    <span class="det" style="color: #274abb !important;">
-                                                        {{ $project->id + 1000000 }}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="autoWidthTr">İlan Tarihi:</span>
-                                                    <span class="det" style="color: #274abb !important;">
-                                                        {{ date('j', strtotime($project->created_at)) . ' ' . ' ' . date('Y', strtotime($project->created_at)) }}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="autoWidthTr">Kimden:</span>
-                                                    <span class="det" style="color: #274abb !important;">
-                                                        {{ $project->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            @if ($project->user->phone)
-                                                <tr>
-                                                    <td>
-                                                        <span class="autoWidthTr">İş:</span>
-                                                        <span class="det">
-                                                            <a style="text-decoration: none;color:#274abb;"
-                                                                href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                            @if ($project->user->mobile_phone)
-                                                <tr>
-                                                    <td>
-                                                        <span class="autoWidthTr">Cep :</span>
-                                                        <span class="det">
-                                                            <a style="text-decoration: none;color:#274abb;"
-                                                                href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                            <tr>
-                                                <td>
-                                                    <span class="autoWidthTr">Proje Durumu:</span>
-                                                    <span class="det"
-                                                        style="color: black;">{{ $status->name }}</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <strong class="autoWidthTr">Mağaza:</strong>
-                                                    <span class="det"
-                                                        style="color: black;">{!! $project->user->name !!}</span>
-                                                </td>
-                                            </tr>
+                                @foreach ($projectImages as $key => $projectImage)
+                                    <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
+                                        <a href="{{ $projectImage }}" data-lightbox="project-images">
+                                            <img src="data:{{ $mimeTypes[$key] }};base64,{{ $projectImage }}"
+                                                class="img-fluid" alt="slider-listing">
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
 
+                            {{-- Küçük Resim Navigasyonu --}}
+                            <div class="listingDetailsSliderNav mt-3">
+                                <div class="item active" style="margin: 10px; cursor: pointer">
+                                    <a id="carousel-selector-0" data-slide-to="0"
+                                        data-target="#listingDetailsSlider">
+                                        <img src="{{ $coverImage }}" class="img-fluid carousel-indicator-image"
+                                            alt="listing-small">
+                                    </a>
+                                </div>
+                                @foreach ($projectImages as $key => $projectImage)
+                                    <div class="item" style="margin: 10px; cursor: pointer">
+                                        <a id="carousel-selector-{{ $key + 1 }}"
+                                            data-slide-to="{{ $key + 1 }}" data-target="#listingDetailsSlider">
+                                            <img src="data:{{ $mimeTypes[$key] }};base64,{{ $projectImage }}"
+                                                class="img-fluid carousel-indicator-image" alt="listing-small">
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <nav aria-label="Page navigation example" style="margin-top: 7px">
+                                <ul class="pagination">
+                                    <li class="page-item page-item-left"><a class="page-link" href="#">
+                                            << /a>
+                                    </li>
+                                    <li class="page-item page-item-middle"><a class="page-link" href="#"></a>
+                                    </li>
+                                    <li class="page-item page-item-right"><a class="page-link" href="#">></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
 
-                                            <tr>
-                                                <td colspan="2">
-                                                    <strong class="autoWidthTr"><span>E-Posta:</span></strong>
-                                                    <span class="det"
-                                                        style="color: black;">{!! $project->user->email !!}</span>
-                                                </td>
-                                            </tr>
+                    </div>
+                </div>
 
+                <div class="col-md-4">
+                    <div class="mobileMove">
+                        <div class="single widget storeInfo ">
+                            <div class="widget-boxed">
+                                <div class="widget-boxed-body" style="padding: 0 !important">
+                                    <div class="sidebar-widget author-widget2">
 
-                                            <tr>
-                                                <td colspan="2">
-                                                    <strong class="autoWidthTr"><span>
+                                        <table class="table homes-content" style="margin-bottom: 0 !important">
+                                            <tbody>
+                                                <tr style="border-top: none !important">
+                                                    <td style="border-top: none !important">
+                                                        <span class="det" style="color: #EC2F2E !important;">
+                                                            {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                             @if ($project->neighbourhood)
-                                                                {!! 'İl-İlçe-Mahalle:' !!}
-                                                            @else
-                                                                {!! 'İl-İlçe:' !!}
+                                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
                                                             @endif
-                                                        </span></strong>
-                                                    <span class="det"
-                                                        style="color: black;font-size:10px !important">
-                                                        {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
-                                                        @if ($project->neighbourhood)
-                                                            {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
-                                                        @endif
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="autoWidthTr">Yapımcı Firma:</span>
-                                                    <span class="det"
-                                                        style="color: black;">{{ $project->create_company ? $project->create_company : 'Belirtilmedi' }}</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="autoWidthTr">Ada:</span>
-                                                    <span class="det"
-                                                        style="color: black;">{{ $project->island ? $project->island : 'Belirtilmedi' }}</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="autoWidthTr">Parsel:</span>
-                                                    <span class="det"
-                                                        style="color: black;">{{ $project->parcel ? $project->parcel : 'Belirtilmedi' }}</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="autoWidthTr">Başlangıç Tarihi:</span>
-                                                    <span class="det" style="color: black;">
-                                                        {{ $project->start_date ? \Carbon\Carbon::parse($project->start_date)->format('d.m.Y') : 'Belirtilmedi' }}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="autoWidthTr">Bitiş Tarihi:</span>
-                                                    <span class="det" style="color: black;">
-                                                        {{ $project->project_end_date ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y') : 'Belirtilmedi' }}
-                                                    </span>
-                                                </td>
-                                            </tr>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">İlan No:</span>
+                                                        <span class="det" style="color: #274abb !important;">
+                                                            {{ $project->id + 1000000 }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">İlan Tarihi:</span>
+                                                        <span class="det" style="color: #274abb !important;">
+                                                            {{ date('j', strtotime($project->created_at)) . ' ' . ' ' . date('Y', strtotime($project->created_at)) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Kimden:</span>
+                                                        <span class="det" style="color: #274abb !important;">
+                                                            {{ $project->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                @if ($project->user->phone)
+                                                    <tr>
+                                                        <td>
+                                                            <span class="autoWidthTr">İş:</span>
+                                                            <span class="det">
+                                                                <a style="text-decoration: none;color:#274abb;"
+                                                                    href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                @if ($project->user->mobile_phone)
+                                                    <tr>
+                                                        <td>
+                                                            <span class="autoWidthTr">Cep :</span>
+                                                            <span class="det">
+                                                                <a style="text-decoration: none;color:#274abb;"
+                                                                    href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Proje Durumu:</span>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $status->name }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <strong class="autoWidthTr">Mağaza:</strong>
+                                                        <span class="det"
+                                                            style="color: black;">{!! $project->user->name !!}</span>
+                                                    </td>
+                                                </tr>
 
-                                            <tr>
-                                                <td>
-                                                    <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>
-                                                    <span class="det"
-                                                        style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
-                                                </td>
-                                            </tr>
-                                            {{-- @if($shareSaleCheck)
+
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span>E-Posta:</span></strong>
+                                                        <span class="det"
+                                                            style="color: black;">{!! $project->user->email !!}</span>
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span>
+                                                                @if ($project->neighbourhood)
+                                                                    {!! 'İl-İlçe-Mahalle:' !!}
+                                                                @else
+                                                                    {!! 'İl-İlçe:' !!}
+                                                                @endif
+                                                            </span></strong>
+                                                        <span class="det"
+                                                            style="color: black;font-size:10px !important">
+                                                            {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                            @if ($project->neighbourhood)
+                                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                            @endif
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Yapımcı Firma:</span>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->create_company ? $project->create_company : 'Belirtilmedi' }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Ada:</span>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->island ? $project->island : 'Belirtilmedi' }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Parsel:</span>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->parcel ? $project->parcel : 'Belirtilmedi' }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Başlangıç Tarihi:</span>
+                                                        <span class="det" style="color: black;">
+                                                            {{ $project->start_date ? \Carbon\Carbon::parse($project->start_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Bitiş Tarihi:</span>
+                                                        <span class="det" style="color: black;">
+                                                            {{ $project->project_end_date ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Toplam Proje Alanı
+                                                            m<sup>2</sup>:</span>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
+                                                    </td>
+                                                </tr>
+                                                {{-- @if ($shareSaleCheck)
                                                 <tr>
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr">
@@ -623,483 +632,532 @@
                                                     </td>
                                                 </tr>
                                             @endif --}}
-                                            <tr>
-                                                <td colspan="2">
-                                                    <strong class="autoWidthTr"><span>Toplam
-                                                            {{ ucfirst($project->step1_slug) }}
-                                                            Sayısı:
-                                                        </span></strong>
-                                                    <span class="det"
-                                                        style="color: black;">{{ $project->room_count }}</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <strong class="autoWidthTr"><span>Satışa Açık
-                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
-                                                                Hisse
-                                                            @else
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span>Toplam
                                                                 {{ ucfirst($project->step1_slug) }}
-                                                            @endif
-                                                            Sayısı:
-                                                        </span></strong>
-                                                    <span class="det"
-                                                        style="color: black;">{{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }}</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <strong class="autoWidthTr"><span>Satılan
-                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
-                                                                Hisse
-                                                            @else
-                                                                {{ ucfirst($project->step1_slug) }}
-                                                            @endif
-                                                            Sayısı:
-                                                        </span></strong>
-                                                    <span class="det"
-                                                        style="color: black;">{{ $project->cartOrders }}</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <strong class="autoWidthTr"><span>Satışa Kapalı
-                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
-                                                                Hisse
-                                                            @else
-                                                                {{ ucfirst($project->step1_slug) }}
-                                                            @endif
-                                                            Sayısı:
-                                                        </span></strong>
-                                                    <span class="det"
-                                                        style="color: black;">{{ $salesCloseProjectHousingCount }}</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                                                Sayısı:
+                                                            </span></strong>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->room_count }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span>Satışa Açık
+                                                                @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                    Hisse
+                                                                @else
+                                                                    {{ ucfirst($project->step1_slug) }}
+                                                                @endif
+                                                                Sayısı:
+                                                            </span></strong>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span>Satılan
+                                                                @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                    Hisse
+                                                                @else
+                                                                    {{ ucfirst($project->step1_slug) }}
+                                                                @endif
+                                                                Sayısı:
+                                                            </span></strong>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->cartOrders }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span>Satışa Kapalı
+                                                                @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                    Hisse
+                                                                @else
+                                                                    {{ ucfirst($project->step1_slug) }}
+                                                                @endif
+                                                                Sayısı:
+                                                            </span></strong>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $salesCloseProjectHousingCount }}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
 
-                                    </table>
+                                        </table>
 
+
+                                    </div>
 
                                 </div>
-
                             </div>
+
                         </div>
-
                     </div>
+
                 </div>
-
             </div>
+
         </div>
-
-    </div>
-</section>
+    </section>
 
 
 
 
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
 
 
-<!-- ARCHIVES JS -->
-<script src="{{ URL::to('/') }}/js/rangeSlider.js?v=2"></script>
-<script src="https://cdn.jsdelivr.net/npm/tether@2.0.0/dist/js/tether.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js" integrity="sha512-hUhvpC5f8cgc04OZb55j0KNGh4eh7dLxd/dPSJ5VyzqDWxsayYbojWyl5Tkcgrmb/RVKCRJI1jNlRbVP4WWC4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/mmenu.min.js?v=2"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/mmenu.js?v=2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/aos2.js?v=2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js" integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fitvids/1.2.0/jquery.fitvids.min.js" integrity="sha512-/2sZKAsHDmHNoevKR/xsUKe+Bpf692q4tHNQs9VWWz0ujJ9JBM67iFYbIEdfDV9I2BaodgT5MIg/FTUmUv3oyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js" integrity="sha512-CEiA+78TpP9KAIPzqBvxUv8hy41jyI3f2uHi7DGp/Y/Ka973qgSdybNegWFciqh6GrN2UePx2KkflnQUbUhNIA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery.counterup@2.1.0/jquery.counterup.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/5.0.0/imagesloaded.pkgd.min.js" integrity="sha512-kfs3Dt9u9YcOiIt4rNcPUzdyNNO9sVGQPiZsub7ywg6lRW5KuK1m145ImrFHe3LMWXHndoKo2YRXWy8rnOcSKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/16.1.3/smooth-scroll.min.js" integrity="sha512-HYG9E+RmbXS7oy529Nk8byKFw5jqM3R1zzvoV2JnltsIGkK/AhZSzciYCNxDMOXEbYO9w6MJ6SpuYgm5PJPpeQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightcase/2.5.0/js/lightcase.min.js" integrity="sha512-i+A2/k3mB4TtIRp6fyk8Q+xzJqKusi0bvFgCIfDtdJT1tDEMqYvKo60q3bvp6LzGIeS6BahqN4AklwwxbdSaog==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/search.js?v=2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js" integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js" integrity="sha512-IsNh5E3eYy3tr/JiX2Yx4vsCujtkhwl7SLqgnwLNgf04Hrt9BT9SXlLlZlWx+OK4ndzAoALhsMNcCmkggjZB1w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxchimp/1.3.0/jquery.ajaxchimp.min.js" integrity="sha512-5yj5elY9u6clGe9/97bj3jJlw8+O9XSv/tbme8m/LR8cKnnT5+rR8qHW/UYQ/MozLg3cvTHeYIpM5kRktASSbg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/newsletter.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.js" integrity="sha512-RTxmGPtGtFBja+6BCvELEfuUdzlPcgf5TZ7qOVRmDfI9fDdX2f1IwBq+ChiELfWt72WY34n0Ti1oo2Q3cWn+kw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/searched.js?v=2"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/forms-2.js?v=2"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/range.js?v=2"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/color-switcher.js?v=2"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!-- ARCHIVES JS -->
+    <script src="{{ URL::to('/') }}/js/rangeSlider.js?v=2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tether@2.0.0/dist/js/tether.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"
+        integrity="sha512-hUhvpC5f8cgc04OZb55j0KNGh4eh7dLxd/dPSJ5VyzqDWxsayYbojWyl5Tkcgrmb/RVKCRJI1jNlRbVP4WWC4w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+        integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/js/mmenu.min.js?v=2"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/js/mmenu.js?v=2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"
+        integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/js/aos2.js?v=2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
+        integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fitvids/1.2.0/jquery.fitvids.min.js"
+        integrity="sha512-/2sZKAsHDmHNoevKR/xsUKe+Bpf692q4tHNQs9VWWz0ujJ9JBM67iFYbIEdfDV9I2BaodgT5MIg/FTUmUv3oyQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"
+        integrity="sha512-CEiA+78TpP9KAIPzqBvxUv8hy41jyI3f2uHi7DGp/Y/Ka973qgSdybNegWFciqh6GrN2UePx2KkflnQUbUhNIA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.counterup@2.1.0/jquery.counterup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/5.0.0/imagesloaded.pkgd.min.js"
+        integrity="sha512-kfs3Dt9u9YcOiIt4rNcPUzdyNNO9sVGQPiZsub7ywg6lRW5KuK1m145ImrFHe3LMWXHndoKo2YRXWy8rnOcSKg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"
+        integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/16.1.3/smooth-scroll.min.js"
+        integrity="sha512-HYG9E+RmbXS7oy529Nk8byKFw5jqM3R1zzvoV2JnltsIGkK/AhZSzciYCNxDMOXEbYO9w6MJ6SpuYgm5PJPpeQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightcase/2.5.0/js/lightcase.min.js"
+        integrity="sha512-i+A2/k3mB4TtIRp6fyk8Q+xzJqKusi0bvFgCIfDtdJT1tDEMqYvKo60q3bvp6LzGIeS6BahqN4AklwwxbdSaog=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/js/search.js?v=2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"
+        integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"
+        integrity="sha512-IsNh5E3eYy3tr/JiX2Yx4vsCujtkhwl7SLqgnwLNgf04Hrt9BT9SXlLlZlWx+OK4ndzAoALhsMNcCmkggjZB1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxchimp/1.3.0/jquery.ajaxchimp.min.js"
+        integrity="sha512-5yj5elY9u6clGe9/97bj3jJlw8+O9XSv/tbme8m/LR8cKnnT5+rR8qHW/UYQ/MozLg3cvTHeYIpM5kRktASSbg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/js/newsletter.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.js"
+        integrity="sha512-RTxmGPtGtFBja+6BCvELEfuUdzlPcgf5TZ7qOVRmDfI9fDdX2f1IwBq+ChiELfWt72WY34n0Ti1oo2Q3cWn+kw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+        integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/js/searched.js?v=2"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/js/forms-2.js?v=2"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/js/range.js?v=2"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/js/color-switcher.js?v=2"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 
-<script>
-    $(document).ready(function() {
-        $('.listingDetailsSliderNav .item').on('mouseenter', function() {
-            var totalSlides = $('#listingDetailsSlider .carousel-item')
-                .length; // Toplam slayt sayısını al
-            // 'this' bağlamında jQuery öğesi olduğunu varsayarak
-            var dataSlideTo = $(this).find('a').attr('data-slide-to');
-            // dataSlideTo değerini integer'a dönüştür ve 1 ekle
-            var slideNumber = parseInt(dataSlideTo, 10) + 1;
-            $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
-                totalSlides); // Ortadaki li etiketinin metnini güncelle
-            $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
-            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + dataSlideTo + '"]')
-                .addClass('active');
-            $('.listingDetailsSliderNav .item').removeClass('active');
-            $(this).closest('.item').addClass('active');
-            $(this).css('border', '1px solid #EC2F2E'); // Border rengini kırmızı yap
-            var totalSlides = $('#listingDetailsSlider .carousel-item')
-                .length; // Toplam slayt sayısını al
-            $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
-                totalSlides); // Ortadaki li etiketinin metnini güncelle
-        }).on('mouseleave', function() {
-            $(this).css('border', 'solid 1px #e6e6e6'); // Hover bittiğinde border rengini boş bırak
-        });
-
-    });
-
-    $(document).ready(function() {
-        $('.listingDetailsSliderNav .item a').on('click', function() {
-            var dataSlideTo = $(this).attr('data-slide-to');
-            console.log(dataSlideTo);
-            var slideNumber = parseInt(dataSlideTo, 10);
-            $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
-            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + dataSlideTo + '"]')
-                .addClass('active');
-            $('.listingDetailsSliderNav .item').removeClass('active');
-            $(this).closest('.item').addClass('active');
-        });
-    });
-    var isLoggedIn = {!! json_encode(auth()->check()) !!};
-    var hasClub = isLoggedIn == true ? {!! auth()->user() ? json_encode(auth()->user()->has_club) : 4 !!} : 4;
-
-    $('body').on('click', '.addCollection', function(event) {
-
-        event.preventDefault();
-        if (!isLoggedIn) {
-            toastr.warning('Lütfen Giriş Yapınız', 'Uyarı');
-            redirectToLogin();
-            return;
-
-        }
-
-
-
-
-
-        var button = $(this);
-        var productId = $(this).data("id");
-        var project = null;
-        var type = $(this).data("type");
-
-        if ($(this).data("type") == "project") {
-            project = $(this).data("project");
-        }
-        if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {
-            $('#membershipPopup').modal('show');
-
-        } else if (isLoggedIn && hasClub ==
-            1) {
-            $('#addCollectionModal').modal('show');
-            $(".addCollection").data('cart-info', {
-                id: productId,
-                type: type,
-                project: project,
-                _token: "{{ csrf_token() }}",
-                clear_cart: "no",
-                selectedCollectionId: null
+    <script>
+        $(document).ready(function() {
+            $('.listingDetailsSliderNav .item').on('mouseenter', function() {
+                var totalSlides = $('#listingDetailsSlider .carousel-item')
+                    .length; // Toplam slayt sayısını al
+                // 'this' bağlamında jQuery öğesi olduğunu varsayarak
+                var dataSlideTo = $(this).find('a').attr('data-slide-to');
+                // dataSlideTo değerini integer'a dönüştür ve 1 ekle
+                var slideNumber = parseInt(dataSlideTo, 10) + 1;
+                $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
+                    totalSlides); // Ortadaki li etiketinin metnini güncelle
+                $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
+                $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + dataSlideTo + '"]')
+                    .addClass('active');
+                $('.listingDetailsSliderNav .item').removeClass('active');
+                $(this).closest('.item').addClass('active');
+                $(this).css('border', '1px solid #EC2F2E'); // Border rengini kırmızı yap
+                var totalSlides = $('#listingDetailsSlider .carousel-item')
+                    .length; // Toplam slayt sayısını al
+                $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
+                    totalSlides); // Ortadaki li etiketinin metnini güncelle
+            }).on('mouseleave', function() {
+                $(this).css('border', 'solid 1px #e6e6e6'); // Hover bittiğinde border rengini boş bırak
             });
 
+        });
 
-            fetch('/getCollections')
-                .then(response => response.json())
-                .then(data => {
-                    var text;
-                    var pluralText;
+        $(document).ready(function() {
+            $('.listingDetailsSliderNav .item a').on('click', function() {
+                var dataSlideTo = $(this).attr('data-slide-to');
+                console.log(dataSlideTo);
+                var slideNumber = parseInt(dataSlideTo, 10);
+                $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
+                $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + dataSlideTo + '"]')
+                    .addClass('active');
+                $('.listingDetailsSliderNav .item').removeClass('active');
+                $(this).closest('.item').addClass('active');
+            });
+        });
+        var isLoggedIn = {!! json_encode(auth()->check()) !!};
+        var hasClub = isLoggedIn == true ? {!! auth()->user() ? json_encode(auth()->user()->has_club) : 4 !!} : 4;
 
-                    if (isLoggedIn) {
-                        var accountType = {!! Auth::check() ? json_encode(Auth::user()->corporate_type) : 'null' !!};
-                        if (accountType === "Emlak Ofisi") {
-                            text = "Portföy";
-                            pluralText = "Portföylerden";
+        $('body').on('click', '.addCollection', function(event) {
+
+            event.preventDefault();
+            if (!isLoggedIn) {
+                toastr.warning('Lütfen Giriş Yapınız', 'Uyarı');
+                redirectToLogin();
+                return;
+
+            }
+
+
+
+
+
+            var button = $(this);
+            var productId = $(this).data("id");
+            var project = null;
+            var type = $(this).data("type");
+
+            if ($(this).data("type") == "project") {
+                project = $(this).data("project");
+            }
+            if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {
+                $('#membershipPopup').modal('show');
+
+            } else if (isLoggedIn && hasClub ==
+                1) {
+                $('#addCollectionModal').modal('show');
+                $(".addCollection").data('cart-info', {
+                    id: productId,
+                    type: type,
+                    project: project,
+                    _token: "{{ csrf_token() }}",
+                    clear_cart: "no",
+                    selectedCollectionId: null
+                });
+
+
+                fetch('/getCollections')
+                    .then(response => response.json())
+                    .then(data => {
+                        var text;
+                        var pluralText;
+
+                        if (isLoggedIn) {
+                            var accountType = {!! Auth::check() ? json_encode(Auth::user()->corporate_type) : 'null' !!};
+                            if (accountType === "Emlak Ofisi") {
+                                text = "Portföy";
+                                pluralText = "Portföylerden";
+                            } else {
+                                text = "Koleksiyon";
+                                pluralText = "Koleksiyonlardan";
+                            }
                         } else {
                             text = "Koleksiyon";
                             pluralText = "Koleksiyonlardan";
                         }
-                    } else {
-                        text = "Koleksiyon";
-                        pluralText = "Koleksiyonlardan";
-                    }
 
-                    let modalContent =
-                        `<div class="modal-header">
+                        let modalContent =
+                            `<div class="modal-header">
           <h3 class="modal-title fs-5" id="exampleModalLabel">${text} Ekle</h3>
        </div>
        <div class="modal-body collection-body">`;
 
-                    if (data.collections.length > 0) {
-                        modalContent +=
-                            `<span class="collectionTitle mb-3">${pluralText} birini seç veya yeni bir ${text} oluştur</span>`;
-                        modalContent +=
-                            `<div class="collection-item-wrapper" id="selectedCollectionWrapper">
+                        if (data.collections.length > 0) {
+                            modalContent +=
+                                `<span class="collectionTitle mb-3">${pluralText} birini seç veya yeni bir ${text} oluştur</span>`;
+                            modalContent +=
+                                `<div class="collection-item-wrapper" id="selectedCollectionWrapper">
             <ul class="list-group" id="collectionList" style="justify-content: space-between;">`;
 
-                        data.collections.forEach(collection => {
-                            modalContent +=
-                                `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important" data-collection-id="${collection.id}">
+                            data.collections.forEach(collection => {
+                                modalContent +=
+                                    `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important" data-collection-id="${collection.id}">
              ${collection.name}
            </li>`;
-                        });
+                            });
 
-                        modalContent +=
-                            `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important">
+                            modalContent +=
+                                `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important">
            <i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle
          </li>`;
-                        modalContent += '</ul></div>';
-                    } else {
-                        modalContent += `<p>Henüz ${text} yok. Yeni bir ${text} oluştur:</p>`;
-                        modalContent +=
-                            `<div class="collection-item-wrapper" id="selectedCollectionWrapper">
+                            modalContent += '</ul></div>';
+                        } else {
+                            modalContent += `<p>Henüz ${text} yok. Yeni bir ${text} oluştur:</p>`;
+                            modalContent +=
+                                `<div class="collection-item-wrapper" id="selectedCollectionWrapper">
             <ul class='list-group' id='collectionList' style='justify-content: space-between;'>`;
-                        modalContent +=
-                            `<li class='list-group-item mb-3' style='cursor:pointer;color:black;font-size:11px !important'>
+                            modalContent +=
+                                `<li class='list-group-item mb-3' style='cursor:pointer;color:black;font-size:11px !important'>
            <i class='fa fa-plus' style='color:#e54242;'></i> Yeni Ekle
          </li>`;
-                        modalContent += '</ul></div>';
-                    }
+                            modalContent += '</ul></div>';
+                        }
 
-                    modalContent +=
-                        '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button></div>';
+                        modalContent +=
+                            '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button></div>';
 
-                    let modal = document.getElementById('addCollectionModal');
-                    let modalBody = modal.querySelector('.modal-content');
-                    modalBody.innerHTML = modalContent;
+                        let modal = document.getElementById('addCollectionModal');
+                        let modalBody = modal.querySelector('.modal-content');
+                        modalBody.innerHTML = modalContent;
 
-                    // Olay dinleyicilerini yeniden ekleyin
-                    document.querySelectorAll('#collectionList li').forEach(item => {
-                        item.addEventListener('click', function() {
-                            let selectedCollectionId = this.getAttribute(
-                                'data-collection-id');
-                            if (!this.isEqualNode(document.querySelector(
-                                    '#collectionList li:last-child'))) {
-                                var cart = {
-                                    id: productId,
-                                    type: type,
-                                    project: project,
-                                    _token: "{{ csrf_token() }}",
-                                    clear_cart: "no",
-                                    selectedCollectionId: parseInt(selectedCollectionId,
-                                        10)
-                                };
+                        // Olay dinleyicilerini yeniden ekleyin
+                        document.querySelectorAll('#collectionList li').forEach(item => {
+                            item.addEventListener('click', function() {
+                                let selectedCollectionId = this.getAttribute(
+                                    'data-collection-id');
+                                if (!this.isEqualNode(document.querySelector(
+                                        '#collectionList li:last-child'))) {
+                                    var cart = {
+                                        id: productId,
+                                        type: type,
+                                        project: project,
+                                        _token: "{{ csrf_token() }}",
+                                        clear_cart: "no",
+                                        selectedCollectionId: parseInt(selectedCollectionId,
+                                            10)
+                                    };
 
-                                $.ajax({
-                                    type: "POST",
-                                    url: "{{ route('add.to.link') }}",
-                                    data: JSON.stringify(cart),
-                                    contentType: "application/json;charset=UTF-8",
-                                    success: function(response) {
-                                        if (response.failed) {
-                                            toastr.warning(
-                                                "Ürün bu koleksiyonda zaten mevcut."
-                                            );
-                                        } else {
-                                            toastr.success(
-                                                "Ürün Koleksiyonunuza Eklendi"
-                                            );
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ route('add.to.link') }}",
+                                        data: JSON.stringify(cart),
+                                        contentType: "application/json;charset=UTF-8",
+                                        success: function(response) {
+                                            if (response.failed) {
+                                                toastr.warning(
+                                                    "Ürün bu koleksiyonda zaten mevcut."
+                                                );
+                                            } else {
+                                                toastr.success(
+                                                    "Ürün Koleksiyonunuza Eklendi"
+                                                );
+                                            }
+                                        },
+                                        error: function(error) {
+                                            console.error(error);
                                         }
-                                    },
-                                    error: function(error) {
-                                        console.error(error);
-                                    }
-                                });
+                                    });
 
-                                closeModal();
-                            }
+                                    closeModal();
+                                }
+                            });
                         });
+
+                        document.querySelector('#collectionList li:last-child').addEventListener('click',
+                            function() {
+                                $('#addCollectionModal').modal('hide');
+                                $('#newCollectionModal').modal('show');
+                            });
                     });
 
-                    document.querySelector('#collectionList li:last-child').addEventListener('click',
-                        function() {
-                            $('#addCollectionModal').modal('hide');
-                            $('#newCollectionModal').modal('show');
-                        });
-                });
+            }
 
-        }
-
-        function redirectToLogin() {
-            window.location.href = '/giris-yap';
-        }
+            function redirectToLogin() {
+                window.location.href = '/giris-yap';
+            }
 
 
 
-    });
+        });
 
 
-    $('#saveNewCollectionBtn').on('click', function() {
+        $('#saveNewCollectionBtn').on('click', function() {
 
 
-        if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {
-            $('#membershipPopup').modal('show');
-        } else if (!isLoggedIn) {
-            redirectToLogin();
-        } else if (isLoggedIn && hasClub == 1) {
+            if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {
+                $('#membershipPopup').modal('show');
+            } else if (!isLoggedIn) {
+                redirectToLogin();
+            } else if (isLoggedIn && hasClub == 1) {
+                $(".modal-backdrop").hide();
+
+                let newCollectionName = $('#newCollectionNameInput').val();
+                let cartInfo = $('.addCollection').data('cart-info');
+                if (newCollectionName) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/collections',
+                        data: {
+                            collection_name: newCollectionName,
+                            _token: "{{ csrf_token() }}",
+                            cart: cartInfo
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            if (response) {
+                                $('#newCollectionModal').modal('hide');
+                                $('#newCollectionNameInput').val(" ");
+                                toastr.success("Ürün Koleksiyonunuza Eklendİ");
+
+                            } else {
+                                toastr.error('Koleksiyon eklenirken bir hata oluştu.');
+                            }
+                        },
+                        error: function(error) {
+                            console.error('Koleksiyon eklenirken bir hata oluştu:', error);
+                        }
+                    });
+                } else {
+                    toastr.warning('Lütfen yeni bir koleksiyon adı girin.');
+                }
+            }
+
+        });
+
+        function closeModal() {
             $(".modal-backdrop").hide();
-
-            let newCollectionName = $('#newCollectionNameInput').val();
-            let cartInfo = $('.addCollection').data('cart-info');
-            if (newCollectionName) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/collections',
-                    data: {
-                        collection_name: newCollectionName,
-                        _token: "{{ csrf_token() }}",
-                        cart: cartInfo
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        if (response) {
-                            $('#newCollectionModal').modal('hide');
-                            $('#newCollectionNameInput').val(" ");
-                            toastr.success("Ürün Koleksiyonunuza Eklendİ");
-
-                        } else {
-                            toastr.error('Koleksiyon eklenirken bir hata oluştu.');
-                        }
-                    },
-                    error: function(error) {
-                        console.error('Koleksiyon eklenirken bir hata oluştu:', error);
-                    }
-                });
-            } else {
-                toastr.warning('Lütfen yeni bir koleksiyon adı girin.');
-            }
+            $('#addCollectionModal').modal('hide');
+            $('#newCollectionModal').modal('hide');
         }
 
-    });
+        $(document).ready(function() {
+            $(".box").hide();
 
-    function closeModal() {
-        $(".modal-backdrop").hide();
-        $('#addCollectionModal').modal('hide');
-        $('#newCollectionModal').modal('hide');
-    }
+            $(".notification").click(function(e) {
+                e.stopPropagation(); // Bu, dışarı tıklandığında belge olayının tetiklenmesini önler
+                $(".box").toggle();
+            });
 
-    $(document).ready(function() {
-        $(".box").hide();
-
-        $(".notification").click(function(e) {
-            e.stopPropagation(); // Bu, dışarı tıklandığında belge olayının tetiklenmesini önler
-            $(".box").toggle();
-        });
-
-        $(document).click(function(e) {
-            if (!$(e.target).closest('.box').length && !$(e.target).closest('.notification').length) {
-                $(".box").hide();
-            }
-        });
-    });
-
-    document.addEventListener("DOMContentLoaded", function() {
-        var notificationCards = document.querySelectorAll(".notification-card");
-        notificationCards.forEach(function(card) {
-            card.addEventListener("click", function() {
-                var notificationId = card.getAttribute("data-id");
-                var notificationLink = $(this).data('link');
-
-                fetch('/mark-notification-as-read/' + notificationId, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        }
-                    })
-                    .then(function(response) {
-
-                        if (response.status == "readed") {
-                            var numberCount = parseInt($(".notBtn .number").html());
-                            if (numberCount > 0) {
-                                numberCount--;
-                                $(".notBtn .number").html(numberCount);
-                            }
-                        }
-
-                        if (notificationLink) {
-                            window.location.href = notificationLink;
-                        }
-                        card.classList.remove("unread");
-                        card.classList.add("read");
-
-                    })
-                    .catch(function(error) {
-                        console.error('Bir hata oluştu:', error);
-                    });
+            $(document).click(function(e) {
+                if (!$(e.target).closest('.box').length && !$(e.target).closest('.notification').length) {
+                    $(".box").hide();
+                }
             });
         });
-    });
-    $('body').on('click', '.payment-plan-button', function(event) {
-        var order = $(this).attr('order');
-        var block = $(this).data("block");
-        var message = $(this).data("message");
 
-        var paymentOrder = $(this).data("payment-order");
-        var soldStatus = $(this).data('sold');
+        document.addEventListener("DOMContentLoaded", function() {
+            var notificationCards = document.querySelectorAll(".notification-card");
+            notificationCards.forEach(function(card) {
+                card.addEventListener("click", function() {
+                    var notificationId = card.getAttribute("data-id");
+                    var notificationLink = $(this).data('link');
 
-        var cart = {
-            project_id: $(this).attr('project-id'),
-            order: $(this).attr('order'),
-            _token: "{{ csrf_token() }}"
-        };
+                    fetch('/mark-notification-as-read/' + notificationId, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            }
+                        })
+                        .then(function(response) {
 
-        var paymentPlanDatax = {
-            "pesin": "Peşin",
-            "taksitli": "Taksitli"
-        }
+                            if (response.status == "readed") {
+                                var numberCount = parseInt($(".notBtn .number").html());
+                                if (numberCount > 0) {
+                                    numberCount--;
+                                    $(".notBtn .number").html(numberCount);
+                                }
+                            }
 
-        function getDataJS(project, key, roomOrder) {
-            var a = 0;
-            project.room_info.forEach((room) => {
-                if (room.room_order == roomOrder && room.name == key) {
-                    a = room.value;
-                }
-            })
+                            if (notificationLink) {
+                                window.location.href = notificationLink;
+                            }
+                            card.classList.remove("unread");
+                            card.classList.add("read");
 
-            return a;
+                        })
+                        .catch(function(error) {
+                            console.error('Bir hata oluştu:', error);
+                        });
+                });
+            });
+        });
+        $('body').on('click', '.payment-plan-button', function(event) {
+            var order = $(this).attr('order');
+            var block = $(this).data("block");
+            var message = $(this).data("message");
 
-        }
+            var paymentOrder = $(this).data("payment-order");
+            var soldStatus = $(this).data('sold');
 
-        var userCheck = {!! auth()->user() ? json_encode(auth()->user()->id) : 0 !!};
+            var cart = {
+                project_id: $(this).attr('project-id'),
+                order: $(this).attr('order'),
+                _token: "{{ csrf_token() }}"
+            };
+
+            var paymentPlanDatax = {
+                "pesin": "Peşin",
+                "taksitli": "Taksitli"
+            }
+
+            function getDataJS(project, key, roomOrder) {
+                var a = 0;
+                project.room_info.forEach((room) => {
+                    if (room.room_order == roomOrder && room.name == key) {
+                        a = room.value;
+                    }
+                })
+
+                return a;
+
+            }
+
+            var userCheck = {!! auth()->user() ? json_encode(auth()->user()->id) : 0 !!};
 
 
-        if (userCheck == 0) {
-            if (message) {
-                if (message == "approve") {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Uyarı',
-                        text: 'Projeye teklif göndermek için lütfen giriş yapınız.',
-                        showCancelButton: true,
-                        confirmButtonText: 'Giriş Yap',
-                        cancelButtonText: 'Kapat',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
-                            window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
-                        }
-                    });
+            if (userCheck == 0) {
+                if (message) {
+                    if (message == "approve") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Uyarı',
+                            text: 'Projeye teklif göndermek için lütfen giriş yapınız.',
+                            showCancelButton: true,
+                            confirmButtonText: 'Giriş Yap',
+                            cancelButtonText: 'Kapat',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                                window.location.href =
+                                '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                            }
+                        });
+
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Uyarı',
+                            text: 'Projeye başvurmak için lütfen giriş yapınız.',
+                            showCancelButton: true,
+                            confirmButtonText: 'Giriş Yap',
+                            cancelButtonText: 'Kapat',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                                window.location.href =
+                                '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                            }
+                        });
+                    }
 
                 } else {
                     Swal.fire({
                         icon: 'warning',
                         title: 'Uyarı',
-                        text: 'Projeye başvurmak için lütfen giriş yapınız.',
+                        text: 'Ödeme detayını görüntülemek için lütfen giriş yapınız.',
                         showCancelButton: true,
                         confirmButtonText: 'Giriş Yap',
                         cancelButtonText: 'Kapat',
@@ -1112,1233 +1170,1022 @@
                     });
                 }
 
-            } else {
+            } else if (soldStatus == "1") {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Uyarı',
-                    text: 'Ödeme detayını görüntülemek için lütfen giriş yapınız.',
-                    showCancelButton: true,
-                    confirmButtonText: 'Giriş Yap',
-                    cancelButtonText: 'Kapat',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
-                        window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
-                    }
+                    text: 'Bu ilan için ödeme detay bilgisi gösterilemiyor.',
+                    confirmButtonText: 'Kapat'
                 });
-            }
+            } else {
+                $.ajax({
+                    url: "{{ route('get.housing.payment.plan') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+                    type: "get", // Veriyi göndermek için POST kullanabilirsiniz
+                    data: cart,
+                    success: function(response) {
+                        for (var i = 0; i < response.room_info.length; i++) {
+                            var numberOfShares = 0;
+                            var shareSale = getDataJS(response, "share_sale[]", response.room_info[i]
+                                .room_order);
+                            if (shareSale && shareSale == '["Var"]') {
+                                var numberOfShares = parseFloat(getDataJS(response,
+                                    "number_of_shares[]",
+                                    response.room_info[i].room_order));
 
-        } else if (soldStatus == "1") {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Uyarı',
-                text: 'Bu ilan için ödeme detay bilgisi gösterilemiyor.',
-                confirmButtonText: 'Kapat'
-            });
-        } else {
-            $.ajax({
-                url: "{{ route('get.housing.payment.plan') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                type: "get", // Veriyi göndermek için POST kullanabilirsiniz
-                data: cart,
-                success: function(response) {
-                    for (var i = 0; i < response.room_info.length; i++) {
-                        var numberOfShares = 0;
-                        var shareSale = getDataJS(response, "share_sale[]", response.room_info[i]
-                            .room_order);
-                        if (shareSale && shareSale == '["Var"]') {
-                            var numberOfShares = parseFloat(getDataJS(response,
-                                "number_of_shares[]",
-                                response.room_info[i].room_order));
-
-
-                        }
-
-
-                        if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
-                            .room_order == parseInt(order)) {
-
-
-                            var paymentPlanData = JSON.parse(response.room_info[i].value);
-                            if (!paymentPlanData.includes("pesin")) {
-                                // "peşin" not present, add it to the beginning of the array
-                                paymentPlanData.unshift("pesin");
-                            } else if (!paymentPlanData.includes("taksitli")) {
-                                // "peşin" already present, but "taksitli" is not, add "taksitli" to the end
-                                const indexOfPesin = paymentPlanData.indexOf("pesin");
-                                paymentPlanData.splice(indexOfPesin + 1, 0, "taksitli");
-                            }
-
-                            if (paymentPlanData[0] != "pesin") {
-                                paymentPlanData.reverse();
 
                             }
 
 
-                            var html = "";
+                            if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
+                                .room_order == parseInt(order)) {
 
-                            function formatPrice(number) {
-                                number = parseFloat(number);
-                                // Sayıyı ondalık kısmı virgülle ayır
-                                const parts = number.toFixed(2).toString().split(".");
 
-                                // Virgül ile ayırmak için her üç haneli kısma nokta ekleyin
-                                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                var paymentPlanData = JSON.parse(response.room_info[i].value);
+                                if (!paymentPlanData.includes("pesin")) {
+                                    // "peşin" not present, add it to the beginning of the array
+                                    paymentPlanData.unshift("pesin");
+                                } else if (!paymentPlanData.includes("taksitli")) {
+                                    // "peşin" already present, but "taksitli" is not, add "taksitli" to the end
+                                    const indexOfPesin = paymentPlanData.indexOf("pesin");
+                                    paymentPlanData.splice(indexOfPesin + 1, 0, "taksitli");
+                                }
 
-                                // Sonucu birleştirin ve virgül ile ayırın
-                                return parts.join(",");
-                            }
-                            var tempPlans = [];
-                            const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
-                                "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
-                            ]
-                            orderHousing = parseInt(order);
-                            var userTypeOne = {!! auth()->user() ? json_encode(auth()->user()->type) : 0 !!};
+                                if (paymentPlanData[0] != "pesin") {
+                                    paymentPlanData.reverse();
 
-                            if (getDataJS(response, "discount_rate[]",
-                                    response.room_info[i].room_order) && userTypeOne == 1) {
+                                }
+
+
+                                var html = "";
+
+                                function formatPrice(number) {
+                                    number = parseFloat(number);
+                                    // Sayıyı ondalık kısmı virgülle ayır
+                                    const parts = number.toFixed(2).toString().split(".");
+
+                                    // Virgül ile ayırmak için her üç haneli kısma nokta ekleyin
+                                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                                    // Sonucu birleştirin ve virgül ile ayırın
+                                    return parts.join(",");
+                                }
+                                var tempPlans = [];
+                                const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+                                    "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+                                ]
+                                orderHousing = parseInt(order);
+                                var userTypeOne = {!! auth()->user() ? json_encode(auth()->user()->type) : 0 !!};
+
+                                if (getDataJS(response, "discount_rate[]",
+                                        response.room_info[i].room_order) && userTypeOne == 1) {
+                                    html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
+                                        "' style='background-color: green !important;color:white;font-weight: 100'>" +
+                                        "<th style='text-align:center' class='paymentTableTitle' colspan='" +
+                                        (4 + parseInt(getDataJS(response, "pay-dec-count" +
+                                            orderHousing, response.room_info[i].room_order), 10)) +
+                                        "'>" +
+                                        "EN YAKIN EMLAK OFİSİNİN KOLEKSİYONU İLE BU İLANI SATIN ALIRSANIZ, %" +
+                                        (getDataJS(response, "discount_rate[]", response.room_info[i]
+                                            .room_order)) +
+                                        " ORANINDA İNDİRİM KAZANIRSINIZ." +
+                                        "</th></tr>";
+
+
+                                }
+
                                 html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
-                                    "' style='background-color: green !important;color:white;font-weight: 100'>" +
-                                    "<th style='text-align:center' class='paymentTableTitle' colspan='" +
-                                    (4 + parseInt(getDataJS(response, "pay-dec-count" +
-                                        orderHousing, response.room_info[i].room_order), 10)) +
-                                    "'>" +
-                                    "EN YAKIN EMLAK OFİSİNİN KOLEKSİYONU İLE BU İLANI SATIN ALIRSANIZ, %" +
-                                    (getDataJS(response, "discount_rate[]", response.room_info[i]
-                                        .room_order)) +
-                                    " ORANINDA İNDİRİM KAZANIRSINIZ." +
-                                    "</th></tr>";
+                                    "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" +
+                                    (4 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing,
+                                        response.room_info[i].room_order), 10)) + " >" + response
+                                    .project_title +
+                                    " Projesinde " + block + " " + paymentOrder +
+                                    " No'lu İlan Ödeme Planı</th></tr>";
 
-
-                            }
-
-                            html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
-                                "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" +
-                                (4 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing,
-                                    response.room_info[i].room_order), 10)) + " >" + response
-                                .project_title +
-                                " Projesinde " + block + " " + paymentOrder +
-                                " No'lu İlan Ödeme Planı</th></tr>";
-
-                            $(".pop-up-top-gradient .left h3").html(
-                                response
-                                .project_title +
-                                " Projesinde " + block + " " + paymentOrder +
-                                " No'lu İlan Ödeme Planı"
-                            )
+                                $(".pop-up-top-gradient .left h3").html(
+                                    response
+                                    .project_title +
+                                    " Projesinde " + block + " " + paymentOrder +
+                                    " No'lu İlan Ödeme Planı"
+                                )
 
 
 
-                            for (var j = 0; j < paymentPlanData.length; j++) {
+                                for (var j = 0; j < paymentPlanData.length; j++) {
 
-                                if (!tempPlans.includes(paymentPlanData[j])) {
-                                    if (paymentPlanData[j] == "pesin") {
-                                        var priceData = numberOfShares != 0 ? (getDataJS(response,
-                                                "price[]", response
-                                                .room_info[i].room_order) / numberOfShares) :
-                                            getDataJS(response, "price[]", response
-                                                .room_info[i].room_order);
-                                        var installementData = "";
-                                        var advanceData = "";
-                                        var monhlyPrice = "";
-
-
-                                        var projectedEarningsData = "";
-                                        var ongKiraData = "";
-
-                                        var projectedEarnings = getDataJS(response,
-                                            "projected_earnings[]", response.room_info[i]
-                                            .room_order);
-
-                                        var ongKira = getDataJS(response,
-                                            "ong_kira[]", response.room_info[i]
-                                            .room_order);
-                                        // var projectedEarnings = 10;
-                                        var svgCode =
-                                            '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
-                                        var projectedEarningsHTML = projectedEarnings ? svgCode +
-                                            "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
-                                            "<span style='color:#28a745'> %" + projectedEarnings +
-                                            "</span>" : "";
-
-                                        var ongKiraHTML = ongKira ? svgCode +
-                                            "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
-                                            "<span style='color:#28a745'>" + ongKira +
-                                            " TL</span>" : "";
-
-                                        projectedEarningsData += projectedEarningsHTML;
-                                        ongKiraData += ongKiraHTML;
-
-                                    } else {
+                                    if (!tempPlans.includes(paymentPlanData[j])) {
+                                        if (paymentPlanData[j] == "pesin") {
+                                            var priceData = numberOfShares != 0 ? (getDataJS(response,
+                                                    "price[]", response
+                                                    .room_info[i].room_order) / numberOfShares) :
+                                                getDataJS(response, "price[]", response
+                                                    .room_info[i].room_order);
+                                            var installementData = "";
+                                            var advanceData = "";
+                                            var monhlyPrice = "";
 
 
-                                        var priceData = numberOfShares != 0 ? (getDataJS(response,
-                                                "installments-price[]", response
-                                                .room_info[i].room_order) / numberOfShares) :
-                                            getDataJS(response, "installments-price[]", response
-                                                .room_info[i].room_order);
+                                            var projectedEarningsData = "";
+                                            var ongKiraData = "";
 
-                                        var installementData = getDataJS(response, "installments[]",
-                                            response.room_info[i].room_order);
+                                            var projectedEarnings = getDataJS(response,
+                                                "projected_earnings[]", response.room_info[i]
+                                                .room_order);
 
-                                        var advanceData = numberOfShares != 0 ? formatPrice(
-                                            getDataJS(response,
+                                            var ongKira = getDataJS(response,
+                                                "ong_kira[]", response.room_info[i]
+                                                .room_order);
+                                            // var projectedEarnings = 10;
+                                            var svgCode =
+                                                '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
+                                            var projectedEarningsHTML = projectedEarnings ? svgCode +
+                                                "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
+                                                "<span style='color:#28a745'> %" + projectedEarnings +
+                                                "</span>" : "";
+
+                                            var ongKiraHTML = ongKira ? svgCode +
+                                                "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
+                                                "<span style='color:#28a745'>" + ongKira +
+                                                " TL</span>" : "";
+
+                                            projectedEarningsData += projectedEarningsHTML;
+                                            ongKiraData += ongKiraHTML;
+
+                                        } else {
+
+
+                                            var priceData = numberOfShares != 0 ? (getDataJS(response,
+                                                    "installments-price[]", response
+                                                    .room_info[i].room_order) / numberOfShares) :
+                                                getDataJS(response, "installments-price[]", response
+                                                    .room_info[i].room_order);
+
+                                            var installementData = getDataJS(response, "installments[]",
+                                                response.room_info[i].room_order);
+
+                                            var advanceData = numberOfShares != 0 ? formatPrice(
+                                                getDataJS(response,
+                                                    "advance[]",
+                                                    response.room_info[i].room_order) /
+                                                numberOfShares) + "₺" : formatPrice(getDataJS(
+                                                response,
                                                 "advance[]",
-                                                response.room_info[i].room_order) /
-                                            numberOfShares) + "₺" : formatPrice(getDataJS(
-                                            response,
-                                            "advance[]",
-                                            response.room_info[i].room_order)) + "₺";
+                                                response.room_info[i].room_order)) + "₺";
 
-                                        var monhlyPrice = numberOfShares != 0 ? formatPrice(((
-                                                    parseFloat(
-                                                        getDataJS(
+                                            var monhlyPrice = numberOfShares != 0 ? formatPrice(((
+                                                        parseFloat(
+                                                            getDataJS(
+                                                                response,
+                                                                "installments-price[]", response
+                                                                .room_info[i].room_order)) -
+                                                        parseFloat(getDataJS(response,
+                                                            "advance[]", response.room_info[
+                                                                i].room_order)) - (payDecPrice *
+                                                            numberOfShares)) /
+                                                    parseInt(installementData)) / numberOfShares) +
+                                                "₺" : formatPrice((parseFloat(getDataJS(
                                                             response,
                                                             "installments-price[]", response
                                                             .room_info[i].room_order)) -
-                                                    parseFloat(getDataJS(response,
-                                                        "advance[]", response.room_info[
-                                                            i].room_order)) - (payDecPrice *
-                                                        numberOfShares)) /
-                                                parseInt(installementData)) / numberOfShares) +
-                                            "₺" : formatPrice((parseFloat(getDataJS(
-                                                        response,
-                                                        "installments-price[]", response
-                                                        .room_info[i].room_order)) -
-                                                    parseFloat(getDataJS(response,
-                                                        "advance[]", response.room_info[
-                                                            i].room_order)) - (payDecPrice)) /
-                                                parseInt(installementData)) + "₺";
-                                    }
-                                    var isMobile = window.innerWidth < 768;
-
-                                    orderHousing = parseInt(order);
-
-                                    var payDecPrice = 0;
-                                    if (paymentPlanDatax[paymentPlanData[j]] == "Taksitli") {
-                                        html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
-                                            "' style='background-color: #EEE !important;'><th>" +
-                                            installementData +
-                                            " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th>";
-
-
-
-                                        for (var l = 1; l <= getDataJS(response,
-                                                "pay-dec-count" + (orderHousing), response
-                                                .room_info[i].room_order); l++) {
-                                            html += "<th>" +
-                                                l + ". Ara Ödeme</th>";
+                                                        parseFloat(getDataJS(response,
+                                                            "advance[]", response.room_info[
+                                                                i].room_order)) - (payDecPrice)) /
+                                                    parseInt(installementData)) + "₺";
                                         }
+                                        var isMobile = window.innerWidth < 768;
+
+                                        orderHousing = parseInt(order);
+
+                                        var payDecPrice = 0;
+                                        if (paymentPlanDatax[paymentPlanData[j]] == "Taksitli") {
+                                            html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
+                                                "' style='background-color: #EEE !important;'><th>" +
+                                                installementData +
+                                                " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th>";
 
 
-                                        if (ongKiraData) {
-                                            html += "<th></th>";
 
-                                        }
-
-                                        html += "</tr>";
-                                    }
-
-                                    html += "<tr>";
-
-                                    // Function to check if the value is empty or not
-                                    function isNotEmpty(value) {
-                                        return value !== "" && value !== undefined && value !==
-                                            "-" &&
-                                            value !== null;
-                                    }
-
-                                    if (!isMobile && isNotEmpty(paymentPlanDatax[paymentPlanData[
-                                            j]]) && paymentPlanDatax[paymentPlanData[j]] !=
-                                        "Taksitli") {
-                                        html += "<td>" + (isMobile ?
-                                            "<strong>Ödeme Türü:</strong> " :
-                                            "") + paymentPlanDatax[paymentPlanData[j]] + "</td>";
-                                    }
-
-                                    if (!isMobile || isNotEmpty(formatPrice(priceData))) {
-
-                                        if (paymentPlanDatax[paymentPlanData[j]] === 'Taksitli') {
-                                            html += "<td><strong>" + (
-                                                isMobile ? paymentPlanDatax[
-                                                    paymentPlanData[j]] + " " +
-                                                installementData + " Ay " +
-                                                "Fiyat:</strong> " : "") + formatPrice(
-                                                priceData) + "₺</td>";
-                                        } else {
-                                            html += "<td><strong>" + (isMobile ? paymentPlanDatax[
-                                                    paymentPlanData[j]] + " " +
-                                                "Fiyat:</strong> " : "") + formatPrice(
-                                                priceData) + "₺</td>";
-                                            if (projectedEarningsData) {
-                                                html += "<td>" + projectedEarningsData + "</td>";
-
+                                            for (var l = 1; l <= getDataJS(response,
+                                                    "pay-dec-count" + (orderHousing), response
+                                                    .room_info[i].room_order); l++) {
+                                                html += "<th>" +
+                                                    l + ". Ara Ödeme</th>";
                                             }
 
 
                                             if (ongKiraData) {
-                                                html += "<td>" + ongKiraData + "</td>";
+                                                html += "<th></th>";
 
                                             }
 
-
+                                            html += "</tr>";
                                         }
 
+                                        html += "<tr>";
 
-                                    }
+                                        // Function to check if the value is empty or not
+                                        function isNotEmpty(value) {
+                                            return value !== "" && value !== undefined && value !==
+                                                "-" &&
+                                                value !== null;
+                                        }
 
-
-                                    if (!isMobile || isNotEmpty(advanceData)) {
-                                        html += advanceData ? "<td>" + (isMobile ?
-                                            "<strong>Peşinat:</strong> " :
-                                            "") + advanceData + "</td>" : null;
-                                    }
-
-                                    if (!isMobile || isNotEmpty(monhlyPrice)) {
-                                        html += monhlyPrice ? "<td>" + (isMobile ?
-                                            "<strong>Aylık Ödenecek Tutar:</strong> " :
-                                            "") + monhlyPrice + "</td>" : null;
-                                    }
-
-                                    if (!isMobile && isNotEmpty(installmentsPrice) &&
-                                        paymentPlanDatax[
-                                            paymentPlanData[j]] != "Taksitli") {
-                                        var installmentsPrice = parseFloat(getDataJS(response,
-                                            "installments-price[]", response.room_info[i]
-                                            .room_order));
-                                        var advanceAmount = parseFloat(getDataJS(response,
-                                            "advance[]", response.room_info[i].room_order));
-
-                                        // Check if the values are valid numbers
-                                        if (!isNaN(installmentsPrice) && !isNaN(advanceAmount) && !
-                                            isNaN(payDecPrice)) {
-                                            var calculatedValue = installmentsPrice -
-                                                advanceAmount - payDecPrice;
-
+                                        if (!isMobile && isNotEmpty(paymentPlanDatax[paymentPlanData[
+                                                j]]) && paymentPlanDatax[paymentPlanData[j]] !=
+                                            "Taksitli") {
                                             html += "<td>" + (isMobile ?
-                                                    "<strong>Ara Ödemeler Çıkınca Ödenecek Tutar:</strong> " :
-                                                    "") +
-                                                formatPrice(calculatedValue) + "</td>";
+                                                "<strong>Ödeme Türü:</strong> " :
+                                                "") + paymentPlanDatax[paymentPlanData[j]] + "</td>";
                                         }
-                                    }
+
+                                        if (!isMobile || isNotEmpty(formatPrice(priceData))) {
+
+                                            if (paymentPlanDatax[paymentPlanData[j]] === 'Taksitli') {
+                                                html += "<td><strong>" + (
+                                                    isMobile ? paymentPlanDatax[
+                                                        paymentPlanData[j]] + " " +
+                                                    installementData + " Ay " +
+                                                    "Fiyat:</strong> " : "") + formatPrice(
+                                                    priceData) + "₺</td>";
+                                            } else {
+                                                html += "<td><strong>" + (isMobile ? paymentPlanDatax[
+                                                        paymentPlanData[j]] + " " +
+                                                    "Fiyat:</strong> " : "") + formatPrice(
+                                                    priceData) + "₺</td>";
+                                                if (projectedEarningsData) {
+                                                    html += "<td>" + projectedEarningsData + "</td>";
+
+                                                }
 
 
+                                                if (ongKiraData) {
+                                                    html += "<td>" + ongKiraData + "</td>";
 
-                                    if (!isMobile && isNotEmpty(installementData) &&
-                                        paymentPlanDatax[paymentPlanData[j]] != "Taksitli") {
-                                        html += "<td>" + (isMobile ?
-                                                "<strong>Taksit Sayısı:</strong> " : "") +
-                                            installementData + "</td>";
-                                    }
-
-
-                                    var payDecPrice = 0;
-                                    if (getDataJS(response, "pay-dec-count" + (orderHousing),
-                                            response.room_info[i].room_order)) {
-
-                                        for (var l = 0; l < getDataJS(response,
-                                                "pay-dec-count" + (orderHousing), response
-                                                .room_info[i].room_order); l++) {
-
-                                            if (getDataJS(response, "pay_desc_price" + (
-                                                        orderHousing) + l, response.room_info[i]
-                                                    .room_order)) {
-                                                payDecPrice += numberOfShares ? parseFloat(
-                                                        getDataJS(response,
-                                                            "pay_desc_price" + (orderHousing) +
-                                                            l,
-                                                            response.room_info[i].room_order)) /
-                                                    numberOfShares : parseFloat(getDataJS(response,
-                                                        "pay_desc_price" + (orderHousing) +
-                                                        l,
-                                                        response.room_info[i].room_order));
-                                                var payDecPrice2 = numberOfShares ? parseFloat(
-                                                        getDataJS(response,
-                                                            "pay_desc_price" + (orderHousing) +
-                                                            l,
-                                                            response.room_info[i].room_order)) /
-                                                    numberOfShares : parseFloat(getDataJS(response,
-                                                        "pay_desc_price" + (orderHousing) +
-                                                        l,
-                                                        response.room_info[i].room_order));
-                                                var payDescDate = new Date(getDataJS(response,
-                                                    "pay_desc_date" + (orderHousing) +
-                                                    l,
-                                                    response.room_info[i].room_order));
-                                                console.log(payDecPrice);
-                                                if (paymentPlanDatax[paymentPlanData[j]] ==
-                                                    "Taksitli") {
-                                                    html += "<td>" + (isMobile ? "<strong>" + (l +
-                                                                1) +
-                                                            ". Ara Ödeme :</strong> <br>" :
-                                                            "") +
-                                                        formatPrice(payDecPrice2) + "₺" +
-                                                        (isMobile ? " <br>" : "<br>") +
-                                                        (months[payDescDate.getMonth()] + ' ' +
-                                                            payDescDate.getDate() + ', ' +
-                                                            payDescDate
-                                                            .getFullYear()) + "</td>";
-
-
-                                                    if (ongKiraData) {
-                                                        html += "<td></td>";
-
-                                                    }
-                                                } else {
-                                                    html += null;
                                                 }
 
 
                                             }
 
+
                                         }
+
+
+                                        if (!isMobile || isNotEmpty(advanceData)) {
+                                            html += advanceData ? "<td>" + (isMobile ?
+                                                "<strong>Peşinat:</strong> " :
+                                                "") + advanceData + "</td>" : null;
+                                        }
+
+                                        if (!isMobile || isNotEmpty(monhlyPrice)) {
+                                            html += monhlyPrice ? "<td>" + (isMobile ?
+                                                "<strong>Aylık Ödenecek Tutar:</strong> " :
+                                                "") + monhlyPrice + "</td>" : null;
+                                        }
+
+                                        if (!isMobile && isNotEmpty(installmentsPrice) &&
+                                            paymentPlanDatax[
+                                                paymentPlanData[j]] != "Taksitli") {
+                                            var installmentsPrice = parseFloat(getDataJS(response,
+                                                "installments-price[]", response.room_info[i]
+                                                .room_order));
+                                            var advanceAmount = parseFloat(getDataJS(response,
+                                                "advance[]", response.room_info[i].room_order));
+
+                                            // Check if the values are valid numbers
+                                            if (!isNaN(installmentsPrice) && !isNaN(advanceAmount) && !
+                                                isNaN(payDecPrice)) {
+                                                var calculatedValue = installmentsPrice -
+                                                    advanceAmount - payDecPrice;
+
+                                                html += "<td>" + (isMobile ?
+                                                        "<strong>Ara Ödemeler Çıkınca Ödenecek Tutar:</strong> " :
+                                                        "") +
+                                                    formatPrice(calculatedValue) + "</td>";
+                                            }
+                                        }
+
+
+
+                                        if (!isMobile && isNotEmpty(installementData) &&
+                                            paymentPlanDatax[paymentPlanData[j]] != "Taksitli") {
+                                            html += "<td>" + (isMobile ?
+                                                    "<strong>Taksit Sayısı:</strong> " : "") +
+                                                installementData + "</td>";
+                                        }
+
+
+                                        var payDecPrice = 0;
+                                        if (getDataJS(response, "pay-dec-count" + (orderHousing),
+                                                response.room_info[i].room_order)) {
+
+                                            for (var l = 0; l < getDataJS(response,
+                                                    "pay-dec-count" + (orderHousing), response
+                                                    .room_info[i].room_order); l++) {
+
+                                                if (getDataJS(response, "pay_desc_price" + (
+                                                            orderHousing) + l, response.room_info[i]
+                                                        .room_order)) {
+                                                    payDecPrice += numberOfShares ? parseFloat(
+                                                            getDataJS(response,
+                                                                "pay_desc_price" + (orderHousing) +
+                                                                l,
+                                                                response.room_info[i].room_order)) /
+                                                        numberOfShares : parseFloat(getDataJS(response,
+                                                            "pay_desc_price" + (orderHousing) +
+                                                            l,
+                                                            response.room_info[i].room_order));
+                                                    var payDecPrice2 = numberOfShares ? parseFloat(
+                                                            getDataJS(response,
+                                                                "pay_desc_price" + (orderHousing) +
+                                                                l,
+                                                                response.room_info[i].room_order)) /
+                                                        numberOfShares : parseFloat(getDataJS(response,
+                                                            "pay_desc_price" + (orderHousing) +
+                                                            l,
+                                                            response.room_info[i].room_order));
+                                                    var payDescDate = new Date(getDataJS(response,
+                                                        "pay_desc_date" + (orderHousing) +
+                                                        l,
+                                                        response.room_info[i].room_order));
+                                                    console.log(payDecPrice);
+                                                    if (paymentPlanDatax[paymentPlanData[j]] ==
+                                                        "Taksitli") {
+                                                        html += "<td>" + (isMobile ? "<strong>" + (l +
+                                                                    1) +
+                                                                ". Ara Ödeme :</strong> <br>" :
+                                                                "") +
+                                                            formatPrice(payDecPrice2) + "₺" +
+                                                            (isMobile ? " <br>" : "<br>") +
+                                                            (months[payDescDate.getMonth()] + ' ' +
+                                                                payDescDate.getDate() + ', ' +
+                                                                payDescDate
+                                                                .getFullYear()) + "</td>";
+
+
+                                                        if (ongKiraData) {
+                                                            html += "<td></td>";
+
+                                                        }
+                                                    } else {
+                                                        html += null;
+                                                    }
+
+
+                                                }
+
+                                            }
+                                        }
+
+                                        html += "</tr>";
                                     }
 
-                                    html += "</tr>";
+                                    tempPlans.push(paymentPlanData[j])
+
                                 }
 
-                                tempPlans.push(paymentPlanData[j])
 
+                                $('.payment-plan tbody').html(html);
+
+                                $('.payment-plan-pop-up').removeClass('d-none')
+
+                                document.getElementById("whatsappButton").addEventListener("click",
+                                    function() {
+                                        var projectSlug = response.slug + "-" + response
+                                            .step2_slug + "-" + response.housing_type.slug;
+                                        var projectID = response.id + 1000000;
+                                        var housingOrder = paymentOrder;
+
+                                        var domain = window.location.origin;
+                                        var url = domain + '/proje/' + projectSlug + '/ilan/' +
+                                            projectID + '/' + housingOrder + '/detay' +
+                                            "/odeme-plani";
+
+
+                                        // Whatsapp yönlendirme URL'sini oluştur
+                                        var whatsappURL = 'https://api.whatsapp.com/send?text=' +
+                                            encodeURIComponent(url);
+
+
+
+                                        window.open(whatsappURL, '_blank');
+                                    });
                             }
-
-
-                            $('.payment-plan tbody').html(html);
-
-                            $('.payment-plan-pop-up').removeClass('d-none')
-
-                            document.getElementById("whatsappButton").addEventListener("click",
-                                function() {
-                                    var projectSlug = response.slug + "-" + response
-                                        .step2_slug + "-" + response.housing_type.slug;
-                                    var projectID = response.id + 1000000;
-                                    var housingOrder = paymentOrder;
-
-                                    var domain = window.location.origin;
-                                    var url = domain + '/proje/' + projectSlug + '/ilan/' +
-                                        projectID + '/' + housingOrder + '/detay' +
-                                        "/odeme-plani";
-
-
-                                    // Whatsapp yönlendirme URL'sini oluştur
-                                    var whatsappURL = 'https://api.whatsapp.com/send?text=' +
-                                        encodeURIComponent(url);
-
-
-
-                                    window.open(whatsappURL, '_blank');
-                                });
-                        }
-                    }
-                },
-                error: function(error) {
-                    // Hata durumunda buraya gelir
-                    toast.error(error)
-                    console.error("Hata oluştu: " + error);
-                }
-            });
-        }
-
-    })
-
-
-
-
-
-    $(document).ready(function() {
-        const searchInput = $(".search-input");
-        const suggestions = $(".header-search__suggestions");
-        searchInput.attr("autocomplete", "off");
-
-        // Arama alanına tıklama olayını ekle
-        searchInput.click(function() {
-
-            suggestions.show();
-        });
-
-        // Sayfa herhangi bir yerine tıklama olayını ekle
-        $(document).click(function(event) {
-            if (!searchInput.is(event.target) && !suggestions.is(event.target)) {
-                suggestions.hide();
-            }
-        });
-    });
-    $('.payment-plan-pop-back').click(function() {
-        $('.payment-plan-pop-up').addClass('d-none')
-    })
-
-    $('.payment-plan-pop-close-icon').click(function() {
-        $('.payment-plan-pop-up').addClass('d-none')
-    })
-    $('.slick-agents').slick({
-        infinite: true,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        dots: false,
-        loop: true,
-        autoplay: true,
-        arrows: true,
-        adaptiveHeight: true,
-        responsive: [{
-            breakpoint: 1292,
-            settings: {
-                slidesToShow: 4,
-                slidesToScroll: 4,
-                dots: false,
-                arrows: false
-            }
-        }, {
-            breakpoint: 993,
-            settings: {
-                slidesToShow: 3,
-                slidesToScroll: 2,
-                dots: false,
-                arrows: false
-            }
-        }, {
-            breakpoint: 769,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                dots: false,
-                arrows: false
-            }
-        }]
-    });
-
-    $('.slick-agents-2').slick({
-        infinite: false,
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        dots: false,
-        arrows: true,
-        adaptiveHeight: true,
-        responsive: [{
-            breakpoint: 1292,
-            settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                dots: false,
-                arrows: false
-            }
-        }, {
-            breakpoint: 993,
-            settings: {
-                slidesToShow: 3,
-                slidesToScroll: 2,
-                dots: false,
-                arrows: false
-            }
-        }, {
-            breakpoint: 769,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                dots: false,
-                arrows: false
-            }
-        }]
-    });
-    $('.slick-agentsc').slick({
-        infinite: false,
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        dots: false,
-        arrows: true,
-        adaptiveHeight: true,
-        responsive: [{
-            breakpoint: 1292,
-            settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                dots: false,
-                arrows: false
-            }
-        }, {
-            breakpoint: 993,
-            settings: {
-                slidesToShow: 5,
-                slidesToScroll: 1,
-                dots: false,
-                arrows: false
-            }
-        }, {
-            breakpoint: 769,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                dots: false,
-                arrows: true
-            }
-        }]
-    });
-    $('.slick-lancers').slick({
-        infinite: false,
-        slidesToShow: 10,
-        slidesToScroll: 5,
-        dots: false,
-        arrows: false,
-        adaptiveHeight: true,
-        responsive: [{
-            breakpoint: 1292,
-            settings: {
-                slidesToShow: 10,
-                slidesToScroll: 4,
-                dots: false,
-                arrows: false
-            }
-        }, {
-            breakpoint: 993,
-            settings: {
-                slidesToShow: 8,
-                slidesToScroll: 3,
-                dots: false,
-                arrows: false
-            }
-        }, {
-            breakpoint: 769,
-            settings: {
-                slidesToShow:4,
-                slidesToScroll: 4,
-                dots: false,
-                arrows: false
-            }
-        }]
-    });
-
-    $('.home5-right-slider').owlCarousel({
-        loop: true,
-        margin: 30,
-        dots: false,
-        nav: true,
-        rtl: false,
-        autoplayHoverPause: false,
-        autoplay: true,
-        singleItem: true,
-        smartSpeed: 1200,
-        navText: ["<i class='fas fa-angle-left'></i>", "<i class='fas fa-angle-right'></i>"],
-        responsive: {
-            0: {
-                items: 1,
-                center: false,
-                nav: false,
-            },
-            480: {
-                items: 1,
-                center: false,
-                nav: false,
-
-            },
-            520: {
-                items: 1,
-                center: false,
-                nav: false,
-
-            },
-            600: {
-                items: 1,
-                center: false,
-                nav: false,
-
-            },
-            768: {
-                items: 1,
-                nav: false,
-
-            },
-            992: {
-                items: 1,
-                nav: false,
-
-            },
-            1200: {
-                items: 1
-            },
-            1366: {
-                items: 1
-            },
-            1400: {
-                items: 1
-            }
-        }
-    });
-    $(".dropdown-filter").on('click', function() {
-
-        $(".explore__form-checkbox-list").toggleClass("filter-block");
-
-    });
-</script>
-
-<!-- Slider Revolution scripts -->
-<script src="{{ URL::to('/') }}/revolution/js/jquery.themepunch.tools.min.js"></script>
-<script src="{{ URL::to('/') }}/revolution/js/jquery.themepunch.revolution.min.js"></script>
-<!-- lightbox2 CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
-<!-- jQuery -->
-
-<!-- lightbox2 JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-<!-- MAIN JS -->
-<script src="{{ URL::to('/') }}/js/script.js"></script>
-
-<!-- SweetAlert2 CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<!-- SweetAlert2 JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-<script>
-    $(document).ready(function() {
-
-        checkFavorites();
-        checkProjectFavorites();
-        var cart = @json(session('cart', []));
-
-        var addToCartButtons = document.querySelectorAll(".CartBtn");
-        $('body').on('click', '.CartBtn', function(event) {
-            event.preventDefault();
-
-            var button = event.target;
-            var productId = $(this).data("id");
-            var isShare = $(this).data("share");
-            var numbershare = $(this).data("number-share");
-            var project = null;
-
-            if ($(this).data("type") == "project") {
-                project = $(this).data("project");
-            }
-
-
-            var cart = {
-                id: productId,
-                isShare: isShare,
-                numbershare: parseInt(numbershare, 10), // Parse numbershare to an integer
-                qt: 1,
-                type: $(this).data("type"),
-                project: project,
-                _token: "{{ csrf_token() }}",
-                clear_cart: "no"
-            };
-
-
-
-            if (isProductInCart(productId, project)) {
-                Swal.fire({
-                    title: "Ürünü sepetten kaldırmak istiyor musunuz?",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: "Evet, Kaldır",
-                    cancelButtonText: 'Hayır',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "POST",
-                            url: "{{ route('add.to.cart') }}",
-                            data: JSON.stringify(cart),
-                            contentType: "application/json;charset=UTF-8",
-                            success: function(response) {
-
-                                toastr.error("Ürün Sepetten Kaldırılıyor.");
-                                button.classList.remove("bg-success");
-                                location.reload();
-
-                            },
-                            error: function(error) {
-                                // window.location.href = "/giris-yap";
-
-                                // console.error(error);
-                            }
-                        });
-                    }
-                });
-            } else {
-                Swal.fire({
-                    title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
-                        'Mevcut sepeti temizlemek istiyor musunuz?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
-                    cancelButtonText: 'Hayır',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "POST",
-                            url: "{{ route('add.to.cart') }}",
-                            data: JSON.stringify(cart),
-                            contentType: "application/json;charset=UTF-8",
-                            success: function(response) {
-
-
-                                toastr.success("Ürün Sepete Eklendi");
-                                if (!button.classList.contains("mobile")) {
-                                    button.textContent = "Sepete Eklendi";
-                                }
-                                button.classList.add("bg-success");
-                                window.location.href = "/sepetim";
-
-
-                            },
-                            error: function(error) {
-
-                                // window.location.href = "/giris-yap";
-
-                                console.error(error);
-
-                            }
-                        });
-                    }
-                });
-
-            }
-
-        });
-
-        $('body').on('click', '.disabledShareButton', function(event) {
-            event.preventDefault();
-            toastr.error("Satışa kapalı ürünleri koleksiyonunuza ekleyemezsiniz.");
-        });
-
-        updateCartButton();
-
-        function updateCartButton() {
-            var CartBtn = document.querySelectorAll(".CartBtn");
-            CartBtn.forEach(function(button) {
-                var productId = button.getAttribute("data-id");
-                var productType = button.getAttribute("data-type");
-                var product = null;
-                if (productType == "project") {
-                    product = button.getAttribute("data-project");
-                }
-
-                if (isProductInCart(productId, product)) {
-                    if (!button.classList.contains("mobile")) {
-                        button.querySelector(".text").textContent = "Sepete Eklendi";
-                    }
-
-                    button.classList.add("bg-success");
-                } else {
-                    button.classList.remove("bg-success");
-                }
-            });
-        }
-
-        function isCartEmpty() {
-            var cart = @json(session('cart', []));
-            return cart.length <= 0;
-        }
-
-
-
-        function isProductInCart(productId, product) {
-            var cart = @json(session('cart', []));
-            if (cart.length != 0) {
-                if (product != null) {
-                    if (cart.item.id == product && cart.item.housing == productId) {
-                        return true;
-                    }
-                } else {
-                    if (cart.item.id == productId) {
-                        return true; // Ürün sepette bulundu
-                    }
-                }
-            }
-            return false;
-        }
-
-
-
-        function checkProjectFavorites() {
-            // Favorileri sorgula ve uygun renk ve ikonları ayarla
-            var favoriteButtons = document.querySelectorAll(".toggle-project-favorite");
-            var projectHousingPairs = []; // Proje ve housing ID'lerini içeren bir dizi
-
-            favoriteButtons.forEach(function(button) {
-                var housingId = button.getAttribute("data-project-housing-id");
-                var projectId = button.getAttribute("data-project-id");
-
-                projectHousingPairs.push({
-                    projectId: projectId,
-                    housingId: housingId
-                });
-            });
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-
-            $.ajax({
-                url: "{{ route('get.project.housing.favorite.status') }}",
-                type: "POST",
-                data: {
-                    _token: csrfToken,
-                    projectHousingPairs: projectHousingPairs
-                },
-                success: function(response) {
-                    favoriteButtons.forEach(function(button) {
-                        var housingId = button.getAttribute(
-                            "data-project-housing-id");
-                        var projectId = button.getAttribute("data-project-id");
-                        var isFavorite = response[projectId][housingId];
-
-                        if (isFavorite) {
-                            button.querySelector("i").classList.remove(
-                                "fa-heart-o");
-                            button.querySelector("i").classList.add(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "text-danger");
-                            button.classList.add("bg-white");
-                        } else {
-                            button.querySelector("i").classList.remove(
-                                "text-danger");
-                            button.querySelector("i").classList.remove(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "fa-heart-o");
-                        }
-                    });
-                },
-            });
-
-
-
-        }
-
-
-        function checkFavorites() {
-            var favoriteButtons = document.querySelectorAll(".toggle-favorite");
-            favoriteButtons.forEach(function(button) {
-                var housingId = button.getAttribute("data-housing-id");
-
-                $.ajax({
-                    url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
-                        .replace(':id', housingId),
-                    type: "GET",
-                    success: function(response) {
-                        if (response.is_favorite) {
-                            button.querySelector("i").classList.remove(
-                                "fa-heart-o");
-                            button.querySelector("i").classList.add(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "text-danger");
-                            button.classList.add("bg-white");
-                        } else {
-                            button.querySelector("i").classList.remove(
-                                "text-danger");
-                            button.querySelector("i").classList.remove(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "fa-heart-o");
                         }
                     },
                     error: function(error) {
-                        button.querySelector("i").classList.remove(
-                            "text-danger");
-                        button.querySelector("i").classList.remove(
-                            "fa-heart");
-                        button.querySelector("i").classList.add(
-                            "fa-heart-o");
+                        // Hata durumunda buraya gelir
+                        toast.error(error)
+                        console.error("Hata oluştu: " + error);
+                    }
+                });
+            }
+
+        })
+
+
+
+
+
+        $(document).ready(function() {
+            const searchInput = $(".search-input");
+            const suggestions = $(".header-search__suggestions");
+            searchInput.attr("autocomplete", "off");
+
+            // Arama alanına tıklama olayını ekle
+            searchInput.click(function() {
+
+                suggestions.show();
+            });
+
+            // Sayfa herhangi bir yerine tıklama olayını ekle
+            $(document).click(function(event) {
+                if (!searchInput.is(event.target) && !suggestions.is(event.target)) {
+                    suggestions.hide();
+                }
+            });
+        });
+        $('.payment-plan-pop-back').click(function() {
+            $('.payment-plan-pop-up').addClass('d-none')
+        })
+
+        $('.payment-plan-pop-close-icon').click(function() {
+            $('.payment-plan-pop-up').addClass('d-none')
+        })
+        $('.slick-agents').slick({
+            infinite: true,
+            slidesToShow: 4,
+            slidesToScroll: 4,
+            dots: false,
+            loop: true,
+            autoplay: true,
+            arrows: true,
+            adaptiveHeight: true,
+            responsive: [{
+                breakpoint: 1292,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 4,
+                    dots: false,
+                    arrows: false
+                }
+            }, {
+                breakpoint: 993,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 2,
+                    dots: false,
+                    arrows: false
+                }
+            }, {
+                breakpoint: 769,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                    arrows: false
+                }
+            }]
+        });
+
+        $('.slick-agents-2').slick({
+            infinite: false,
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            dots: false,
+            arrows: true,
+            adaptiveHeight: true,
+            responsive: [{
+                breakpoint: 1292,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    dots: false,
+                    arrows: false
+                }
+            }, {
+                breakpoint: 993,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 2,
+                    dots: false,
+                    arrows: false
+                }
+            }, {
+                breakpoint: 769,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                    arrows: false
+                }
+            }]
+        });
+        $('.slick-agentsc').slick({
+            infinite: false,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            dots: false,
+            arrows: true,
+            adaptiveHeight: true,
+            responsive: [{
+                breakpoint: 1292,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    dots: false,
+                    arrows: false
+                }
+            }, {
+                breakpoint: 993,
+                settings: {
+                    slidesToShow: 5,
+                    slidesToScroll: 1,
+                    dots: false,
+                    arrows: false
+                }
+            }, {
+                breakpoint: 769,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                    arrows: true
+                }
+            }]
+        });
+        $('.slick-lancers').slick({
+            infinite: false,
+            slidesToShow: 10,
+            slidesToScroll: 5,
+            dots: false,
+            arrows: false,
+            adaptiveHeight: true,
+            responsive: [{
+                breakpoint: 1292,
+                settings: {
+                    slidesToShow: 10,
+                    slidesToScroll: 4,
+                    dots: false,
+                    arrows: false
+                }
+            }, {
+                breakpoint: 993,
+                settings: {
+                    slidesToShow: 8,
+                    slidesToScroll: 3,
+                    dots: false,
+                    arrows: false
+                }
+            }, {
+                breakpoint: 769,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 4,
+                    dots: false,
+                    arrows: false
+                }
+            }]
+        });
+
+        $('.home5-right-slider').owlCarousel({
+            loop: true,
+            margin: 30,
+            dots: false,
+            nav: true,
+            rtl: false,
+            autoplayHoverPause: false,
+            autoplay: true,
+            singleItem: true,
+            smartSpeed: 1200,
+            navText: ["<i class='fas fa-angle-left'></i>", "<i class='fas fa-angle-right'></i>"],
+            responsive: {
+                0: {
+                    items: 1,
+                    center: false,
+                    nav: false,
+                },
+                480: {
+                    items: 1,
+                    center: false,
+                    nav: false,
+
+                },
+                520: {
+                    items: 1,
+                    center: false,
+                    nav: false,
+
+                },
+                600: {
+                    items: 1,
+                    center: false,
+                    nav: false,
+
+                },
+                768: {
+                    items: 1,
+                    nav: false,
+
+                },
+                992: {
+                    items: 1,
+                    nav: false,
+
+                },
+                1200: {
+                    items: 1
+                },
+                1366: {
+                    items: 1
+                },
+                1400: {
+                    items: 1
+                }
+            }
+        });
+        $(".dropdown-filter").on('click', function() {
+
+            $(".explore__form-checkbox-list").toggleClass("filter-block");
+
+        });
+    </script>
+
+    <!-- Slider Revolution scripts -->
+    <script src="{{ URL::to('/') }}/revolution/js/jquery.themepunch.tools.min.js"></script>
+    <script src="{{ URL::to('/') }}/revolution/js/jquery.themepunch.revolution.min.js"></script>
+    <!-- lightbox2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <!-- jQuery -->
+
+    <!-- lightbox2 JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <!-- MAIN JS -->
+    <script src="{{ URL::to('/') }}/js/script.js"></script>
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <!-- SweetAlert2 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            checkFavorites();
+            checkProjectFavorites();
+            var cart = @json(session('cart', []));
+
+            var addToCartButtons = document.querySelectorAll(".CartBtn");
+            $('body').on('click', '.CartBtn', function(event) {
+                event.preventDefault();
+
+                var button = event.target;
+                var productId = $(this).data("id");
+                var isShare = $(this).data("share");
+                var numbershare = $(this).data("number-share");
+                var project = null;
+
+                if ($(this).data("type") == "project") {
+                    project = $(this).data("project");
+                }
+
+
+                var cart = {
+                    id: productId,
+                    isShare: isShare,
+                    numbershare: parseInt(numbershare, 10), // Parse numbershare to an integer
+                    qt: 1,
+                    type: $(this).data("type"),
+                    project: project,
+                    _token: "{{ csrf_token() }}",
+                    clear_cart: "no"
+                };
+
+
+
+                if (isProductInCart(productId, project)) {
+                    Swal.fire({
+                        title: "Ürünü sepetten kaldırmak istiyor musunuz?",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: "Evet, Kaldır",
+                        cancelButtonText: 'Hayır',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('add.to.cart') }}",
+                                data: JSON.stringify(cart),
+                                contentType: "application/json;charset=UTF-8",
+                                success: function(response) {
+
+                                    toastr.error("Ürün Sepetten Kaldırılıyor.");
+                                    button.classList.remove("bg-success");
+                                    location.reload();
+
+                                },
+                                error: function(error) {
+                                    // window.location.href = "/giris-yap";
+
+                                    // console.error(error);
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
+                            'Mevcut sepeti temizlemek istiyor musunuz?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
+                        cancelButtonText: 'Hayır',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('add.to.cart') }}",
+                                data: JSON.stringify(cart),
+                                contentType: "application/json;charset=UTF-8",
+                                success: function(response) {
+
+
+                                    toastr.success("Ürün Sepete Eklendi");
+                                    if (!button.classList.contains("mobile")) {
+                                        button.textContent = "Sepete Eklendi";
+                                    }
+                                    button.classList.add("bg-success");
+                                    window.location.href = "/sepetim";
+
+
+                                },
+                                error: function(error) {
+
+                                    // window.location.href = "/giris-yap";
+
+                                    console.error(error);
+
+                                }
+                            });
+                        }
+                    });
+
+                }
+
+            });
+
+            $('body').on('click', '.disabledShareButton', function(event) {
+                event.preventDefault();
+                toastr.error("Satışa kapalı ürünleri koleksiyonunuza ekleyemezsiniz.");
+            });
+
+            updateCartButton();
+
+            function updateCartButton() {
+                var CartBtn = document.querySelectorAll(".CartBtn");
+                CartBtn.forEach(function(button) {
+                    var productId = button.getAttribute("data-id");
+                    var productType = button.getAttribute("data-type");
+                    var product = null;
+                    if (productType == "project") {
+                        product = button.getAttribute("data-project");
+                    }
+
+                    if (isProductInCart(productId, product)) {
+                        if (!button.classList.contains("mobile")) {
+                            button.querySelector(".text").textContent = "Sepete Eklendi";
+                        }
+
+                        button.classList.add("bg-success");
+                    } else {
+                        button.classList.remove("bg-success");
+                    }
+                });
+            }
+
+            function isCartEmpty() {
+                var cart = @json(session('cart', []));
+                return cart.length <= 0;
+            }
+
+
+
+            function isProductInCart(productId, product) {
+                var cart = @json(session('cart', []));
+                if (cart.length != 0) {
+                    if (product != null) {
+                        if (cart.item.id == product && cart.item.housing == productId) {
+                            return true;
+                        }
+                    } else {
+                        if (cart.item.id == productId) {
+                            return true; // Ürün sepette bulundu
+                        }
+                    }
+                }
+                return false;
+            }
+
+
+
+            function checkProjectFavorites() {
+                // Favorileri sorgula ve uygun renk ve ikonları ayarla
+                var favoriteButtons = document.querySelectorAll(".toggle-project-favorite");
+                var projectHousingPairs = []; // Proje ve housing ID'lerini içeren bir dizi
+
+                favoriteButtons.forEach(function(button) {
+                    var housingId = button.getAttribute("data-project-housing-id");
+                    var projectId = button.getAttribute("data-project-id");
+
+                    projectHousingPairs.push({
+                        projectId: projectId,
+                        housingId: housingId
+                    });
+                });
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+
+                $.ajax({
+                    url: "{{ route('get.project.housing.favorite.status') }}",
+                    type: "POST",
+                    data: {
+                        _token: csrfToken,
+                        projectHousingPairs: projectHousingPairs
+                    },
+                    success: function(response) {
+                        favoriteButtons.forEach(function(button) {
+                            var housingId = button.getAttribute(
+                                "data-project-housing-id");
+                            var projectId = button.getAttribute("data-project-id");
+                            var isFavorite = response[projectId][housingId];
+
+                            if (isFavorite) {
+                                button.querySelector("i").classList.remove(
+                                    "fa-heart-o");
+                                button.querySelector("i").classList.add(
+                                    "fa-heart");
+                                button.querySelector("i").classList.add(
+                                    "text-danger");
+                                button.classList.add("bg-white");
+                            } else {
+                                button.querySelector("i").classList.remove(
+                                    "text-danger");
+                                button.querySelector("i").classList.remove(
+                                    "fa-heart");
+                                button.querySelector("i").classList.add(
+                                    "fa-heart-o");
+                            }
+                        });
+                    },
+                });
+
+
+
+            }
+
+
+            function checkFavorites() {
+                var favoriteButtons = document.querySelectorAll(".toggle-favorite");
+                favoriteButtons.forEach(function(button) {
+                    var housingId = button.getAttribute("data-housing-id");
+
+                    $.ajax({
+                        url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
+                            .replace(':id', housingId),
+                        type: "GET",
+                        success: function(response) {
+                            if (response.is_favorite) {
+                                button.querySelector("i").classList.remove(
+                                    "fa-heart-o");
+                                button.querySelector("i").classList.add(
+                                    "fa-heart");
+                                button.querySelector("i").classList.add(
+                                    "text-danger");
+                                button.classList.add("bg-white");
+                            } else {
+                                button.querySelector("i").classList.remove(
+                                    "text-danger");
+                                button.querySelector("i").classList.remove(
+                                    "fa-heart");
+                                button.querySelector("i").classList.add(
+                                    "fa-heart-o");
+                            }
+                        },
+                        error: function(error) {
+                            button.querySelector("i").classList.remove(
+                                "text-danger");
+                            button.querySelector("i").classList.remove(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "fa-heart-o");
+                            console.error(error);
+                        }
+                    });
+                });
+            }
+
+
+
+            function toggleProjectFavorite(event) {
+                event.preventDefault();
+
+                var button = event.target;
+                if ($(event.target).is('i')) {
+                    button = button.closest('.toggle-project-favorite');
+                }
+                var housingId = button.getAttribute("data-project-housing-id");
+                var projectId = button.getAttribute("data-project-id");
+
+                $.ajax({
+                    url: "{{ route('add.project.housing.to.favorites', ['id' => ':id']) }}".replace(':id',
+                        housingId),
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        project_id: projectId,
+                        housing_id: housingId
+                    },
+                    success: function(response) {
+                        if (response.status == 'added') {
+                            updateFavoriteButton(button, true);
+                        } else if (response.status == 'removed') {
+                            updateFavoriteButton(button, false);
+                        } else if (response.status == 'notLogin') {
+                            window.location.href =
+                                "{{ route('client.login') }}"; // Redirect to the login route
+                        }
+                    },
+                    error: function(error) {
+                        // window.location.href = "/giris-yap";
+                    }
+                });
+            }
+
+
+
+            // Function to handle the click event for generic favorite toggle
+            function toggleFavorite(event) {
+                event.preventDefault();
+                var housingId = event.currentTarget.getAttribute("data-housing-id");
+                var button = event.currentTarget;
+
+                $.ajax({
+                    url: "{{ route('add.housing.to.favorites', ['id' => ':id']) }}".replace(':id',
+                        housingId),
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        if (response.status == 'added') {
+                            toastr.success("Konut Favorilere Eklendi");
+                            updateFavoriteButton(button, true);
+                        } else if (response.status == 'removed') {
+                            toastr.warning("Konut Favorilerden Kaldırıldı");
+                            updateFavoriteButton(button, false);
+                        } else if (response.status == 'notLogin') {
+                            window.location.href =
+                                "{{ route('client.login') }}"; // Redirect to the login route
+                        }
+                    },
+                    error: function(error) {
+                        window.location.href = "/giris-yap";
                         console.error(error);
                     }
                 });
-            });
-        }
-
-
-
-        function toggleProjectFavorite(event) {
-            event.preventDefault();
-
-            var button = event.target;
-            if ($(event.target).is('i')) {
-                button = button.closest('.toggle-project-favorite');
             }
-            var housingId = button.getAttribute("data-project-housing-id");
-            var projectId = button.getAttribute("data-project-id");
 
-            $.ajax({
-                url: "{{ route('add.project.housing.to.favorites', ['id' => ':id']) }}".replace(':id',
-                    housingId),
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    project_id: projectId,
-                    housing_id: housingId
-                },
-                success: function(response) {
-                    if (response.status == 'added') {
-                        updateFavoriteButton(button, true);
-                    } else if (response.status == 'removed') {
-                        updateFavoriteButton(button, false);
-                    } else if (response.status == 'notLogin') {
-                        window.location.href =
-                            "{{ route('client.login') }}"; // Redirect to the login route
-                    }
-                },
-                error: function(error) {
-                    // window.location.href = "/giris-yap";
+            // Function to update the favorite button styles
+            function updateFavoriteButton(button, isAdded) {
+                var heartIconClassList = button.querySelector("i").classList;
+                heartIconClassList.remove("text-danger", "fa-heart", "fa-heart-o");
+
+                if (isAdded) {
+                    heartIconClassList.add("fa-heart", "text-danger");
+                    button.classList.add("bg-white");
+                } else {
+                    heartIconClassList.add("fa-heart-o");
+                    button.classList.remove("bg-white");
                 }
-            });
-        }
-
-
-
-        // Function to handle the click event for generic favorite toggle
-        function toggleFavorite(event) {
-            event.preventDefault();
-            var housingId = event.currentTarget.getAttribute("data-housing-id");
-            var button = event.currentTarget;
-
-            $.ajax({
-                url: "{{ route('add.housing.to.favorites', ['id' => ':id']) }}".replace(':id',
-                    housingId),
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(response) {
-                    if (response.status == 'added') {
-                        toastr.success("Konut Favorilere Eklendi");
-                        updateFavoriteButton(button, true);
-                    } else if (response.status == 'removed') {
-                        toastr.warning("Konut Favorilerden Kaldırıldı");
-                        updateFavoriteButton(button, false);
-                    } else if (response.status == 'notLogin') {
-                        window.location.href =
-                            "{{ route('client.login') }}"; // Redirect to the login route
-                    }
-                },
-                error: function(error) {
-                    window.location.href = "/giris-yap";
-                    console.error(error);
-                }
-            });
-        }
-
-        // Function to update the favorite button styles
-        function updateFavoriteButton(button, isAdded) {
-            var heartIconClassList = button.querySelector("i").classList;
-            heartIconClassList.remove("text-danger", "fa-heart", "fa-heart-o");
-
-            if (isAdded) {
-                heartIconClassList.add("fa-heart", "text-danger");
-                button.classList.add("bg-white");
-            } else {
-                heartIconClassList.add("fa-heart-o");
-                button.classList.remove("bg-white");
             }
-        }
 
-        // Event delegation for project favorite toggle
-        $('body').on('click', '.toggle-project-favorite', toggleProjectFavorite);
-
-
-        // Event delegation for generic favorite toggle
-        $('body').on("click", ".toggle-favorite", toggleFavorite);
-
-    });
-    const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
-    let timeout; // AJAX isteği için zamanlayıcı değişkeni
-
-    function showSearchingMessage() {
-        $('.header-search-box').empty().append(
-            '<div class="font-weight-bold p-2 small" style="background-color: #EEE;">Aranıyor...</div>');
-    }
-
-    function hideSearchingMessage() {
-        $('.header-search-box div:contains("Aranıyor...")').remove();
-    }
-
-    function drawHeaderSearchbox(searchTerm) {
-        showSearchingMessage();
-
-        if (timeout) {
-            clearTimeout(timeout); // Önceki AJAX isteğini iptal et
-        }
-
-        timeout = setTimeout(function() {
-            $.ajax({
-                url: "{{ route('get-search-list') }}",
-                method: "GET",
-                data: {
-                    searchTerm
-                },
-                success: function(data) {
-                    let hasResults = false;
-                    // Housing search
-                    if (data.housings.length > 0) {
-                        hasResults = true;
-                        $('.header-search-box').append(`
-                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">İkinci-El Emlak</div>
-                        `);
-
-                        const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
-                        const housingsToShow = data.housings.slice(0,
-                            maxResultsToShow); // İlk 4 sonucu al
-
-                        housingsToShow.forEach((e) => {
-                            const imageUrl = `${appUrl}housing_images/${e.photo}`;
-                            const formattedName = e.name.charAt(0).toUpperCase() + e.name
-                                .slice(1);
-                            var baseRoute =
-                                `{{ route('housing.show', ['housingSlug' => 'slug_placeholder', 'housingID' => 'id_placeholder']) }}`
-                                .replace('slug_placeholder', e.slug)
-                                .replace('id_placeholder', parseInt(e.id) + 2000000);
-
-                            //housign.show link eklenecek
-                            $('.header-search-box').append(`
-                            <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
-                                <span>${formattedName}</span>
-                            </a>
-                        `);
-                        });
-
-                        if (data.housings.length > maxResultsToShow) {
-                            const remainingResults = data.housings.length - maxResultsToShow;
-                            // Arama terimi "housing" olarak belirleniyor
-                            const searchUrl = "{{ route('search.results') }}?searchTerm=" +
-                                searchTerm + "&type=housing";
-
-                            // Laravel route'u kullanarak URL oluşturma
-                            $('.header-search-box').append(`
-                            <a href="${searchUrl}" class="text-muted m-3">${remainingResults} sonuç daha bulunmaktadır.</a>
-                        `);
-                        }
-                    }
+            // Event delegation for project favorite toggle
+            $('body').on('click', '.toggle-project-favorite', toggleProjectFavorite);
 
 
-                    // Project search
-                    if (data.projects.length > 0) {
-                        const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
-                        const projectsToShow = data.projects.slice(0,
-                            maxResultsToShow); // İlk 4 sonucu al
+            // Event delegation for generic favorite toggle
+            $('body').on("click", ".toggle-favorite", toggleFavorite);
 
-                        hasResults = true;
-                        $('.header-search-box').append(`
-                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">PROJELER</div>
-                        `);
-
-                        projectsToShow.forEach((e) => {
-                            console.log(e);
-                            const imageUrl =
-                                `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                            const formattedName = e.name.charAt(0).toUpperCase() + e.name
-                                .slice(1);
-                            var baseRoute =
-                                `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`
-                                .replace('slug_placeholder', e.slug)
-                                .replace('id_placeholder', parseInt(e.id) + 1000000);
-
-                            // Now, you can use it in your append statement:
-                            $('.header-search-box').append(`
-                                <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                    <span>${formattedName}</span>
-                                </a>
-                            `);
-                        });
-
-                        if (data.projects.length > maxResultsToShow) {
-                            const remainingResults = data.projects.length - maxResultsToShow;
-                            // Arama terimi "project" olarak belirleniyor
-                            const searchUrl = "{{ route('search.results') }}?searchTerm=" +
-                                searchTerm + "&type=project";
-
-                            // Laravel route'u kullanarak URL oluşturma
-                            $('.header-search-box').append(`
-                                <a href="${searchUrl}" class="text-muted m-3">${remainingResults} sonuç daha bulunmaktadır.</a>
-                            `);
-                        }
-                    }
-
-                    if (data.merchants.length > 0) {
-                        hasResults = true;
-                        $('.header-search-box').append(`
-                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">MAĞAZALAR</div>
-                        `);
-                        const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
-                        const merchantsToShow = data.merchants.slice(0,
-                            maxResultsToShow); // İlk 4 sonucu al
-
-                        merchantsToShow.forEach((e) => {
-                            const imageUrl =
-                                `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                            const formattedName = e.name.charAt(0).toUpperCase() + e.name
-                                .slice(1);
-
-                            $('.header-search-box').append(`
-                        <a href="{{ URL::to('/magaza/') }}/${e.slug}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                            <span>${formattedName}</span>
-                        </a>
-                    `);
-                        });
-
-                        if (data.merchants.length > maxResultsToShow) {
-                            const remainingResults = data.merchants.length - maxResultsToShow;
-                            // Arama terimi "merchant" olarak belirleniyor
-                            const searchUrl = "{{ route('search.results') }}?searchTerm=" +
-                                searchTerm + "&type=merchant";
-
-                            // Laravel route'u kullanarak URL oluşturma
-                            $('.header-search-box').append(`
-                                <a href="${searchUrl}" class="text-muted m-3">${remainingResults} sonuç daha bulunmaktadır.</a>
-                            `);
-                        }
-                    }
-
-
-                    // Veri yoksa veya herhangi bir sonuç yoksa "Sonuç Bulunamadı" mesajını görüntüle
-                    if (!hasResults) {
-                        $('.header-search-box').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç bulunamadı</div>
-                            `);
-                    } else {
-                        hideSearchingMessage
-                            (); // AJAX başarılı olduğunda "Aranıyor..." yazısını kaldır
-                    }
-
-                    if ($('.header-search-box').children().length > 3) {
-                        $('.header-search-box').css('overflow-y',
-                            'scroll'
-                        ); // 7'den fazla sonuç varsa kaydırma çubuğunu etkinleştir
-                    } else {
-                        $('.header-search-box').css('overflow-y',
-                            'unset'
-                        ); // 7 veya daha az sonuç varsa kaydırma çubuğunu devre dışı bırak
-                    }
-                }
-            });
-        }, 1000); // 1 saniye gecikmeli AJAX isteği başlat
-    }
-
-    $('.ss-box').on('input', function() {
-        let term = $(this).val();
-
-        if (term != '') {
-            $('.header-search-box').addClass('d-flex').removeClass('d-none');
-            drawHeaderSearchbox(term);
-        } else {
-            $('.header-search-box').removeClass('d-flex').addClass('d-none');
-        }
-    });
-    $(document).click(function(event) {
-
-        if (
-            $('.toggle > input').is(':checked') &&
-            !$(event.target).parents('.toggle').is('.toggle')
-        ) {
-            $('.toggle > input').prop('checked', false);
-        }
-    })
-    'use strict';
-    $(function() {
+        });
         const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {
-            $('.header-search-box-mobile').empty().append(
+            $('.header-search-box').empty().append(
                 '<div class="font-weight-bold p-2 small" style="background-color: #EEE;">Aranıyor...</div>');
         }
 
         function hideSearchingMessage() {
-            $('.header-search-box-mobile div:contains("Aranıyor...")').remove();
+            $('.header-search-box div:contains("Aranıyor...")').remove();
         }
 
         function drawHeaderSearchbox(searchTerm) {
@@ -2357,92 +2204,130 @@
                     },
                     success: function(data) {
                         let hasResults = false;
-
                         // Housing search
                         if (data.housings.length > 0) {
                             hasResults = true;
-                            $('.header-search-box-mobile').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
-                            `);
+                            $('.header-search-box').append(`
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">İkinci-El Emlak</div>
+                        `);
 
-                            data.housings.forEach((e) => {
-                                const imageUrl =
-                                    `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                                const formattedName = e.name.charAt(0)
-                                    .toUpperCase() + e.name.slice(1);
+                            const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
+                            const housingsToShow = data.housings.slice(0,
+                                maxResultsToShow); // İlk 4 sonucu al
 
-
+                            housingsToShow.forEach((e) => {
+                                const imageUrl = `${appUrl}housing_images/${e.photo}`;
+                                const formattedName = e.name.charAt(0).toUpperCase() + e.name
+                                    .slice(1);
                                 var baseRoute =
                                     `{{ route('housing.show', ['housingSlug' => 'slug_placeholder', 'housingID' => 'id_placeholder']) }}`
-                                    .replace('slug_placeholder', e.slug).replace(
-                                        'id_placeholder', parseInt(e.id) + 2000000);
+                                    .replace('slug_placeholder', e.slug)
+                                    .replace('id_placeholder', parseInt(e.id) + 2000000);
 
-                                //housign.show metodu eklenecek    
-                                $('.header-search-box-mobile').append(`
-                                  <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                    <span>${formattedName}</span>
-                                </a>
-                                `);
-
+                                //housign.show link eklenecek
+                                $('.header-search-box').append(`
+                            <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
+                                <span>${formattedName}</span>
+                            </a>
+                        `);
                             });
+
+                            if (data.housings.length > maxResultsToShow) {
+                                const remainingResults = data.housings.length - maxResultsToShow;
+                                // Arama terimi "housing" olarak belirleniyor
+                                const searchUrl = "{{ route('search.results') }}?searchTerm=" +
+                                    searchTerm + "&type=housing";
+
+                                // Laravel route'u kullanarak URL oluşturma
+                                $('.header-search-box').append(`
+                            <a href="${searchUrl}" class="text-muted m-3">${remainingResults} sonuç daha bulunmaktadır.</a>
+                        `);
+                            }
                         }
+
 
                         // Project search
                         if (data.projects.length > 0) {
+                            const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
+                            const projectsToShow = data.projects.slice(0,
+                                maxResultsToShow); // İlk 4 sonucu al
+
                             hasResults = true;
-                            $('.header-search-box-mobile').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">PROJELER</div>
-                            `);
-                            console.log(data.projects);
-                            data.projects.forEach((e) => {
+                            $('.header-search-box').append(`
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">PROJELER</div>
+                        `);
+
+                            projectsToShow.forEach((e) => {
+                                console.log(e);
                                 const imageUrl =
                                     `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                                const formattedName = e.name.charAt(0)
-                                    .toUpperCase() + e.name.slice(1);
-
-                                // Assuming you have a JavaScript variable like this:
+                                const formattedName = e.name.charAt(0).toUpperCase() + e.name
+                                    .slice(1);
                                 var baseRoute =
                                     `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`
-                                    .replace('slug_placeholder', e.slug).replace(
-                                        'id_placeholder', parseInt(e.id) + 1000000);
-
+                                    .replace('slug_placeholder', e.slug)
+                                    .replace('id_placeholder', parseInt(e.id) + 1000000);
 
                                 // Now, you can use it in your append statement:
-                                $('.header-search-box-mobile').append(`
+                                $('.header-search-box').append(`
                                 <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
                                     <span>${formattedName}</span>
                                 </a>
                             `);
-
-
-
                             });
+
+                            if (data.projects.length > maxResultsToShow) {
+                                const remainingResults = data.projects.length - maxResultsToShow;
+                                // Arama terimi "project" olarak belirleniyor
+                                const searchUrl = "{{ route('search.results') }}?searchTerm=" +
+                                    searchTerm + "&type=project";
+
+                                // Laravel route'u kullanarak URL oluşturma
+                                $('.header-search-box').append(`
+                                <a href="${searchUrl}" class="text-muted m-3">${remainingResults} sonuç daha bulunmaktadır.</a>
+                            `);
+                            }
                         }
 
-                        // Merchant search
                         if (data.merchants.length > 0) {
                             hasResults = true;
-                            $('.header-search-box-mobile').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">MAĞAZALAR</div>
-                            `);
-                            data.merchants.forEach((e) => {
+                            $('.header-search-box').append(`
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">MAĞAZALAR</div>
+                        `);
+                            const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
+                            const merchantsToShow = data.merchants.slice(0,
+                                maxResultsToShow); // İlk 4 sonucu al
+
+                            merchantsToShow.forEach((e) => {
                                 const imageUrl =
                                     `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                                const formattedName = e.name.charAt(0)
-                                    .toUpperCase() + e.name.slice(1);
+                                const formattedName = e.name.charAt(0).toUpperCase() + e.name
+                                    .slice(1);
 
                                 $('.header-search-box').append(`
-    <a href="{{ URL::to('/magaza/') }}/${e.slug}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-        <span>${formattedName}</span>
-    </a>
-`);
-
+                        <a href="{{ URL::to('/magaza/') }}/${e.slug}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                            <span>${formattedName}</span>
+                        </a>
+                    `);
                             });
+
+                            if (data.merchants.length > maxResultsToShow) {
+                                const remainingResults = data.merchants.length - maxResultsToShow;
+                                // Arama terimi "merchant" olarak belirleniyor
+                                const searchUrl = "{{ route('search.results') }}?searchTerm=" +
+                                    searchTerm + "&type=merchant";
+
+                                // Laravel route'u kullanarak URL oluşturma
+                                $('.header-search-box').append(`
+                                <a href="${searchUrl}" class="text-muted m-3">${remainingResults} sonuç daha bulunmaktadır.</a>
+                            `);
+                            }
                         }
+
 
                         // Veri yoksa veya herhangi bir sonuç yoksa "Sonuç Bulunamadı" mesajını görüntüle
                         if (!hasResults) {
-                            $('.header-search-box-mobile').append(`
+                            $('.header-search-box').append(`
                                 <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç bulunamadı</div>
                             `);
                         } else {
@@ -2450,12 +2335,12 @@
                                 (); // AJAX başarılı olduğunda "Aranıyor..." yazısını kaldır
                         }
 
-                        if ($('.header-search-box-mobile').children().length > 3) {
-                            $('.header-search-box-mobile').css('overflow-y',
+                        if ($('.header-search-box').children().length > 3) {
+                            $('.header-search-box').css('overflow-y',
                                 'scroll'
                             ); // 7'den fazla sonuç varsa kaydırma çubuğunu etkinleştir
                         } else {
-                            $('.header-search-box-mobile').css('overflow-y',
+                            $('.header-search-box').css('overflow-y',
                                 'unset'
                             ); // 7 veya daha az sonuç varsa kaydırma çubuğunu devre dışı bırak
                         }
@@ -2464,37 +2349,193 @@
             }, 1000); // 1 saniye gecikmeli AJAX isteği başlat
         }
 
-        $('#ss-box-mobile').on('input', function() {
+        $('.ss-box').on('input', function() {
             let term = $(this).val();
 
             if (term != '') {
-                $('.header-search-box-mobile').addClass('d-flex').removeClass('d-none');
+                $('.header-search-box').addClass('d-flex').removeClass('d-none');
                 drawHeaderSearchbox(term);
             } else {
-                $('.header-search-box-mobile').removeClass('d-flex').addClass('d-none');
+                $('.header-search-box').removeClass('d-flex').addClass('d-none');
             }
         });
-    });
-    $(document).ready(function() {
-        $('.slick-lancersl').slick({
-            loop: true,
-            margin: 30,
-            rtl: false,
-            autoplayHoverPause: false,
-            singleItem: true,
-            smartSpeed: 1200,
-            infinite: true,
-            autoplay: true,
-            loop: true,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            dots: false,
-            arrows: true,
-            adaptiveHeight: true,
+        $(document).click(function(event) {
+
+            if (
+                $('.toggle > input').is(':checked') &&
+                !$(event.target).parents('.toggle').is('.toggle')
+            ) {
+                $('.toggle > input').prop('checked', false);
+            }
+        })
+        'use strict';
+        $(function() {
+            const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
+            let timeout; // AJAX isteği için zamanlayıcı değişkeni
+
+            function showSearchingMessage() {
+                $('.header-search-box-mobile').empty().append(
+                    '<div class="font-weight-bold p-2 small" style="background-color: #EEE;">Aranıyor...</div>');
+            }
+
+            function hideSearchingMessage() {
+                $('.header-search-box-mobile div:contains("Aranıyor...")').remove();
+            }
+
+            function drawHeaderSearchbox(searchTerm) {
+                showSearchingMessage();
+
+                if (timeout) {
+                    clearTimeout(timeout); // Önceki AJAX isteğini iptal et
+                }
+
+                timeout = setTimeout(function() {
+                    $.ajax({
+                        url: "{{ route('get-search-list') }}",
+                        method: "GET",
+                        data: {
+                            searchTerm
+                        },
+                        success: function(data) {
+                            let hasResults = false;
+
+                            // Housing search
+                            if (data.housings.length > 0) {
+                                hasResults = true;
+                                $('.header-search-box-mobile').append(`
+                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
+                            `);
+
+                                data.housings.forEach((e) => {
+                                    const imageUrl =
+                                        `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                                    const formattedName = e.name.charAt(0)
+                                        .toUpperCase() + e.name.slice(1);
+
+
+                                    var baseRoute =
+                                        `{{ route('housing.show', ['housingSlug' => 'slug_placeholder', 'housingID' => 'id_placeholder']) }}`
+                                        .replace('slug_placeholder', e.slug).replace(
+                                            'id_placeholder', parseInt(e.id) + 2000000);
+
+                                    //housign.show metodu eklenecek    
+                                    $('.header-search-box-mobile').append(`
+                                  <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                    <span>${formattedName}</span>
+                                </a>
+                                `);
+
+                                });
+                            }
+
+                            // Project search
+                            if (data.projects.length > 0) {
+                                hasResults = true;
+                                $('.header-search-box-mobile').append(`
+                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">PROJELER</div>
+                            `);
+                                console.log(data.projects);
+                                data.projects.forEach((e) => {
+                                    const imageUrl =
+                                        `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                                    const formattedName = e.name.charAt(0)
+                                        .toUpperCase() + e.name.slice(1);
+
+                                    // Assuming you have a JavaScript variable like this:
+                                    var baseRoute =
+                                        `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`
+                                        .replace('slug_placeholder', e.slug).replace(
+                                            'id_placeholder', parseInt(e.id) + 1000000);
+
+
+                                    // Now, you can use it in your append statement:
+                                    $('.header-search-box-mobile').append(`
+                                <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                    <span>${formattedName}</span>
+                                </a>
+                            `);
+
+
+
+                                });
+                            }
+
+                            // Merchant search
+                            if (data.merchants.length > 0) {
+                                hasResults = true;
+                                $('.header-search-box-mobile').append(`
+                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">MAĞAZALAR</div>
+                            `);
+                                data.merchants.forEach((e) => {
+                                    const imageUrl =
+                                        `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                                    const formattedName = e.name.charAt(0)
+                                        .toUpperCase() + e.name.slice(1);
+
+                                    $('.header-search-box').append(`
+    <a href="{{ URL::to('/magaza/') }}/${e.slug}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+        <span>${formattedName}</span>
+    </a>
+`);
+
+                                });
+                            }
+
+                            // Veri yoksa veya herhangi bir sonuç yoksa "Sonuç Bulunamadı" mesajını görüntüle
+                            if (!hasResults) {
+                                $('.header-search-box-mobile').append(`
+                                <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç bulunamadı</div>
+                            `);
+                            } else {
+                                hideSearchingMessage
+                                    (); // AJAX başarılı olduğunda "Aranıyor..." yazısını kaldır
+                            }
+
+                            if ($('.header-search-box-mobile').children().length > 3) {
+                                $('.header-search-box-mobile').css('overflow-y',
+                                    'scroll'
+                                ); // 7'den fazla sonuç varsa kaydırma çubuğunu etkinleştir
+                            } else {
+                                $('.header-search-box-mobile').css('overflow-y',
+                                    'unset'
+                                ); // 7 veya daha az sonuç varsa kaydırma çubuğunu devre dışı bırak
+                            }
+                        }
+                    });
+                }, 1000); // 1 saniye gecikmeli AJAX isteği başlat
+            }
+
+            $('#ss-box-mobile').on('input', function() {
+                let term = $(this).val();
+
+                if (term != '') {
+                    $('.header-search-box-mobile').addClass('d-flex').removeClass('d-none');
+                    drawHeaderSearchbox(term);
+                } else {
+                    $('.header-search-box-mobile').removeClass('d-flex').addClass('d-none');
+                }
+            });
         });
-    });
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        $(document).ready(function() {
+            $('.slick-lancersl').slick({
+                loop: true,
+                margin: 30,
+                rtl: false,
+                autoplayHoverPause: false,
+                singleItem: true,
+                smartSpeed: 1200,
+                infinite: true,
+                autoplay: true,
+                loop: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: false,
+                arrows: true,
+                adaptiveHeight: true,
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -2995,7 +3036,7 @@
             if (remainingItems >= 5) {
                 currentSlideIndex++;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex *
-                5); // Bir sonraki beşli kümeye git
+                    5); // Bir sonraki beşli kümeye git
             } else {
                 $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
             }
@@ -3079,5 +3120,3 @@
 
 
 </html>
-
-    

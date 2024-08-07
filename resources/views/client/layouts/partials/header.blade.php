@@ -82,17 +82,20 @@
         .notification-card.unread {
             background-color: #eff2f6;
         }
+
         .btn-primary {
-  color: #fff;
-  background-color: #2f5f9e !important;
-  border-color: #2f5f9e !important;
-}
+            color: #fff;
+            background-color: #2f5f9e !important;
+            border-color: #2f5f9e !important;
+        }
+
         #whatsappButton {
             height: 100% !important;
             background: transparent;
             color: green;
-            margin-bottom: 10px;
-            margin-top: 10px;
+            /* margin-bottom: 10px; */
+            /* margin-top: 10px; */
+            width: 100%;
         }
 
         .btn-view-vendor-info {
@@ -562,7 +565,6 @@
                                             auth()->user()->parent_id != 4 &&
                                             auth()->user()->type != 3 &&
                                             auth()->user()->type != 21)
-
                                         @include('client.layouts.partials.dropdown_user_icon', [
                                             'mainLink' => 'Hesabım',
                                             'links' => [
