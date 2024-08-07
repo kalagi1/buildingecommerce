@@ -1155,7 +1155,7 @@
                                         html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
                                             "' style='background-color: #EEE !important;'><th>" +
                                             installementData +
-                                            " Ay Taksitli Fiyat>";
+                                            " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th></tr>";
 
 
 
@@ -1163,12 +1163,12 @@
                                                 "pay-dec-count" + (orderHousing), response
                                                 .room_info[i].room_order); l++) {
                                             html += "<tr><td>" +
-                                                l + ". Ara Ödeme";
+                                                l + ". Ara Ödeme</td>";
                                         }
 
 
                                         if (ongKiraData) {
-                                            html += "<td></tr>";
+                                            html += "<td></td>";
 
                                         }
 
