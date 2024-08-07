@@ -1081,8 +1081,7 @@
                                         var monhlyPrice = "";
 
 
-                                        var projectedEarningsData = "";
-                                        var ongKiraData = "";
+
 
                                         var projectedEarnings = getDataJS(response,
                                             "projected_earnings[]", response.room_info[i]
@@ -1092,20 +1091,8 @@
                                             "ong_kira[]", response.room_info[i]
                                             .room_order);
                                         // var projectedEarnings = 10;
-                                        var svgCode =
-                                            '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
-                                        // var projectedEarningsHTML = projectedEarnings ? svgCode +
-                                        //     "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
-                                        //     "<span style='color:#28a745'> %" + projectedEarnings +
-                                        //     "</span>" : "";
 
-                                        // var ongKiraHTML = ongKira ? svgCode +
-                                        //     "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
-                                        //     "<span style='color:#28a745'>" + ongKira +
-                                        //     " TL</span>" : "";
 
-                                        // projectedEarningsData += projectedEarningsHTML;
-                                        // ongKiraData += ongKiraHTML;
 
                                     } else {
 
@@ -1195,16 +1182,7 @@
                                                     paymentPlanData[j]] + " " +
                                                 "Fiyat:</strong> " : "") + formatPrice(
                                                 priceData) + "₺</td>";
-                                            if (projectedEarningsData) {
-                                                html += "<td>" + projectedEarningsData + "</td>";
-
-                                            }
-
-
-                                            if (ongKiraData) {
-                                                html += "<td>" + ongKiraData + "</td>";
-
-                                            }
+                                           
 
 
                                         }
@@ -1303,12 +1281,42 @@
                                                             ', ' + payDescDate.getFullYear()) +
                                                         "</td>";
 
-                                                    if (ongKiraData) {
-                                                        html += "<td></td>";
-                                                    }
-
+                                               
                                                     html += "</tr>";
                                                 }
+                                            }
+
+
+                                            var projectedEarningsData = "";
+                                            var ongKiraData = "";
+                                            var svgCode =
+                                                '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
+                                            var projectedEarningsHTML = projectedEarnings ?
+                                                svgCode +
+                                                "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
+                                                "<span style='color:#28a745'> %" +
+                                                projectedEarnings +
+                                                "</span>" : "";
+
+                                            var ongKiraHTML = ongKira ? svgCode +
+                                                "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
+                                                "<span style='color:#28a745'>" + ongKira +
+                                                " TL</span>" : "";
+
+                                            projectedEarningsData += projectedEarningsHTML;
+                                            ongKiraData += ongKiraHTML;
+
+                                            html += "<tr><th>Öngörülen Kazanç Durumu</th></tr>";
+
+                                            if (projectedEarningsData) {
+                                                html += "<tr><td>" + projectedEarningsData + "</td></tr>";
+
+                                            }
+
+
+                                            if (ongKiraData) {
+                                                html += "<tr><td>" + ongKiraData + "</td></tr>";
+
                                             }
                                         }
                                     }
