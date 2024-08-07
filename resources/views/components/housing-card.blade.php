@@ -295,7 +295,7 @@ $formattedAddress = implode(' / ', $addressParts);
                         @endif
                     @endif
                 @else
-                    @if (checkIfUserCanAddToCart($housing->id))
+                    @if ((checkIfUserCanAddToCart($housing->id) && Auth::check()) || !Auth::check())
                         <button onclick="redirectToReservation()" class="reservationBtn">
                             <span class="IconContainer">
                                 <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
@@ -309,7 +309,7 @@ $formattedAddress = implode(' / ', $addressParts);
                                     "{{ route('housing.show', ['housingSlug' => $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
                             }
                         </script>
-                    @else
+                    @elseif (!checkIfUserCanAddToCart($housing->id) && Auth::check())
                         <a href="{{ route('institutional.housing.edit', ['id' => hash_id($housing->id)]) }}"
                             class="btn btn-success"
                             style="width: 100%;
