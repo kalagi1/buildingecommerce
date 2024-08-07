@@ -1281,7 +1281,7 @@
 
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
-                                                    html += "<tr>";
+                                                    html += "<tr style='background-color: #EEE !important;' colspan='3'>Ara Ödemeler</tr><tr>";
 
                                                     // Ara Ödeme
                                                     html += "<td>" + "<strong>" + (l + 1) +
