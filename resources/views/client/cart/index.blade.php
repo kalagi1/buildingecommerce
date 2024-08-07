@@ -298,7 +298,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                 </div>
 
                 <div class="col-md-4 mt-5">
-                    <div class="tr-single-box mb-0" style="background: white !important;">
+                    <div class="tr-single-box mb-0 p-4" style="background: #f7f7f7 !important;">
                         <div class="tr-single-header pb-3 mb-3">
                             <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
                         </div>
