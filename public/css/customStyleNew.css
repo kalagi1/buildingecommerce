@@ -21906,6 +21906,12 @@ small {
   background: #ffffff;
 }
 
+.btn-primary {
+  color: #fff;
+  background-color: #2f5f9e;
+  border-color: #2f5f9e;
+}
+
 .tr-single-box {
   display: block;
   border-radius: 2px;
