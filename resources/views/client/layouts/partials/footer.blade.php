@@ -186,9 +186,9 @@
                 <div class="close payment-plan-pop-close-icon"><span><i class="fa fa-times "></i></span></div>
             </div>
             <table class="payment-plan table">
-                <div class="row">
-                    <div class="col-md-9">
-                        <span class="textAlert"></span>
+                <div class="row align-items-center" style="width:100%;margin:0 auto">
+                    <div class="col-md-8">
+                        <span class="textAlert" style="width: 100%"></span>
                     </div>
                     <div class="col-md-4">
                         <a id="whatsappButton" class="btn btn-outline-light"><svg xmlns="http://www.w3.org/2000/svg"
