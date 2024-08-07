@@ -1155,20 +1155,20 @@
                                         html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
                                             "' style='background-color: #EEE !important;'><th>" +
                                             installementData +
-                                            " Ay Taksitli Fiyat>/tr>";
+                                            " Ay Taksitli Fiyat>";
 
 
 
                                         for (var l = 1; l <= getDataJS(response,
                                                 "pay-dec-count" + (orderHousing), response
                                                 .room_info[i].room_order); l++) {
-                                            html += "<tr><th>" +
-                                                l + ". Ara Ödeme</th>";
+                                            html += "<tr><td>" +
+                                                l + ". Ara Ödeme";
                                         }
 
 
                                         if (ongKiraData) {
-                                            html += "<th></th>";
+                                            html += "<td></tr>";
 
                                         }
 
