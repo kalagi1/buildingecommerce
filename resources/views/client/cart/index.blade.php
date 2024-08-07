@@ -286,7 +286,15 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                     <div class="row mt-5">
                         <div class="col-xl-7 col-md-6">
                             <div class="coupon-code-panel">
-                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                    style="    position: absolute;
+                                    z-index: 9;
+                                    font-size: 11px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    left: 15px;
+                                    top: 10px;"
                                     stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                     class="css-i6dzq1">
                                     <circle cx="6" cy="6" r="3"></circle>
@@ -771,7 +779,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
             padding: 8px 70px 9px 45px;
             width: 100%;
             position: relative;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .coupon-code-panel,
@@ -779,7 +787,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
             position: relative;
         }
 
-       
+
 
         .coupon-code-panel .apply-coupon-btn {
             position: absolute;
