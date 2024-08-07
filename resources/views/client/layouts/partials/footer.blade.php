@@ -915,8 +915,16 @@
             Swal.fire({
                 icon: 'warning',
                 title: 'Uyarı',
-                text: 'Bu ilan için ödeme detay bilgisi gösterilemiyor.',
-                confirmButtonText: 'Kapat'
+                text: 'Ödeme detayını görüntülemek için lütfen giriş yapınız.',
+                showCancelButton: true,
+                confirmButtonText: 'Giriş Yap',
+                cancelButtonText: 'Kapat',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                    window.location.href = '/login'; // Giriş sayfanızın URL'sini buraya koyun
+                }
             });
         } else if (soldStatus == "1") {
             Swal.fire({
