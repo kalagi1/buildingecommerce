@@ -530,7 +530,7 @@
                                     <label for="fullName">Ad Soyad:</label>
                                     <input type="text" class="form-control" id="fullName" name="fullName" required>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <label for="email">E-posta:</label>
                                     <input type="email" class="form-control" id="email" name="email" required>
                                 </div>
@@ -570,7 +570,7 @@
                                         return formattedTC;
                                     }
                                 </script>
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <label for="phone">Telefon:</label>
 
                                     <input type="number" class="form-control" id="phone" name="phone" required
@@ -579,22 +579,22 @@
 
                                 </div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <label for="address">Adres:</label>
                                     <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <label for="notes">Notlar:</label>
                                     <textarea class="form-control" id="notes" name="notes" rows="5"></textarea>
                                 </div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <label for="notes">Referans Kodu (Opsiyonel):</label>
                                     <input class="form-control" id="reference_code" name="reference_code"
                                         rows="5">
                                 </div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && empty($share_sale))
                                         <label for="neighborProjects">Komşunuzun referansıyla mı satın
                                             alıyorsunuz?</label>
