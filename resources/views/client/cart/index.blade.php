@@ -21,19 +21,6 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="clearButtons" style="display: flex;width: 100%;justify-content: space-between;">
-                            @if (isset($cart['item']))
-                                <button type="button" class="btn btn-close-cart remove-from-cart"
-                                style="background: transparent;padding: 10px;margin-right:5px;height: auto !important;color: black;font-size: 12px;border: 1px solid #f3f3f3;">
-                                    <i class="fa fa-times"></i> Sepeti Temizle
-                                </button>
-                            @endif
-                            <button type="button" class="btn btn-close-cart"
-                            style="background: transparent;padding: 10px;height: auto !important;color: black;font-size: 12px;border: 1px solid #f3f3f3;"
-                            onclick="window.location.href='{{ route('index') }}'">
-                                <i class="fa fa-times"></i> Kapat
-                            </button>
-                        </div>
                     </div>
 
                     @php
@@ -252,9 +239,9 @@
                                                     $share_sale = json_decode($cart['item']['isShare'], true); // decode JSON string to array
                                                 } elseif (is_array($cart['item']['isShare'])) {
                                                     $share_sale = $cart['item']['isShare']; // it's already an array
-                                                    }
-                                                }
-                                                $number_of_share = $cart['item']['numbershare'] ?? null;
+    }
+}
+$number_of_share = $cart['item']['numbershare'] ?? null;
                                         @endphp
 
                                         <td>
@@ -296,23 +283,32 @@
                         </table>
                     </div>
 
-                    <div class="row mt-20px">
+                    <div class="row mt-5">
                         <div class="col-xl-7 col-md-6">
-                        <div class="coupon-code-panel">
-                        <input type="text" class="bg-white border-radius-4px" placeholder="Coupon code">
-                        <a href="#" class="btn apply-coupon-btn fs-13 fw-600 text-uppercase">Apply</a>
-                        </div>
+                            <div class="coupon-code-panel">
+                                <input type="text" class="bg-white border-radius-4px" placeholder="Kupon Kodu">
+                                <a href="#" class="btn apply-coupon-btn fs-13 fw-600 text-uppercase">Uygula</a>
+                            </div>
                         </div>
                         <div class="col-xl-5 col-md-6 text-center text-md-end sm-mt-15px">
-                        <a href="#" class="btn btn-small border-1 btn-round-edge btn-transparent-light-gray text-transform-none me-15px">Empty cart</a>
-                        <a href="#" class="btn btn-small border-1 btn-round-edge btn-transparent-light-gray text-transform-none">Update cart</a>
+                            @if (isset($cart['item']))
+                                <button type="button" class="btn btn-close-cart remove-from-cart"
+                                    style="background: transparent;padding: 10px;margin-right:5px;height: auto !important;color: black;font-size: 12px;border: 1px solid #f3f3f3;">
+                                    <i class="fa fa-times"></i> Sepeti Temizle
+                                </button>
+                            @endif
+                            <button type="button" class="btn btn-close-cart"
+                                style="background: transparent;padding: 10px;height: auto !important;color: black;font-size: 12px;border: 1px solid #f3f3f3;"
+                                onclick="window.location.href='{{ route('index') }}'">
+                                <i class="fa fa-times"></i> Kapat
+                            </button>
                         </div>
-                        </div>
+                    </div>
                 </div>
 
                 <div class="col-md-4 mt-5">
                     <div class="tr-single-box mb-0 p-4" style="background: #f7f7f7 !important;">
-                       
+
                         <div class="booking-price-detail side-list no-border mb-3">
                             <div class="tr-single-header pb-3 mb-0" style="border-bottom: none !important">
                                 <h4><i class="fa fa-star-o"></i>SEPET ÖZETİ</h4>
@@ -754,31 +750,42 @@
             align-items: center;
             justify-content: center;
         }
+
         .coupon-code-panel input {
-    margin: 0;
-    border: none;
-    border: 1px dashed #e4e4e4;
-    padding: 8px 70px 9px 45px;
-    width: 100%;
-    position: relative;
-    font-size: 14px;
-}
-.coupon-code-panel, .quantity {
-    position: relative;
-}
-.coupon-code-panel .apply-coupon-btn {
-    position: absolute;
-    right: 5px;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    color: var(--dark-gray);
-    line-height: 30px;
-    letter-spacing: 0;
-}
+            margin: 0;
+            border: none;
+            border: 1px dashed #e4e4e4;
+            padding: 8px 70px 9px 45px;
+            width: 100%;
+            position: relative;
+            font-size: 14px;
+        }
 
+        .coupon-code-panel,
+        .quantity {
+            position: relative;
+        }
 
+        .coupon-code-panel:before {
+            content: "\e8bf";
+            font-family: feather;
+            position: absolute;
+            left: 20px;
+            z-index: 2;
+            line-height: 50px;
+        }
+
+        .coupon-code-panel .apply-coupon-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            color: var(--dark-gray);
+            line-height: 30px;
+            letter-spacing: 0;
+        }
     </style>
 @endsection
 
