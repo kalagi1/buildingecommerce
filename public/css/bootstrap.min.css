@@ -509,7 +509,7 @@ mark {
 .img-thumbnail {
     padding: .25rem;
     background-color: #fff;
-    border: 1px solid #dee2e6;
+    border: 1px solid #f3f3f3;
     border-radius: .25rem;
     max-width: 100%;
     height: auto
@@ -1961,16 +1961,16 @@ pre code {
 .table th {
     padding: .75rem;
     vertical-align: top;
-    border-top: 1px solid #dee2e6
+    border-top: 1px solid #f3f3f3
 }
 
 .table thead th {
     vertical-align: bottom;
-    border-bottom: 2px solid #dee2e6
+    border-bottom: 2px solid #f3f3f3
 }
 
 .table tbody+tbody {
-    border-top: 2px solid #dee2e6
+    border-top: 2px solid #f3f3f3
 }
 
 .table-sm td,
@@ -1979,12 +1979,12 @@ pre code {
 }
 
 .table-bordered {
-    border: 1px solid #dee2e6
+    border: 1px solid #f3f3f3
 }
 
 .table-bordered td,
 .table-bordered th {
-    border: 1px solid #dee2e6
+    border: 1px solid #f3f3f3
 }
 
 .table-bordered thead td,
@@ -2208,7 +2208,7 @@ pre code {
 .table .thead-light th {
     color: #495057;
     background-color: #e9ecef;
-    border-color: #dee2e6
+    border-color: #f3f3f3
 }
 
 .table-dark {
@@ -4518,7 +4518,7 @@ input[type=submit].btn-block {
     height: .5rem;
     color: transparent;
     cursor: pointer;
-    background-color: #dee2e6;
+    background-color: #f3f3f3;
     border-color: transparent;
     border-radius: 1rem
 }
@@ -4551,7 +4551,7 @@ input[type=submit].btn-block {
     height: .5rem;
     color: transparent;
     cursor: pointer;
-    background-color: #dee2e6;
+    background-color: #f3f3f3;
     border-color: transparent;
     border-radius: 1rem
 }
@@ -4592,13 +4592,13 @@ input[type=submit].btn-block {
 }
 
 .custom-range::-ms-fill-lower {
-    background-color: #dee2e6;
+    background-color: #f3f3f3;
     border-radius: 1rem
 }
 
 .custom-range::-ms-fill-upper {
     margin-right: 15px;
-    background-color: #dee2e6;
+    background-color: #f3f3f3;
     border-radius: 1rem
 }
 
@@ -4664,7 +4664,7 @@ input[type=submit].btn-block {
 }
 
 .nav-tabs {
-    border-bottom: 1px solid #dee2e6
+    border-bottom: 1px solid #f3f3f3
 }
 
 .nav-tabs .nav-item {
@@ -4679,7 +4679,7 @@ input[type=submit].btn-block {
 
 .nav-tabs .nav-link:focus,
 .nav-tabs .nav-link:hover {
-    border-color: #e9ecef #e9ecef #dee2e6
+    border-color: #e9ecef #e9ecef #f3f3f3
 }
 
 .nav-tabs .nav-link.disabled {
@@ -4692,7 +4692,7 @@ input[type=submit].btn-block {
 .nav-tabs .nav-link.active {
     color: #495057;
     background-color: #fff;
-    border-color: #dee2e6 #dee2e6 #fff
+    border-color: #f3f3f3 #f3f3f3 #fff
 }
 
 .nav-tabs .dropdown-menu {
@@ -5531,7 +5531,7 @@ input[type=submit].btn-block {
     line-height: 1.25;
     color: #2f5f9e;
     background-color: #fff;
-    border: 1px solid #dee2e6
+    border: 1px solid #f3f3f3
 }
 
 .page-link:hover {
@@ -5539,7 +5539,7 @@ input[type=submit].btn-block {
     color: #0056b3;
     text-decoration: none;
     background-color: #e9ecef;
-    border-color: #dee2e6
+    border-color: #f3f3f3
 }
 
 .page-link:focus {
@@ -5571,7 +5571,7 @@ input[type=submit].btn-block {
     pointer-events: none;
     cursor: auto;
     background-color: #fff;
-    border-color: #dee2e6
+    border-color: #f3f3f3
 }
 
 .pagination-lg .page-link {
@@ -6615,7 +6615,7 @@ a.close.disabled {
     -ms-flex-pack: justify;
     justify-content: space-between;
     padding: 1rem 1rem;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid #f3f3f3;
     border-top-left-radius: calc(.3rem - 1px);
     border-top-right-radius: calc(.3rem - 1px)
 }
@@ -6647,7 +6647,7 @@ a.close.disabled {
     -ms-flex-pack: end;
     justify-content: flex-end;
     padding: .75rem;
-    border-top: 1px solid #dee2e6;
+    border-top: 1px solid #f3f3f3;
     border-bottom-right-radius: calc(.3rem - 1px);
     border-bottom-left-radius: calc(.3rem - 1px)
 }
@@ -6996,7 +6996,7 @@ a.close.disabled {
     margin-bottom: 0;
     font-size: 1rem;
     background-color: #f7f7f7;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid #f3f3f3;
     border-top-left-radius: calc(.3rem - 1px);
     border-top-right-radius: calc(.3rem - 1px)
 }
@@ -7420,23 +7420,23 @@ button.bg-dark:hover {
 }
 
 .border {
-    border: 0px solid #dee2e6 !important
+    border: 0px solid #f3f3f3 !important
 }
 
 .border-top {
-    border-top: 1px solid #dee2e6 !important
+    border-top: 1px solid #f3f3f3 !important
 }
 
 .border-right {
-    border-right: 1px solid #dee2e6 !important
+    border-right: 1px solid #f3f3f3 !important
 }
 
 .border-bottom {
-    border-bottom: 1px solid #dee2e6 !important
+    border-bottom: 1px solid #f3f3f3 !important
 }
 
 .border-left {
-    border-left: 1px solid #dee2e6 !important
+    border-left: 1px solid #f3f3f3 !important
 }
 
 .border-0 {
@@ -11435,7 +11435,7 @@ a.text-dark:hover {
 
     .table-bordered td,
     .table-bordered th {
-        border: 1px solid #dee2e6 !important
+        border: 1px solid #f3f3f3 !important
     }
 
     .table-dark {
@@ -11446,12 +11446,12 @@ a.text-dark:hover {
     .table-dark td,
     .table-dark th,
     .table-dark thead th {
-        border-color: #dee2e6
+        border-color: #f3f3f3
     }
 
     .table .thead-dark th {
         color: inherit;
-        border-color: #dee2e6
+        border-color: #f3f3f3
     }
 }
 

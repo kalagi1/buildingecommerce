@@ -121,7 +121,7 @@
         .news-item {
             background: #fff;
             -webkit-box-shadow: 0px 0px 1px #e7e7e7 !important;
-            box-shadow: 0px 0px 1px #ebebeb !important;
+            box-shadow: 0px 0px 1px #f3f3f3 !important;
             border: 1px solid #e7e7e7;
             overflow: hidden;
         }

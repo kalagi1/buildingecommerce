@@ -55,9 +55,9 @@
     background-color: #f5f5f5; }
     .fr-modal .fr-modal-head .fr-modal-tags a:focus {
       outline: none;
-      background-color: #ebebeb; }
+      background-color: #f3f3f3; }
     .fr-modal .fr-modal-head .fr-modal-tags a:hover {
-      background-color: #ebebeb; }
+      background-color: #f3f3f3; }
     .fr-modal .fr-modal-head .fr-modal-tags a:active {
       background-color: #d6d6d6; }
     .fr-modal .fr-modal-head .fr-modal-tags a.fr-selected-tag {
@@ -65,9 +65,9 @@
       color: #0098f7; }
       .fr-modal .fr-modal-head .fr-modal-tags a.fr-selected-tag:focus {
         outline: none;
-        background-color: #ebebeb; }
+        background-color: #f3f3f3; }
       .fr-modal .fr-modal-head .fr-modal-tags a.fr-selected-tag:hover {
-        background-color: #ebebeb; }
+        background-color: #f3f3f3; }
       .fr-modal .fr-modal-head .fr-modal-tags a.fr-selected-tag:active {
         background-color: #d6d6d6; }
 
@@ -233,4 +233,4 @@ div.fr-modal-body {
   background: #bf4644;
   color: #FFF; }
 .fr-desktop .fr-modal-wrapper div.fr-modal-body div.fr-image-list div.fr-image-container .fr-insert-img:hover {
-  background: #ebebeb; }
+  background: #f3f3f3; }

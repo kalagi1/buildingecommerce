@@ -286,7 +286,7 @@ button {
   margin: 10px;
   width: 150px;
   height: 100px;
-  border: 1px solid #ebebeb;
+  border: 1px solid #f3f3f3;
 }
 
 .situation_imagex img {
@@ -308,7 +308,7 @@ button {
   width: 150px;
   height: 100px;
 
-  border: 1px solid #ebebeb;
+  border: 1px solid #f3f3f3;
 }
 
 .mbb {
@@ -1807,7 +1807,7 @@ section.recently.portfolio {
 
 .recently .footer {
   background: none;
-  border-top: 1px solid #ebebeb;
+  border-top: 1px solid #f3f3f3;
   padding-top: 1rem;
   font-size: 11px;
   color: #666;
@@ -2096,7 +2096,7 @@ section.recently.portfolio {
 
 .hp1 .request .form-control {
   background: #fff;
-  border: 1px solid #ebebeb;
+  border: 1px solid #f3f3f3;
 }
 
 .hp1 .request .contact-form input[type="text"] {
@@ -3053,7 +3053,7 @@ section.services-home {
 .homepage-9 .small-category-2 {
   background: #fff;
   border-radius: 8px;
-  border: 1px solid #ebebeb;
+  border: 1px solid #f3f3f3;
   overflow: hidden;
   margin-bottom: 20px;
   padding: 0px;
@@ -5968,7 +5968,7 @@ element.style {
   padding: 0 15px;
   border-radius: 3px;
   border: none;
-  border: 1px solid #ebebeb;
+  border: 1px solid #f3f3f3;
   -webkit-box-shadow: none;
   box-shadow: none;
   color: #757575;
@@ -8545,7 +8545,7 @@ html input[disabled] {
   margin-bottom: 0px;
   border-radius: 3px;
   margin-right: 15px;
-  border: 1px solid #ebebeb;
+  border: 1px solid #f3f3f3;
   -webkit-box-shadow: 0px 0px 0px 8px rgba(255, 255, 255, 0.2);
   box-shadow: 0px 0px 0px 8px rgba(255, 255, 255, 0.2);
 }
@@ -8789,7 +8789,7 @@ a.button {
 
 .hp-6 .rld-single-input input {
   width: 255px;
-  border: 1px solid #ebebeb;
+  border: 1px solid #f3f3f3;
   margin-right: 15px;
 }
 
@@ -8803,7 +8803,7 @@ a.button {
   border-radius: 3px;
   line-height: 47px;
   margin: 0 15px 0 15px;
-  border: 1px solid #ebebeb;
+  border: 1px solid #f3f3f3;
   width: 150px;
   position: relative;
 }
@@ -8849,7 +8849,7 @@ a.button {
 }
 
 .hp-6 .parallax-searchs .form-group .nice-select {
-  border: 1px solid #ebebeb;
+  border: 1px solid #f3f3f3;
 }
 
 .homepage-9.hp-6 .google-maps input,
@@ -9064,7 +9064,7 @@ a.button {
 }
 
 #header-container {
-  border-bottom: 1px solid #dee2e6 !important;
+  border-bottom: 1px solid #f3f3f3 !important;
 }
 
 #header-container .container {
@@ -16285,7 +16285,7 @@ a.button {
 
 .homepage-24 .request .form-control {
   background: #fff;
-  border: 1px solid #ebebeb;
+  border: 1px solid #f3f3f3;
 }
 
 .homepage-24 .request .contact-form textarea {
@@ -16517,7 +16517,7 @@ a.button {
 }
 
 .inner-pages.hp-6.full .form-group .nice-select {
-  border: 1px solid #ebebeb;
+  border: 1px solid #f3f3f3;
 }
 
 .inner-pages.hp-6.full .tab-content>.active {
@@ -21320,9 +21320,9 @@ body.dashboard-bd {
 }
 
 .my-properties tbody tr td {
-  border-top: none;
   text-align: center !important;
   border-bottom: 1px solid #f3f3f3;
+  border-top: 1px solid #f3f3f3;
   padding: 15px 20px 15px 20px;
   vertical-align: middle;
   font-size: 11px;
@@ -25942,7 +25942,7 @@ h5.uppercase {
 }
 
 .bg-secondary .accordion-1 .title {
-  background: #ebebeb;
+  background: #f3f3f3;
 }
 
 .bg-secondary .accordion-1 .title:hover {
@@ -27956,7 +27956,7 @@ h4 {
 
 .loginItems .login-content {
   background: #fff;
-  border: 1px solid #ebebeb;
+  border: 1px solid #f3f3f3;
   width: 100%;
   padding: 0 5rem;
 }

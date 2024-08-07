@@ -395,7 +395,7 @@ if (infoElement) {
             list-style-type: none;
             padding: 0;
             margin: 0;
-            background: #ebebeb !important;
+            background: #f3f3f3 !important;
         }
 
         .kategori {

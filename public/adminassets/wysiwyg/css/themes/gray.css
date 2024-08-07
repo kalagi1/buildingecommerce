@@ -631,7 +631,7 @@
 .gray-theme.fr-modal .fr-modal-wrapper .fr-modal-body .fr-help-modal table tr {
   border: 0; }
 .gray-theme.fr-modal .fr-modal-wrapper .fr-modal-body .fr-help-modal table tbody tr {
-  border-bottom: solid 1px #ebebeb; }
+  border-bottom: solid 1px #f3f3f3; }
 .gray-theme.fr-modal .fr-modal-wrapper .fr-modal-body .fr-help-modal table tbody td:first-child {
   color: #737e84; }
 .gray-theme .fr-element img {
@@ -1812,7 +1812,7 @@
       .gray-theme.fr-popup .fr-icon-container {
         width: 236px; } }
   .gray-theme.fr-popup .fr-input-focus {
-    background: #ebebeb; }
+    background: #f3f3f3; }
   .gray-theme.fr-popup.fr-above {
     border-top: 0; }
   .gray-theme.fr-popup .fr-input-line {
@@ -2135,7 +2135,7 @@
     -webkit-background-clip: padding-box;
     background-clip: padding-box; }
 .gray-theme .fr-separator {
-  background: #ebebeb; }
+  background: #f3f3f3; }
   .gray-theme .fr-separator.fr-vs {
     height: 32px;
     width: 1px;

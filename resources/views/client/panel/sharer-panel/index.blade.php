@@ -336,7 +336,7 @@
         }
 
         .border {
-            border: 1px solid #dee2e6 !important;
+            border: 1px solid #f3f3f3 !important;
         }
 
         .homes-content .row {

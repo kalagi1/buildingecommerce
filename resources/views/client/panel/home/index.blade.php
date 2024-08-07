@@ -84,7 +84,7 @@
                                                 style="font-size: 15px ; font-weight: 500; flex:1; margin-left: 15px;">
                                                 Toplam İlan Sayısı </div>
                                             <div class="rounded bg-white text-dark p-2 d-flex align-items-center justify-content-center "
-                                                style="font-size: 18px ; font-weight: 600; border: 1px solid #EBEBEB; width: 50px">
+                                                style="font-size: 18px ; font-weight: 600; border: 1px solid #f3f3f3; width: 50px">
                                                 {{ $pendingJobs['totalListingCount'] }}
                                             </div>
                                         </div>
@@ -101,7 +101,7 @@
                                                 style="font-size: 15px ; font-weight: 500; flex:1; margin-left: 15px;">
                                                 Onay Bekleyen İlanlar </div>
                                             <div class="rounded bg-white text-dark p-2 d-flex align-items-center justify-content-center "
-                                                style="font-size: 18px ; font-weight: 600; border: 1px solid #EBEBEB; width: 50px">
+                                                style="font-size: 18px ; font-weight: 600; border: 1px solid #f3f3f3; width: 50px">
                                                 {{ $pendingJobs['listingsPendingApprovalCount'] }}
                                             </div>
                                         </div>
@@ -117,7 +117,7 @@
                                                 style="font-size: 15px ; font-weight: 500; flex:1; margin-left: 15px;">
                                                 Aktif İlanlar </div>
                                             <div class="rounded bg-white text-dark p-2 d-flex align-items-center justify-content-center "
-                                                style="font-size: 18px ; font-weight: 600; border: 1px solid #EBEBEB; width: 50px">
+                                                style="font-size: 18px ; font-weight: 600; border: 1px solid #f3f3f3; width: 50px">
                                                 {{ $pendingJobs['activeListingsCount'] }}
                                             </div>
                                         </div>
@@ -133,7 +133,7 @@
                                                 style="font-size: 15px ; font-weight: 500; flex:1; margin-left: 15px;">
                                                 Askıya Alınan İlanlar </div>
                                             <div class="rounded bg-white text-dark p-2 d-flex align-items-center justify-content-center "
-                                                style="font-size: 18px ; font-weight: 600; border: 1px solid #EBEBEB; width: 50px">
+                                                style="font-size: 18px ; font-weight: 600; border: 1px solid #f3f3f3; width: 50px">
                                                 {{ $pendingJobs['listingsSuspended'] }}
                                             </div>
                                         </div>
@@ -149,7 +149,7 @@
                                                 style="font-size: 15px ; font-weight: 500; flex:1; margin-left: 15px;">
                                                 Koleksiyon Sayısı </div>
                                             <div class="rounded bg-white text-dark p-2 d-flex align-items-center justify-content-center "
-                                                style="font-size: 18px ; font-weight: 600; border: 1px solid #EBEBEB; width: 50px">
+                                                style="font-size: 18px ; font-weight: 600; border: 1px solid #f3f3f3; width: 50px">
                                                 {{ $pendingJobs['CollectionCount'] }}
                                             </div>
                                         </div>
@@ -166,7 +166,7 @@
                                                     style="font-size: 15px ; font-weight: 500; flex:1; margin-left: 15px;">
                                                     Alt Çalışan Sayısı</div>
                                                 <div class="rounded bg-white text-dark p-2 d-flex align-items-center justify-content-center "
-                                                    style="font-size: 18px ; font-weight: 600; border: 1px solid #EBEBEB; width: 50px">
+                                                    style="font-size: 18px ; font-weight: 600; border: 1px solid #f3f3f3; width: 50px">
                                                     {{ $pendingJobs['SubordinateCount'] }}
                                                 </div>
                                             </div>
@@ -183,7 +183,7 @@
                                             style="font-size: 15px ; font-weight: 500; flex:1; margin-left: 15px;">
                                             Tek Ürün Siparişleri </div>
                                         <div class="rounded bg-white text-dark p-2 d-flex align-items-center justify-content-center "
-                                            style="font-size: 18px ; font-weight: 600; border: 1px solid #EBEBEB; width: 50px">
+                                            style="font-size: 18px ; font-weight: 600; border: 1px solid #f3f3f3; width: 50px">
                                             0
                                         </div>
                                     </div> --}}
@@ -198,7 +198,7 @@
                                                 style="font-size: 15px ; font-weight: 500; flex:1; margin-left: 15px;">
                                                 Pazar Teklifileri </div>
                                             <div class="rounded bg-white text-dark p-2 d-flex align-items-center justify-content-center "
-                                                style="font-size: 18px ; font-weight: 600; border: 1px solid #EBEBEB; width: 50px">
+                                                style="font-size: 18px ; font-weight: 600; border: 1px solid #f3f3f3; width: 50px">
                                                 {{ $pendingJobs['marketOffers'] }}
                                             </div>
                                         </div>

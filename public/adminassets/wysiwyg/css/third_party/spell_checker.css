@@ -49,7 +49,7 @@ div.sc-cm-holder.sc-cm_show > ul > li.sc-cm__item.sc-cm__item_dropdown.sc-cm__it
   padding: 0 !important; }
 
 .sc-cm__item_dropdown:hover > a, .sc-cm a:hover {
-  background-color: #ebebeb !important; }
+  background-color: #f3f3f3 !important; }
 
 .sc-cm__item_active > a, .sc-cm__item_active > a:hover, .sc-cm a:active, .sc-cm a:focus {
   background-color: #d6d6d6 !important; }
@@ -58,7 +58,7 @@ div.sc-cm-holder.sc-cm_show > ul > li.sc-cm__item.sc-cm__item_dropdown.sc-cm__it
   line-height: 200% !important; }
 
 .sc-cm-holder > .sc-cm:before {
-  background-color: #ebebeb !important; }
+  background-color: #f3f3f3 !important; }
 
 .sc-cm-holder {
   display: none; }

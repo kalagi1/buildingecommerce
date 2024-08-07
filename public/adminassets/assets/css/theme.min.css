@@ -43204,12 +43204,12 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .order-detail-inner{
-    border: 1px solid #ebebeb !important;
+    border: 1px solid #f3f3f3 !important;
 }
 
 .order-detail-inner .title{
     display: flex;
-    border-bottom:1px solid #ebebeb !important;
+    border-bottom:1px solid #f3f3f3 !important;
     padding-bottom: 10px;
 }
 
@@ -43218,7 +43218,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .order-detail-product{
-    border: 1px solid #ebebeb !important;
+    border: 1px solid #f3f3f3 !important;
 }
 
 .order-detail-product .product-info{
@@ -43249,11 +43249,11 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .order-detail-product-2{
-    border-top: 1px solid #ebebeb !important;
+    border-top: 1px solid #f3f3f3 !important;
 }
 
 .product-order-card{
-    border: 1px solid #ebebeb !important;
+    border: 1px solid #f3f3f3 !important;
 }
 
 .product-order-card{
@@ -43265,7 +43265,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .border-line{
-    border-top: 1px solid #ebebeb !important;
+    border-top: 1px solid #f3f3f3 !important;
     height: 1px;
     width: 100%;
 }
@@ -43300,7 +43300,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .dec-pay-area{
-    border: 1px solid #ebebeb;
+    border: 1px solid #f3f3f3;
     padding: 10px;
 }
 
@@ -43633,7 +43633,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .dec-pay-area {
-    border: 1px solid #ebebeb;
+    border: 1px solid #f3f3f3;
     padding: 10px;
 }
 

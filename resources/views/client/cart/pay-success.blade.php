@@ -170,7 +170,7 @@
         }
 
         .bg-congrat-style {
-            border: 1px solid #ebebeb;
+            border: 1px solid #f3f3f3;
             padding-bottom: 20px;
             margin: 50px auto;
             width: 40%

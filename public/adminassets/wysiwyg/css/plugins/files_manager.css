@@ -55,7 +55,7 @@
   background-color: #eff5fa;
   outline: none; }
   .fr-trim-button:hover {
-    background: #ebebeb; }
+    background: #f3f3f3; }
 
 /* Safari */
 @-webkit-keyframes spin {
@@ -175,9 +175,9 @@
   text-align: center;
   width: calc(100% - 40px) !important; }
   .fr-popup .fr-files-upload-layer:hover {
-    background: #ebebeb; }
+    background: #f3f3f3; }
   .fr-popup .fr-files-upload-layer.fr-drop {
-    background: #ebebeb;
+    background: #f3f3f3;
     border-color: #0098f7; }
   .fr-popup .fr-files-upload-layer .fr-form {
     -webkit-opacity: 0;
