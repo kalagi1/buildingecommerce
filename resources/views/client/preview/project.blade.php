@@ -98,8 +98,8 @@
             background: transparent;
             color: green;
             /* margin-bottom: 10px; */
+            padding: 10px 0;
             /* margin-top: 10px; */
-            width: 100%;
 
         }
 

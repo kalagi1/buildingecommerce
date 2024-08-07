@@ -212,36 +212,10 @@
                         @if (
                             (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
                                 (Auth::check() && Auth::user()->type == '1'))
-                            <section class="overflow-hidden">
-                                <div class="container">
-                                    <div class="row align-items-center justify-content-center border-radius-8px p-4 xs-p-7 text-center text-lg-start g-0 cover-background skrollable skrollable-between"
-                                        style="background-image: url(https://craftohtml.themezaa.com/images/demo-hosting-home-03.jpg); transform: scale(1.0601, 1.0601) translateY(6.06272px);"
-                                        data-bottom-top="transform:scale(1.1, 1.1) translateY(30px);"
-                                        data-top-bottom="transform:scale(1.0, 1.0) translateY(-30px);">
-                                        <div class="col-lg-12 col-md-12 md-mb-10px icon-with-text-style-08">
-                                            <div class="feature-box feature-box-left-icon-middle overflow-hidden">
-                                                <div
-                                                    class="feature-box-icon feature-box-icon-rounded w-100px h-100px rounded-circle border border-2 border-color-transparent-white-light me-30px xs-me-25px">
-                                                    <svg viewBox="0 0 24 24" width="24" height="24"
-                                                        stroke="currentColor" stroke-width="2" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                        class="css-i6dzq1">
-                                                        <rect x="1" y="4" width="22" height="16"
-                                                            rx="2" ry="2"></rect>
-                                                        <line x1="1" y1="10" x2="23"
-                                                            y2="10"></line>
-                                                    </svg>
-                                                </div>
-                                                <div class="feature-box-content last-paragraph-no-margin">
-                                                    <h5 class="d-inline-block fw-600 text-white mb-0 textAlert">Are you ready for
-                                                        a better productive business?</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                            <span class="textAlert" style="width: 100%"></span>
+                            <span class="textAlert"
+                                style="width: 100%;
+    display: block;
+    padding: 0 0 10px 0;"></span>
                         @endif
                     </div>
 
@@ -378,16 +352,6 @@
         padding: 10px;
         font-weight: bold;
     }
-    .feature-box.feature-box-left-icon-middle {
-    -webkit-flex-flow: row wrap;
-    -ms-flex-flow: row wrap;
-    -webkit-box-align: center !important;
-    -ms-flex-align: center !important;
-    align-items: center !important;
-    -ms-flex-pack: center;
-    justify-content: flex-start;
-    text-align: left;
-}
 
     .accordion .content {
         padding: 10px;

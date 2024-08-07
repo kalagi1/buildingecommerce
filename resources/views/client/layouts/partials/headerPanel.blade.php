@@ -122,7 +122,7 @@
             color: green;
             /* margin-bottom: 10px; */
             /* margin-top: 10px; */
-            width: 100%;
+            padding: 10px 0;
 
         }
 
