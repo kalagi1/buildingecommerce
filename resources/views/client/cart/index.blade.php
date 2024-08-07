@@ -299,128 +299,127 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
 
                 <div class="col-md-4 mt-5">
                     <div class="tr-single-box mb-0" style="background: white !important;">
-                        <div class="tr-single-body">
-                            <div class="tr-single-header pb-3 mb-3">
-                                <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
-                            </div>
-                            <div class="booking-price-detail side-list no-border mb-3">
-                                @if (!$cart || empty($cart['item']))
-                                    <ul>
-                                        <li>Toplam Fiyat<strong class="pull-right">00.00TL</strong></li>
+                        <div class="tr-single-header pb-3 mb-3">
+                            <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
+                        </div>
+                        <div class="booking-price-detail side-list no-border mb-3">
+                            @if (!$cart || empty($cart['item']))
+                                <ul>
+                                    <li>Toplam Fiyat<strong class="pull-right">00.00TL</strong></li>
+                                    <hr>
+                                </ul>
+                            @else
+                                <ul>
+                                    <li>İlan Fiyatı<strong class="pull-right">
+                                            {{ number_format($cart['item']['amount'], 0, ',', '.') }} TL</strong></li>
+                                    <hr>
+                                    @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
+                                        <li style="color:#EC2F2E">Mağaza İndirimi :
+                                            <strong class="pull-right">
+                                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                                    stroke-width="2" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round" class="css-i6dzq1">
+                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                    <polyline points="17 18 23 18 23 12"></polyline>
+                                                </svg>
+                                                <span style="margin-left: 2px">
+                                                    {{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }}
+                                                    ₺
+                                                </span>
+                                            </strong>
+                                        </li>
                                         <hr>
-                                    </ul>
-                                @else
-                                    <ul>
-                                        <li>İlan Fiyatı<strong class="pull-right">
-                                                {{ number_format($cart['item']['amount'], 0, ',', '.') }} TL</strong></li>
-                                                <hr>
-                                        @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
-                                            <li style="color:#EC2F2E">Mağaza İndirimi :
-                                                <strong class="pull-right">
-                                                    <svg viewBox="0 0 24 24" width="18" height="18"
-                                                        stroke="currentColor" stroke-width="2" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                        <polyline points="17 18 23 18 23 12"></polyline>
-                                                    </svg>
-                                                    <span style="margin-left: 2px">
-                                                        {{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }}
-                                                        ₺
-                                                    </span>
-                                                </strong>
-                                            </li>
-                                            <hr>
-                                        @endif
+                                    @endif
 
-                                        @if (isset($discountRate) && $discountRate != '0')
-                                            <li style="color:#EC2F2E">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
-                                                    <svg viewBox="0 0 24 24" width="18" height="18"
-                                                        stroke="currentColor" stroke-width="2" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                        <polyline points="17 18 23 18 23 12"></polyline>
-                                                    </svg>
-                                                    <span style="margin-left: 2px">{{ $discountRate }}
-                                                        % </span></strong></li>
-                                                        <hr>
-                                        @endif
-                                        <li>Toplam Fiyat<strong class="pull-right">
-                                                {{ number_format($discountedPrice, 0, ',', '.') }}
+                                    @if (isset($discountRate) && $discountRate != '0')
+                                        <li style="color:#EC2F2E">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
+                                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                                    stroke-width="2" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round" class="css-i6dzq1">
+                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                    <polyline points="17 18 23 18 23 12"></polyline>
+                                                </svg>
+                                                <span style="margin-left: 2px">{{ $discountRate }}
+                                                    % </span></strong></li>
+                                        <hr>
+                                    @endif
+                                    <li>Toplam Fiyat<strong class="pull-right">
+                                            {{ number_format($discountedPrice, 0, ',', '.') }}
 
-                                                TL</strong></li>
-<hr>
+                                            TL</strong></li>
+                                    <hr>
 
 
-                                        {{-- @if ($saleType == 'kiralik')
+                                    {{-- @if ($saleType == 'kiralik')
                                                 <li>Bir Kira Kapora :<strong class="pull-right">{{ number_format($discountedPrice, 0, ',', '.') }} TL</strong></li>
                                             @else
                                                 <li>%{{ $discount_percent }} Kapora :<strong class="pull-right">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }} TL</strong></li>
                                             @endif
                                              --}}
-                                        @php
-                                            $kapora =
-                                                $saleType == 'kiralik'
-                                                    ? $discountedPrice
-                                                    : $discountedPrice * $deposit_rate;
-                                            $hizmet_bedeli = $kapora * 0.1;
-                                            $net_kapora = $kapora - $hizmet_bedeli;
-                                        @endphp
+                                    @php
+                                        $kapora =
+                                            $saleType == 'kiralik'
+                                                ? $discountedPrice
+                                                : $discountedPrice * $deposit_rate;
+                                        $hizmet_bedeli = $kapora * 0.1;
+                                        $net_kapora = $kapora - $hizmet_bedeli;
+                                    @endphp
 
-                                            <li> Güvenli Kapora Bedeli :<strong
-                                                    class="pull-right">{{ number_format($kapora, 0, ',', '.') }}
-                                                    TL</strong></li>
-                                                    
+                                    <li> Güvenli Kapora Bedeli :<strong
+                                            class="pull-right">{{ number_format($kapora, 0, ',', '.') }}
+                                            TL</strong></li>
 
-                                            {{-- <li>Hizmet Bedeli :<strong
+
+                                    {{-- <li>Hizmet Bedeli :<strong
                                                     class="pull-right">{{ number_format($hizmet_bedeli, 0, ',', '.') }}
                                                     TL</strong></li> --}}
-                                            {{-- <span class="text-muted" style="color:#EC2F2E !important;">Hizmet bedeli, kapora
+                                    {{-- <span class="text-muted" style="color:#EC2F2E !important;">Hizmet bedeli, kapora
                                                 tutarının %10'u olarak hesaplanmıştır.</span> --}}
-                                    
 
 
-                                    </ul>
-                                @endif
-                            </div>
-                            <div class="coupon-cart-area mb-3">
+
+                                </ul>
+                            @endif
+                        </div>
+                        {{-- <div class="coupon-cart-area mb-3">
                                 <div class="d-flex">
                                     <input type="text" placeholder="İndirim Kupon Kodu" style="height: 40px;"
                                         class="form-control coupon-code">
                                     <button class="btn btn-primary coupon-apply">Uygula</button>
                                 </div>
-                            </div>
-                            @if (!$cart || empty($cart['item']))
-                                <button type="button" class="btn btn-primary btn-lg btn-block"
-                                    style="font-size: 11px;margin: 0 auto;"
-                                    onclick="window.location.href='{{ route('index') }}'">
-                                    Alışverişe Devam Et
-                                </button>
+                            </div> --}}
+                        @if (!$cart || empty($cart['item']))
+                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                                style="font-size: 11px;margin: 0 auto;"
+                                onclick="window.location.href='{{ route('index') }}'">
+                                Alışverişe Devam Et
+                            </button>
+                        @else
+                            @if ($saleType == 'kiralik')
+                                <a href="{{ route('payment.index') }}"
+                                    class="btn btn-primary btn-lg btn-block paymentButton button-price"
+                                    style="height: 50px !important;font-size: 11px;margin: 0 auto;">
+                                    <span
+                                        class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
+                                    TL <br> ÖDEME YAP
+                                </a>
                             @else
-                                @if ($saleType == 'kiralik')
-                                    <a href="{{ route('payment.index') }}"
-                                        class="btn btn-primary btn-lg btn-block paymentButton button-price"
-                                        style="height: 50px !important;font-size: 11px;margin: 0 auto;">
-                                        <span
-                                            class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
-                                        TL <br> ÖDEME YAP
-                                    </a>
-                                @else
-                                    <a href="{{ route('payment.index') }}"
-                                        class="btn btn-primary btn-lg btn-block paymentButton button-price"
-                                        style="height: 50px !important;font-size: 11px;margin: 0 auto;">
-                                        <span
-                                            class="button-price-inner">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}</span>
-                                        TL <br>  ÖDEME YAP
-                                    </a>
-                                @endif
+                                <a href="{{ route('payment.index') }}"
+                                    class="btn btn-primary btn-lg btn-block paymentButton button-price"
+                                    style="height: 50px !important;font-size: 11px;margin: 0 auto;">
+                                    <span
+                                        class="button-price-inner">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}</span>
+                                    TL <br> ÖDEME YAP
+                                </a>
                             @endif
+                        @endif
 
 
 
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
         </div>
