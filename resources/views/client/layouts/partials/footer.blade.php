@@ -927,7 +927,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
-                            window.location.href = '/login'; // Giriş sayfanızın URL'sini buraya koyun
+                            window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
                         }
                     });
 
@@ -943,7 +943,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
-                            window.location.href = '/login'; // Giriş sayfanızın URL'sini buraya koyun
+                            window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
                         }
                     });
                 }
@@ -960,7 +960,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
-                        window.location.href = '/login'; // Giriş sayfanızın URL'sini buraya koyun
+                        window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
                     }
                 });
             }

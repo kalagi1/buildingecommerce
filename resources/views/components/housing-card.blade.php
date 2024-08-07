@@ -264,7 +264,7 @@ $formattedAddress = implode(' / ', $addressParts);
                                 @endif
                             </button>
                         @else
-                            @if (checkIfUserCanAddToCart($housing->id))
+                            @if ((checkIfUserCanAddToCart($housing->id) && Auth::check()) || !Auth::check())
                                 <button class="CartBtn" data-type='housing' data-id='{{ $housing->id }}'>
                                     <span class="IconContainer">
                                         <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
@@ -272,7 +272,7 @@ $formattedAddress = implode(' / ', $addressParts);
                                     </span>
                                     <span class="text">Sepete Ekle</span>
                                 </button>
-                            @else
+                            @elseif (!checkIfUserCanAddToCart($housing->id) && Auth::check())
                                 <a href="{{ route('institutional.housing.edit', ['id' => hash_id($housing->id)]) }}"
                                     class="btn btn-success"
                                     style="width: 100%;

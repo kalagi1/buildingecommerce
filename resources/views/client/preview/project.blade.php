@@ -1044,6 +1044,8 @@
     $('body').on('click', '.payment-plan-button', function(event) {
         var order = $(this).attr('order');
         var block = $(this).data("block");
+        var message = $(this).data("message");
+
         var paymentOrder = $(this).data("payment-order");
         var soldStatus = $(this).data('sold');
 
@@ -1069,7 +1071,63 @@
             return a;
 
         }
-        if (soldStatus == "1") {
+
+        var userCheck = {!! auth()->user() ? json_encode(auth()->user()->id) : 0 !!};
+
+
+        if (userCheck == 0) {
+            if (message) {
+                if (message == "approve") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Uyarı',
+                        text: 'Projeye teklif göndermek için lütfen giriş yapınız.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Giriş Yap',
+                        cancelButtonText: 'Kapat',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                            window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                        }
+                    });
+
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Uyarı',
+                        text: 'Projeye başvurmak için lütfen giriş yapınız.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Giriş Yap',
+                        cancelButtonText: 'Kapat',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                            window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                        }
+                    });
+                }
+
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Uyarı',
+                    text: 'Ödeme detayını görüntülemek için lütfen giriş yapınız.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Giriş Yap',
+                    cancelButtonText: 'Kapat',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                        window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                    }
+                });
+            }
+
+        } else if (soldStatus == "1") {
             Swal.fire({
                 icon: 'warning',
                 title: 'Uyarı',
@@ -1133,6 +1191,24 @@
                                 "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
                             ]
                             orderHousing = parseInt(order);
+                            var userTypeOne = {!! auth()->user() ? json_encode(auth()->user()->type) : 0 !!};
+
+                            if (getDataJS(response, "discount_rate[]",
+                                    response.room_info[i].room_order) && userTypeOne == 1) {
+                                html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
+                                    "' style='background-color: green !important;color:white;font-weight: 100'>" +
+                                    "<th style='text-align:center' class='paymentTableTitle' colspan='" +
+                                    (4 + parseInt(getDataJS(response, "pay-dec-count" +
+                                        orderHousing, response.room_info[i].room_order), 10)) +
+                                    "'>" +
+                                    "EN YAKIN EMLAK OFİSİNİN KOLEKSİYONU İLE BU İLANI SATIN ALIRSANIZ, %" +
+                                    (getDataJS(response, "discount_rate[]", response.room_info[i]
+                                        .room_order)) +
+                                    " ORANINDA İNDİRİM KAZANIRSINIZ." +
+                                    "</th></tr>";
+
+
+                            }
 
                             html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
                                 "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" +
@@ -1141,6 +1217,14 @@
                                 .project_title +
                                 " Projesinde " + block + " " + paymentOrder +
                                 " No'lu İlan Ödeme Planı</th></tr>";
+
+                            $(".pop-up-top-gradient .left h3").html(
+                                response
+                                .project_title +
+                                " Projesinde " + block + " " + paymentOrder +
+                                " No'lu İlan Ödeme Planı"
+                            )
+
 
 
                             for (var j = 0; j < paymentPlanData.length; j++) {
@@ -1158,7 +1242,7 @@
 
 
                                         var projectedEarningsData = "";
-                                            var ongKiraData = "";
+                                        var ongKiraData = "";
 
                                         var projectedEarnings = getDataJS(response,
                                             "projected_earnings[]", response.room_info[i]
@@ -1182,6 +1266,7 @@
 
                                         projectedEarningsData += projectedEarningsHTML;
                                         ongKiraData += ongKiraHTML;
+
                                     } else {
 
 
@@ -1211,7 +1296,8 @@
                                                             .room_info[i].room_order)) -
                                                     parseFloat(getDataJS(response,
                                                         "advance[]", response.room_info[
-                                                            i].room_order)) - payDecPrice) /
+                                                            i].room_order)) - (payDecPrice *
+                                                        numberOfShares)) /
                                                 parseInt(installementData)) / numberOfShares) +
                                             "₺" : formatPrice((parseFloat(getDataJS(
                                                         response,
@@ -1219,7 +1305,7 @@
                                                         .room_info[i].room_order)) -
                                                     parseFloat(getDataJS(response,
                                                         "advance[]", response.room_info[
-                                                            i].room_order)) - payDecPrice) /
+                                                            i].room_order)) - (payDecPrice)) /
                                                 parseInt(installementData)) + "₺";
                                     }
                                     var isMobile = window.innerWidth < 768;
@@ -1233,11 +1319,19 @@
                                             installementData +
                                             " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th>";
 
+
+
                                         for (var l = 1; l <= getDataJS(response,
                                                 "pay-dec-count" + (orderHousing), response
                                                 .room_info[i].room_order); l++) {
                                             html += "<th>" +
                                                 l + ". Ara Ödeme</th>";
+                                        }
+
+
+                                        if (ongKiraData) {
+                                            html += "<th></th>";
+
                                         }
 
                                         html += "</tr>";
@@ -1278,6 +1372,7 @@
                                                 html += "<td>" + projectedEarningsData + "</td>";
 
                                             }
+
 
                                             if (ongKiraData) {
                                                 html += "<td>" + ongKiraData + "</td>";
@@ -1346,32 +1441,47 @@
                                             if (getDataJS(response, "pay_desc_price" + (
                                                         orderHousing) + l, response.room_info[i]
                                                     .room_order)) {
-                                                payDecPrice += parseFloat(getDataJS(response,
-                                                    "pay_desc_price" + (orderHousing) +
-                                                    l,
-                                                    response.room_info[i].room_order));
+                                                payDecPrice += numberOfShares ? parseFloat(
+                                                        getDataJS(response,
+                                                            "pay_desc_price" + (orderHousing) +
+                                                            l,
+                                                            response.room_info[i].room_order)) /
+                                                    numberOfShares : parseFloat(getDataJS(response,
+                                                        "pay_desc_price" + (orderHousing) +
+                                                        l,
+                                                        response.room_info[i].room_order));
+                                                var payDecPrice2 = numberOfShares ? parseFloat(
+                                                        getDataJS(response,
+                                                            "pay_desc_price" + (orderHousing) +
+                                                            l,
+                                                            response.room_info[i].room_order)) /
+                                                    numberOfShares : parseFloat(getDataJS(response,
+                                                        "pay_desc_price" + (orderHousing) +
+                                                        l,
+                                                        response.room_info[i].room_order));
                                                 var payDescDate = new Date(getDataJS(response,
                                                     "pay_desc_date" + (orderHousing) +
                                                     l,
                                                     response.room_info[i].room_order));
-
+                                                console.log(payDecPrice);
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
                                                     html += "<td>" + (isMobile ? "<strong>" + (l +
                                                                 1) +
                                                             ". Ara Ödeme :</strong> <br>" :
                                                             "") +
-                                                        formatPrice(parseFloat(getDataJS(response,
-                                                            "pay_desc_price" + (
-                                                                orderHousing) + l, response
-                                                            .room_info[
-                                                                i]
-                                                            .room_order))) + "₺" +
+                                                        formatPrice(payDecPrice2) + "₺" +
                                                         (isMobile ? " <br>" : "<br>") +
                                                         (months[payDescDate.getMonth()] + ' ' +
                                                             payDescDate.getDate() + ', ' +
                                                             payDescDate
                                                             .getFullYear()) + "</td>";
+
+
+                                                    if (ongKiraData) {
+                                                        html += "<td></td>";
+
+                                                    }
                                                 } else {
                                                     html += null;
                                                 }
@@ -1388,6 +1498,7 @@
                                 tempPlans.push(paymentPlanData[j])
 
                             }
+
 
                             $('.payment-plan tbody').html(html);
 
