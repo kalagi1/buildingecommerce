@@ -299,10 +299,11 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
 
                 <div class="col-md-4 mt-5">
                     <div class="tr-single-box mb-0 p-4" style="background: #f7f7f7 !important;">
-                        <div class="tr-single-header pb-3 mb-3">
-                            <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
-                        </div>
+                       
                         <div class="booking-price-detail side-list no-border mb-3">
+                            <div class="tr-single-header pb-3 mb-3" style="border-bottom: none !important">
+                                <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
+                            </div>
                             @if (!$cart || empty($cart['item']))
                                 <ul>
                                     <li>Toplam Fiyat<strong class="pull-right">00.00TL</strong></li>
