@@ -1260,11 +1260,15 @@
                                     var payDecPrice = 0;
                                     if (getDataJS(response, "pay-dec-count" + (orderHousing),
                                             response.room_info[i].room_order)) {
-                                        html +=
-                                            "<tr><th style='background-color: #EEE !important;' colspan='3'>Ara Ödemeler</th></tr>";
+
                                         for (var l = 0; l < getDataJS(response, "pay-dec-count" + (
                                                     orderHousing), response.room_info[i]
                                                 .room_order); l++) {
+
+                                            if (l == 0) {
+                                                html +=
+                                                    "<tr><th style='background-color: #EEE !important;' colspan='3'>Ara Ödemeler</th></tr>";
+                                            }
 
                                             if (getDataJS(response, "pay_desc_price" + (
                                                         orderHousing) + l, response.room_info[i]
@@ -1278,7 +1282,6 @@
                                                     "pay_desc_date" + (orderHousing) + l,
                                                     response.room_info[i].room_order));
 
-                                                console.log(payDecPrice);
 
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
