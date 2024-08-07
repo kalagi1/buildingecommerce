@@ -689,13 +689,14 @@
                                         <ul>
                                             <li>Toplam Fiyat<strong class="pull-right">00.00
                                                     TL</strong></li>
+                                                    <hr>
                                         </ul>
                                     @else
                                         <ul>
                                             <li>İlan Fiyatı<strong class="pull-right">
                                                     {{ number_format($cart['item']['amount'], 0, ',', '.') }}
                                                     TL</strong></li>
-
+<hr>
                                             @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
                                                 <li style="color:#EC2F2E">Mağaza İndirimi :<strong class="pull-right">
                                                         <svg viewBox="0 0 24 24" width="18" height="18"
@@ -709,6 +710,7 @@
                                                         <span
                                                             style="margin-left: 2px">{{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }}
                                                             ₺ </span></strong></li>
+                                                            <hr>
                                             @endif
 
                                             @if (isset($discountRate) && $discountRate != '0')
@@ -724,22 +726,25 @@
                                                         </svg>
                                                         <span style="margin-left: 2px">{{ $discountRate }}
                                                             % </span></strong></li>
+                                                            <hr>
                                             @endif
                                             <li>Toplam Fiyat<strong class="pull-right">
                                                     {{ number_format($discountedPrice, 0, ',', '.') }}
 
                                                     TL</strong></li>
 
-
+<hr>
 
                                             @if ($saleType == 'kiralik')
                                                 <li>Bir Kira Kapora :<strong
                                                         class="pull-right ">{{ number_format($discountedPrice, 0, ',', '.') }}
                                                         TL</strong></li>
+                                                        <hr>
                                             @else
                                                 <li> %{{ $discount_percent }} Kapora:<strong
                                                         class="pull-right">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}
                                                         TL</strong></li>
+                                                        <hr>
                                             @endif
 
                                         </ul>
