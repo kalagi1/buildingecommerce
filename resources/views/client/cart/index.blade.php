@@ -252,9 +252,9 @@
                                                     $share_sale = json_decode($cart['item']['isShare'], true); // decode JSON string to array
                                                 } elseif (is_array($cart['item']['isShare'])) {
                                                     $share_sale = $cart['item']['isShare']; // it's already an array
-    }
-}
-$number_of_share = $cart['item']['numbershare'] ?? null;
+                                                    }
+                                                }
+                                                $number_of_share = $cart['item']['numbershare'] ?? null;
                                         @endphp
 
                                         <td>
@@ -295,6 +295,19 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="row mt-20px">
+                        <div class="col-xl-7 col-md-6">
+                        <div class="coupon-code-panel">
+                        <input type="text" class="bg-white border-radius-4px" placeholder="Coupon code">
+                        <a href="#" class="btn apply-coupon-btn fs-13 fw-600 text-uppercase">Apply</a>
+                        </div>
+                        </div>
+                        <div class="col-xl-5 col-md-6 text-center text-md-end sm-mt-15px">
+                        <a href="#" class="btn btn-small border-1 btn-round-edge btn-transparent-light-gray text-transform-none me-15px">Empty cart</a>
+                        <a href="#" class="btn btn-small border-1 btn-round-edge btn-transparent-light-gray text-transform-none">Update cart</a>
+                        </div>
+                        </div>
                 </div>
 
                 <div class="col-md-4 mt-5">
