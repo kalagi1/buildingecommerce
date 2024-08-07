@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="clearButtons">
+                        <div class="clearButtons" style="display: flex;width: 100%;justify-content: space-between;">
                             @if (isset($cart['item']))
                                 <button type="button" class="btn btn-close-cart remove-from-cart"
                                 style="background: transparent;padding: 10px;margin-right:5px;height: auto !important;color: black;font-size: 12px;border: 1px solid #f3f3f3;">
