@@ -1074,7 +1074,7 @@
                             )
                             var userCheck = {!! auth()->user() ? json_encode(auth()->user()) : 0 !!};
 
-                            if (userCheck) {
+                            if (userCheck != 0) {
                                 if (userCheck - > account_type == "Emlak Ofisi" && userCheck - >
                                     type == "2") {
                                     $(".textAlert").html(
