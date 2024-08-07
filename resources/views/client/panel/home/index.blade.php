@@ -473,7 +473,7 @@
                 {
                     name: 'Projeler',
                     data: {!! $monthlyCounts['countsProjects'] !!},
-                    color: '#007BFF' // İkinci veri seti için renk
+                    color: '#2f5f9e' // İkinci veri seti için renk
                 }
                 @endif
             ],
@@ -524,7 +524,7 @@
                         {
                             name: 'Proje Koleksiyonu',
                             data: {!! $monthlyCollectionCounts['countsProjects'] !!}, // Proje koleksiyon verileri  
-                            color: '#007BFF'
+                            color: '#2f5f9e'
                         }
                     @endif
                 ],

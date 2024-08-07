@@ -22,7 +22,7 @@
             font-family: 'Font Awesome 5 Free';
             font-weight: 900;
             margin-right: 10px;
-            color: #007bff; /* İkon rengi */
+            color: #2f5f9e; /* İkon rengi */
         }
 
         .load-area, .pop-up-v2, .pop-up-v3, .pop-up-v4, .bottom-housing-area, .content {

@@ -4,7 +4,7 @@
     bottom: 20px;
     right: 20px;
     font-size: 40px;
-    color: #007bff;
+    color: #2f5f9e;
     cursor: pointer;
     z-index: 1000;
     transition: color 0.3s;"

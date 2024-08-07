@@ -287,7 +287,7 @@
             }
             .info-icon {
                 font-size: 16px;
-                color: #007bff;
+                color: #2f5f9e;
                 cursor: pointer;
             }
 

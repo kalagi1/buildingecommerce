@@ -24,7 +24,7 @@
             padding: 10px 20px;
             font-size: 16px;
             color: #fff;
-            background-color: #007bff;
+            background-color: #2f5f9e;
             text-decoration: none;
             border-radius: 4px;
         }

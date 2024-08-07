@@ -443,7 +443,7 @@
                                                 @if (Auth::check() && Auth::user()->id == $project->user_id)
                                                 <div class="col-md-12 col-12 p-0 ml-3">
                                                     <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
-                                                        style="color:#007bff !important;cursor: pointer; ">
+                                                        style="color:#2f5f9e !important;cursor: pointer; ">
                                                         Fiyatı Güncelle
                                                     </a>
                                                 </div>

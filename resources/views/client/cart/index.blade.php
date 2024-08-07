@@ -664,7 +664,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
         }
 
         #loadingIndicator {
-            color: #007bff;
+            color: #2f5f9e;
         }
 
         .my-choose td {

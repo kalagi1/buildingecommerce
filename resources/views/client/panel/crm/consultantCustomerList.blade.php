@@ -2002,8 +2002,8 @@
         }
 
         .action-btn-blue {
-            background-color: #007bff;
-            border: 1px solid #007bff;
+            background-color: #2f5f9e;
+            border: 1px solid #2f5f9e;
             color: white;
             margin: 2px;
             padding: 5px 10px;
@@ -2016,10 +2016,10 @@
 
         .action-btn-blue:hover {
             background-color: white;
-            color: #007bff;
+            color: #2f5f9e;
         }
         .action-btn-blue:hover i {
-            color: #007bff;
+            color: #2f5f9e;
         }
 
         .btnSubmit{

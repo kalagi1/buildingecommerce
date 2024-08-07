@@ -844,7 +844,7 @@
                                             @if (Auth::check() && Auth::user()->id == $housing->user_id)
                                                 <div class="col-md-12 col-12 p-0 ml-3">
                                                     <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
-                                                        style="color:#007bff !important;cursor: pointer; ">
+                                                        style="color:#2f5f9e !important;cursor: pointer; ">
                                                         Fiyatı Güncelle
                                                     </a>
                                                 </div>
@@ -1978,7 +1978,7 @@
                                             class="float-right font-weight-bold">{{ $housing->title }} </span></li>
                                     <li class="list-group-item bg-light">İlan No: <span
                                             class="float-right font-weight-bold"
-                                            style="color:#007bff">{{ $housing->id + 2000000 }} </span></li>
+                                            style="color:#2f5f9e">{{ $housing->id + 2000000 }} </span></li>
                                     <li class="list-group-item bg-light">Rezervasyon Tarihi:<span
                                             class="float-right font-weight-bold">{{ date('d.m.Y') }}</span></li>
                                     <li class="list-group-item bg-light">Giriş Tarihi:<span
