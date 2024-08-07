@@ -82,7 +82,11 @@
         .notification-card.unread {
             background-color: #eff2f6;
         }
-
+        .btn-primary {
+  color: #fff;
+  background-color: #2f5f9e !important;
+  border-color: #2f5f9e !important;
+}
         #whatsappButton {
             height: 100% !important;
             background: transparent;
