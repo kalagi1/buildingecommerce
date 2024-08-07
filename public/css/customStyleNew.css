@@ -8993,6 +8993,7 @@ a.button {
   flex-wrap: nowrap;
   justify-content: space-between;
   width: 260px;
+  border-radius: 5px;
 }
 
 @media screen and (max-width: 991px) {
