@@ -928,7 +928,7 @@
                         if (result.isConfirmed) {
                             // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
                             window.location.href =
-                            '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                                '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
                         }
                     });
 
@@ -945,7 +945,7 @@
                         if (result.isConfirmed) {
                             // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
                             window.location.href =
-                            '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                                '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
                         }
                     });
                 }
@@ -1260,10 +1260,11 @@
                                     var payDecPrice = 0;
                                     if (getDataJS(response, "pay-dec-count" + (orderHousing),
                                             response.room_info[i].room_order)) {
-
+                                        html +=
+                                            "<tr style='background-color: #EEE !important;' colspan='3'>Ara Ödemeler</tr>";
                                         for (var l = 0; l < getDataJS(response, "pay-dec-count" + (
-                                                orderHousing), response.room_info[i]
-                                            .room_order); l++) {
+                                                    orderHousing), response.room_info[i]
+                                                .room_order); l++) {
 
                                             if (getDataJS(response, "pay_desc_price" + (
                                                         orderHousing) + l, response.room_info[i]
@@ -1281,7 +1282,7 @@
 
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
-                                                    html += "<tr style='background-color: #EEE !important;' colspan='3'>Ara Ödemeler</tr><tr>";
+                                                    html += "<tr>";
 
                                                     // Ara Ödeme
                                                     html += "<td>" + "<strong>" + (l + 1) +
@@ -1293,7 +1294,8 @@
 
                                                     // Tarih
                                                     html += "<td>" + (months[payDescDate
-                                                        .getMonth()] + ' ' + payDescDate.getDate() +
+                                                                .getMonth()] + ' ' + payDescDate
+                                                            .getDate() +
                                                             ', ' + payDescDate.getFullYear()) +
                                                         "</td>";
 
