@@ -1072,26 +1072,21 @@
                                 " Projesinde " + block + " " + paymentOrder +
                                 " No'lu İlan Ödeme Planı"
                             )
-                            var userCheck = {!! auth()->user() ? json_encode(auth()->user()) : 0 !!};
+                            var userCheck = {!! json_encode(auth()->user()) !!};
 
-                            if (userCheck != 0) {
-                                if (userCheck - > account_type == "Emlak Ofisi" && userCheck - >
-                                    type == "2") {
+                            if (userCheck) {
+                                if (userCheck.account_type === "Emlak Ofisi" && userCheck.type ===
+                                    "2") {
                                     $(".textAlert").html(
-                                        response
-                                        .project_title +
-                                        " Projesinde " + block + " " + paymentOrder +
-                                        " No'lu İlan Ödeme Planı"
-                                    )
-                                } else if (userCheck - > type == "1") {
+                                        response.project_title + " Projesinde " + block + " " +
+                                        paymentOrder + " No'lu İlan Ödeme Planı"
+                                    );
+                                } else if (userCheck.type === "1") {
                                     $(".textAlert").html(
-                                        response
-                                        .project_title +
-                                        " Projesinde " + block + " " + paymentOrder +
-                                        " No'lu İlan Ödeme Planı"
-                                    )
+                                        response.project_title + " Projesinde " + block + " " +
+                                        paymentOrder + " No'lu İlan Ödeme Planı"
+                                    );
                                 }
-
                             }
 
 
