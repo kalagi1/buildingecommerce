@@ -290,7 +290,10 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                 <a href="#" class="btn apply-coupon-btn fs-13 fw-600 text-uppercase">Uygula</a>
                             </div>
                         </div>
-                        <div class="col-xl-5 col-md-6 text-center text-md-end sm-mt-15px">
+                        <div class="col-xl-5 col-md-6 text-center text-md-end sm-mt-15px"
+                            style="    justify-content: end;
+    display: flex;
+    align-items: center;">
                             @if (isset($cart['item']))
                                 <button type="button" class="btn btn-close-cart remove-from-cart"
                                     style="background: transparent;padding: 10px;margin-right:5px;height: auto !important;color: black;font-size: 12px;border: 1px solid #f3f3f3;">
@@ -665,6 +668,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
 
 @section('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/feather-icons/dist/feather.css">
 
     <style>
         .error-message {
