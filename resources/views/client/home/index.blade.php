@@ -209,10 +209,11 @@
             @foreach ($dashboardStatuses as $key => $status)
                 <div
                     class="col-lg-2 col-md-6 col-sm-6 mb-3 mt-3 col-6 statusHome {{ $key == 0 ? 'd-none d-md-block' : '' }}">
-                    <a href="{{ url('kategori/' . $status->slug) }}">
-                        <button style="     color: #AB4208;
-    background-color: #FEF4EC;
-    border: 2px solid #FEF4EC;"
+                    <a href="{{ url('kategori/' . $status->slug) }}" style="width:100%;display:block">
+                        <button
+                            style="     color: #AB4208;
+                            background-color: #FEF4EC;
+                            border: 2px solid #FEF4EC;"
                             class="w-100">
                             {{ $status->name }}
                         </button>
