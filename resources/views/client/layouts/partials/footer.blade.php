@@ -188,7 +188,11 @@
             <table class="payment-plan table">
                 <div class="row align-items-center" style="width:100%;margin:0 auto">
                     <div class="col-md-8">
-                        <span class="textAlert" style="width: 100%"></span>
+                        @if (
+                            (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
+                                (Auth::check() && Auth::user()->type == '1'))
+                            <span class="textAlert alert alert-success" style="width: 100%"></span>
+                        @endif
                     </div>
                     <div class="col-md-4">
                         <a id="whatsappButton" class="btn btn-outline-light"><svg xmlns="http://www.w3.org/2000/svg"
