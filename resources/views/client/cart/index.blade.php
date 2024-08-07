@@ -300,18 +300,20 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                 <div class="col-md-4 mt-5">
                     <div class="tr-single-box mb-0" style="background: white !important;">
                         <div class="tr-single-body">
-                            <div class="tr-single-header pb-2" style="margin-bottom:10px !important;">
+                            <div class="tr-single-header pb-3 mb-3">
                                 <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
                             </div>
                             <div class="booking-price-detail side-list no-border mb-3">
                                 @if (!$cart || empty($cart['item']))
                                     <ul>
                                         <li>Toplam Fiyat<strong class="pull-right">00.00TL</strong></li>
+                                        <hr>
                                     </ul>
                                 @else
                                     <ul>
                                         <li>İlan Fiyatı<strong class="pull-right">
                                                 {{ number_format($cart['item']['amount'], 0, ',', '.') }} TL</strong></li>
+                                                <hr>
                                         @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
                                             <li style="color:#EC2F2E">Mağaza İndirimi :
                                                 <strong class="pull-right">
@@ -327,6 +329,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                                     </span>
                                                 </strong>
                                             </li>
+                                            <hr>
                                         @endif
 
                                         @if (isset($discountRate) && $discountRate != '0')
@@ -339,12 +342,13 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                                     </svg>
                                                     <span style="margin-left: 2px">{{ $discountRate }}
                                                         % </span></strong></li>
+                                                        <hr>
                                         @endif
                                         <li>Toplam Fiyat<strong class="pull-right">
                                                 {{ number_format($discountedPrice, 0, ',', '.') }}
 
                                                 TL</strong></li>
-
+<hr>
 
 
                                         {{-- @if ($saleType == 'kiralik')
