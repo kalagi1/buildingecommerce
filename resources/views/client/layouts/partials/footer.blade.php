@@ -907,7 +907,25 @@
             return a;
 
         }
-        if (soldStatus == "1") {
+
+        var userCheck = {!! auth()->check() !!};
+
+        if (!userCheck) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Uyarı',
+                text: 'Ödeme detayını görüntülemek için lütfen giriş yapınız.',
+                showCancelButton: true,
+                confirmButtonText: 'Giriş Yap',
+                cancelButtonText: 'Kapat',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                    window.location.href = '/login'; // Giriş sayfanızın URL'sini buraya koyun
+                }
+            });
+        } else if (soldStatus == "1") {
             Swal.fire({
                 icon: 'warning',
                 title: 'Uyarı',
