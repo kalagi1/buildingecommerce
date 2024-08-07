@@ -754,6 +754,31 @@
             align-items: center;
             justify-content: center;
         }
+        .coupon-code-panel input {
+    margin: 0;
+    border: none;
+    border: 1px dashed #e4e4e4;
+    padding: 8px 70px 9px 45px;
+    width: 100%;
+    position: relative;
+    font-size: 14px;
+}
+.coupon-code-panel, .quantity {
+    position: relative;
+}
+.coupon-code-panel .apply-coupon-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: var(--dark-gray);
+    line-height: 30px;
+    letter-spacing: 0;
+}
+
+
     </style>
 @endsection
 
