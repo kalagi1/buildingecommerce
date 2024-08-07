@@ -286,6 +286,15 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                     <div class="row mt-5">
                         <div class="col-xl-7 col-md-6">
                             <div class="coupon-code-panel">
+                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                    stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                    class="css-i6dzq1">
+                                    <circle cx="6" cy="6" r="3"></circle>
+                                    <circle cx="6" cy="18" r="3"></circle>
+                                    <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+                                    <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+                                    <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+                                </svg>
                                 <input type="text" class="bg-white border-radius-4px" placeholder="Kupon Kodu">
                                 <a href="#" class="btn apply-coupon-btn fs-13 fw-600 text-uppercase">Uygula</a>
                             </div>
@@ -346,9 +355,9 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
 
                                     @if (isset($discountRate) && $discountRate != '0')
                                         <li style="color:#EC2F2E">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
-                                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
-                                                    stroke-width="2" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round" class="css-i6dzq1">
+                                                <svg viewBox="0 0 24 24" width="18" height="18"
+                                                    stroke="currentColor" stroke-width="2" fill="none"
+                                                    stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                     <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                     <polyline points="17 18 23 18 23 12"></polyline>
                                                 </svg>
@@ -770,14 +779,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
             position: relative;
         }
 
-        .coupon-code-panel:before {
-            content: "\e8bf";
-            font-family: feather;
-            position: absolute;
-            left: 20px;
-            z-index: 2;
-            line-height: 50px;
-        }
+       
 
         .coupon-code-panel .apply-coupon-btn {
             position: absolute;
