@@ -1155,14 +1155,14 @@
                                         html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
                                             "' style='background-color: #EEE !important;'><th>" +
                                             installementData +
-                                            " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th>";
+                                            " Ay Taksitli Fiyat>/tr>";
 
 
 
                                         for (var l = 1; l <= getDataJS(response,
                                                 "pay-dec-count" + (orderHousing), response
                                                 .room_info[i].room_order); l++) {
-                                            html += "<th>" +
+                                            html += "<tr><th>" +
                                                 l + ". Ara Ödeme</th>";
                                         }
 
