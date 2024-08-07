@@ -21907,11 +21907,13 @@ small {
 }
 
 .tr-single-box {
-  background: #ffffff;
   display: block;
   border-radius: 2px;
-  border: 1px solid #e6e6e6;
+  border: 1px solid #f7f7f7;
   margin-bottom: 30px;
+  background-color: #f7f7f7 !important;
+  background: #f7f7f7 !important;
+
 }
 
 .tr-single-header {
