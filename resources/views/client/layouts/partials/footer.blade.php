@@ -908,22 +908,15 @@
 
         }
 
-        var userCheck = {!! auth()->check() !!};
+        var userCheck = {!! auth()->user() ? json_encode(auth()->user()->id) : 0 !!};
 
-        if (!userCheck) {
+
+        if (userCheck == 0) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Uyarı',
-                text: 'Ödeme detayını görüntülemek için lütfen giriş yapınız.',
-                showCancelButton: true,
-                confirmButtonText: 'Giriş Yap',
-                cancelButtonText: 'Kapat',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
-                    window.location.href = '/login'; // Giriş sayfanızın URL'sini buraya koyun
-                }
+                text: 'Bu ilan için ödeme detay bilgisi gösterilemiyor.',
+                confirmButtonText: 'Kapat'
             });
         } else if (soldStatus == "1") {
             Swal.fire({
