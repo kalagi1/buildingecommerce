@@ -831,6 +831,12 @@ button {
   z-index: 99999;
 }
 
+.modal-body{
+  overflow-y: auto !important;
+    overflow-x: hidden !important;
+
+}
+
 @media screen and (max-width: 991px) {
   .heading.head-tr {
     background: rgba(255, 255, 255, 0.06);
