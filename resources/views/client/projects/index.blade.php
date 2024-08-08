@@ -1674,7 +1674,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#bilgiModalProject').on('click', '.btn-primary', function() {
+            $('#bilgiModalProject').on('click', '.btn-success', function() {
                 var projectId = $(this).data('project-id');
                 var projectHousing = $(this).data('project-housing');
 
