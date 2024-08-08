@@ -86,6 +86,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectController;
 use App\Http\Controllers\Client\ContractController;
 use App\Http\Controllers\Client\SmsController;
+use App\Http\Controllers\Client\RequestController;
+
 use App\Http\Controllers\Admin\SmsController as AdminSmsController;
 use App\Http\Controllers\Client\ApplyNowController;
 use App\Http\Controllers\Client\FormController;
@@ -862,6 +864,8 @@ Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::cla
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
 
+    // Talep bırakma işlemi için route
+    Route::post('/request', [RequestController::class, 'store'])->name('request.store');
 
     //sıfırdan crm rotaları
     //raporlarim

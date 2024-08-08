@@ -555,13 +555,15 @@
                                             </button>
                                         @else
                                             <button class="first-btn" data-bs-toggle="modal"
+                                                data-project-id="{{ $project->id }}"
+                                                data-project-housing="{{ $projectOrder }}"
                                                 style="background-color: orange" data-bs-target="#bilgiModal">
                                                 BİLGİ AL
                                             </button>
                                         @endif
 
                                     @endif
-                               
+
                                     @if ($off_sale_3)
                                         @if (Auth::check() &&
                                                 ((Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') || Auth::user()->type == '1'))
@@ -705,30 +707,23 @@
     </div>
 
 
-     <!-- Modal HTML'i -->
-     <div class="modal fade" id="bilgiModal" tabindex="-1"
-     aria-labelledby="bilgiModalLabel" aria-hidden="true">
-     <div class="modal-dialog">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <h5 class="modal-title" id="bilgiModalLabel">Bilgi Al</h5>
-                 <button type="button" class="btn-close" data-bs-dismiss="modal"
-                     aria-label="Close"></button>
-             </div>
-             <div class="modal-body">
-                 İlan ödeme detay bilgileri satıcının sınırlandırmasından dolayı
-                 sizlere şu anda gösterilemiyor. Bilgi almak için talep topluyoruz,
-                 aşağıdaki butondan talep bırakabilirsiniz.
-             </div>
-             <div class="modal-footer">
-                 <button type="button" class="btn btn-secondary"
-                     data-bs-dismiss="modal">Kapat</button>
-                 <button type="button" class="btn btn-primary">Talep
-                     Bırak</button>
-             </div>
-         </div>
-     </div>
- </div>
+    <!-- Modal HTML'i -->
+    <div class="modal fade" id="bilgiModal" tabindex="-1" aria-labelledby="bilgiModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    İlan fiyatı ve ödeme planı bilgileri, satıcı tarafından uygulanan sınırlamalar nedeniyle şu anda
+                    erişilememektedir. Daha fazla bilgi almak için lütfen aşağıdaki butondan bir talep bırakınız.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-primary">Talep
+                        Bırak</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal -->
     <div class="modal fade" id="approveProjectModal{{ $keyIndex }}" tabindex="-1" role="dialog"
         aria-labelledby="approveProjectModalLabel" aria-hidden="true">
@@ -961,7 +956,38 @@
 
                 return randomCode;
             }
+
         </script>
+        <script>
+            $(document).ready(function () {
+                $('#bilgiModal').on('click', '.btn-primary', function () {
+                    var projectId = $(this).data('project-id');
+                    var projectHousing = $(this).data('project-housing');
+                    
+                    $.ajax({
+                        url: '{{ route('request.store') }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            project_id: projectId,
+                            project_housing: projectHousing
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.message);
+                                $('#bilgiModal').modal('hide');
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('Bir hata oluştu, lütfen tekrar deneyin.');
+                        }
+                    });
+                });
+            });
+        </script>
+        
 
     @endif
 
