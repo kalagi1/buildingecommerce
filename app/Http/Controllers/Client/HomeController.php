@@ -365,9 +365,15 @@ class HomeController extends Controller
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
 
-        $brands = User::where("type", "2")->where('corporate_type', "İnşaat Ofisi")->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
-        $housingBrands = User::where("type", "2")->where('corporate_type', 'Emlak Ofisi')->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
-
+        $brands = User::where("type", "2")->where('corporate_type', "İnşaat Ofisi")->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("name", "asc")->get();
+        $housingBrands = User::where("type", "2")
+        ->where('corporate_type', 'Emlak Ofisi')
+        ->where("status", "1")
+        ->where("is_show", "yes")
+        ->where("corporate_account_status", "1")
+        ->orderBy("name", "asc") // 'name' yerine sıralamak istediğiniz sütun adını yazın
+        ->get();
+    
         $sliders = Slider::all();
 
         $footerSlider = FooterSlider::all();

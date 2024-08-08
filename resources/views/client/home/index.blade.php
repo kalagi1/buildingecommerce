@@ -110,7 +110,7 @@
 
             <div class="portfolio ">
                 <div class="section-title mb-5 mobileSectionTitle">
-                    <h2>Popüler İnşaat Markaları</h2>
+                    <h2>İnşaat Markaları (A-Z)</h2>
                 </div>
                 <div class="slick-lancers">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
@@ -327,7 +327,7 @@
             <div class="row">
                 <div class="col-md-9 col-12">
                     <div class="section-title mb-5 mobileSectionTitle">
-                        <h2>Popüler Gayrimenkul Markaları</h2>
+                        <h2>Gayrimenkul Markaları (A-Z)</h2>
                     </div>
                 </div>
 
