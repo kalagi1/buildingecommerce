@@ -1103,11 +1103,11 @@
                                             discount +
                                             " oranındaki indirimle müşterilerinize sunmanıza aracılık eder. Bu fırsatı değerlendirin ve ilanın avantajlarını müşterilerinize daha etkili bir şekilde iletin.";
 
-                                        if (talepSayisi > 0) {
-                                            alertMessage += " Ayrıca, bu ilana şu anda " +
-                                                talepSayisi +
-                                                " talep bulunmaktadır. İlana olan ilgi yüksek ve bu fırsatı kaçırmayın!";
-                                        }
+                                            if (talepSayisi > 0) {
+                alertMessage += " Ayrıca, bu ilana şu anda <strong><span style='color: #EC2F2E;'>" +
+                    talepSayisi +
+                    " ilgili müşteri var</span></strong>. İlana olan ilgi yüksek ve bu fırsatı kaçırmayın!";
+            }
                                     } else if (userCheck.type === "1") {
                                         alertMessage =
                                             "Emlak Sepette, bu ilanı en yakın emlak ofisinizin koleksiyonundan %" +
