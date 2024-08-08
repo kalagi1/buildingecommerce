@@ -33,7 +33,7 @@ class RequestController extends Controller
                 'project_id' => $validated['project_id'],
                 'room_order' => $validated['project_housing'],
                 'key' => 'Talep Sayısı',
-                'name' => 'talep_sayisi',
+                'name' => 'talep_sayisi[]',
                 'value' => 1
             ]);
 
