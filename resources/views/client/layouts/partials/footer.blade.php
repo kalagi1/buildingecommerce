@@ -214,7 +214,7 @@
                                 (Auth::check() && Auth::user()->type == '1'))
                                 <div class="d-flex align-items-center justify-content-center">
                                     <img src="{{asset('demo-beauty-salon-icon-01.webp')}}" alt=""
-                                    style="width: 30px;height:30px"/>
+                                    style="width: 30px;margin-right:5px"/>
                                     <span class="textAlert"
                                         style="width: 100%;
                                         display: block;
