@@ -505,7 +505,7 @@
                                             data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && !$off_sale_1) ? 1 : 0 }}"
                                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                             data-payment-order="{{ $projectOrder }}">
-                                            ÖDEME DETAYI DSDS
+                                            ÖDEME DETAYI
                                         </button>
                                     @endif
                                 @else
@@ -554,16 +554,38 @@
                                                 ÖDEME DETAYI (Sadece Emlak Ofisleri Görür)
                                             </button>
                                         @else
-                                            <button class="first-btn payment-plan-button"
-                                                project-id="{{ $project->id }}" data-sold="1"
-                                                order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                                data-payment-order="{{ $projectOrder }}">
-                                                ÖDEME DETAYI
+                                            <button type="button" class="first-btn" data-bs-toggle="modal"
+                                                style="background-color: orange" data-bs-target="#bilgiModal">
+
+                                                BİLGİ AL
                                             </button>
                                         @endif
 
                                     @endif
-
+                                    <!-- Modal HTML'i -->
+                                    <div class="modal fade" id="bilgiModal" tabindex="-1"
+                                        aria-labelledby="bilgiModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="bilgiModalLabel">Bilgi Al</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    İlan ödeme detay bilgileri satıcının sınırlandırmasından dolayı
+                                                    sizlere şu anda gösterilemiyor. Bilgi almak için talep topluyoruz,
+                                                    aşağıdaki butondan talep bırakabilirsiniz.
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Kapat</button>
+                                                    <button type="button" class="btn btn-primary">Talep
+                                                        Bırak</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     @if ($off_sale_3)
                                         @if (Auth::check() &&
                                                 ((Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') || Auth::user()->type == '1'))
