@@ -792,13 +792,15 @@ class CrmController extends Controller
     }//End
 
     public function raporlarim(){
+
+        // dd('adasd');
         $parentId = Auth::id();
 
         $consultantAppointments  = $this->consultantAppointments();
         $housingPreferences      = $this->housingPreferences();
         $assetManagements        = $this->assetManagements();
         $budgetCounts            = $this->budgetCounts();
-        $regionCounts            = $this->regionCounts();
+        $regionCounts            = $this->regionCounts($parentId);
         $consultantCalls         = $this->consultantCalls();
         $getDailyCallCounts      = $this->getDailyCallCounts();
         $getWeeklyCallCounts     = $this->getWeeklyCallCounts();
@@ -806,14 +808,18 @@ class CrmController extends Controller
         $getCallConclusions      = $this->getCallConclusions();
         $getCallCustomerStatus   = $this->getCallCustomerStatus();
 
-        $salesDetails = $this->getSalesDetailsForConsultants($parentId);
-        $monthlySalesDetails = $this->getMonthlySalesForConsultants($parentId);
-     
-        // dd($getMonthlyCallCounts);
+        $salesDetails             = $this->getSalesDetailsForConsultants($parentId);
+        $monthlySalesDetails      = $this->getMonthlySalesForConsultants($parentId);
+
+        $getDailyCustomerStatuses = $this->getDailyCustomerStatuses();
+        $getWeeklyCustomerStatus  = $this->getWeeklyCustomerStatus();
+        $getMonthlyCustomerStatus = $this->getMonthlyCustomerStatus();
+        //    dd($getDailyCustomerStatuses);
 
         return view('client.panel.crm.raporlarim', compact('consultantAppointments','housingPreferences','assetManagements',
         'budgetCounts','regionCounts','consultantCalls','getDailyCallCounts','getWeeklyCallCounts','getMonthlyCallCounts',
-        'getCallConclusions','getCallCustomerStatus','salesDetails','monthlySalesDetails'        
+        'getCallConclusions','getCallCustomerStatus','salesDetails','monthlySalesDetails','getDailyCustomerStatuses',
+        'getWeeklyCustomerStatus','getMonthlyCustomerStatus'        
         ));
     }//End
 
@@ -833,7 +839,7 @@ class CrmController extends Controller
     private function housingPreferences(){   // Konut tercihi seçenekleri için müşteri sayıları
         $housingPreferences = DB::table('assigned_users')
         ->select('konut_tercihi', DB::raw('COUNT(*) as total'))
-        ->whereIn('konut_tercihi', ['Projeden Konut', 'Hazır Konut'])
+        ->whereIn('konut_tercihi', ['Projeden Konut', 'Hazır Konut','Projeden/Hazır Konut'])
         ->groupBy('konut_tercihi')
         ->get();
         return $housingPreferences;
@@ -851,16 +857,42 @@ class CrmController extends Controller
     private function budgetCounts(){   // Müşteri bütçesi seçenekleri için müşteri sayıları
         $budgetCounts = DB::table('assigned_users')
         ->select('musteri_butcesi', DB::raw('COUNT(*) as total'))
+        ->whereNotNull('musteri_butcesi')
         ->groupBy('musteri_butcesi')
+        ->orderBy('total', 'desc') // En yüksek total değerine göre sırala
+        ->limit(3)
         ->get();
         return $budgetCounts;
     }//End
 
-    private function regionCounts(){  // İlgilendiği bölge seçenekleri için müşteri sayıları
-        $regionCounts = DB::table('assigned_users')
-        ->select('ilgilendigi_bolge', DB::raw('COUNT(*) as total'))
-        ->groupBy('ilgilendigi_bolge')
+    private function regionCounts($parentId){  // İlgilendiği bölge seçenekleri için müşteri sayıları
+        // $regionCounts = DB::table('assigned_users')
+        // ->select('ilgilendigi_bolge', DB::raw('COUNT(*) as total'))
+        // ->groupBy('ilgilendigi_bolge')
+        // ->get();
+        // return $regionCounts;
+        $projects = Project::where('user_id', $parentId)
+        // ->where('status','1')
         ->get();
+
+         // Veriyi JSON formatında Blade'e gönderiyoruz
+        $regionCounts = $projects->map(function($project) {
+            list($latitude, $longitude) = explode(',', $project->location);
+            return [
+                'name'             => $project->project_title,
+                'description'      => $project->description,
+                'step1_slug'       => $project->step1_slug,
+                'step2_slug'       => $project->step2_slug,
+                'view_count'       => $project->view_count,
+                'room_count'       => $project->room_count,
+                'start_date'       => $project->start_date,
+                'project_end_date' => $project->project_end_date,
+                'latitude'         => trim($latitude),
+                'longitude'        => trim($longitude)
+            ];
+
+        });
+
         return $regionCounts;
     }//End
 
@@ -875,8 +907,10 @@ class CrmController extends Controller
             'customer_calls.gorusme_durumu',
             'users.id as consultant_id',
             'users.name as consultant_name',
-            'users.email as consultant_email'
+            'users.email as consultant_email',
+            // DB::raw('COUNT(customer_calls.id) as call_count'),
         )
+        // ->groupBy('users.id', 'users.name', 'users.email')
         ->get();
 
         return $consultantCalls;
@@ -913,7 +947,7 @@ class CrmController extends Controller
             ->get();
     }
 
-    private function getCallConclusions(){ // Görüşme sonuçlarını gruplandırarak ve sayarak döndür
+    private function getCallConclusions(){ // Görüşme sonuçlarını gruplandırarak ve sayarak döndür (RANDEVU)
     return   DB::table('customer_calls')
                 ->join('users', 'customer_calls.gorusmeyi_yapan_kisi_id', '=', 'users.id')
                 ->select(
@@ -927,7 +961,7 @@ class CrmController extends Controller
                 ->get();
     }//End
 
-    private function getCallCustomerStatus(){ // Müşteri durumlarını olumlu gruplandırarak ve sayarak döndür
+    private function getCallCustomerStatus(){ // Müşteri durumlarını olumlu gruplandırarak ve sayarak döndür (OLUMLU)
         return   DB::table('customer_calls')
         ->join('users', 'customer_calls.gorusmeyi_yapan_kisi_id', '=', 'users.id')
         ->select(
@@ -956,7 +990,6 @@ class CrmController extends Controller
             ->get();
     }//End
 
-
     private function getMonthlySalesForConsultants($parentId){ //Danışmanların ay bazlı satış verileri
         return DB::table('cart_orders')
             ->join('users', 'cart_orders.reference_id', '=', 'users.id')
@@ -973,5 +1006,101 @@ class CrmController extends Controller
             ->orderBy('year')
             ->orderBy('month')
             ->get();
-    }
+    }//End
+
+    private function getDailyCustomerStatuses() {
+        $statuses = [
+            'Olumsuz',
+            'Ulaşılamadı',
+            'Hatalı Numara',
+            'Nötr',
+            'Olumlu',
+            'Sıcak Müşteri',
+            'Opsiyon'
+        ];
+    
+        $startOfDay = now()->startOfDay();
+        $endOfDay = now()->endOfDay();
+ 
+        $getDailyCustomerStatuses = DB::table('customer_calls')
+            ->select('gorusme_durumu', DB::raw('COUNT(*) as total'))
+            ->whereBetween('created_at', [$startOfDay, $endOfDay]) 
+            ->whereIn('gorusme_durumu', $statuses)
+            ->groupBy('gorusme_durumu')
+            ->get()
+            ->keyBy('gorusme_durumu'); // Durumları anahtar olarak kullan
+  
+        // Durumları eksiksiz bir şekilde döndürmek için varsayılan değerler ekle
+        foreach ($statuses as $status) {
+            if (!isset($getDailyCustomerStatuses[$status])) {
+                $getDailyCustomerStatuses[$status] = (object) ['total' => 0];
+            }
+        }
+    
+        return $getDailyCustomerStatuses;
+    }//End    
+
+    private function getWeeklyCustomerStatus() {  //haftalık genel müşteri durum istatistiği
+        $statuses = [
+            'Olumsuz',
+            'Ulaşılamadı',
+            'Hatalı Numara',
+            'Nötr',
+            'Olumlu',
+            'Sıcak Müşteri',
+            'Opsiyon'
+        ];
+    
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+    
+        $getWeeklyCustomerStatus = DB::table('customer_calls')
+            ->select('gorusme_durumu', DB::raw('COUNT(*) as total'))
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek]) // Haftalık tarih aralığı
+            ->whereIn('gorusme_durumu', $statuses)
+            ->groupBy('gorusme_durumu')
+            ->get()
+            ->keyBy('gorusme_durumu');
+    
+        foreach ($statuses as $status) {
+            if (!isset($getWeeklyCustomerStatus[$status])) {
+                $getWeeklyCustomerStatus[$status] = (object) ['total' => 0];
+            }
+        }
+    
+        return $getWeeklyCustomerStatus;
+    }//End
+    
+    private function getMonthlyCustomerStatus() {  //aylık genel müşteri durum istatistiği
+        $statuses = [
+            'Olumsuz',
+            'Ulaşılamadı',
+            'Hatalı Numara',
+            'Nötr',
+            'Olumlu',
+            'Sıcak Müşteri',
+            'Opsiyon'
+        ];
+    
+        $startOfMonth = now()->startOfMonth();
+        $endOfMonth = now()->endOfMonth();
+    
+        $getMonthlyCustomerStatus = DB::table('customer_calls')
+            ->select('gorusme_durumu', DB::raw('COUNT(*) as total'))
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth]) // Aylık tarih aralığı
+            ->whereIn('gorusme_durumu', $statuses)
+            ->groupBy('gorusme_durumu')
+            ->get()
+            ->keyBy('gorusme_durumu');
+    
+        foreach ($statuses as $status) {
+            if (!isset($getMonthlyCustomerStatus[$status])) {
+                $getMonthlyCustomerStatus[$status] = (object) ['total' => 0];
+            }
+        }
+    
+        return $getMonthlyCustomerStatus;
+    }//End
+    
+    
 }
