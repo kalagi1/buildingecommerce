@@ -97,7 +97,7 @@
                 </div>
                 <div class="col-md-4 col-12 mt-2">
                     @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
-                    <hr>
+                        <hr>
                         <span
                             style="    color: green;
                           font-weight: 700;
@@ -108,7 +108,7 @@
                           justify-content: center;
                           align-items: center;">SATIŞTAN
                             %{{ $project->club_rate }} KOMİSYON KAZAN!</span>
-                            <hr>
+                        <hr>
                     @endif
                 </div>
             </div>
@@ -876,51 +876,69 @@
                             {!! $project->description !!}
                             <hr>
                             <div class="uiBox uiBoxContainer yourSecurity">
-                                <h3 style="color: #EC2F2E !important;">Gayrimenkul Alırken/Kiralarken Dikkat Edilmesi Gerekenler!</h3>
-                            
+                                <h3 style="color: #EC2F2E !important;">Gayrimenkul Alırken/Kiralarken Dikkat Edilmesi
+                                    Gerekenler!</h3>
+
                                 <p>
-                                    Emlaksepette.com olarak, kullanıcılarımızın güvenliğini en üst düzeyde tutmak önceliğimizdir. 
-                                    Bu nedenle, satın almak veya kiralamak istediğiniz emlak ile ilgili işlemleri yaparken dikkatli 
+                                    Emlaksepette.com olarak, kullanıcılarımızın güvenliğini en üst düzeyde tutmak
+                                    önceliğimizdir.
+                                    Bu nedenle, satın almak veya kiralamak istediğiniz emlak ile ilgili işlemleri yaparken
+                                    dikkatli
                                     olmanız büyük önem taşımaktadır. İşte dikkat etmeniz gereken bazı önemli noktalar:
                                 </p>
-                            
+
                                 <p>
-                                    <strong>Ödeme Yapmadan Önce:</strong> Satın alma veya kiralama işlemlerinde kesin karar vermeden 
-                                    önce hiçbir şekilde ön ödeme yapmayınız. Kapora veya avans ödemeleri konusunda dikkatli olunuz 
+                                    <strong>Ödeme Yapmadan Önce:</strong> Satın alma veya kiralama işlemlerinde kesin karar
+                                    vermeden
+                                    önce hiçbir şekilde ön ödeme yapmayınız. Kapora veya avans ödemeleri konusunda dikkatli
+                                    olunuz
                                     ve dolandırıcılık riski taşıyan durumlara karşı tedbirli davranınız.
                                 </p>
-                            
+
                                 <p>
-                                    <strong>İlan Bilgilerini Doğrulama:</strong> İlan sahiplerinin verdikleri bilgileri dikkatlice 
-                                    kontrol ediniz. İlanlarda belirtilen bilgilerin ve görsellerin doğruluğunu teyit etmek için 
+                                    <strong>İlan Bilgilerini Doğrulama:</strong> İlan sahiplerinin verdikleri bilgileri
+                                    dikkatlice
+                                    kontrol ediniz. İlanlarda belirtilen bilgilerin ve görsellerin doğruluğunu teyit etmek
+                                    için
                                     mümkünse yerinde inceleme yapınız veya güvenilir kaynaklardan doğrulama isteyiniz.
                                 </p>
-                            
+
                                 <p>
-                                    <strong>İletişim ve Profil Bilgileri:</strong> İlan sahiplerinin hesap profillerindeki bilgilerin 
-                                    doğruluğunu kontrol ediniz. Şüpheli veya eksik bilgiye sahip ilan sahipleri ile iletişimde temkinli 
-                                    olunuz. Güvenliğiniz için, kimlik doğrulaması yapmış kullanıcılar ile iletişim kurmayı tercih ediniz.
+                                    <strong>İletişim ve Profil Bilgileri:</strong> İlan sahiplerinin hesap profillerindeki
+                                    bilgilerin
+                                    doğruluğunu kontrol ediniz. Şüpheli veya eksik bilgiye sahip ilan sahipleri ile
+                                    iletişimde temkinli
+                                    olunuz. Güvenliğiniz için, kimlik doğrulaması yapmış kullanıcılar ile iletişim kurmayı
+                                    tercih ediniz.
                                 </p>
-                            
+
                                 <p>
-                                    <strong>Sözleşme ve Hukuki Belgeler:</strong> Satın alma veya kiralama işlemlerinde sözleşme 
-                                    yapmadan önce hukuki belgeleri dikkatlice inceleyiniz ve gerektiğinde bir uzmana danışınız. Tüm 
-                                    koşulların net bir şekilde belirtildiği ve taraflarca kabul edildiği belgeler üzerinden işlem yapınız.
+                                    <strong>Sözleşme ve Hukuki Belgeler:</strong> Satın alma veya kiralama işlemlerinde
+                                    sözleşme
+                                    yapmadan önce hukuki belgeleri dikkatlice inceleyiniz ve gerektiğinde bir uzmana
+                                    danışınız. Tüm
+                                    koşulların net bir şekilde belirtildiği ve taraflarca kabul edildiği belgeler üzerinden
+                                    işlem yapınız.
                                 </p>
-                            
+
                                 <p>
-                                    <strong>Geri Bildirim ve Şikayetler:</strong> Emlaksepette.com olarak, kullanıcı deneyimini ve 
-                                    güvenliğini sürekli olarak iyileştirmek için geri bildirimlerinizi önemsiyoruz. Eğer ilanlarda 
-                                    belirtilen bilgi veya görsellerin gerçeği yansıtmadığını düşünüyorsanız veya ilan sahiplerinin 
-                                    hesap profillerindeki bilgilerin doğru olmadığını fark ederseniz, lütfen bize hemen bildirin.
+                                    <strong>Geri Bildirim ve Şikayetler:</strong> Emlaksepette.com olarak, kullanıcı
+                                    deneyimini ve
+                                    güvenliğini sürekli olarak iyileştirmek için geri bildirimlerinizi önemsiyoruz. Eğer
+                                    ilanlarda
+                                    belirtilen bilgi veya görsellerin gerçeği yansıtmadığını düşünüyorsanız veya ilan
+                                    sahiplerinin
+                                    hesap profillerindeki bilgilerin doğru olmadığını fark ederseniz, lütfen bize hemen
+                                    bildirin.
                                 </p>
-                            
+
                                 <p>
-                                    Güvenli bir emlak deneyimi için bu önemli noktalara dikkat ederek, dolandırıcılık ve benzeri 
+                                    Güvenli bir emlak deneyimi için bu önemli noktalara dikkat ederek, dolandırıcılık ve
+                                    benzeri
                                     olumsuz durumlardan korunabilirsiniz.
                                 </p>
                             </div>
-                            
+
                         </div>
 
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
@@ -1654,7 +1672,7 @@
             });
         }
     </script>
-      <script>
+    <script>
         $(document).ready(function() {
             $('#bilgiModalProject').on('click', '.btn-primary', function() {
                 var projectId = $(this).data('project-id');
@@ -1670,10 +1688,24 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            alert(response.message);
-                            $('#bilgiModalProject').modal('hide');
+                            Toastify({
+                                text: response.message,
+                                duration: 5000,
+                                gravity: 'bottom',
+                                position: 'center',
+                                backgroundColor: 'green',
+                                stopOnFocus: true,
+                            }).showToast();
+                            $("#bilgiModalProject .btn-secondary").click();
                         } else {
-                            alert(response.message);
+                            Toastify({
+                                text: response.message,
+                                duration: 5000,
+                                gravity: 'bottom',
+                                position: 'center',
+                                backgroundColor: '#EC2F2E',
+                                stopOnFocus: true,
+                            }).showToast();
                         }
                     },
                     error: function() {
