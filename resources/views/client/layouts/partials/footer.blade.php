@@ -1085,27 +1085,35 @@
                             if (userCheck) {
                                 var discount = getDataJS(response, "discount_rate[]", response
                                     .room_info[i].room_order);
+                                var talepSayisi = getDataJS(response, "talep_sayisi[]", response
+                                    .room_info[i].room_order);
 
                                 if (discount > 0) {
+                                    var alertMessage = "";
 
                                     if (userCheck.corporate_type === "Emlak Ofisi" && userCheck
-                                        .type ===
-                                        "2") {
-                                        $(".textAlert").html(
+                                        .type === "2") {
+                                        alertMessage =
                                             "Emlak Sepette, bu ilanı koleksiyonunuza ekleyerek %" +
                                             discount +
-                                            " oranındaki indirimle müşterilerinize sunmanıza aracılık eder. Bu fırsatı değerlendirin ve ilanın avantajlarını müşterilerinize daha etkili bir şekilde iletin."
-                                        );
+                                            " oranındaki indirimle müşterilerinize sunmanıza aracılık eder. Bu fırsatı değerlendirin ve ilanın avantajlarını müşterilerinize daha etkili bir şekilde iletin.";
+
+                                        if (talepSayisi > 0) {
+                                            alertMessage += " Ayrıca, bu ilana şu anda " +
+                                                talepSayisi +
+                                                " talep bulunmaktadır. İlana olan ilgi yüksek ve bu fırsatı kaçırmayın!";
+                                        }
                                     } else if (userCheck.type === "1") {
-                                        $(".textAlert").html(
+                                        alertMessage =
                                             "Emlak Sepette, bu ilanı en yakın emlak ofisinizin koleksiyonundan %" +
                                             discount +
-                                            " oranındaki indirimle satın almanıza aracılık eder. Bu fırsatı kaçırmayın! Detaylar ve daha fazla bilgi için hemen ofisinizle iletişime geçin."
-                                        );
+                                            " oranındaki indirimle satın almanıza aracılık eder. Bu fırsatı kaçırmayın! Detaylar ve daha fazla bilgi için hemen ofisinizle iletişime geçin.";
                                     }
-                                }
 
+                                    $(".textAlert").html(alertMessage);
+                                }
                             }
+
 
 
 
