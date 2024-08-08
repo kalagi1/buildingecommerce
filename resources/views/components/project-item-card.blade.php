@@ -554,9 +554,8 @@
                                                 ÖDEME DETAYI (Sadece Emlak Ofisleri Görür)
                                             </button>
                                         @else
-                                            <button type="button" class="first-btn" data-bs-toggle="modal"
+                                            <button class="first-btn" data-bs-toggle="modal"
                                                 style="background-color: orange" data-bs-target="#bilgiModal">
-
                                                 BİLGİ AL
                                             </button>
                                         @endif
