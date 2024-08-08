@@ -180,7 +180,7 @@
 
         <div class="my-properties">
             <div class="pop-up-top-gradient">
-                <div class="left">
+                <div class="left odeme-plani-baslik">
                     <h3>Ödeme Planı Yükleniyor...</h3>
                 </div>
                 <div class="close payment-plan-pop-close-icon"><span><i class="fa fa-times "></i></span></div>
@@ -1074,7 +1074,7 @@
                                 " Projesinde " + block + " " + paymentOrder +
                                 " No'lu İlan Ödeme Planı</th></tr>";
 
-                            $(".pop-up-top-gradient .left h3").html(
+                            $(".pop-up-top-gradient .odeme-plani-baslik").html(
                                 response
                                 .project_title +
                                 " Projesinde " + block + " " + paymentOrder +
