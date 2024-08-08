@@ -100,7 +100,7 @@
 
                                             <div class="social-account-login-buttons mt-2 pb-3 col-12 p-0">
                                                 <!-- Social login buttons -->
-                                                <div class="q-layout social-login-button  w-100 m-0">
+                                                <div class="q-layout social-login-button  w-100 m-0" style="justify-content: center;align-items:center">
                                                     <div class="social-login-icon"
                                                         style="background-color: rgb(241, 66, 54);">
                                                         <i class="fa fa-google"></i>
@@ -109,13 +109,16 @@
                                                         <div>
                                                             <a href="{{ route('client.google.login') }}"
                                                                 style="color: black;text-decoration:none">
-                                                                <div style="text-transform: capitalize;">google</div>
-                                                                <small>ile giriş yap</small>
+                                                                <div style="text-transform: capitalize;">google İle giriş yap</div>
                                                             </a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <p class="redirect-to-register text-center pt-2">
+                                                <span><label> Google kimliğinizle bir sonraki adıma geçmeniz halinde <a href="/sayfa/bireysel-uyelik-sozlesmesi" rel="nofollow" target="_blank">Bireysel Hesap Sözleşmesi ve Ekleri</a></label>'ni kabul etmiş sayılırsınız.</span>                                                <a href="{{route('client.register')}}"> Üye Ol </a>
+                                                
+                                            </p>
                                         </form>
 
 
