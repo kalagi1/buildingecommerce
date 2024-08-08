@@ -28794,8 +28794,8 @@ font {
   height: 100vh;
   left: 0;
   top: 0;
-  background: #333;
-  opacity: 0.3;
+  background: black;
+  opacity: 0.9;
 }
 
 .payment-plan-pop-content {
