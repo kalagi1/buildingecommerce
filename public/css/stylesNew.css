@@ -23687,6 +23687,7 @@ a.btn_1 {
 .inner-pages .form-control {
   padding: 0 0.3rem !important;
   border: 1px solid black;
+  border-color: #eee;
 }
 
 @media screen and (max-width: 767px) {
