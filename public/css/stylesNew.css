@@ -6264,8 +6264,11 @@ element.style {
 
 .homepage-2 .portfolio .homes-price {
   font-size: 10px !important;
-  background: green !important;
+  background: #EC2F2E !important;
+  /* width: 50px; */
   color: white !important;
+  padding: 1px 20px;
+  border-radius: 10px 10px;
 }
 
 .homepage-2 .portfolio .homes-price i {
