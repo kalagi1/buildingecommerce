@@ -1074,7 +1074,7 @@
                                 " Projesinde " + block + " " + paymentOrder +
                                 " No'lu İlan Ödeme Planı</th></tr>";
 
-                            $(".pop-up-top-gradient .odeme-plani-baslik").html(
+                            $(".pop-up-top-gradient .odeme-plani-baslik h3").html(
                                 response
                                 .project_title +
                                 " Projesinde " + block + " " + paymentOrder +
