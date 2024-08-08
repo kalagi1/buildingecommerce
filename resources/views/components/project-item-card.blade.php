@@ -557,7 +557,7 @@
                                             <button class="first-btn" data-bs-toggle="modal"
                                                 data-project-id="{{ $project->id }}"
                                                 data-project-housing="{{ $projectOrder }}"
-                                                style="background-color: orange" data-bs-target="#bilgiModal">
+                                                style="background-color: orange" data-bs-target="#bilgiModal{{ $projectOrder }}">
                                                 BİLGİ AL
                                             </button>
                                         @endif
@@ -708,7 +708,7 @@
 
 
     <!-- Modal HTML'i -->
-    <div class="modal fade" id="bilgiModal" tabindex="-1" aria-labelledby="bilgiModalLabel" aria-hidden="true">
+    <div class="modal fade" id="bilgiModal{{ $projectOrder }}" tabindex="-1" aria-labelledby="bilgiModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -718,7 +718,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                    <button type="button" class="btn btn-primary">Talep
+                    <button type="button" class="btn btn-primary"
+                    data-project-id="{{ $project->id }}"
+                    data-project-housing="{{ $projectOrder }}">Talep
                         Bırak</button>
                 </div>
             </div>
