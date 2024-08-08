@@ -719,6 +719,7 @@ img {
 .modal-content {
   height: 80vh;
   width: 50%;
+  border-radius: 10px;
 }
 
 @media (max-width: 768px) {
