@@ -215,7 +215,8 @@
                             <span class="textAlert"
                                 style="width: 100%;
                                 display: block;
-                                padding: 0 0 10px 0;"></span>
+                                padding: 0 0 10px 0;">
+                                <img src="{{asset('demo-beauty-salon-icon-01.webp')}}" alt=""></span>
                         @endif
                     </div>
 
