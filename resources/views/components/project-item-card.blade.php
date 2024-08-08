@@ -557,7 +557,7 @@
                                             <button class="first-btn" data-bs-toggle="modal"
                                                 data-project-id="{{ $project->id }}"
                                                 data-project-housing="{{ $projectOrder }}"
-                                                style="background-color: orange"
+                                                style="background-color: black"
                                                 data-bs-target="#bilgiModalProject">
                                                 BİLGİ AL
                                             </button>
