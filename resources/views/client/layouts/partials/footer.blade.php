@@ -212,13 +212,12 @@
                         @if (
                             (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
                                 (Auth::check() && Auth::user()->type == '1'))
-                                <div class="d-flex align-items-center justify-content-center">
+                                <div class="d-flex align-items-center justify-content-center pb-3">
                                     <img src="{{asset('demo-beauty-salon-icon-01.webp')}}" alt=""
                                     style="width: 30px;margin-right:5px"/>
                                     <span class="textAlert"
                                         style="width: 100%;
-                                        display: block;
-                                        padding: 0 0 10px 0;">
+                                        display: block;">
                                        </span>
                                 </div>
                                
