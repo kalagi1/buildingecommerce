@@ -212,7 +212,7 @@
                             @if (
                                 (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
                                     (Auth::check() && Auth::user()->type == '1'))
-                                <span class="btn addCollection mobileAddCollection d-none" data-type='project'>
+                                <span class="btn addCollection mobileAddCollection" data-type='project'>
                                     <i class="fa fa-bookmark-o"></i> Koleksiyona Ekle & Hızlı Sat
                                 </span>
                             @endif
