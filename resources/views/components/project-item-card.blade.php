@@ -557,8 +557,7 @@
                                             <button class="first-btn" data-bs-toggle="modal"
                                                 data-project-id="{{ $project->id }}"
                                                 data-project-housing="{{ $projectOrder }}"
-                                                style="background-color: black"
-                                                data-bs-target="#bilgiModalProject">
+                                                style="background-color: black" data-bs-target="#bilgiModalProject">
                                                 BİLGİ AL
                                             </button>
                                         @endif
@@ -732,6 +731,15 @@
         aria-labelledby="approveProjectModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
+                <div class="pop-up-top-gradient">
+                    <div class="left">
+                        <h3> {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                            Projesinde {{ $blockName }}
+                            {{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}
+                            {{ "No'lu" }} İlana Başvuru Yap / Teklif Gönder</h3>
+                    </div>
+                    <div class="close payment-plan-pop-close-icon"><span><i class="fa fa-times "></i></span></div>
+                </div>
                 <div class="modal-body">
                     <form method="POST" action="{{ route('give_offer') }}">
                         @csrf
@@ -960,7 +968,7 @@
                 return randomCode;
             }
         </script>
-      
+
 
 
     @endif
