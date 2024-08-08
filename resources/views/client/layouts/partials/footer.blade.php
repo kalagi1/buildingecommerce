@@ -213,7 +213,7 @@
                                 (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
                                     (Auth::check() && Auth::user()->type == '1'))
                                 <span class="btn addCollection mobileAddCollection" data-type='project'
-                                style="color: #EC2F2E;">
+                                style="color: #EC2F2E;background-color:transparent">
                                     <i class="fa fa-bookmark-o mr-3"></i> Koleksiyona Ekle & Hızlı Sat
                                 </span>
                             @endif
