@@ -712,7 +712,14 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-
+                <div class="pop-up-top-gradient">
+                    <div class="left">
+                        <h3> {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                            Projesinde {{ $blockName }}
+                            {{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}
+                            {{ "No'lu" }} İlan İçin Bilgi Al</h3>
+                    </div>
+                </div>
                 <div class="modal-body">
                     İlan fiyatı ve ödeme planı bilgileri, satıcı tarafından uygulanan sınırlamalar nedeniyle şu anda
                     erişilememektedir. Daha fazla bilgi almak için lütfen aşağıdaki butondan bir talep bırakınız.
