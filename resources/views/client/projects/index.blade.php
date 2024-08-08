@@ -1654,6 +1654,35 @@
             });
         }
     </script>
+      <script>
+        $(document).ready(function() {
+            $('#bilgiModal').on('click', '.btn-primary', function() {
+                var projectId = $(this).data('project-id');
+                var projectHousing = $(this).data('project-housing');
+
+                $.ajax({
+                    url: '{{ route('institutional.request.store') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        project_id: projectId,
+                        project_housing: projectHousing
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            $('#bilgiModal').modal('hide');
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Bir hata oluştu, lütfen tekrar deneyin.');
+                    }
+                });
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             // Yıldızlara fare ile gelindiğinde
