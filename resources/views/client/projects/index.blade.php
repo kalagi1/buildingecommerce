@@ -1656,7 +1656,7 @@
     </script>
       <script>
         $(document).ready(function() {
-            $('#bilgiModal').on('click', '.btn-primary', function() {
+            $('#bilgiModalProject').on('click', '.btn-primary', function() {
                 var projectId = $(this).data('project-id');
                 var projectHousing = $(this).data('project-housing');
 
@@ -1671,7 +1671,7 @@
                     success: function(response) {
                         if (response.success) {
                             alert(response.message);
-                            $('#bilgiModal').modal('hide');
+                            $('#bilgiModalProject').modal('hide');
                         } else {
                             alert(response.message);
                         }
