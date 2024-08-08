@@ -28771,6 +28771,17 @@ font {
   position: relative;
 }
 
+@media (max-width: 768px) {
+  .payment-plan-pop-content {
+    width: 100% !important;
+    background-color: white;
+    z-index: 9999;
+    position: relative;
+    height: 100vh;
+    overflow-y: auto;
+  }
+}
+
 .payment-plan {
   width: 100%;
 }

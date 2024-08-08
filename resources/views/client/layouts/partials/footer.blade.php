@@ -214,8 +214,8 @@
                                 (Auth::check() && Auth::user()->type == '1'))
                             <span class="textAlert"
                                 style="width: 100%;
-    display: block;
-    padding: 0 0 10px 0;"></span>
+                                display: block;
+                                padding: 0 0 10px 0;"></span>
                         @endif
                     </div>
 
@@ -1086,20 +1086,25 @@
                                 var discount = getDataJS(response, "number_of_shares[]", response
                                     .room_info[i].room_order);
 
-                                if (userCheck.corporate_type === "Emlak Ofisi" && userCheck.type ===
-                                    "2") {
-                                    $(".textAlert").html(
-                                        "Emlak Sepette, bu ilanı koleksiyonunuza ekleyerek %" +
-                                        discount +
-                                        " oranındaki indirimle müşterilerinize sunmanıza aracılık eder. Bu fırsatı değerlendirin ve ilanın avantajlarını müşterilerinize daha etkili bir şekilde iletin."
-                                    );
-                                } else if (userCheck.type === "1") {
-                                    $(".textAlert").html(
-                                        "Emlak Sepette, bu ilanı en yakın emlak ofisinizin koleksiyonundan %" +
-                                        discount +
-                                        " oranındaki indirimle satın almanıza aracılık eder. Bu fırsatı kaçırmayın! Detaylar ve daha fazla bilgi için hemen ofisinizle iletişime geçin."
-                                    );
+                                if (discount > 0) {
+
+                                    if (userCheck.corporate_type === "Emlak Ofisi" && userCheck
+                                        .type ===
+                                        "2") {
+                                        $(".textAlert").html(
+                                            "Emlak Sepette, bu ilanı koleksiyonunuza ekleyerek %" +
+                                            discount +
+                                            " oranındaki indirimle müşterilerinize sunmanıza aracılık eder. Bu fırsatı değerlendirin ve ilanın avantajlarını müşterilerinize daha etkili bir şekilde iletin."
+                                        );
+                                    } else if (userCheck.type === "1") {
+                                        $(".textAlert").html(
+                                            "Emlak Sepette, bu ilanı en yakın emlak ofisinizin koleksiyonundan %" +
+                                            discount +
+                                            " oranındaki indirimle satın almanıza aracılık eder. Bu fırsatı kaçırmayın! Detaylar ve daha fazla bilgi için hemen ofisinizle iletişime geçin."
+                                        );
+                                    }
                                 }
+
                             }
 
 

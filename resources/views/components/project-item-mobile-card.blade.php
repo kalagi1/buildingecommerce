@@ -247,6 +247,77 @@
                                 @endif
                             </button>
                         @else
+                        @if (
+                            ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                (!$off_sale_2 && !$off_sale_3 && !$off_sale_4 && !$off_sale_1 && Auth::check() && $canAddToProject) ||
+                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
+
+                            <li class="the-icons mobile-hidden">
+                                <span style="width:100%;text-align:center">
+
+                                    @if (!$off_sale_1 && !$off_sale_4 && !$sold_check && $share_sale_empty)
+
+
+                                        @if ($projectDiscountAmount)
+                                            <svg viewBox="0 0 24 24" width="18" height="18"
+                                                stroke="#EC2F2E" stroke-width="2" fill="#EC2F2E"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="css-i6dzq1">
+                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                <polyline points="17 18 23 18 23 12"></polyline>
+                                            </svg>
+                                            <del
+                                                style="color: #ea2a28!important;font-weight: 700;font-size: 11px;">
+
+                                                {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                                                ₺
+                                            </del>
+                                            <h6
+                                                style="color: #27bb53 !important; position: relative; top: 4px; font-weight: 700">
+                                                {{ number_format($discounted_price, 0, ',', '.') }}
+                                                ₺
+                                            </h6>
+                                        @else
+                                            <h6
+                                                style="color:#274abb; position: relative; top: 4px; font-weight: 700">
+                                                {{ number_format($discounted_price, 0, ',', '.') }}
+                                                ₺
+                                            </h6>
+                                        @endif
+
+                                        @if ($projectDiscountAmount)
+                                            <h6 style="color: #27bb53 !important;">(Kampanyalı)</h6>
+                                        @endif
+                                    @elseif(
+                                        (isset($share_sale) &&
+                                            $share_sale != '[]' &&
+                                            isset($sumCartOrderQt[$keyIndex]) &&
+                                            $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
+                                            (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
+                                        @if (!$off_sale_1 || !$off_sale_4)
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                <span class="text-center w-100">
+                                                    1 / {{ $number_of_share }} Fiyatı
+                                                </span>
+                                            @endif
+                                            <h6
+                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                                                @if (
+                                                    (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) ||
+                                                        (isset($share_sale) && empty($share_sale) && $number_of_share != 0))
+                                                    {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                    ₺
+                                                @else
+                                                    {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                                                    ₺
+                                                @endif
+                                            </h6>
+                                        @endif
+                                    @endif
+                                </span>
+                            </li>
+
+                        @endif
                             @if (
                                 ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
                                     ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
