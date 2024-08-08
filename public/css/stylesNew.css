@@ -24926,6 +24926,7 @@ form label.error {
   text-align: center;
   padding: 5px 10px;
   border: 1px solid green !important;
+  border-radius: 5px !important;
 }
 
 .see-my-neighbor.payment {
