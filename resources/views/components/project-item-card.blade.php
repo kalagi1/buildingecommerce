@@ -724,11 +724,12 @@
                     İlan fiyatı ve ödeme planı bilgileri, satıcı tarafından uygulanan sınırlamalar nedeniyle şu anda
                     erişilememektedir. Daha fazla bilgi almak için lütfen aşağıdaki butondan bir talep bırakınız.
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                    <button type="button" class="btn btn-primary" data-project-id="{{ $project->id }}"
-                        data-project-housing="{{ $projectOrder }}">Talep
-                        Bırak</button>
+                <div class="modal-footer" style="justify-content: end !important">
+                    <button type="submit" class="btn btn-success" style="width:150px"
+                    data-project-id="{{ $project->id }}"
+                        data-project-housing="{{ $projectOrder }}">Talep Bırak</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                        style="width:150px">Kapat</button>
                 </div>
             </div>
         </div>
