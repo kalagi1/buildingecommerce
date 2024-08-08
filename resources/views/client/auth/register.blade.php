@@ -517,7 +517,7 @@
                                                             <input id="check-b" type="checkbox" name="check-b">
                                                             <label for="check-b" style="font-size: 11px;">
                                                                 <a href="/sayfa/kvkk-politikasi" target="_blank">
-                                                                    Kvkk metnini
+                                                                    Kvkk politikasını
                                                                 </a>
                                                                 okudum onaylıyorum.
                                                             </label>

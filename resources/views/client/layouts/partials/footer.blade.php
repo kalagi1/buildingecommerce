@@ -1083,7 +1083,7 @@
                             var userCheck = {!! json_encode(auth()->user()) !!};
 
                             if (userCheck) {
-                                var discount = getDataJS(response, "number_of_shares[]", response
+                                var discount = getDataJS(response, "discount_rate[]", response
                                     .room_info[i].room_order);
 
                                 if (discount > 0) {
