@@ -557,7 +557,8 @@
                                             <button class="first-btn" data-bs-toggle="modal"
                                                 data-project-id="{{ $project->id }}"
                                                 data-project-housing="{{ $projectOrder }}"
-                                                style="background-color: orange" data-bs-target="#bilgiModal{{ $projectOrder }}">
+                                                style="background-color: orange"
+                                                data-bs-target="#bilgiModal{{ $projectOrder }}">
                                                 BİLGİ AL
                                             </button>
                                         @endif
@@ -708,7 +709,8 @@
 
 
     <!-- Modal HTML'i -->
-    <div class="modal fade" id="bilgiModal{{ $projectOrder }}" tabindex="-1" aria-labelledby="bilgiModalLabel" aria-hidden="true">
+    <div class="modal fade" id="bilgiModal{{ $projectOrder }}" tabindex="-1" aria-labelledby="bilgiModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -718,9 +720,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                    <button type="button" class="btn btn-primary"
-                    data-project-id="{{ $project->id }}"
-                    data-project-housing="{{ $projectOrder }}">Talep
+                    <button type="button" class="btn btn-primary" data-project-id="{{ $project->id }}"
+                        data-project-housing="{{ $projectOrder }}">Talep
                         Bırak</button>
                 </div>
             </div>
@@ -958,23 +959,22 @@
 
                 return randomCode;
             }
-
         </script>
         <script>
-            $(document).ready(function () {
-                $('#bilgiModal').on('click', '.btn-primary', function () {
+            $(document).ready(function() {
+                $('#bilgiModal').on('click', '.btn-primary', function() {
                     var projectId = $(this).data('project-id');
                     var projectHousing = $(this).data('project-housing');
-                    
+
                     $.ajax({
-                        url: '{{ route('request.store') }}',
+                        url: '{{ route('institutional.request.store') }}',
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',
                             project_id: projectId,
                             project_housing: projectHousing
                         },
-                        success: function (response) {
+                        success: function(response) {
                             if (response.success) {
                                 alert(response.message);
                                 $('#bilgiModal').modal('hide');
@@ -982,14 +982,14 @@
                                 alert(response.message);
                             }
                         },
-                        error: function () {
+                        error: function() {
                             alert('Bir hata oluştu, lütfen tekrar deneyin.');
                         }
                     });
                 });
             });
         </script>
-        
+
 
     @endif
 
