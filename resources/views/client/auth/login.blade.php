@@ -115,8 +115,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <p class="redirect-to-register text-center pt-2">
-                                                <span>Google kimliğinizle bir sonraki adıma geçmeniz halinde <br><a href="/sayfa/bireysel-uyelik-sozlesmesi" rel="nofollow" target="_blank">Bireysel Hesap Sözleşmesi ve Ekleri</a>'ni kabul etmiş sayılırsınız.</span>                                              
+                                            <span class="redirect-to-register text-center pt-2">
+                                            Google kimliğinizle bir sonraki adıma geçmeniz halinde <br><a href="/sayfa/bireysel-uyelik-sozlesmesi" rel="nofollow" target="_blank">Bireysel Hesap Sözleşmesi ve Ekleri</a>'ni kabul etmiş sayılırsınız.                                           
                                                 
                                             </p>
                                         </form>
