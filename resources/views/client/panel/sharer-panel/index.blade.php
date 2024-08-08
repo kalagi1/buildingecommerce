@@ -70,7 +70,7 @@
                                                         <a class="dropdown-item"
                                                             href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
                                                             <i class="fas fa-eye mr-2"></i>
-                                                            Koleksiyonu Önizle
+                                                            Kullanıcı Gözünden Gör
                                                         </a>
                                                     </li>
                                                     <li>
