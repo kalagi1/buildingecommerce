@@ -738,7 +738,6 @@
                             {{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}
                             {{ "No'lu" }} İlana Başvuru Yap / Teklif Gönder</h3>
                     </div>
-                    <div class="close payment-plan-pop-close-icon"><span><i class="fa fa-times "></i></span></div>
                 </div>
                 <div class="modal-body">
                     <form method="POST" action="{{ route('give_offer') }}">
