@@ -717,7 +717,6 @@ img {
 }
 
 .modal-content {
-  height: 80vh;
   width: 50%;
   border-radius: 10px;
 }
@@ -728,7 +727,7 @@ img {
   }
 
   .modal-content {
-    height: 100vh;
+    height: 80vh;
     width: 100%;
   }
 
