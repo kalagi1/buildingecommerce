@@ -209,9 +209,14 @@
                                         clip-rule="evenodd"></path>
                                 </svg><span class="ml-3">Ödeme Planını Paylaş</span>
                             </a>
-                            <span class="btn addCollection mobileAddCollection" data-type='project'>
-                                <i class="fa fa-bookmark-o"></i> Koleksiyona Ekle & Hızlı Sat
-                            </span>
+                            @if (
+                                (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
+                                    (Auth::check() && Auth::user()->type == '1'))
+                                <span class="btn addCollection mobileAddCollection d-none" data-type='project'>
+                                    <i class="fa fa-bookmark-o"></i> Koleksiyona Ekle & Hızlı Sat
+                                </span>
+                            @endif
+
                         </div>
 
                     </div>
@@ -1130,12 +1135,12 @@
 
                             // Elemanı seç
                             var element = document.querySelector(
-                                '.btn.addCollection.mobileAddCollection');
+                                '.payment-plan .btn.addCollection.mobileAddCollection');
 
                             // data-type özelliğini kontrol et ve mevcutsa data-project ve data-id ekle
                             if (element) {
                                 element.setAttribute('data-project', projectId);
-                                element.setAttribute('data-id', paymentPlanId);
+                                element.setAttribute('data-id', housingId);
                             }
 
 
