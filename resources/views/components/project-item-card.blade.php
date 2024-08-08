@@ -845,6 +845,14 @@
 
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
+                    <div class="pop-up-top-gradient">
+                        <div class="left">
+                            <h3> {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                Projesinde {{ $blockName }}
+                                {{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}
+                                {{ "No'lu" }} İlan Komşumu Gör Talebi </h3>
+                        </div>
+                    </div>
                     <div class="modal-body">
                         <div class="invoice">
                             <div class="invoice-header mb-3">
