@@ -1696,7 +1696,7 @@
                                 backgroundColor: 'green',
                                 stopOnFocus: true,
                             }).showToast();
-                            $("#bilgiModalProject .btn-secondary").click();
+                            $("#bilgiModalProject .btn-danger").click();
                         } else {
                             Toastify({
                                 text: response.message,

@@ -1977,10 +1977,24 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            alert(response.message);
-                            $('#bilgiModalProject').modal('hide');
+                            Toastify({
+                                text: response.message,
+                                duration: 5000,
+                                gravity: 'bottom',
+                                position: 'center',
+                                backgroundColor: 'green',
+                                stopOnFocus: true,
+                            }).showToast();
+                            $("#bilgiModalProject .btn-danger").click();
                         } else {
-                            alert(response.message);
+                            Toastify({
+                                text: response.message,
+                                duration: 5000,
+                                gravity: 'bottom',
+                                position: 'center',
+                                backgroundColor: '#EC2F2E',
+                                stopOnFocus: true,
+                            }).showToast();
                         }
                     },
                     error: function() {
