@@ -1012,11 +1012,7 @@
                 type: "get", // Veriyi göndermek için POST kullanabilirsiniz
                 data: cart,
                 success: function(response) {
-                    // Elemanı seç ve data-project ve data-id niteliklerini ekle
-                    $('.payment-plan-pop-content .btn.addCollection.mobileAddCollection').each(function() {
-                        $(this).attr('data-project', projectId);
-                        $(this).attr('data-id', housingId);
-                    });
+
                     for (var i = 0; i < response.room_info.length; i++) {
                         var numberOfShares = 0;
                         var shareSale = getDataJS(response, "share_sale[]", response.room_info[i]
@@ -1135,9 +1131,6 @@
                                     $(".textAlert").html(alertMessage);
                                 }
                             }
-
-
-
 
 
 
@@ -1439,6 +1432,17 @@
 
                                     window.open(whatsappURL, '_blank');
                                 });
+
+
+
+
+                            // Elemanı seç ve data-project ve data-id niteliklerini ekle
+                            $('.payment-plan-pop-content .btn.addCollection.mobileAddCollection')
+                                .each(function() {
+                                    $(this).attr('data-project', response.id);
+                                    $(this).attr('data-id', paymentOrder);
+                                });
+
                         }
                     }
                 },
