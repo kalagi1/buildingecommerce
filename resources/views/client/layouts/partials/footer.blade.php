@@ -188,7 +188,7 @@
             <table class="payment-plan table">
                 <div class="row align-items-center" style="width:100%;margin:0 auto">
                     <div class="col-md-12">
-                        <div class="d-flex align-items-center justify-space-between">
+                        <div class="d-flex align-items-center justify-content-between">
                             <a id="whatsappButton" class="btn btn-outline-light"><svg
                                     xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="18" height="18"
                                     viewBox="0 0 48 48">
@@ -212,8 +212,9 @@
                             @if (
                                 (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
                                     (Auth::check() && Auth::user()->type == '1'))
-                                <span class="btn addCollection mobileAddCollection" data-type='project'>
-                                    <i class="fa fa-bookmark-o"></i> Koleksiyona Ekle & Hızlı Sat
+                                <span class="btn addCollection mobileAddCollection" data-type='project'
+                                style="color: #EC2F2E;">
+                                    <i class="fa fa-bookmark-o mr-3"></i> Koleksiyona Ekle & Hızlı Sat
                                 </span>
                             @endif
 
