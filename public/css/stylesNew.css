@@ -26801,7 +26801,7 @@ table.basic-table {
 
 .btn-group-lg>.btn,
 .btn-lg {
-  border-radius: 0 !important;
+  border-radius: 10px !important;
 }
 
 .ui-buttons .btn-sm,

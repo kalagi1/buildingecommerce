@@ -726,8 +726,8 @@
                 </div>
                 <div class="modal-footer" style="justify-content: end !important">
                     <button type="submit" class="btn btn-success" style="width:150px"
-                    data-project-id="{{ $project->id }}"
-                        data-project-housing="{{ $projectOrder }}">Talep Bırak</button>
+                        data-project-id="{{ $project->id }}" data-project-housing="{{ $projectOrder }}">Talep
+                        Bırak</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
                         style="width:150px">Kapat</button>
                 </div>
@@ -932,8 +932,8 @@
                     </div>
                     <div class="modal-footer" style="justify-content: end !important">
 
-                        <a href="tel:{{ isset($sold->phone) ? $sold->phone : null }}"><button class="btn btn-success"
-                                style="width:100px">Ara</button></a>
+                        <a href="tel:{{ isset($sold->phone) ? $sold->phone : null }}"><button
+                                class="btn btn-success" style="width:100px">Ara</button></a>
 
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
                             style="width:100px">Kapat</button>
