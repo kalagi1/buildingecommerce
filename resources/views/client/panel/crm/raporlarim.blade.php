@@ -30,10 +30,10 @@
                     </span>
                 </div>
                 <div class="mt-3" style="background-color:white;padding: 2px;border-radius: 13px;">
-                    <ul class="mt-2" style="display: flex;justify-content: space-around;">
-                        <li class="nav-item active">Günlük</li>
-                        <li class="nav-item">Haftalık</li>
-                        <li class="nav-item">Aylık</li>
+                    <ul class="mt-2 consultantAppointment" style="display: flex;justify-content: space-around;">
+                        <li class="nav-item active dailyAppointments" data-period="dailyAppointments">Günlük</li>
+                        <li class="nav-item weeklyAppointments"       data-period="weeklyAppointments">Haftalık</li>
+                        <li class="nav-item monthlyAppointments"      data-period="monthlyAppointments">Aylık</li>
                     </ul>
                 </div>
                 <div class="card mt-3" style="border-radius:13px">
@@ -44,29 +44,9 @@
                                 <div class="header-item"><span>Randevu Sayısı</span></div>
                                 <div class="header-item"><span>Arama / Randevu Oranı</span></div>
                             </div>
-                            <div class="table-body">
-                                @forelse ($consultantAppointments as $appointment)
-                                    <div class="table-row">
-                                        <div class="cell">{{ $appointment->name }}</div>
-                                        <div class="cellData">{{ $appointment->randevu_sayisi }}</div>
-                                        <div class="cellData">% 12</div>
-                                    </div>
-                                @empty
-                                    <div class="table-row">
-                                        <div class="cell">Veri bulunamadı</div>
-                                        <div class="cellData"></div>
-                                        <div class="cellData"></div>
-                                    </div>
-                                @endforelse
-                                
-                                <!-- Fill remaining rows if less than 4 -->
-                                @for ($i = count($consultantAppointments); $i < 4; $i++)
-                                    <div class="table-row">
-                                        <div class="cell" style="">---</div>
-                                        <div class="cellData">---</div>
-                                        <div class="cellData">---</div>
-                                    </div>
-                                @endfor
+                            <div class="appointments-table-body" id="appointments-table-body">
+                               
+                                <div id="spinner" class="spinner"></div>
                             </div>
                         </div>
                     </div>
@@ -80,10 +60,10 @@
                     </span>
                 </div>
                 <div class="mt-3" style="background-color:white;padding: 2px;border-radius: 13px;">
-                    <ul class="mt-2" style="display: flex;justify-content: space-around;">
-                        <li class="nav-item active">Günlük</li>
-                        <li class="nav-item">Haftalık</li>
-                        <li class="nav-item">Aylık</li>
+                    <ul class="mt-2 consultantCall" style="display: flex;justify-content: space-around;">
+                        <li class="nav-item active" data-period="daily">Günlük</li>
+                        <li class="nav-item"        data-period="weekly" >Haftalık</li>
+                        <li class="nav-item"        data-period="monthly" >Aylık</li>
                     </ul>
                 </div>
                 <div class="card mt-3" style="border-radius:13px">
@@ -94,29 +74,14 @@
                                 <div class="header-item"><span>Arama Sayısı</span></div>
                                 <div class="header-item"><span>Değerlendirme</span></div>
                             </div>
-                            <div class="table-body">
-                                @foreach ($getDailyCallCounts as $call)
-                                    <div class="table-row">
-                                        <div class="cell">{{ $call->consultant_name }}</div>
-                                        <div class="cellData">{{ $call->call_count }}</div>
-                                        <div class="cellData">Çok İyi</div>
-                                    </div>
-                                @endforeach
-                                
-                                <!-- Eğer veri sayısı 4'ten azsa, eksik satırları doldur -->
-                                @for ($i = count($getDailyCallCounts); $i < 4; $i++)
-                                    <div class="table-row">
-                                        <div class="cell">---</div>
-                                        <div class="cellData">---</div>
-                                        <div class="cellData">---</div>
-                                    </div>
-                                @endfor
+                            <div class="call-table-body" id="call-table-body">
+                              
+                                <div id="spinner" class="spinner"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
+            </div>            
         </div>
 
         <div class="row mt-5">
@@ -213,7 +178,7 @@
             
         </div>
 
-        <div class="row mt-5">
+        {{-- <div class="row mt-5">
             <div class="data-title">
                 <span>Olumlu Müşteriler
                     <i class="fas fa-info-circle info-icon" style="margin-left:5px;font-size: 16px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Satış temsilcilerin olumlu müşteri sayıları."></i>
@@ -257,7 +222,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="row mt-5">
             <div style="background-color: #ffffff;border-radius: 10px;padding: 50px 20px;">
@@ -274,78 +239,52 @@
             <div class="col-6">
                 <div class="data-title">
                     <span>Genel Müşteri Durum İstatistiği
-                        <i class="fas fa-info-circle info-icon" style="margin-left:5px;font-size: 16px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Satış temsilcilerin olumlu müşteri sayıları."></i>
+                        <i class="fas fa-info-circle info-icon" style="margin-left:5px;font-size: 16px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Satış temsilcilerin yaptığı görüşmeler sonucu müşteri durumlarının genel istatistiği."></i>
                     </span>
                 </div>
                 <div class="mt-3" style="background-color:white;padding: 2px;border-radius: 13px;">
-                    <ul class="mt-2" style="display: flex;justify-content: space-around;">
-                        <li class="nav-item active">Günlük</li>
-                        <li class="nav-item">Haftalık</li>
-                        <li class="nav-item">Aylık</li>
+                    <ul class="mt-2 customer-status" style="display: flex;justify-content: space-around;">
+                        <li class="nav-item active" data-period="daily">Günlük</li>
+                        <li class="nav-item" data-period="weekly">Haftalık</li>
+                        <li class="nav-item" data-period="monthly">Aylık</li>
                     </ul>
                 </div>
                 <div class="card mt-3" style="border-radius:13px">
                     <div class="card-body">
                         <div class="custom-table">
-                            <div class="table-body">
-                                @foreach (['Olumlu', 'Ulaşılamadı', 'Olumsuz', 'Sıcak Müşteri', 'Hatalı Numara', 'Nötr','Opsiyon'] as $status)
-                                    <div class="table-row">
-                                        <div class="cell">{{ $status }}</div>
-                                        <div class="cellData">{{ $getDailyCustomerStatuses[$status]->total ?? 0 }} </div>
-                                    </div>
-                                @endforeach
+                            <div class="customer-status-table-body" id="customer-status-table-body">
+                                <!-- Veriler buraya yüklenecek -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             
+            
             <div class="col-6">
                 <div class="data-title">
                     <span>Genel Müşteri Görüşme Sonucu İstatistiği
-                        <i class="fas fa-info-circle info-icon" style="margin-left:5px;font-size: 16px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Satış temsilcilerin olumlu müşteri sayıları."></i>
+                        <i class="fas fa-info-circle info-icon" style="margin-left:5px;font-size: 16px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Satış temsilcilerin yaptıkları görüşmeler sonucu arama sonuçlarının genel istatistiği."></i>
                     </span>
                 </div>
                 <div class="mt-3" style="background-color:white;padding: 2px;border-radius: 13px;">
-                    <ul class="mt-2" style="display: flex;justify-content: space-around;">
-                        <li class="nav-item active">Günlük</li>
-                        <li class="nav-item">Haftalık</li>
-                        <li class="nav-item">Aylık</li>
+                    <ul class="mt-2 call-results" style="display: flex;justify-content: space-around;">
+                        <li class="nav-item active" data-period="daily">Günlük</li>
+                        <li class="nav-item" data-period="weekly">Haftalık</li>
+                        <li class="nav-item" data-period="monthly">Aylık</li>
                     </ul>
                 </div>
                 <div class="card mt-3" style="border-radius:13px">
                     <div class="card-body">
                         <div class="custom-table">
-                            <div class="table-body">
-                                <div class="table-row">
-                                    <div class="cell">Takip Edilecek</div>
-                                    <div class="cellData">1200</div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="cell">Randevu (Zoom & Yüz Yüze)</div>
-                                    <div class="cellData">85</div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="cell">Yeni Projelerde Aranacak </div>
-                                    <div class="cellData">95</div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="cell">Olumsuz</div>
-                                    <div class="cellData">110</div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="cell">Bir Daha Aranmayacak</div>
-                                    <div class="cellData">110</div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="cell">Satış</div>
-                                    <div class="cellData">110</div>
-                                </div>
+                            <div class="call-results-table-body" id="call-results-table-body">
+                                <!-- Veriler buraya yüklenecek -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
         </div>
 
         <div class="row mt-5">
@@ -360,60 +299,25 @@
                         <div class="table-header">
                             <div class="header-item"><span>Satış Temsilcilerim</span></div>
                             <div class="header-item"><span>Konut</span></div>
-                            <div class="header-item"><span>Proje</span></div>
                             <div class="header-item"><span>Arsa</span></div>
                             <div class="header-item"><span>İş Yeri</span></div>
-                            <div class="header-item"><span>Toplam Satış</span></div>
+                            <div class="header-item"><span>Toplam Satış Adedi</span></div>
                         </div>
                         <div class="table-body">
+                            @foreach($getConsultantSales as $data)
+                            @php
+                                // Her temsilcinin toplam satış sayısını hesapla
+                                $totalSales = $data['konut'] + $data['arsa'] + $data['is-yeri'];
+                            @endphp
                             <div class="table-row">
-                                <div class="cell">Yavuz Türk</div>
-                                <div class="cellData">1200</div>
-                                <div class="cellData">1200</div>
-                                <div class="cellData">1200</div>
-                                <div class="cellData">1200</div>
-                                <div class="cellData">1200</div>
+                                <div class="cell">{{ $data['representative_name'] }}</div>
+                                <div class="cellData">{{ $data['konut'] }}</div>
+                                <div class="cellData">{{ $data['arsa'] }}</div>
+                                <div class="cellData">{{ $data['is-yeri'] }}</div>
+                                <div class="cellData">{{ $totalSales }}</div> <!-- Toplam satış sayısı -->
                             </div>
-                            <div class="table-row">
-                                <div class="cell">Yavuz Türk</div>
-                                <div class="cellData">85</div>
-                                <div class="cellData">85</div>
-                                <div class="cellData">85</div>
-                                <div class="cellData">85</div>
-                                <div class="cellData">85</div>
-                            </div>
-                            <div class="table-row">
-                                <div class="cell">Yavuz Türk</div>
-                                <div class="cellData">95</div>
-                                <div class="cellData">95</div>
-                                <div class="cellData">95</div>
-                                <div class="cellData">95</div>
-                                <div class="cellData">95</div>
-                            </div>
-                            <div class="table-row">
-                                <div class="cell">Yavuz Türk</div>
-                                <div class="cellData">110</div>
-                                <div class="cellData">110</div>
-                                <div class="cellData">110</div>
-                                <div class="cellData">110</div>
-                                <div class="cellData">110</div>
-                            </div>
-                            <div class="table-row">
-                                <div class="cell">Yavuz Türk</div>
-                                <div class="cellData">110</div>
-                                <div class="cellData">110</div>
-                                <div class="cellData">110</div>
-                                <div class="cellData">110</div>
-                                <div class="cellData">110</div>
-                            </div>
-                            <div class="table-row">
-                                <div class="cell">Yavuz Türk</div>
-                                <div class="cellData">110</div>
-                                <div class="cellData">110</div>
-                                <div class="cellData">110</div>
-                                <div class="cellData">110</div>
-                                <div class="cellData">110</div>
-                            </div>
+                        @endforeach
+                        
                         </div>
                     </div>
                 </div>
@@ -422,71 +326,264 @@
     </div>
 @endsection
     @section('scripts')
-    <!-- Leaflet CSS -->
+        <!-- Leaflet CSS -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
         <!-- Leaflet JS -->
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+        {{-- satış temsilcisi arama sayıları kodları --}}    
         <script>
+            // JavaScript değişkenlerine PHP verilerini aktarın
+            var dailyAppointments = @json($consultantDailyAppointments);
+            var weeklyAppointments = @json($consultantWeeklyAppointments);
+            var monthlyAppointments = @json($consultantMonthlyAppointments);
+        
+            var dailyCalls = @json($getDailyCallCounts);
+            var weeklyCalls = @json($getWeeklyCallCounts);
+            var monthlyCalls = @json($getMonthlyCallCounts);
+
+            var dailyCustomerStatuses = @json($getDailyCustomerStatuses);
+            var weeklyCustomerStatuses = @json($getWeeklyCustomerStatus);
+            var monthlyCustomerStatuses = @json($getMonthlyCustomerStatus);
+
+            var getDailyCustomerCallResults = @json($getDailyCustomerCallResults);
+            var getWeeklyCustomerCallResults = @json($getWeeklyCustomerCallResults);
+            var getMonthlyCustomerCallResults = @json($getMonthlyCustomerCallResults);
+        
             $(document).ready(function() {
-                // Günlük verileri başlangıç olarak göster
-                showDailyData();
-            
-                // Tab Click Event Handler
-                $('#daily-tab').on('click', function(e) {
-                    e.preventDefault();
-                    setActiveTab(this);
-                    showDailyData();
-                });
-            
-                $('#weekly-tab').on('click', function(e) {
-                    e.preventDefault();
-                    setActiveTab(this);
-                    showWeeklyData();
-                });
-            
-                $('#monthly-tab').on('click', function(e) {
-                    e.preventDefault();
-                    setActiveTab(this);
-                    showMonthlyData();
-                });
-                
-                // Aktif sekmeyi ayarlayan fonksiyon
-                function setActiveTab(tab) {
-                    // Tüm tab linklerinden 'active' sınıfını kaldır
-                    $('.nav-link').removeClass('active');
-                    // Tıklanan tab linkine 'active' sınıfını ekle
-                    $(tab).addClass('active');
+
+                function updateAppointmentsTable(period) {
+                    let data;
+                    let ratio;
+
+                    switch(period) {
+                        case 'dailyAppointments':
+                            data = dailyAppointments;
+                            break;
+                        case 'weeklyAppointments':
+                            data = weeklyAppointments;
+                            break;
+                        case 'monthlyAppointments':
+                            data = monthlyAppointments;
+                            break;
+                        default:
+                            data = dailyAppointments;
+                    }
+console.log('data'+ data   )
+                    let tableBody = $('#appointments-table-body');
+                    $('#spinner').show(); 
+                    let tableBody = $('#appointments-table-body');
+                    setTimeout(function() {
+                        tableBody.empty(); // Mevcut içeriği temizle
+
+                        data.forEach(appointment => {
+                            // Oranı buraya ekle
+                            ratio = appointment.appointment_count < 5 ? 'Kötü' : (appointment.appointment_count <= 10 ? 'İyi' : 'Çok İyi');
+
+                            let row = `
+                                <div class="table-row">
+                                    <div class="cell">${appointment.representative_name}</div>
+                                    <div class="cellData">${appointment.appointment_count}</div>
+                                    <div class="cellData">${ratio}</div>
+                                </div>
+                            `;
+                            tableBody.append(row);
+                        });
+
+                        // Eksik satırlar ekle
+                        for (let i = data.length; i < 4; i++) {
+                            let row = `
+                                <div class="table-row">
+                                    <div class="cell">---</div>
+                                    <div class="cellData">---</div>
+                                    <div class="cellData">---</div>
+                                </div>
+                            `;
+                            tableBody.append(row);
+                        }
+                        tableBody.removeClass('table-body-transition').addClass('visible');
+                        $('#spinner').hide();
+                    },400); 
                 }
 
-                // Verileri gösteren fonksiyonlar
-                function showDailyData() {
-                    var dailyData = @json($getDailyCallCounts);
-                    renderTable(dailyData);
-                }
-            
-                function showWeeklyData() {
-                    var weeklyData = @json($getWeeklyCallCounts);
-                    renderTable(weeklyData);
-                }
-            
-                function showMonthlyData() {
-                    var monthlyData = @json($getMonthlyCallCounts);
-                    renderTable(monthlyData);
-                }
-            
-                function renderTable(data) {
-                    var html = '<table class="table table-bordered"><thead ><tr><th style="background: #ea2a28;color: white;font-size: 10px;">Danışman Adı</th><th style="background: #ea2a28;color: white;font-size: 10px;">Toplam Arama</th></tr></thead><tbody>';
-                    $.each(data, function(index, item) {
-                        html += '<tr><td>' + item.consultant_name + '</td><td>' + item.total + '</td></tr>';
+                function updateCallsTable(period) {
+                    let data;
+                    let evaluation;
+
+                    switch(period) {
+                        case 'daily':
+                            data = dailyCalls;
+                            break;
+                        case 'weekly':
+                            data = weeklyCalls;
+                            break;
+                        case 'monthly':
+                            data = monthlyCalls;
+                            break;
+                        default:
+                            data = dailyCalls;
+                    }
+
+                    let tableBody = $('#call-table-body');
+                    $('#spinner').show(); 
+                    setTimeout(function() {
+                        tableBody.empty(); 
+
+                        data.forEach(call => {
+                            switch(period) {
+                                case 'daily':
+                                    evaluation = call.total < 10 ? 'Kötü' : (call.total <= 20 ? 'İyi' : 'Çok İyi');
+                                    break;
+                                case 'weekly':
+                                    evaluation = call.total < 50 ? 'Kötü' : (call.total <= 100 ? 'İyi' : 'Çok İyi');
+                                    break;
+                                case 'monthly':
+                                    evaluation = call.total < 200 ? 'Kötü' : (call.total <= 400 ? 'İyi' : 'Çok İyi');
+                                    break;
+                            }
+
+                            let row = `
+                                <div class="table-row">
+                                    <div class="cell">${call.consultant_name}</div>
+                                    <div class="cellData">${call.total}</div>
+                                    <div class="cellData">${evaluation}</div>
+                                </div>
+                            `;
+                            tableBody.append(row);
+                        });
+
+                        // Eksik satırlar ekle
+                        for (let i = data.length; i < 4; i++) {
+                            let row = `
+                                <div class="table-row">
+                                    <div class="cell">---</div>
+                                    <div class="cellData">---</div>
+                                    <div class="cellData">---</div>
+                                </div>
+                            `;
+                            tableBody.append(row);
+                        }
+                        $('#spinner').hide();
                     });
-                    html += '</tbody></table>';
-                    $('#data-table').html(html);
                 }
-            });
-        </script>  
 
+                function updateCustomerStatusTable(period) {
+                    let data;
+
+                    switch(period) {
+                        case 'daily':
+                            data = dailyCustomerStatuses;
+                            break;
+                        case 'weekly':
+                            data = weeklyCustomerStatuses;
+                            break;
+                        case 'monthly':
+                            data = monthlyCustomerStatuses;
+                            break;
+                        default:
+                            data = dailyCustomerStatuses;
+                    }
+
+                    let tableBody = $('#customer-status-table-body');
+                    tableBody.empty(); // Mevcut içeriği temizle
+
+                    const statuses = ['Olumlu', 'Ulaşılamadı', 'Olumsuz', 'Sıcak Müşteri', 'Hatalı Numara', 'Nötr', 'Opsiyon'];
+
+                    statuses.forEach(status => {
+                        let count = data[status] ? data[status].total : 0;
+                        let row = `
+                            <div class="table-row">
+                                <div class="cell">${status}</div>
+                                <div class="cellData">${count}</div>
+                            </div>
+                        `;
+                        tableBody.append(row);
+                    });
+                }
+
+                function updateCustomerCallResults(period) {
+                    let data;
+
+                    switch(period) {
+                        case 'daily':
+                            data = getDailyCustomerCallResults;
+                            break;
+                        case 'weekly':
+                            data = getWeeklyCustomerCallResults;
+                            break;
+                        case 'monthly':
+                            data = getMonthlyCustomerCallResults;
+                            break;
+                        default:
+                            data = getDailyCustomerCallResults;
+                    }
+                    
+                    let tableBody = $('#call-results-table-body');
+                    tableBody.empty(); // Mevcut içeriği temizle
+
+                    const conlusions = ['Takip Edilecek', 'Randevu (Zoom)', 'Randevu (Yüz Yüze)', 'Yeni Projelerde Aranacak', 'Olumsuz', 'Bir Daha Aranmayacak', 'Satış'];
+
+                    conlusions.forEach(conlusion => {
+                        let count = data[conlusion] ? data[conlusion].total : 0;
+                        let row = `
+                            <div class="table-row">
+                                <div class="cell">${conlusion}</div>
+                                <div class="cellData">${count}</div>
+                            </div>
+                        `;
+                        tableBody.append(row);
+                    });
+                }
+
+                // İlk yüklemede günlük verileri göster
+                updateCustomerStatusTable('daily');
+                updateCustomerCallResults('daily');
+
+                $('.call-results .nav-item').click(function() {
+                    $('.call-results .nav-item').removeClass('active');
+                    $(this).addClass('active');
+
+                    let period = $(this).data('period');
+                    updateCustomerCallResults(period);
+                });
+
+                // Tab geçişlerine tıklama olayını ekle
+                $('.customer-status .nav-item').click(function() {
+                    $('.customer-status .nav-item').removeClass('active');
+                    $(this).addClass('active');
+
+                    let period = $(this).data('period');
+                    updateCustomerStatusTable(period);
+                });
+
+                // İlk yüklemede günlük randevu ve arama verisini göster
+                updateAppointmentsTable('dailyAppointments');
+                updateCallsTable('daily');
+
+                // Randevu tab geçişlerine tıklama olayını ekle
+                $('.consultantAppointment .nav-item').click(function() {
+                    $('.consultantAppointment .nav-item').removeClass('active');
+                    $(this).addClass('active');
+
+                    let period = $(this).data('period');
+                    console.log('Randevu Period: ' + period); // Debug için
+                    updateAppointmentsTable(period);
+                });
+
+                // Arama tab geçişlerine tıklama olayını ekle
+                $('.consultantCall .nav-item').click(function() {
+                    $('.consultantCall .nav-item').removeClass('active');
+                    $(this).addClass('active');
+
+                    let period = $(this).data('period');
+                    console.log('Arama Period: ' + period); // Debug için
+                    updateCallsTable(period);
+                });
+            });
+
+        </script>
+
+        {{-- mağaza projeleri harita kodu --}}
         <script>
             // Harita oluşturuluyor
             var map = L.map('map').setView([39.9334, 32.8597], 6); // Türkiye merkezli bir koordinat
@@ -533,6 +630,37 @@
 
 
     @section('styles')
+    <style>
+
+
+        /* Yüklenme animasyonu */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 100px auto;
+        }
+
+        /* Yüklenme animasyonu döngüsü */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Geçiş efekti için stiller */
+.table-body-transition {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.table-body-transition.visible {
+    opacity: 1;
+}
+
+    </style>
     <style>
         .popup-content {
             font-family: Arial, sans-serif;
@@ -588,10 +716,6 @@
             font-size: 13px;
         }
 
-        .table-body {
-          
-        }
-
         .table-row {
             display: flex;
             justify-content: space-between;
@@ -621,93 +745,93 @@
             border-bottom: none;
         }
     </style>
-        <style>
-            table{
-                background-color: #ffffff !important; 
-            }
-            .active{
-                color: #ea2a28;
-            }
-            .nav-item{
-                font-size: 13px;
-                cursor: pointer;
-            }
-            .data-title{
-                background-color: #ea2a28;
-                color: #ffffff;
-                padding: 7px;
-                font-size: 18px;
-                border-radius: 11px;
-                text-align: center;
-                align-items: center;
-                justify-content: center;
-                font-weight: 600;
-            }
-            .card-header{
-                background-color: #ea2a28;
-                text-align: center;
-            }
-            .card-header-title{
-                color: white;
-                font-size: 13px;
-                margin-top: 3px;
-            }
-            .text-header {
-                padding: 30px;
-                margin-bottom: 25px;
-                background-color: white;
-                border-radius: 18px;
-            }
-            .project-table-content ul li {
-                padding: 12px 0px;
-                flex: initial;
-            }
 
-            .sales-consultants-heading {
-                color: #333;
-                font-weight: bold;
-                position: relative;
-                font-size: 15px;
-            }
-        
-            .text-header {
-                padding: 30px;
-                margin-bottom: 25px;
-                background-color: white;
-                border-radius: 18px;
-            }
+    <style>
+        table{
+            background-color: #ffffff !important; 
+        }
+        .active{
+            color: #ea2a28;
+        }
+        .nav-item{
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .data-title{
+            background-color: #ea2a28;
+            color: #ffffff;
+            padding: 7px;
+            font-size: 18px;
+            border-radius: 11px;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .card-header{
+            background-color: #ea2a28;
+            text-align: center;
+        }
+        .card-header-title{
+            color: white;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+        .text-header {
+            padding: 30px;
+            margin-bottom: 25px;
+            background-color: white;
+            border-radius: 18px;
+        }
+        .project-table-content ul li {
+            padding: 12px 0px;
+            flex: initial;
+        }
 
-            .text-header-title {
-                margin-bottom: 15px;
-                margin-right: 5px; 
-            }
+        .sales-consultants-heading {
+            color: #333;
+            font-weight: bold;
+            position: relative;
+            font-size: 15px;
+        }
+    
+        .text-header {
+            padding: 30px;
+            margin-bottom: 25px;
+            background-color: white;
+            border-radius: 18px;
+        }
 
-            .btnProjectAssign {
-                width: 95%;
-                border-color: #EC2F2E;
-                background-color: #EC2F2E;
-                color: white;
-                border-radius: 6px !important;
-            }
+        .text-header-title {
+            margin-bottom: 15px;
+            margin-right: 5px; 
+        }
 
-            .btnProjectAssign:hover {
-                background-color: white !important;
-                color: #EC2F2E;
-                border-color: #EC2F2E;
-            }
+        .btnProjectAssign {
+            width: 95%;
+            border-color: #EC2F2E;
+            background-color: #EC2F2E;
+            color: white;
+            border-radius: 6px !important;
+        }
 
-            .card {
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                min-width: 0;
-                word-wrap: break-word;
-                background-color: #fff;
-                background-clip: border-box;
-                border: 1px solid #d2d2dc;
-                border-radius: 0;
-                padding:10px;
-            
-            } 
-        </style>
+        .btnProjectAssign:hover {
+            background-color: white !important;
+            color: #EC2F2E;
+            border-color: #EC2F2E;
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid #d2d2dc;
+            border-radius: 0;
+            padding:10px;            
+        } 
+    </style>
     @endsection

@@ -19,6 +19,6 @@ class Appointment extends Model
      // Randevu modelinde danışman ilişkisi
      public function consultant()
      {
-         return $this->belongsTo(User::class, 'gorusmeyi_yapan_user_id');
+         return $this->belongsTo(User::class, 'danisman_id');
      }
 }
