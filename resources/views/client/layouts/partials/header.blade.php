@@ -599,7 +599,7 @@
                                                 [
                                                     'url' => url('hesabim/ilan-tipi-sec'),
                                                     'icon' => 'fa fa-plus',
-                                                    'text' => 'Ücretsiz İlan Ver',
+                                                    'text' => 'İlan Ver',
                                                 ],
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),
@@ -793,7 +793,7 @@
                                         switch ($userType) {
                                             case 2:
                                                 $link = url('hesabim/ilan-tipi-sec');
-                                                $text = 'Ücretsiz İlan Ver';
+                                                $text = 'İlan Ver';
                                                 break;
                                             case 3:
                                                 $link = url('qR9zLp2xS6y/secured/');

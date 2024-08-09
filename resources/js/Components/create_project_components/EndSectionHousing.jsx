@@ -41,7 +41,7 @@ function EndSectionHousing(props) {
                   href="/hesabim/emlak-ilani-ekle"
                   className="btn btn-info mx-2"
                 >
-                  Yeni Ücretsiz İlan Ver
+                  Yeni İlan Ver
                 </a>
               </div>
             </div>

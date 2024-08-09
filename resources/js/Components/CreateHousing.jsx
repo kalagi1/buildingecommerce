@@ -1088,7 +1088,7 @@ function CreateHousing(props) {
             className="custom-modal-button custom-modal-button-secondary"
             onClick={handleStartOver}
           >
-            Yeni Ücretsiz İlan Ver
+            Yeni İlan Ver
           </button>
         </div>
       </CustomModal>

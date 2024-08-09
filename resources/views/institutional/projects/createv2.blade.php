@@ -32,7 +32,7 @@
 </style>
 <div class="container2">
     <div class="container">
-        <i class="fas fa-info-circle message-icon"></i><h2 class="mobile-message">Ücretsiz İlan Vermek için Web Sürümünü kullanın</h2>
+        <i class="fas fa-info-circle message-icon"></i><h2 class="mobile-message">İlan Vermek için Web Sürümünü kullanın</h2>
     </div>
 
 </div>

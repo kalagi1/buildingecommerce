@@ -99,7 +99,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                    <button type="button" class="btn btn-primary" onclick="submitSellType()">Ücretsiz İlan Ver</button>
+                    <button type="button" class="btn btn-primary" onclick="submitSellType()">İlan Ver</button>
                 </div>
             </div>
         </div>
