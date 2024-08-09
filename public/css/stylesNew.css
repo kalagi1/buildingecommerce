@@ -3493,6 +3493,7 @@ section.portfolio {
 .portfolio .project-head {
   position: relative;
   text-align: center;
+  border-radius: 10px 10px 0 0;
 }
 
 .portfolio .project-head:before {
@@ -20496,6 +20497,8 @@ ul.the-agents-details li a {
 .inner-pages .button.alt,
 .inner-pages .homes-tag.sale.rent {
   line-height: 1.5;
+  border-radius: 10px;
+  padding: 0 10px;
 }
 
 .inner-pages .agent-details .footer a {

@@ -296,11 +296,14 @@
                                         data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
                                         aria-selected="false">Yorumlar</button>
                                 </li>
+                                @if (!checkIfUserCanAddToCart($housing->id))
+
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="comment-tab" data-bs-toggle="tab"
                                         data-bs-target="#comment" type="button" role="tab" aria-controls="comment"
                                         aria-selected="false">Değerlendir</button>
                                 </li>
+                                @endif
 
                             </ul>
 
@@ -628,6 +631,8 @@
 
 
                                 </div>
+                                @if (!checkIfUserCanAddToCart($housing->id))
+
                                 <div class="tab-pane fade  blog-info details mb-30" id="comment" role="tabpanel"
                                     aria-labelledby="comment-tab">
                                     @if (checkIfUserCanAddToCart($housing->id))
@@ -704,6 +709,7 @@
 
 
                                 </div>
+                                @endif
                                 <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                     <iframe width="100%" height="100%" frameborder="0" style="border:0;"
