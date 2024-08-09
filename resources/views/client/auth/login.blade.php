@@ -6,7 +6,7 @@
             <div class="single homes-content details mb-30 ">
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 mobile-hidden">
                         {{-- <h2 class="fw-700 alt-font text-dark-gray ls-minus-1px mb-50px sm-mb-35px">Emlak Sepette'ye Hoş
                             Geldin!</h2>
                         <p>Hayalinizdeki evi bulmak ve mülk yatırımlarınızı yönetmek için en doğru yerdesiniz. Size en iyi
@@ -16,7 +16,7 @@
                         <img src="{{ asset('login/undraw_home_settings_re_pkya.png') }}" alt="" style="padding: 35px;width:100%">
 
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-12">
 
                         <div class="login-container">
                             <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
