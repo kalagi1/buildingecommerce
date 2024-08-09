@@ -10,7 +10,7 @@
 
 
                         <img src="{{ asset('login/undraw_home_settings_re_pkya.png') }}" alt=""
-                            style="width:100%;height:auto !important">
+                            style="width:100%;height:auto !important;padding:35px">
 
                     </div>
                     <div class="col-md-6">
