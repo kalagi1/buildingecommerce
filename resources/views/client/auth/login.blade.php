@@ -7,8 +7,8 @@
 
                 <div class="row">
                     <div class="col-md-6">
-
-
+                        <div class="bg-base-color fw-600 text-white text-uppercase ps-20px pe-20px fs-12 border-radius-100px d-inline-block mb-20px">Flexible pricing</div>
+                        <h2 class="fw-700 alt-font text-dark-gray ls-minus-1px mb-50px sm-mb-35px">Tailored <span class="text-highlight">pricing<span class="bg-base-color opacity-3 h-10px bottom-10px"></span></span> plans for everyone.</h2>
                         <img src="{{ asset('login/undraw_home_settings_re_pkya.png') }}" alt=""
                             style="width:100%;height:auto !important;padding:35px">
 
