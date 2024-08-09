@@ -64,9 +64,9 @@
                                 $platformData = $sourcePlatform['platformData'];
                             @endphp
                             <ul class="data-summary-list">
-                                <li>Toplam {{ $totalCount }} adet müşterimiz bulunmaktadır.</li>
+                                <li>Toplam <strong> {{ $totalCount }} adet </strong> müşterimiz bulunmaktadır.</li>
                                 @foreach ($platformData as $platform => $data)
-                                    <li>Verilerimizin {{ $data['percentage'] }}% {{ ucfirst($platform) }} tarafından sağlanmaktadır.</li>
+                                    <li>Verilerimizin <strong> {{ $data['percentage'] }}% {{ ucfirst($platform) }} </strong> tarafından sağlanmaktadır.</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -696,17 +696,20 @@
     @section('styles')
     <style>
          .data-summary-list {
-        list-style-type: disc; /* Siyah noktaları gösterir */
-        padding-left: 20px; /* Liste başlıklarının soldan mesafesi */
-        font-size: 12px; /* Yazı boyutu */
-        font-weight: bold; /* Yazı kalınlığı */
-    }
-    .data-summary-list li {
-        margin-bottom: 5px; /* Satırlar arasındaki boşluk */
-    }
+            list-style-type: disc; /* Siyah noktaları gösterir */
+            padding-left: 20px; /* Liste başlıklarının soldan mesafesi */
+            font-size: 12px; /* Yazı boyutu */
+            font-weight: 500 !important;
+        }
+        .data-summary-list strong{
+            font-weight: 700 !important;
+        }
+        .data-summary-list li {
+            margin-bottom: 5px; /* Satırlar arasındaki boşluk */
+        }
         .data-summary {
             font-size: 12px; /* Yazı boyutu */
-            font-weight: bold; /* Yazı kalınlığı */
+            font-weight: bold; 
             text-align: center;
         }
         .data-summary div {
