@@ -824,14 +824,15 @@ class CrmController extends Controller
          $getMonthlyCustomerCallResults = $this->getMonthlyCustomerCallResults(); //aylık genel görüşme sonucu istatistiği
 
          $getConsultantSales = $this->getConsultantSales();
-            //    dd($getDailyCustomerCallResults);
+         $sourcePlatform = $this->sourcePlatform();
+            //  dd($sourcePlatform);
 
         return view('client.panel.crm.raporlarim', compact('housingPreferences','assetManagements',
         'budgetCounts','regionCounts','consultantCalls','getDailyCallCounts','getWeeklyCallCounts','getMonthlyCallCounts',
         'getCallConclusions','getCallCustomerStatus','salesDetails','monthlySalesDetails','getDailyCustomerStatuses',
         'getWeeklyCustomerStatus','getMonthlyCustomerStatus','getDailyCustomerCallResults','getWeeklyCustomerCallResults',
         'getMonthlyCustomerCallResults','getConsultantSales','consultantDailyAppointments','consultantWeeklyAppointments',
-         'consultantMonthlyAppointments'       
+         'consultantMonthlyAppointments','sourcePlatform'       
         ));
     }//End
 
@@ -1249,7 +1250,7 @@ class CrmController extends Controller
         return $getMonthlyCustomerCallResults;
     }//End
 
-    private function getConsultantSales(){
+    private function getConsultantSales(){ //satış temsilcilerimin yaptıgı satış türleri
           // Temsilcilerin ID'lerini al
             $representativeIds = DB::table('users')
             ->where('parent_id', Auth::id())
@@ -1313,4 +1314,38 @@ class CrmController extends Controller
 
         return $salesSummary;
     }//End
+
+    private function sourcePlatform()
+    {
+        // `assigned_users` tablosundaki tüm platform verilerini al
+        $platforms = AssignedUser::pluck('platform')->toArray();
+    
+        // Platformları saymak için bir dizi oluştur
+        $platformCounts = array_count_values($platforms);
+    
+        // Toplam sayıyı hesapla
+        $totalCount = array_sum($platformCounts);
+    
+        // Oranları hesapla ve sonuçları formatla
+        $platformPercentages = [];
+        foreach ($platformCounts as $platform => $count) {
+            $percentage = ($totalCount > 0) ? ($count / $totalCount) * 100 : 0;
+            $platformPercentages[$platform] = [
+                'count' => $count,
+                'percentage' => number_format($percentage, 2) // İki ondalık basamağa yuvarla
+            ];
+        }
+    
+        // 'ig' ve 'fb' yerine 'Instagram' ve 'Facebook' kullanarak platform adlarını değiştirme
+        $platformPercentagesFormatted = [
+            'Instagram' => $platformPercentages['ig'] ?? ['count' => 0, 'percentage' => 0],
+            'Facebook' => $platformPercentages['fb'] ?? ['count' => 0, 'percentage' => 0]
+        ];
+    
+        return [
+            'platformData' => $platformPercentagesFormatted,
+            'totalCount' => $totalCount
+        ];
+    }
+    
 }
