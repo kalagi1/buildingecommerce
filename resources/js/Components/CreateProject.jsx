@@ -1123,7 +1123,7 @@ function CreateProject(props) {
             className="custom-modal-button custom-modal-button-secondary"
             onClick={handleStartOver}
           >
-            Yeni İlan Ekle
+            Yeni Ücretsiz İlan Ver
           </button>
         </div>
       </CustomModal>

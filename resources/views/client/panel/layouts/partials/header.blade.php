@@ -1250,7 +1250,7 @@
 
                             if ($userType == 2) {
                                 $link = url('hesabim/ilan-tipi-sec');
-                                $text = 'İlan Ekle';
+                                $text = 'Ücretsiz İlan Ver';
                             } elseif ($userType == 3) {
                                 $link = url('qR9zLp2xS6y/secured/');
                                 $text = 'Yönetim';
@@ -1262,7 +1262,7 @@
                             } else {
                                 if (in_array('CreateHousing', $userPermissions) || in_array('CreateProject', $userPermissions)) {
                                     $link = url('hesabim/ilan-tipi-sec');
-                                    $text = 'İlan Ekle';
+                                    $text = 'Ücretsiz İlan Ver';
                                 } else {
                                     $link = url('sat-kirala-nedir/');
                                     $text = 'Sat Kirala';
