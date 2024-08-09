@@ -688,7 +688,7 @@
                                                     '-' .
                                                     strtolower($project->county->ilce_title),
                                                 'projectID' => $project->id + 1000000,
-                                                'housingOrder' => $i + 1,
+                                                'housingOrder' => $keyIndex,
                                             ]) }}"
                                                 class="second-btn">
                                                 <span class="text">İlanı Gör</span>
