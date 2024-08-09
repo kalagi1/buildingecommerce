@@ -286,6 +286,7 @@ class CrmController extends Controller
 
             Appointment::create([
                 'customer_id'      => $request->customer_id2,
+                'danisman_id'      => Auth::id(),
                 'appointment_date' => $request->sonraki_gorusme_tarihi,
                 'appointment_info' => $request->randevu_notu,
             ]);
@@ -295,6 +296,7 @@ class CrmController extends Controller
         if($request->sonraki_gorusme_turu == 'Telefon'){
             Appointment::create([
                 'customer_id'            => $request->customer_id2,
+                'danisman_id'      => Auth::id(),
                 'sonraki_gorusme_tarihi' => $request->sonraki_gorusme_tarihi,
                 'sonraki_gorusme_turu'   => $request->sonraki_gorusme_turu,
             ]);
@@ -793,10 +795,12 @@ class CrmController extends Controller
 
     public function raporlarim(){
 
-        // dd('adasd');
         $parentId = Auth::id();
 
-        $consultantAppointments  = $this->consultantAppointments();
+        $consultantDailyAppointments  = $this->consultantDailyAppointments();
+        $consultantWeeklyAppointments = $this->consultantWeeklyAppointments();
+        $consultantMonthlyAppointments = $this->consultantMonthlyAppointments();
+
         $housingPreferences      = $this->housingPreferences();
         $assetManagements        = $this->assetManagements();
         $budgetCounts            = $this->budgetCounts();
@@ -811,35 +815,88 @@ class CrmController extends Controller
         $salesDetails             = $this->getSalesDetailsForConsultants($parentId);
         $monthlySalesDetails      = $this->getMonthlySalesForConsultants($parentId);
 
-        $getDailyCustomerStatuses = $this->getDailyCustomerStatuses();
-        $getWeeklyCustomerStatus  = $this->getWeeklyCustomerStatus();
-        $getMonthlyCustomerStatus = $this->getMonthlyCustomerStatus();
-        //    dd($getDailyCustomerStatuses);
+        $getDailyCustomerStatuses = $this->getDailyCustomerStatuses();  //günlük genel müşteri durumu istatistiği
+        $getWeeklyCustomerStatus  = $this->getWeeklyCustomerStatus();   //günlük genel müşteri durumu istatistiği
+        $getMonthlyCustomerStatus = $this->getMonthlyCustomerStatus();  //günlük genel müşteri durumu istatistiği
 
-        return view('client.panel.crm.raporlarim', compact('consultantAppointments','housingPreferences','assetManagements',
+         $getDailyCustomerCallResults  = $this->getDailyCustomerCallResults();    //günlük genel görüşme sonucu istatistiği
+         $getWeeklyCustomerCallResults = $this->getWeeklyCustomerCallResults();   //haftalık genel görüşme sonucu istatistiği
+         $getMonthlyCustomerCallResults = $this->getMonthlyCustomerCallResults(); //aylık genel görüşme sonucu istatistiği
+
+         $getConsultantSales = $this->getConsultantSales();
+            //    dd($getDailyCustomerCallResults);
+
+        return view('client.panel.crm.raporlarim', compact('housingPreferences','assetManagements',
         'budgetCounts','regionCounts','consultantCalls','getDailyCallCounts','getWeeklyCallCounts','getMonthlyCallCounts',
         'getCallConclusions','getCallCustomerStatus','salesDetails','monthlySalesDetails','getDailyCustomerStatuses',
-        'getWeeklyCustomerStatus','getMonthlyCustomerStatus'        
+        'getWeeklyCustomerStatus','getMonthlyCustomerStatus','getDailyCustomerCallResults','getWeeklyCustomerCallResults',
+        'getMonthlyCustomerCallResults','getConsultantSales','consultantDailyAppointments','consultantWeeklyAppointments',
+         'consultantMonthlyAppointments'       
         ));
     }//End
 
     //Raporlarim sayfası için fonksiyonlar
     
-    private function consultantAppointments() { //danışmanlar ve randevu sayıları (bilgileri)
-        $consultantAppointments = Appointment::select('assigned_users.danisman_id', 'users.id as user_id', 'users.name', 'users.email', \DB::raw('COUNT(appointments.id) as randevu_sayisi'))
-        ->join('assigned_users', 'appointments.customer_id', '=', 'assigned_users.id')
-        ->join('users', 'assigned_users.danisman_id', '=', 'users.id')
-        ->groupBy('assigned_users.danisman_id', 'users.id', 'users.name', 'users.email')
-        ->orderBy('randevu_sayisi', 'DESC')
-        ->get();
+    private function consultantDailyAppointments() { //günlük danışmanlar ve randevu sayıları (bilgileri)
+        $today = Carbon::now()->startOfDay();
 
-        return $consultantAppointments;
+        $consultantDailyAppointments = Appointment::with('consultant')
+        ->select('danisman_id', DB::raw('COUNT(*) as appointment_count'))
+        ->whereDate('appointment_date', $today)
+        ->groupBy('danisman_id')
+        ->get()
+        ->map(function ($item) {
+            // Eğer consultant ilişkisi null ise boş bir değer döndür
+            return [
+                'representative_name' => $item->consultant ? $item->consultant->name : 'Bilinmiyor',
+                'appointment_count' => $item->appointment_count,
+            ];
+        });
+        return $consultantDailyAppointments;
+    }//End
+
+    private function consultantWeeklyAppointments() { //haftalık danışmanlar ve randevu sayıları (bilgileri)
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
+        $consultantWeeklyAppointments = Appointment::with('consultant')
+        ->select('danisman_id', DB::raw('COUNT(*) as appointment_count'))
+        ->whereBetween('appointment_date', [$startOfWeek, $endOfWeek])
+        ->groupBy('danisman_id')
+        ->get()
+        ->map(function ($item) {
+            // Eğer consultant ilişkisi null ise boş bir değer döndür
+            return [
+                'representative_name' => $item->consultant ? $item->consultant->name : 'Bilinmiyor',
+                'appointment_count' => $item->appointment_count,
+            ];
+        });
+        return $consultantWeeklyAppointments;
+    }//End
+    
+    private function consultantMonthlyAppointments() { //aylık danışmanlar ve randevu sayıları (bilgileri)
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+
+        $consultantMonthlyAppointments = Appointment::with('consultant')
+        ->select('danisman_id', DB::raw('COUNT(*) as appointment_count'))
+        ->whereBetween('appointment_date', [$startOfMonth, $endOfMonth])
+        ->groupBy('danisman_id')
+        ->get()
+        ->map(function ($item) {
+            // Eğer consultant ilişkisi null ise boş bir değer döndür
+            return [
+                'representative_name' => $item->consultant ? $item->consultant->name : 'Bilinmiyor',
+                'appointment_count' => $item->appointment_count,
+            ];
+        });
+        return $consultantMonthlyAppointments;
     }//End
 
     private function housingPreferences(){   // Konut tercihi seçenekleri için müşteri sayıları
         $housingPreferences = DB::table('assigned_users')
         ->select('konut_tercihi', DB::raw('COUNT(*) as total'))
-        ->whereIn('konut_tercihi', ['Projeden Konut', 'Hazır Konut','Projeden/Hazır Konut'])
+        ->whereIn('konut_tercihi', ['Projeden Konut', 'Hazır Konut','Arsa'])
         ->groupBy('konut_tercihi')
         ->get();
         return $housingPreferences;
@@ -866,11 +923,7 @@ class CrmController extends Controller
     }//End
 
     private function regionCounts($parentId){  // İlgilendiği bölge seçenekleri için müşteri sayıları
-        // $regionCounts = DB::table('assigned_users')
-        // ->select('ilgilendigi_bolge', DB::raw('COUNT(*) as total'))
-        // ->groupBy('ilgilendigi_bolge')
-        // ->get();
-        // return $regionCounts;
+      
         $projects = Project::where('user_id', $parentId)
         // ->where('status','1')
         ->get();
@@ -934,7 +987,7 @@ class CrmController extends Controller
             ->whereBetween('customer_calls.created_at', [$startOfWeek, $endOfWeek])
             ->groupBy('users.id', 'users.name')
             ->get();
-    }
+    }//End
     
     private function getMonthlyCallCounts() { // Danışmanların aylık arama sayıları
         $startOfMonth = Carbon::now()->startOfMonth();
@@ -945,7 +998,7 @@ class CrmController extends Controller
             ->whereBetween('customer_calls.created_at', [$startOfMonth, $endOfMonth])
             ->groupBy('users.id', 'users.name')
             ->get();
-    }
+    }//End
 
     private function getCallConclusions(){ // Görüşme sonuçlarını gruplandırarak ve sayarak döndür (RANDEVU)
     return   DB::table('customer_calls')
@@ -1008,7 +1061,7 @@ class CrmController extends Controller
             ->get();
     }//End
 
-    private function getDailyCustomerStatuses() {
+    private function getDailyCustomerStatuses() { //günlük genel müşteri durum istatistiği
         $statuses = [
             'Olumsuz',
             'Ulaşılamadı',
@@ -1102,5 +1155,162 @@ class CrmController extends Controller
         return $getMonthlyCustomerStatus;
     }//End
     
+    private function getDailyCustomerCallResults() { //günlük genel görüşme sonucu istatistiği
+        $statuses = [
+            'Takip Edilecek',
+            'Randevu (Zoom)',
+            'Randevu (Yüz Yüze)',
+            'Yeni Projelerde Aranacak',
+            'Olumsuz',
+            'Bir Daha Aranmayacak',
+            'Satış'
+        ];
     
+        $startOfDay = now()->startOfDay();
+        $endOfDay = now()->endOfDay();
+ 
+        $getDailyCustomerCallResults = DB::table('customer_calls')
+            ->select('conclusion', DB::raw('COUNT(*) as total'))
+            ->whereBetween('created_at', [$startOfDay, $endOfDay]) 
+            ->whereIn('conclusion', $statuses)
+            ->groupBy('conclusion')
+            ->get()
+            ->keyBy('conclusion'); // Durumları anahtar olarak kullan
+  
+        // Durumları eksiksiz bir şekilde döndürmek için varsayılan değerler ekle
+        foreach ($statuses as $status) {
+            if (!isset($getDailyCustomerCallResults[$status])) {
+                $getDailyCustomerCallResults[$status] = (object) ['total' => 0];
+            }
+        }
+    
+        return $getDailyCustomerCallResults;
+    }//End  
+
+    private function getWeeklyCustomerCallResults() {  //haftalık genel görüşme sonucu istatistiği
+        $statuses = [
+            'Takip Edilecek',
+            'Randevu (Zoom)',
+            'Randevu (Yüz Yüze)',
+            'Yeni Projelerde Aranacak',
+            'Olumsuz',
+            'Bir Daha Aranmayacak',
+            'Satış'
+        ];
+    
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+    
+        $getWeeklyCustomerCallResults = DB::table('customer_calls')
+            ->select('conclusion', DB::raw('COUNT(*) as total'))
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek]) // Haftalık tarih aralığı
+            ->whereIn('conclusion', $statuses)
+            ->groupBy('conclusion')
+            ->get()
+            ->keyBy('conclusion');
+    
+        foreach ($statuses as $status) {
+            if (!isset($getWeeklyCustomerCallResults[$status])) {
+                $getWeeklyCustomerCallResults[$status] = (object) ['total' => 0];
+            }
+        }
+    
+        return $getWeeklyCustomerCallResults;
+    }//End
+    
+    private function getMonthlyCustomerCallResults() {  //aylık genel görüşme sonucu istatistiği
+        $statuses = [
+            'Takip Edilecek',
+            'Randevu (Zoom)',
+            'Randevu (Yüz Yüze)',
+            'Yeni Projelerde Aranacak',
+            'Olumsuz',
+            'Bir Daha Aranmayacak',
+            'Satış'
+        ];
+    
+        $startOfMonth = now()->startOfMonth();
+        $endOfMonth = now()->endOfMonth();
+    
+        $getMonthlyCustomerCallResults = DB::table('customer_calls')
+            ->select('conclusion', DB::raw('COUNT(*) as total'))
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth]) // Aylık tarih aralığı
+            ->whereIn('conclusion', $statuses)
+            ->groupBy('conclusion')
+            ->get()
+            ->keyBy('conclusion');
+    
+        foreach ($statuses as $status) {
+            if (!isset($getMonthlyCustomerCallResults[$status])) {
+                $getMonthlyCustomerCallResults[$status] = (object) ['total' => 0];
+            }
+        }
+    
+        return $getMonthlyCustomerCallResults;
+    }//End
+
+    private function getConsultantSales(){
+          // Temsilcilerin ID'lerini al
+            $representativeIds = DB::table('users')
+            ->where('parent_id', Auth::id())
+            ->pluck('id');
+
+        // Satış verilerini al
+        $sales = DB::table('cart_orders')
+            ->whereIn('reference_id', $representativeIds)
+            ->get();
+
+        // Satışları temsilcilere göre grupla ve konut, iş yeri ve arsa satışlarının sayısını hesapla
+        $salesSummary = [];
+
+        foreach ($sales as $sale) {
+            $cart = json_decode($sale->cart, true);
+
+            if ($cart && isset($cart['type'], $cart['item']['id'])) {
+                $type = $cart['type'];
+                $itemId = $cart['item']['id'];
+
+                // Item'ın türünü al
+                if ($type === 'housing') {
+                    $item = DB::table('housings')
+                        ->where('id', $itemId)
+                        ->first();
+                    $slug = $item ? $item->step1_slug : 'N/A';
+                } elseif ($type === 'project') {
+                    $item = DB::table('projects')
+                        ->where('id', $itemId)
+                        ->first();
+                    $slug = $item ? $item->step1_slug : 'N/A';
+                } else {
+                    continue; // Diğer türler için işleme devam etme
+                }
+
+                // Satış temsilcisinin adı
+                $representativeName = DB::table('users')
+                    ->where('id', $sale->reference_id)
+                    ->value('name');
+
+                // Satış temsilcisi ve satış türlerini ekle
+                if (!isset($salesSummary[$sale->reference_id])) {
+                    $salesSummary[$sale->reference_id] = [
+                        'representative_name' => $representativeName,
+                        'konut' => 0,
+                        'is-yeri' => 0,
+                        'arsa' => 0,
+                    ];
+                }
+
+                // Türüne göre satış sayısını artır
+                if ($slug === 'konut') {
+                    $salesSummary[$sale->reference_id]['konut'] += 1;
+                } elseif ($slug === 'is-yeri') {
+                    $salesSummary[$sale->reference_id]['is-yeri'] += 1;
+                } elseif ($slug === 'arsa') {
+                    $salesSummary[$sale->reference_id]['arsa'] += 1;
+                }
+            }
+        }
+
+        return $salesSummary;
+    }//End
 }

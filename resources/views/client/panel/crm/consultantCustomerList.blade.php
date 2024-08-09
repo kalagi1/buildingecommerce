@@ -409,16 +409,22 @@
                                             <div style="width: 100%">
                                                 <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Konut Tercihi</label>
                                                 <div class="row mt-3">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-check">
                                                             <input class="form-check-input " type="checkbox"  name="konut_tercihi" id="checkbox11" value="Projeden Konut" style="border-radius: 50%">
                                                             <label class="form-check-label ml-5" for="checkbox11" >Projeden Konut</label>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox"  name="konut_tercihi" id="checkbox12" value="Hazır Konut"  style="border-radius: 50%">
                                                             <label class="form-check-label ml-5" for="checkbox12">Hazır Konut</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"  name="konut_tercihi" id="checkboxArsa" value="Arsa"  style="border-radius: 50%">
+                                                            <label class="form-check-label ml-5" for="checkboxArsa">Arsa</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1473,6 +1479,7 @@
                                     // Checkbox değerlerini ayarlama
                             document.getElementById('checkbox11').checked  = data.konut_tercihi.includes('Projeden Konut');
                             document.getElementById('checkbox12').checked  = data.konut_tercihi.includes('Hazır Konut');
+                            document.getElementById('checkboxArsa').checked  = data.konut_tercihi.includes('Arsa');
                             document.getElementById('checkbox13').checked  = data.varlik_yonetimi.includes('Yatırım');
                             document.getElementById('checkbox14').checked  = data.varlik_yonetimi.includes('Oturum');
                             document.getElementById('checkbox15').checked  = data.varlik_yonetimi.includes('Yatırım/Oturum');
