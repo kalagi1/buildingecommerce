@@ -1131,7 +1131,7 @@
                                     }
 
                                     $(".textAlert").html(alertMessage);
-                                    £(".textAlertImage").removeClass("d-none");
+                                    $(".textAlertImage").removeClass("d-none");
                                 }
                             }
 
