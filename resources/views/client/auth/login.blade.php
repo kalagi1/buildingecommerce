@@ -6,14 +6,14 @@
             <div class="single homes-content details mb-30 ">
 
                 <div class="row">
-                    <div class="col-md-6 p-5">
-                        <h2 class="fw-700 alt-font text-dark-gray ls-minus-1px mb-50px sm-mb-35px">Emlak Sepette'ye Hoş
+                    <div class="col-md-6">
+                        {{-- <h2 class="fw-700 alt-font text-dark-gray ls-minus-1px mb-50px sm-mb-35px">Emlak Sepette'ye Hoş
                             Geldin!</h2>
                         <p>Hayalinizdeki evi bulmak ve mülk yatırımlarınızı yönetmek için en doğru yerdesiniz. Size en iyi
                             emlak seçeneklerini sunarak, kolay ve hızlı bir şekilde aradığınız mülkü bulmanıza yardımcı
                             olacağız.</p>
-                            <hr>
-                        <img src="{{ asset('login/undraw_home_settings_re_pkya.png') }}" alt="">
+                            <hr> --}}
+                        <img src="{{ asset('login/undraw_home_settings_re_pkya.png') }}" alt="" style="padding: 35px;width:100%">
 
                     </div>
                     <div class="col-md-6">
