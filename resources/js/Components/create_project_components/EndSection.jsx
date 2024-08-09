@@ -40,7 +40,7 @@ function EndSection2(props) {
                   href="/hesabim/proje-ilani-ekle"
                   className="btn btn-info mx-2"
                 >
-                  Yeni İlan Ekle
+                  Yeni İlan Ver
                 </a>
               </div>
             </div>

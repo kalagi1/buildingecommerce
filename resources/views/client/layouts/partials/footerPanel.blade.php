@@ -339,7 +339,24 @@
             "undefined" != typeof window.mr_parallax && setTimeout(mr_parallax.windowLoad, 500)
     });
 </script>
-
+<!-- Google tag (gtag.js) event - delayed navigation helper -->
+<script>
+    // Helper function to delay opening a URL until a gtag event is sent.
+    // Call it in response to an action that should navigate to a URL.
+    function gtagSendEvent(url) {
+      var callback = function () {
+        if (typeof url === 'string') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'form_submit', {
+        'event_callback': callback,
+        'event_timeout': 2000,
+        // <event_parameters>
+      });
+      return false;
+    }
+  </script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Çerez tercihlerinin durumunu güncelle
@@ -1712,7 +1729,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+    const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1906,7 +1923,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+        const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {

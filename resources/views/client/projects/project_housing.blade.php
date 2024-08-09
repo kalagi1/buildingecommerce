@@ -53,11 +53,17 @@
                     $html .= ', ' . $array[$i];
                 }
             }
-
             return $html;
         }
-        $projectHousings = [];
+    $projectHousings = []; @endphp
+
+    @php
+        $canAddToProject = checkIfUserCanAddToProjectHousings($project->id, $housingOrder);
+        $user = Auth::user();
+        $isUserType2EmlakOfisi = $user && $user->type == '2' && $user->corporate_type == 'Emlak Ofisi';
+        $isUserType1 = $user && $user->type == '1';
     @endphp
+
     @php
 
         if (isset($projectCartOrders[$housingOrder])) {
@@ -88,7 +94,22 @@
         }
     @endphp
     @php
-        $off_sale_check = $projectHousingsList[$housingOrder]['off_sale[]'] == '[]';
+        // Initialize variables
+        $off_sale_1 = $off_sale_2 = $off_sale_3 = $off_sale_4 = false;
+
+        // Check if 'off_sale[]' key exists
+        if (isset($projectHousingsList[$housingOrder]['off_sale[]'])) {
+            // Convert the string to an array if neededx
+            $off_sale_array = json_decode($projectHousingsList[$housingOrder]['off_sale[]'], true);
+
+            // Check if the conversion was successful and if each value is in the array
+            if (is_array($off_sale_array)) {
+                $off_sale_1 = in_array('1', $off_sale_array);
+                $off_sale_2 = in_array('2', $off_sale_array);
+                $off_sale_3 = in_array('3', $off_sale_array);
+                $off_sale_4 = in_array('4', $off_sale_array);
+            }
+        }
         $share_sale = $projectHousingsList[$housingOrder]['share_sale[]'] ?? null;
         $number_of_share = $projectHousingsList[$housingOrder]['number_of_shares[]'] ?? null;
         $sold_check = $sold && in_array($sold->status, ['1', '0']);
@@ -109,7 +130,7 @@
         <x-store-card :store="$project->user" :project="$project" :housingOrder="$housingOrder" />
 
         <div class="container">
-            <div class="row mb-3" style="align-items: center">
+            <div class="row mb-5" style="align-items: center">
                 <div class="col-md-8">
                     <div class="headings-2 pt-0 pb-0">
                         <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
@@ -146,18 +167,19 @@
                                                 {{ ucfirst($project->step2_slug) }}
                                                 {{ ucfirst($project->step1_slug) }}
                                             </span>
-                                        @endif --}}
+                                            @endif --}}
                                     </h3>
                                     {{-- <div class="mt-0">
-                                        <a href="#listing-location" class="listing-address">
-                                            <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
-                                            {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
-                                            @if ($project->neighbourhood)
+                                            <a href="#listing-location" class="listing-address">
+                                                <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
+                                                {!! optional($project->city)->title . ' / ' .
+                                                optional($project->county)->ilce_title !!}
+                                                @if ($project->neighbourhood)
                                                 {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
-                                            @endif
+                                                @endif
 
-                                        </a>
-                                    </div> --}}
+                                            </a>
+                                        </div> --}}
 
 
                                 </div>
@@ -176,29 +198,33 @@
                                 style="width: 100%; justify-content: center;align-items:center;display:flex;flex-direction: column;">
 
                                 @if (isset($projectHousingsList[$housingOrder]['projected_earnings[]']))
-                                <div>
-                                    <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
-                                        fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                                        <polyline points="17 6 23 7 23 12"></polyline>
-                                    </svg>
-                                    <strong style="font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
-                                    <span style="font-size:13px;margin-left:4px">
-                                        %{{ $projectHousingsList[$housingOrder]['projected_earnings[]'] }}</span></div>
+                                    <div>
+                                        <svg viewBox="0 0 24 24" width="30" height="21" stroke="green"
+                                            stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round"
+                                            class="css-i6dzq1">
+                                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                            <polyline points="17 6 23 7 23 12"></polyline>
+                                        </svg>
+                                        <strong style="font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
+                                        <span style="font-size:13px;margin-left:4px">
+                                            %{{ $projectHousingsList[$housingOrder]['projected_earnings[]'] }}</span>
+                                    </div>
                                 @endif
 
 
 
                                 @if (isset($projectHousingsList[$housingOrder]['ong_kira[]']))
-                                <div>
-                                    <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
-                                        fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                                        <polyline points="17 6 23 7 23 12"></polyline>
-                                    </svg>
-                                    <strong style="font-size:13px;"> Öngörülen Kira Getirisi: </strong>
-                                    <span style="font-size:13px;margin-left:4px">
-                                        {{ $projectHousingsList[$housingOrder]['ong_kira[]'] }} TL</span></div>
+                                    <div>
+                                        <svg viewBox="0 0 24 24" width="30" height="21" stroke="green"
+                                            stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round"
+                                            class="css-i6dzq1">
+                                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                            <polyline points="17 6 23 7 23 12"></polyline>
+                                        </svg>
+                                        <strong style="font-size:13px;"> Öngörülen Kira Getirisi: </strong>
+                                        <span style="font-size:13px;margin-left:4px">
+                                            {{ $projectHousingsList[$housingOrder]['ong_kira[]'] }} TL</span>
+                                    </div>
                                 @endif
 
                             </div>
@@ -211,7 +237,7 @@
                 <div class="col-lg-8 col-md-12 blog-pots">
                     <div class="row">
                         <div class="col-md-12">
-                            <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
+                            <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-50">
                                 <div class="button-effect-div favorite-move">
 
                                     <div class="button-effect toggle-project-favorite" style="width:35px !important"
@@ -285,231 +311,283 @@
                     <div class="single widget buyBtn">
                         @if (isset($projectHousingsList[$housingOrder]['projected_earnings[]']) ||
                                 isset($projectHousingsList[$housingOrder]['ong_kira[]']))
-                            <div class="schedule widget-boxed move-mobile-gain mb-30 mobile-show"
-                                style="background-color: green "></div>
+                            <div class="schedule widget-boxed move-mobile-gain mb-50 mobile-show"
+                                style="background-color: transparent "></div>
                         @endif
-                        <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
-                            <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
+                        @php
+                            $soldOut =
+                                ($sold && $sold->status == '2' && $share_sale == '[]') ||
+                                ($sold && $sold->status == '2' && empty($share_sale)) ||
+                                (isset($sumCartOrderQt[$housingOrder]) &&
+                                    $sold &&
+                                    $sold->status != '2' &&
+                                    $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share);
+
+                            $offSale = $off_sale_1 && !$sold;
+
+                            $saleClosed = $sold && $sold->status == '2' && $off_sale_1;
+
+                            $soldAndNotStatus2 =
+                                ($sold && $sold->status != '2' && $share_sale == '[]') ||
+                                ($sold && $sold->status != '2' && empty($share_sale)) ||
+                                (isset($sumCartOrderQt[$housingOrder]) &&
+                                    $sold &&
+                                    $sold->status != '2' &&
+                                    $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share);
+
+                            $style = "style='background: #EC2F2E !important; width: 100%; color: White;'";
+                            $rezerveStyle = "style='background: orange !important; color: White; width: 100%;'";
+                            $satildiStyle = "style='background: #EC2F2E !important; color: White; width: 100%;'";
+
+                            if (
+                                ($sold && $sold->status == '0' && (empty($share_sale) || $share_sale == '[]')) ||
+                                (isset($share_sale) &&
+                                    $share_sale != '[]' &&
+                                    isset($sumCartOrderQt[$housingOrder]) &&
+                                    $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)
+                            ) {
+                                $btnStyle = $rezerveStyle;
+                            } elseif ($sold && $sold->status == '1') {
+                                $btnStyle = $satildiStyle;
+                            } else {
+                                $btnStyle = $satildiStyle;
+                            }
+                        @endphp
+
+                        @if (
+                            ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject) ||
+                                (!$canAddToProject && Auth::check()) ||
+                                $offSale ||
+                                $saleClosed ||
+                                $soldAndNotStatus2 ||
+                                (!$canAddToProject && Auth::check()) ||
+                                $off_sale_4 ||
+                                ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
+
+                            <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton mb-5">
+
+                                <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
+                                    @if (
+                                        ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
+                                        <div class="buttonContent">
+
+                                            <div class="mobile-action-move p-0">
 
 
-                                @php
-                                    $soldOut =
-                                        ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                        ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                        (isset($sumCartOrderQt[$housingOrder]) &&
-                                            $sold &&
-                                            $sold->status != '2' &&
-                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share);
+                                                <span style="width:100%;text-align:center">
 
-                                    $offSale = $projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold;
-
-                                    $saleClosed =
-                                        $sold &&
-                                        $sold->status == '2' &&
-                                        $projectHousingsList[$housingOrder]['off_sale[]'] != '[]';
-
-                                    $soldAndNotStatus2 =
-                                        ($sold && $sold->status != '2' && $share_sale == '[]') ||
-                                        ($sold && $sold->status != '2' && empty($share_sale)) ||
-                                        (isset($sumCartOrderQt[$housingOrder]) &&
-                                            $sold &&
-                                            $sold->status != '2' &&
-                                            $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share);
-
-                                    $style = "style='background: #EC2F2E !important; width: 100%; color: White;'";
-                                    $rezerveStyle = "style='background: orange !important; color: White; width: 100%;'";
-                                    $satildiStyle =
-                                        "style='background: #EC2F2E !important; color: White; width: 100%;'";
-
-                                    if (
-                                        ($sold &&
-                                            $sold->status == '0' &&
-                                            (empty($share_sale) || $share_sale == '[]')) ||
-                                        (isset($share_sale) &&
-                                            $share_sale != '[]' &&
-                                            isset($sumCartOrderQt[$housingOrder]) &&
-                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)
-                                    ) {
-                                        $btnStyle = $rezerveStyle;
-                                    } elseif ($sold && $sold->status == '1') {
-                                        $btnStyle = $satildiStyle;
-                                    } else {
-                                        $btnStyle = $satildiStyle;
-                                    }
-                                @endphp
+                                                    @if (!$off_sale_1 && !$sold_check && $share_sale_empty)
 
 
-                                @if (
-                                    ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                        !$sold ||
-                                        ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                        (isset($sumCartOrderQt[$housingOrder]) &&
-                                            $sold &&
-                                            $sold->status != '2' &&
-                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share))
-                                    <div class="col-md-6 col-6 mobile-action-move p-0">
+                                                        @if ($projectDiscountAmount)
+                                                            <svg viewBox="0 0 24 24" width="18" height="18"
+                                                                stroke="#EC2F2E" stroke-width="2" fill="#EC2F2E"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="css-i6dzq1">
+                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                <polyline points="17 18 23 18 23 12"></polyline>
+                                                            </svg>
+                                                            <del
+                                                                style="color: #ea2a28!important;font-weight: 700;font-size: 11px;">
 
-
-
-                                        <div class="listing-title-bar text-start w-100">
-
-
-                                            @if ($off_sale_check && $projectDiscountAmount)
-                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                    <span class="text-center w-100">
-                                                        1 Hisse Fiyatı
-                                                    </span>
-                                                @endif
-
-                                                <h4>
-                                                    <div style="text-align: center">
-                                                        <svg viewBox="0 0 24 24" width="18" height="18"
-                                                            stroke="#EC2F2E" stroke-width="2" fill="#EC2F2E"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
-                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                            <polyline points="17 18 23 18 23 12"></polyline>
-                                                        </svg>
-
-                                                        <del
-                                                            style="color: #ea2a28!important;font-weight: 700;font-size: 11px;">
-                                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                            ₺
-                                                        </del> <br>
-                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                            {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
-                                                            ₺
+                                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                                ₺
+                                                            </del>
+                                                            <h6
+                                                                style="color: #27bb53 !important; position: relative; top: 4px; font-weight: 700;font-size:16px !important">
+                                                                {{ number_format($discounted_price, 0, ',', '.') }}
+                                                                ₺
+                                                            </h6>
                                                         @else
-                                                            {{ number_format($discounted_price, 0, ',', '.') }}
-                                                            ₺
+                                                            <h6
+                                                                style="color:#274abb; position: relative; top: 4px; font-weight: 700;font-size:16px !important">
+                                                                {{ number_format($discounted_price, 0, ',', '.') }}
+                                                                ₺
+                                                            </h6>
                                                         @endif
 
-
-                                                    </div>
-                                                </h4>
-                                            @elseif ($off_sale_check)
-                                                <h4
-                                                    style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
-                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
-                                                        ₺
-                                                    @else
-                                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                        ₺
+                                                        @if ($projectDiscountAmount)
+                                                            <h6 style="color: #27bb53 !important;">(Kampanyalı)</h6>
+                                                        @endif
+                                                    @elseif(
+                                                        (isset($share_sale) &&
+                                                            $share_sale != '[]' &&
+                                                            isset($sumCartOrderQt[$housingOrder]) &&
+                                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share) ||
+                                                            (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$housingOrder])))
+                                                        @if (!$off_sale_1)
+                                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                <span class="text-center w-100">
+                                                                    1 / {{ $number_of_share }} Fiyatı
+                                                                </span>
+                                                            @endif
+                                                            <h6
+                                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:16px !important">
+                                                                @if (
+                                                                    (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) ||
+                                                                        (isset($share_sale) && empty($share_sale) && $number_of_share != 0))
+                                                                    {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                                    ₺
+                                                                @else
+                                                                    {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                                    ₺
+                                                                @endif
+                                                            </h6>
+                                                        @endif
                                                     @endif
-                                                </h4>
-                                            @endif
+                                                </span>
+                                                {{--
+                                                @if (Auth::check() && Auth::user()->id == $project->user_id)
+                                                <div class="col-md-12 col-12 p-0 ml-3">
+                                                    <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
+                                                        style="color:#2f5f9e !important;cursor: pointer; ">
+                                                        Fiyatı Güncelle
+                                                    </a>
+                                                </div>
+                                                @endif --}}
+
+                                            </div>
                                         </div>
 
-                                        @if (Auth::check() && Auth::user()->id == $project->user_id)
-                                            <div class="col-md-12 col-12 p-0 ml-3">
-                                                <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
-                                                    style="color:#007bff !important;cursor: pointer; ">
-                                                    Fiyatı Güncelle
-                                                </a>
-                                            </div>
-                                        @endif
-
-                                    </div>
-                                @endif
-
-                                <div class="@if ($soldOut || (!$offSale && !$sold) || !$soldAndNotStatus2) col-md-6 col-6 @else col-md-12 col-12 @endif"
-                                    style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
-                                    @if ($offSale || $saleClosed)
-                                        <button class="btn second-btn" {!! $style !!}>
-                                            <span class="text">Satışa Kapalı</span>
-                                        </button>
-                                    @elseif ($soldAndNotStatus2)
-                                        <button class="btn second-btn" {!! $btnStyle !!}>
-                                            @if ($sold->status == '0' && ($share_sale == '[]' || empty($share_sale)))
-                                                <span class="text">Rezerve Edildi</span>
-                                            @elseif (
-                                                ($sold->status == '1' && ($share_sale == '[]' || empty($share_sale))) ||
-                                                    (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
-                                                <span class="text">Satıldı</span>
-                                            @endif
-                                        </button>
-                                    @else
-                                        @if (checkIfUserCanAddToProject($project->id))
-                                            <button class="CartBtn second-btn" data-type='project'
-                                                data-project='{{ $project->id }}' data-id='{{ $housingOrder }}'
-                                                data-share="{{ $share_sale }}"
-                                                data-number-share="{{ $number_of_share }}">
-                                                <span class="IconContainer">
-                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                </span>
-                                                <span class="text">Sepete Ekle</span>
-                                            </button>
-                                        @else
-                                            <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug, 'project_id' => $project->id]) }}"
-                                                class="btn btn-success">
-                                                <span class="text">Projeyi Düzenle</span>
-                                            </a>
-                                        @endif
                                     @endif
 
-                                    {{-- <div class="button-effect toggle-project-favorite" style="margin-left:13px;width:40px !important"
-                                         data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}" data-project-id={{ $project->id }}>
-                                        <i class="fa fa-heart-o"></i>
-                                    </div> --}}
-                                </div>
+                                    @if (
+                                        $offSale ||
+                                            $saleClosed ||
+                                            $soldAndNotStatus2 ||
+                                            (!$canAddToProject && Auth::check()) ||
+                                            $off_sale_4 ||
+                                            ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
 
+
+                                        <div class="buttonAction">
+
+                                            <div
+                                                style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
+
+                                                @if ($offSale || $saleClosed)
+                                                    <button class="btn second-btn" {!! $style !!}>
+                                                        <span class="text">Satışa Kapalı</span>
+                                                    </button>
+                                                @elseif ($soldAndNotStatus2)
+                                                    <button class="btn second-btn" {!! $btnStyle !!}>
+                                                        @if ($sold->status == '0' && ($share_sale == '[]' || empty($share_sale)))
+                                                            <span class="text">Rezerve Edildi</span>
+                                                        @elseif (
+                                                            ($sold->status == '1' && ($share_sale == '[]' || empty($share_sale))) ||
+                                                                (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
+                                                            <span class="text">Satıldı</span>
+                                                        @endif
+                                                    </button>
+                                                @else
+                                                    @if (
+                                                        ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                                                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
+                                                        <button class="CartBtn second-btn mobileCBtn" data-type='project'
+                                                            data-project='{{ $project->id }}'
+                                                            style="height: 40px !important" data-id='{{ $housingOrder }}'
+                                                            data-share="{{ $share_sale }}"
+                                                            data-number-share="{{ $number_of_share }}">
+                                                            <span class="IconContainer">
+                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                            </span>
+                                                            <span class="text">Sepete Ekle</span>
+                                                        </button>
+                                                    @elseif (!$canAddToProject && Auth::check())
+                                                        <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug, 'project_id' => $project->id]) }}"
+                                                            style="    height: 40px;
+                                                    /* padding: 15px; */
+                                                    color: white;
+                                                    font-size: 11px;
+                                                    background-color: green;
+                                                    font-weight: 600;
+                                                    border: none;
+                                                    right: 0;
+                                                    position: inherit !important;
+                                                    top: 0;
+                                                    width: 100%;
+                                                    display: flex;
+                                                    align-items: center;
+                                                    justify-content: center;"
+                                                            class="second-btn">
+                                                            <span class="text">İlanı Düzenle</span>
+                                                        </a>
+                                                    @elseif ($off_sale_4)
+                                                        @if (Auth::user())
+                                                            <button class="first-btn payment-plan-button"
+                                                                data-bs-toggle="modal"
+                                                                style="    height: 40px;
+                                                        /* padding: 15px; */
+                                                        color: white;
+                                                        font-size: 11px;
+                                                        background-color: black;
+                                                        font-weight: 600;
+                                                        border: none;
+                                                        right: 0;
+                                                        position: inherit !important;
+                                                        top: 0;
+                                                        width: 100%;
+                                                        display: flex;
+                                                        align-items: center;
+                                                        justify-content: center;"
+                                                                data-bs-target="#approveProjectModal{{ $housingOrder }}">
+
+
+                                                                TEKLİF VER
+                                                            </button>
+                                                        @else
+                                                            <a href="{{ route('client.login') }}"
+                                                                style="    height: 40px;
+                                                            /* padding: 15px; */
+                                                            color: white;
+                                                            font-size: 11px;
+                                                            background-color: black;
+                                                            font-weight: 600;
+                                                            border: none;
+                                                            right: 0;
+                                                            position: inherit !important;
+                                                            top: 0;
+                                                            width: 100%;
+                                                            display: flex;
+                                                            align-items: center;
+                                                            justify-content: center;"
+                                                                class="first-btn payment-plan-button">
+                                                                TEKLİF VER
+                                                            </a>
+                                                        @endif
+                                                    @endif
+                                                @endif
+
+
+
+
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
+                    @if (
+                        ($off_sale_2 && Auth::check() && $isUserType2EmlakOfisi && $canAddToProject) ||
+                            (!$off_sale_2 && !$off_sale_3 && !$off_sale_4 && !$off_sale_1 && Auth::check() && $canAddToProject) ||
+                            ($off_sale_3 && (Auth::check() && ($isUserType2EmlakOfisi || $isUserType1)) && $canAddToProject))
 
-
-                    @if (($sold && $sold->status == '2') || !$sold || $projectHousingsList[$housingOrder]['off_sale[]'] != '[]')
-                        <div class="moveCollection">
-                            <div class="add-to-collections-wrapper addCollectionMobile addCollection" data-type='project'
-                                data-id="{{ $housingOrder }}" data-project="{{ $project->id }}">
-                                <div class="add-to-collection-button-wrapper">
-                                    <div class="add-to-collection-button">
-
-                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="32" height="32" fill="#e54242" />
-                                            <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                <rect width="1440" height="1577" transform="translate(-1100 -1183)"
-                                                    fill="white" />
-                                                <g id="Group 6131">
-                                                    <g id="Frame 21409">
-                                                        <g id="Group 6385">
-                                                            <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                height="48" rx="8" fill="#ea2a28" />
-                                                            <g id="Group 2664">
-                                                                <rect id="Rectangle 316" width="32" height="32"
-                                                                    rx="4" fill="#ea2a28" />
-                                                                <g id="Group 72">
-                                                                    <path id="Rectangle 12"
-                                                                        d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
-                                                                        fill="white" stroke="white" stroke-width="2" />
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_1750_971">
-                                                    <rect width="1440" height="1577" fill="white"
-                                                        transform="translate(-1100 -1183)" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg><span class="add-to-collection-button-text">Koleksiyona Ekle</span>
-                                    </div>
-                                    <i class="fa fa-caret-right"></i>
-                                </div>
-                            </div>
-
-                            @if ($isSwap == '["Evet"]')
-                                <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
+                        @if (($sold && $sold->status == '2') || !$sold || $off_sale_1)
+                            <div class="moveCollection mb-5">
+                                <div class="add-to-collections-wrapper addCollectionMobile addCollection"
+                                    data-type='project' data-id="{{ $housingOrder }}"
+                                    data-project="{{ $project->id }}">
                                     <div class="add-to-collection-button-wrapper">
                                         <div class="add-to-collection-button">
 
-                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <rect width="32" height="32" fill="#F0F0F0" />
+                                                <rect width="32" height="32" fill="#e54242" />
                                                 <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
                                                     <rect width="1440" height="1577"
                                                         transform="translate(-1100 -1183)" fill="white" />
@@ -517,13 +595,15 @@
                                                         <g id="Frame 21409">
                                                             <g id="Group 6385">
                                                                 <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                    height="48" rx="8" fill="#FEF4EB" />
+                                                                    height="48" rx="8" fill="#ea2a28" />
                                                                 <g id="Group 2664">
                                                                     <rect id="Rectangle 316" width="32"
-                                                                        height="32" rx="4" fill="#F27A1A" />
+                                                                        height="32" rx="4" fill="#ea2a28" />
                                                                     <g id="Group 72">
-                                                                        <path d="M16 11V21M11 16H21" stroke="white"
-                                                                            stroke-width="2" stroke-linecap="round" />
+                                                                        <path id="Rectangle 12"
+                                                                            d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
+                                                                            fill="white" stroke="white"
+                                                                            stroke-width="2" />
                                                                     </g>
                                                                 </g>
                                                             </g>
@@ -536,480 +616,535 @@
                                                             transform="translate(-1100 -1183)" />
                                                     </clipPath>
                                                 </defs>
-                                            </svg>
-
-                                            <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
+                                            </svg><span class="add-to-collection-button-text">Koleksiyona Ekle</span>
                                         </div>
                                         <i class="fa fa-caret-right"></i>
                                     </div>
                                 </div>
-                                <div class="modal fade" id="takasModal" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
 
-                                                <form action="{{ route('form.kaydet') }}" method="POST" id="takasFormu"
-                                                    enctype="multipart/form-data">
-                                                    @csrf
+                                @if ($isSwap == '["Evet"]')
+                                    <div class="add-to-swap-wrapper mb-5" data-bs-toggle="modal"
+                                        data-bs-target="#takasModal">
+                                        <div class="add-to-collection-button-wrapper">
+                                            <div class="add-to-collection-button">
 
-                                                    <div class="row">
-                                                        <div class="col-md-6 col-12 mb-2">
-                                                            <label class="form-label" for="ad">Ad:</label>
-                                                            <input class="modal-input" type="text" id="ad"
-                                                                required name="ad">
-                                                        </div>
+                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="32" height="32" fill="#F0F0F0" />
+                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                        <rect width="1440" height="1577"
+                                                            transform="translate(-1100 -1183)" fill="white" />
+                                                        <g id="Group 6131">
+                                                            <g id="Frame 21409">
+                                                                <g id="Group 6385">
+                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                        height="48" rx="8" fill="#FEF4EB" />
+                                                                    <g id="Group 2664">
+                                                                        <rect id="Rectangle 316" width="32"
+                                                                            height="32" rx="4"
+                                                                            fill="#F27A1A" />
+                                                                        <g id="Group 72">
+                                                                            <path d="M16 11V21M11 16H21" stroke="white"
+                                                                                stroke-width="2" stroke-linecap="round" />
+                                                                        </g>
+                                                                    </g>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_1750_971">
+                                                            <rect width="1440" height="1577" fill="white"
+                                                                transform="translate(-1100 -1183)" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
 
-                                                        <div class="col-md-6 col-12 mb-2">
-                                                            <label class="form-label" for="soyad">Soyadınız:</label>
-                                                            <input class="modal-input" type="text" id="soyad"
-                                                                required name="soyad">
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12 mb-2">
-                                                            <label class="form-label" for="telefon">Telefon
-                                                                Numaranız:</label>
-                                                            <input class="modal-input" type="number" id="telefon"
-                                                                required name="telefon" maxlength="10">
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12 mb-2">
-                                                            <label class="form-label" for="email">E-mail:</label>
-                                                            <input class="modal-input" type="email" id="email"
-                                                                required name="email">
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12 mb-2">
-                                                            <label class="form-label" for="sehir">Şehir:</label>
-                                                            <select class="modal-input" id="sehir" name="sehir"
-                                                                required>
-                                                                <option value="">Şehir Seçiniz</option>
-                                                                @foreach ($cities as $city)
-                                                                    <option value="{{ $city->id }}">
-                                                                        {{ $city->title }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12 mb-2">
-                                                            <label class="form-label" for="ilce">İlçe:</label>
-                                                            <select class="modal-input" id="ilce" name="ilce"
-                                                                required disabled>
-                                                                <option value="">İlçe Seçiniz</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-md-12 col-12 mb-2">
-                                                            <label class="form-label" for="takas_tercihi">Takas
-                                                                Tercihiniz:</label>
-                                                            <select class="modal-input" id="takas_tercihi" required
-                                                                name="takas_tercihi">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="emlak">Emlak</option>
-                                                                <option value="araç">Araç</option>
-                                                                <option value="barter">Barter</option>
-                                                                <option value="diğer">Diğer</option>
-                                                            </select>
-                                                        </div>
-
-
-                                                        <div id="digeryse" style="display: none;"
-                                                            class="col-md-12 col-12 mb-2">
-                                                            <label class="form-label" for="diger_detay">Takas ile ilgili
-                                                                ürün/hizmet detayı:</label>
-                                                            <textarea class="modal-input" id="diger_detay" name="diger_detay"></textarea>
-                                                        </div>
-
-                                                        <div id="barteryse" style="display: none;"
-                                                            class="col-md-12 col-12 mb-2">
-                                                            <label class="form-label" for="barter_detay">Lütfen barter
-                                                                durumunuz ile ilgili detaylı bilgileri giriniz:</label>
-                                                            <textarea class="modal-input" id="barter_detay" name="barter_detay"></textarea>
-                                                        </div>
-
-                                                        <div id="emlakyse" style="display: none;"
-                                                            class="col-md-12 col-12 mb-2">
-                                                            <label class="form-label" for="emlak_tipi">Emlak Tipi:</label>
-                                                            <select class="modal-input" id="emlak_tipi"
-                                                                name="emlak_tipi">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="konut">Konut</option>
-                                                                <option value="arsa">Arsa</option>
-                                                                <option value="işyeri">İşyeri</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div id="konutyse" style="display: none;"
-                                                            class="col-md-12 col-12">
-
-                                                            <div class="mb-2">
-                                                                <label class="form-label" for="konut_tipi">Konut
-                                                                    Tipi:</label>
-                                                                <select class="modal-input" id="konut_tipi"
-                                                                    name="konut_tipi">
-                                                                    <option value="">Seçiniz</option>
-                                                                    <option value="daire">Daire</option>
-                                                                    <option value="villa">Villa</option>
-                                                                    <option value="residance">Residance</option>
-                                                                    <option value="prefabrik_ev">Prefabrik Ev</option>
-                                                                    <option value="çiftlik_evi">Çiftlik Evi</option>
-                                                                </select>
-
-                                                            </div>
-
-                                                            <div class="mb-2">
-                                                                <label for="oda_sayisi">Oda Sayısı</label>
-                                                                <select class="form-select modal-input"
-                                                                    aria-label="Default select example" id="oda_sayisi"
-                                                                    name="oda_sayisi">
-                                                                    <option selected>Seçiniz</option>
-                                                                    <option value="1+0">1+0</option>
-                                                                    <option value="1.5+1">1.5+1</option>
-                                                                    <option value="2+0">2+0</option>
-                                                                    <option value="2+1">2+1</option>
-                                                                    <option value="2.5+1">2.5+1</option>
-                                                                    <option value="3+0">3+0</option>
-                                                                    <option value="3+1">3+1</option>
-                                                                    <option value="3.5+1">3.5+1</option>
-                                                                    <option value="3+2">3+2</option>
-                                                                    <option value="3+3">3+3</option>
-                                                                    <option value="4+0">4+0</option>
-                                                                    <option value="4+1">4+1</option>
-                                                                    <option value="4.5+1">4.5+1</option>
-                                                                    <option value="4+2">4+2</option>
-                                                                    <option value="4+3">4+3</option>
-                                                                    <option value="4+4">4+4</option>
-                                                                    <option value="5+1">5+1</option>
-                                                                    <option value="5.5+1">5.5+1</option>
-                                                                    <option value="5+2">5+2</option>
-                                                                    <option value="5+3">5+3</option>
-                                                                    <option value="5+4">5+4</option>
-                                                                    <option value="6+1">6+1</option>
-                                                                    <option value="6+2">6+2</option>
-                                                                    <option value="6.5+1">6.5+1</option>
-                                                                    <option value="6+3">6+3</option>
-                                                                    <option value="6+4">6+4</option>
-                                                                    <option value="7+1">7+1</option>
-                                                                    <option value="7+2">7+2</option>
-                                                                    <option value="7+3">7+3</option>
-                                                                    <option value="8+1">8+1</option>
-                                                                    <option value="8+2">8+2</option>
-                                                                    <option value="8+3">8+3</option>
-                                                                    <option value="8+4">8+4</option>
-                                                                    <option value="9+1">9+1</option>
-                                                                    <option value="9+2">9+2</option>
-                                                                    <option value="9+3">9+3</option>
-                                                                    <option value="9+4">9+4</option>
-                                                                    <option value="9+5">9+5</option>
-                                                                    <option value="9+6">9+6</option>
-                                                                    <option value="10+1">10+1</option>
-                                                                    <option value="10+2">10+2</option>
-                                                                    <option value="11+1">11+1</option>
-                                                                    <option value="12 ve üzeri">12 ve üzeri</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="mb-2">
-                                                                <label class="form-label" for="konut_tipi">Konut
-                                                                    Yaşı:</label>
-                                                                <select class="modal-input" id="konut_yasi"
-                                                                    name="konut_yasi">
-                                                                    <option value="">Seçiniz</option>
-                                                                    <option value="1">1</option>
-                                                                    <option value="2">2</option>
-                                                                    <option value="3">3</option>
-                                                                    <option value="4">4</option>
-                                                                    <option value="5-10">5-10</option>
-                                                                    <option value="11-15">11-15</option>
-                                                                    <option value="16-20">16-20</option>
-                                                                    <option value="20 ve Üzeri">20 ve Üzeri</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <input class="modal-input" type="hidden" id="store_id"
-                                                                name="store_id" value="{{ $project->user->id }}">
-
-                                                            <div class="mb-2">
-                                                                <label class="form-label" for="kullanim_durumu">Kullanım
-                                                                    Durumu:</label>
-                                                                <select class="modal-input" id="kullanim_durumu"
-                                                                    name="kullanim_durumu">
-                                                                    <option value="">Seçiniz</option>
-                                                                    <option value="kiracılı">Kiracılı</option>
-                                                                    <option value="boş">Boş</option>
-                                                                    <option value="mülk_sahibi">Mülk Sahibi</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="mb-2">
-
-                                                                <label class="form-label"
-                                                                    for="konut_satis_rakami">Düşündüğünüz Satış
-                                                                    Rakamı:</label>
-                                                                <input class="modal-input" type="text"
-                                                                    id="konut_satis_rakami" name="konut_satis_rakami"
-                                                                    min="0">
-
-                                                            </div>
-
-                                                            <div class="mb-2">
-                                                                <label class="form-label" for="tapu_belgesi">Tapu Belgesi
-                                                                    Yükleyiniz:</label>
-                                                                <input class="modal-input" type="file"
-                                                                    id="tapu_belgesi" name="tapu_belgesi"
-                                                                    accept=".pdf,.doc,.docx">
-                                                            </div>
-                                                        </div>
-
-                                                        <div id="arsayse" style="display: none;"
-                                                            class="col-md-12 col-12 mb-2">
-
-                                                            <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <label class="form-label" for="arsa_il">Arsa
-                                                                        İl:</label>
-                                                                    <select class="modal-input" id="arsa_il"
-                                                                        name="arsa_il">
-                                                                        <option value="">Şehir Seçiniz</option>
-                                                                        @foreach ($cities as $city)
-                                                                            <option value="{{ $city->id }}">
-                                                                                {{ $city->title }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-
-                                                                <div class="col-md-4">
-                                                                    <label class="form-label" for="arsa_ilce">Arsa
-                                                                        İlçe:</label>
-                                                                    <select class="modal-input" id="arsa_ilce"
-                                                                        name="arsa_ilce" disabled>
-                                                                        <option value="">İlçe Seçiniz</option>
-                                                                    </select>
-                                                                </div>
-
-                                                                <div class="col-md-4">
-                                                                    <label class="form-label" for="arsa_mahalle">Arsa
-                                                                        Mahalle:</label>
-                                                                    <select class="modal-input" id="arsa_mahalle"
-                                                                        name="arsa_mahalle" disabled>
-                                                                        <option value="">Mahalle Seçiniz</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-                                                            <label class="form-label" for="ada_parsel">Ada Parsel
-                                                                Bilgisi:</label>
-                                                            <input class="modal-input" type="text" id="ada_parsel"
-                                                                name="ada_parsel">
-
-                                                            <label class="form-label" for="imar_durumu">Arsa İmar
-                                                                Durumu:</label>
-                                                            <select class="modal-input" id="imar_durumu"
-                                                                name="imar_durumu">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="villa">Villa</option>
-                                                                <option value="konut">Konut</option>
-                                                                <option value="turizm">Turizm Amaçlı Kiralama</option>
-                                                                <option value="sanayi">Sanayi</option>
-                                                                <option value="ticari">Ticari</option>
-                                                                <option value="bağ_bahçe">Bağ Bahçe</option>
-                                                                <option value="tarla">Tarla</option>
-                                                            </select>
-
-                                                            <label class="form-label" for="satis_rakami">Düşündüğünüz
-                                                                Satış Rakamı:</label>
-                                                            <input class="modal-input" type="text" id="satis_rakami"
-                                                                name="satis_rakami" min="0">
-                                                        </div>
-
-                                                        <div id="aracyse" style="display: none;"
-                                                            class="col-md-12 col-12 ">
-                                                            <div class="mb-2">
-
-                                                                <label class="form-label" for="arac_model_yili">Araç Model
-                                                                    Yılı:</label>
-                                                                <select class="modal-input" id="arac_model_yili"
-                                                                    name="arac_model_yili">
-                                                                    <option value="">Model Yılı Seçiniz</option>
-                                                                    @for ($year = date('Y'); $year >= 2004; $year--)
-                                                                        <option value="{{ $year }}">
-                                                                            {{ $year }}</option>
-                                                                    @endfor
-                                                                </select>
-
-                                                            </div>
-
-
-                                                            <div class="mb-2">
-                                                                <label class="form-label" for="arac_markasi">Araç
-                                                                    Markası:</label>
-                                                                <select class="modal-input" name="arac_markasi"
-                                                                    id="arac_markasi">
-                                                                    <option value="">Seçiniz...</option>
-                                                                    <option value="Alfa Romeo">Alfa Romeo</option>
-                                                                    <option value="Aston Martin">Aston Martin</option>
-                                                                    <option value="Audi">Audi</option>
-                                                                    <option value="Bentley">Bentley</option>
-                                                                    <option value="BMW">BMW</option>
-                                                                    <option value="Bugatti">Bugatti</option>
-                                                                    <option value="Buick">Buick</option>
-                                                                    <option value="Cadillac">Cadillac</option>
-                                                                    <option value="Chery">Chery</option>
-                                                                    <option value="Chevrolet">Chevrolet</option>
-                                                                    <option value="Chrysler">Chrysler</option>
-                                                                    <option value="Citroen">Citroen</option>
-                                                                    <option value="Cupra">Cupra</option>
-                                                                    <option value="Dacia">Dacia</option>
-                                                                    <option value="DS Automobiles">DS Automobiles</option>
-                                                                    <option value="Daewoo">Daewoo</option>
-                                                                    <option value="Daihatsu">Daihatsu</option>
-                                                                    <option value="Dodge">Dodge</option>
-                                                                    <option value="Ferrari">Ferrari</option>
-                                                                    <option value="Fiat">Fiat</option>
-                                                                    <option value="Ford">Ford</option>
-                                                                    <option value="Geely">Geely</option>
-                                                                    <option value="Honda">Honda</option>
-                                                                    <option value="Hyundai">Hyundai</option>
-                                                                    <option value="Infiniti">Infiniti</option>
-                                                                    <option value="Isuzu">Isuzu</option>
-                                                                    <option value="Iveco">Iveco</option>
-                                                                    <option value="Jaguar">Jaguar</option>
-                                                                    <option value="Jeep">Jeep</option>
-                                                                    <option value="Kia">Kia</option>
-                                                                    <option value="Lada">Lada</option>
-                                                                    <option value="Lamborghini">Lamborghini</option>
-                                                                    <option value="Lancia">Lancia</option>
-                                                                    <option value="Land-rover">Land-rover</option>
-                                                                    <option value="Leapmotor">Leapmotor</option>
-                                                                    <option value="Lexus">Lexus</option>
-                                                                    <option value="Lincoln">Lincoln</option>
-                                                                    <option value="Lotus">Lotus</option>
-                                                                    <option value="Maserati">Maserati</option>
-                                                                    <option value="Mazda">Mazda</option>
-                                                                    <option value="McLaren">McLaren</option>
-                                                                    <option value="Mercedes-Benz">Mercedes-Benz</option>
-                                                                    <option value="MG">MG</option>
-                                                                    <option value="Mini">Mini</option>
-                                                                    <option value="Mitsubishi">Mitsubishi</option>
-                                                                    <option value="Nissan">Nissan</option>
-                                                                    <option value="Opel">Opel</option>
-                                                                    <option value="Peugeot">Peugeot</option>
-                                                                    <option value="Porsche">Porsche</option>
-                                                                    <option value="Proton">Proton</option>
-                                                                    <option value="Renault">Renault</option>
-                                                                    <option value="Rolls Royce">Rolls Royce</option>
-                                                                    <option value="Rover">Rover</option>
-                                                                    <option value="Saab">Saab</option>
-                                                                    <option value="Seat">Seat</option>
-                                                                    <option value="Skoda">Skoda</option>
-                                                                    <option value="Smart">Smart</option>
-                                                                    <option value="Ssangyong">Ssangyong</option>
-                                                                    <option value="Subaru">Subaru</option>
-                                                                    <option value="Suzuki">Suzuki</option>
-                                                                    <option value="Tata">Tata</option>
-                                                                    <option value="Tesla">Tesla</option>
-                                                                    <option value="Tofaş">Tofaş</option>
-                                                                    <option value="Toyota">Toyota</option>
-                                                                    <option value="Volkswagen">Volkswagen</option>
-                                                                    <option value="Volvo">Volvo</option>
-                                                                    <option value="Voyah">Voyah</option>
-                                                                    <option value="Yudo">Yudo</option>
-                                                                </select>
-
-                                                            </div>
-
-                                                            <div class="mb-2">
-                                                                <label class="form-label" for="yakit_tipi">Yakıt
-                                                                    Tipi:</label>
-                                                                <select class="modal-input" id="yakit_tipi"
-                                                                    name="yakit_tipi">
-                                                                    <option value="">Seçiniz</option>
-                                                                    <option value="benzin">Benzin</option>
-                                                                    <option value="dizel">Dizel</option>
-                                                                    <option value="lpg">LPG</option>
-                                                                    <option value="elektrik">Elektrik</option>
-                                                                </select>
-                                                            </div>
-
-
-
-                                                            <div class="mb-2">
-                                                                <label class="form-label" for="vites_tipi">Vites
-                                                                    Tipi:</label>
-                                                                <select class="modal-input" id="vites_tipi"
-                                                                    name="vites_tipi">
-                                                                    <option value="">Seçiniz</option>
-                                                                    <option value="manuel">Manuel</option>
-                                                                    <option value="otomatik">Otomatik</option>
-                                                                </select>
-                                                            </div>
-
-
-                                                            <div class="mb-2">
-                                                                <label class="form-label" for="arac_satis_rakami">Satış
-                                                                    Rakamı:</label>
-                                                                <input class="modal-input" type="text"
-                                                                    id="arac_satis_rakami" name="arac_satis_rakami"
-                                                                    min="0">
-                                                            </div>
-
-                                                            <div class="mb-2">
-                                                                <label class="form-label" for="ruhsat_belgesi">Ruhsat
-                                                                    Belgesi
-                                                                    Yükleyiniz:</label>
-                                                                <input class="modal-input" type="file"
-                                                                    id="ruhsat_belgesi" name="ruhsat_belgesi"
-                                                                    accept=".pdf,.doc,.docx">
-                                                            </div>
-                                                        </div>
-
-                                                        <div id="isyeriyse" style="display: none;"
-                                                            class="mb-3 col-md-12 col-12">
-
-                                                            <div class="mb-2">
-
-                                                                <label for="ticari_bilgiler" class="form-label">Ticari ile
-                                                                    ilgili Bilgileri Giriniz:</label>
-                                                                <textarea class="modal-input" id="ticari_bilgiler" name="ticari_bilgiler"></textarea>
-
-                                                            </div>
-
-                                                            <div class="mb-2">
-                                                                <label for="isyeri_satis_rakami"
-                                                                    class="form-label">Düşündüğünüz Satış Rakamı:</label>
-                                                                <input type="text" class="modal-input"
-                                                                    id="isyeri_satis_rakami" name="isyeri_satis_rakami"
-                                                                    min="0">
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="modal-footer" style="justify-content: end !important">
-                                                        <button type="submit" class="btn btn-success"
-                                                            style="width:150px">Başvur</button>
-                                                        <button type="button" class="btn btn-danger"
-                                                            data-bs-dismiss="modal" style="width:150px">Kapat</button>
-                                                    </div>
-
-
-                                                </form>
+                                                <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
                                             </div>
-
+                                            <i class="fa fa-caret-right"></i>
                                         </div>
                                     </div>
-                                </div>
-                            @endif
+                                    <div class="modal fade" id="takasModal" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+
+                                                    <form action="{{ route('form.kaydet') }}" method="POST"
+                                                        id="takasFormu" enctype="multipart/form-data">
+                                                        @csrf
+
+                                                        <div class="row">
+                                                            <div class="col-md-6 col-12 mb-2">
+                                                                <label class="form-label" for="ad">Ad:</label>
+                                                                <input class="modal-input" type="text" id="ad"
+                                                                    required name="ad">
+                                                            </div>
+
+                                                            <div class="col-md-6 col-12 mb-2">
+                                                                <label class="form-label"
+                                                                    for="soyad">Soyadınız:</label>
+                                                                <input class="modal-input" type="text" id="soyad"
+                                                                    required name="soyad">
+                                                            </div>
+
+                                                            <div class="col-md-6 col-12 mb-2">
+                                                                <label class="form-label" for="telefon">Telefon
+                                                                    Numaranız:</label>
+                                                                <input class="modal-input" type="number" id="telefon"
+                                                                    required name="telefon" maxlength="10">
+                                                            </div>
+
+                                                            <div class="col-md-6 col-12 mb-2">
+                                                                <label class="form-label" for="email">E-mail:</label>
+                                                                <input class="modal-input" type="email" id="email"
+                                                                    required name="email">
+                                                            </div>
+
+                                                            <div class="col-md-6 col-12 mb-2">
+                                                                <label class="form-label" for="sehir">Şehir:</label>
+                                                                <select class="modal-input" id="sehir" name="sehir"
+                                                                    required>
+                                                                    <option value="">Şehir Seçiniz</option>
+                                                                    @foreach ($cities as $city)
+                                                                        <option value="{{ $city->id }}">
+                                                                            {{ $city->title }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-6 col-12 mb-2">
+                                                                <label class="form-label" for="ilce">İlçe:</label>
+                                                                <select class="modal-input" id="ilce" name="ilce"
+                                                                    required disabled>
+                                                                    <option value="">İlçe Seçiniz</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-12 col-12 mb-2">
+                                                                <label class="form-label" for="takas_tercihi">Takas
+                                                                    Tercihiniz:</label>
+                                                                <select class="modal-input" id="takas_tercihi" required
+                                                                    name="takas_tercihi">
+                                                                    <option value="">Seçiniz</option>
+                                                                    <option value="emlak">Emlak</option>
+                                                                    <option value="araç">Araç</option>
+                                                                    <option value="barter">Barter</option>
+                                                                    <option value="diğer">Diğer</option>
+                                                                </select>
+                                                            </div>
 
 
-                        </div>
+                                                            <div id="digeryse" style="display: none;"
+                                                                class="col-md-12 col-12 mb-2">
+                                                                <label class="form-label" for="diger_detay">Takas ile
+                                                                    ilgili
+                                                                    ürün/hizmet detayı:</label>
+                                                                <textarea class="modal-input" id="diger_detay" name="diger_detay"></textarea>
+                                                            </div>
+
+                                                            <div id="barteryse" style="display: none;"
+                                                                class="col-md-12 col-12 mb-2">
+                                                                <label class="form-label" for="barter_detay">Lütfen barter
+                                                                    durumunuz ile ilgili detaylı bilgileri giriniz:</label>
+                                                                <textarea class="modal-input" id="barter_detay" name="barter_detay"></textarea>
+                                                            </div>
+
+                                                            <div id="emlakyse" style="display: none;"
+                                                                class="col-md-12 col-12 mb-2">
+                                                                <label class="form-label" for="emlak_tipi">Emlak
+                                                                    Tipi:</label>
+                                                                <select class="modal-input" id="emlak_tipi"
+                                                                    name="emlak_tipi">
+                                                                    <option value="">Seçiniz</option>
+                                                                    <option value="konut">Konut</option>
+                                                                    <option value="arsa">Arsa</option>
+                                                                    <option value="işyeri">İşyeri</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div id="konutyse" style="display: none;"
+                                                                class="col-md-12 col-12">
+
+                                                                <div class="mb-2">
+                                                                    <label class="form-label" for="konut_tipi">Konut
+                                                                        Tipi:</label>
+                                                                    <select class="modal-input" id="konut_tipi"
+                                                                        name="konut_tipi">
+                                                                        <option value="">Seçiniz</option>
+                                                                        <option value="daire">Daire</option>
+                                                                        <option value="villa">Villa</option>
+                                                                        <option value="residance">Residance</option>
+                                                                        <option value="prefabrik_ev">Prefabrik Ev</option>
+                                                                        <option value="çiftlik_evi">Çiftlik Evi</option>
+                                                                    </select>
+
+                                                                </div>
+
+                                                                <div class="mb-2">
+                                                                    <label for="oda_sayisi">Oda Sayısı</label>
+                                                                    <select class="form-select modal-input"
+                                                                        aria-label="Default select example"
+                                                                        id="oda_sayisi" name="oda_sayisi">
+                                                                        <option selected>Seçiniz</option>
+                                                                        <option value="1+0">1+0</option>
+                                                                        <option value="1.5+1">1.5+1</option>
+                                                                        <option value="2+0">2+0</option>
+                                                                        <option value="2+1">2+1</option>
+                                                                        <option value="2.5+1">2.5+1</option>
+                                                                        <option value="3+0">3+0</option>
+                                                                        <option value="3+1">3+1</option>
+                                                                        <option value="3.5+1">3.5+1</option>
+                                                                        <option value="3+2">3+2</option>
+                                                                        <option value="3+3">3+3</option>
+                                                                        <option value="4+0">4+0</option>
+                                                                        <option value="4+1">4+1</option>
+                                                                        <option value="4.5+1">4.5+1</option>
+                                                                        <option value="4+2">4+2</option>
+                                                                        <option value="4+3">4+3</option>
+                                                                        <option value="4+4">4+4</option>
+                                                                        <option value="5+1">5+1</option>
+                                                                        <option value="5.5+1">5.5+1</option>
+                                                                        <option value="5+2">5+2</option>
+                                                                        <option value="5+3">5+3</option>
+                                                                        <option value="5+4">5+4</option>
+                                                                        <option value="6+1">6+1</option>
+                                                                        <option value="6+2">6+2</option>
+                                                                        <option value="6.5+1">6.5+1</option>
+                                                                        <option value="6+3">6+3</option>
+                                                                        <option value="6+4">6+4</option>
+                                                                        <option value="7+1">7+1</option>
+                                                                        <option value="7+2">7+2</option>
+                                                                        <option value="7+3">7+3</option>
+                                                                        <option value="8+1">8+1</option>
+                                                                        <option value="8+2">8+2</option>
+                                                                        <option value="8+3">8+3</option>
+                                                                        <option value="8+4">8+4</option>
+                                                                        <option value="9+1">9+1</option>
+                                                                        <option value="9+2">9+2</option>
+                                                                        <option value="9+3">9+3</option>
+                                                                        <option value="9+4">9+4</option>
+                                                                        <option value="9+5">9+5</option>
+                                                                        <option value="9+6">9+6</option>
+                                                                        <option value="10+1">10+1</option>
+                                                                        <option value="10+2">10+2</option>
+                                                                        <option value="11+1">11+1</option>
+                                                                        <option value="12 ve üzeri">12 ve üzeri</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="mb-2">
+                                                                    <label class="form-label" for="konut_tipi">Konut
+                                                                        Yaşı:</label>
+                                                                    <select class="modal-input" id="konut_yasi"
+                                                                        name="konut_yasi">
+                                                                        <option value="">Seçiniz</option>
+                                                                        <option value="1">1</option>
+                                                                        <option value="2">2</option>
+                                                                        <option value="3">3</option>
+                                                                        <option value="4">4</option>
+                                                                        <option value="5-10">5-10</option>
+                                                                        <option value="11-15">11-15</option>
+                                                                        <option value="16-20">16-20</option>
+                                                                        <option value="20 ve Üzeri">20 ve Üzeri</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <input class="modal-input" type="hidden" id="store_id"
+                                                                    name="store_id" value="{{ $project->user->id }}">
+
+                                                                <div class="mb-2">
+                                                                    <label class="form-label"
+                                                                        for="kullanim_durumu">Kullanım
+                                                                        Durumu:</label>
+                                                                    <select class="modal-input" id="kullanim_durumu"
+                                                                        name="kullanim_durumu">
+                                                                        <option value="">Seçiniz</option>
+                                                                        <option value="kiracılı">Kiracılı</option>
+                                                                        <option value="boş">Boş</option>
+                                                                        <option value="mülk_sahibi">Mülk Sahibi</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="mb-2">
+
+                                                                    <label class="form-label"
+                                                                        for="konut_satis_rakami">Düşündüğünüz Satış
+                                                                        Rakamı:</label>
+                                                                    <input class="modal-input" type="text"
+                                                                        id="konut_satis_rakami" name="konut_satis_rakami"
+                                                                        min="0">
+
+                                                                </div>
+
+                                                                <div class="mb-2">
+                                                                    <label class="form-label" for="tapu_belgesi">Tapu
+                                                                        Belgesi
+                                                                        Yükleyiniz:</label>
+                                                                    <input class="modal-input" type="file"
+                                                                        id="tapu_belgesi" name="tapu_belgesi"
+                                                                        accept=".pdf,.doc,.docx">
+                                                                </div>
+                                                            </div>
+
+                                                            <div id="arsayse" style="display: none;"
+                                                                class="col-md-12 col-12 mb-2">
+
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <label class="form-label" for="arsa_il">Arsa
+                                                                            İl:</label>
+                                                                        <select class="modal-input" id="arsa_il"
+                                                                            name="arsa_il">
+                                                                            <option value="">Şehir Seçiniz</option>
+                                                                            @foreach ($cities as $city)
+                                                                                <option value="{{ $city->id }}">
+                                                                                    {{ $city->title }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="col-md-4">
+                                                                        <label class="form-label" for="arsa_ilce">Arsa
+                                                                            İlçe:</label>
+                                                                        <select class="modal-input" id="arsa_ilce"
+                                                                            name="arsa_ilce" disabled>
+                                                                            <option value="">İlçe Seçiniz</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="col-md-4">
+                                                                        <label class="form-label" for="arsa_mahalle">Arsa
+                                                                            Mahalle:</label>
+                                                                        <select class="modal-input" id="arsa_mahalle"
+                                                                            name="arsa_mahalle" disabled>
+                                                                            <option value="">Mahalle Seçiniz</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <label class="form-label" for="ada_parsel">Ada Parsel
+                                                                    Bilgisi:</label>
+                                                                <input class="modal-input" type="text" id="ada_parsel"
+                                                                    name="ada_parsel">
+
+                                                                <label class="form-label" for="imar_durumu">Arsa İmar
+                                                                    Durumu:</label>
+                                                                <select class="modal-input" id="imar_durumu"
+                                                                    name="imar_durumu">
+                                                                    <option value="">Seçiniz</option>
+                                                                    <option value="villa">Villa</option>
+                                                                    <option value="konut">Konut</option>
+                                                                    <option value="turizm">Turizm Amaçlı Kiralama</option>
+                                                                    <option value="sanayi">Sanayi</option>
+                                                                    <option value="ticari">Ticari</option>
+                                                                    <option value="bağ_bahçe">Bağ Bahçe</option>
+                                                                    <option value="tarla">Tarla</option>
+                                                                </select>
+
+                                                                <label class="form-label" for="satis_rakami">Düşündüğünüz
+                                                                    Satış Rakamı:</label>
+                                                                <input class="modal-input" type="text"
+                                                                    id="satis_rakami" name="satis_rakami" min="0">
+                                                            </div>
+
+                                                            <div id="aracyse" style="display: none;"
+                                                                class="col-md-12 col-12 ">
+                                                                <div class="mb-2">
+
+                                                                    <label class="form-label" for="arac_model_yili">Araç
+                                                                        Model
+                                                                        Yılı:</label>
+                                                                    <select class="modal-input" id="arac_model_yili"
+                                                                        name="arac_model_yili">
+                                                                        <option value="">Model Yılı Seçiniz</option>
+                                                                        @for ($year = date('Y'); $year >= 2004; $year--)
+                                                                            <option value="{{ $year }}">
+                                                                                {{ $year }}</option>
+                                                                        @endfor
+                                                                    </select>
+
+                                                                </div>
+
+
+                                                                <div class="mb-2">
+                                                                    <label class="form-label" for="arac_markasi">Araç
+                                                                        Markası:</label>
+                                                                    <select class="modal-input" name="arac_markasi"
+                                                                        id="arac_markasi">
+                                                                        <option value="">Seçiniz...</option>
+                                                                        <option value="Alfa Romeo">Alfa Romeo</option>
+                                                                        <option value="Aston Martin">Aston Martin</option>
+                                                                        <option value="Audi">Audi</option>
+                                                                        <option value="Bentley">Bentley</option>
+                                                                        <option value="BMW">BMW</option>
+                                                                        <option value="Bugatti">Bugatti</option>
+                                                                        <option value="Buick">Buick</option>
+                                                                        <option value="Cadillac">Cadillac</option>
+                                                                        <option value="Chery">Chery</option>
+                                                                        <option value="Chevrolet">Chevrolet</option>
+                                                                        <option value="Chrysler">Chrysler</option>
+                                                                        <option value="Citroen">Citroen</option>
+                                                                        <option value="Cupra">Cupra</option>
+                                                                        <option value="Dacia">Dacia</option>
+                                                                        <option value="DS Automobiles">DS Automobiles
+                                                                        </option>
+                                                                        <option value="Daewoo">Daewoo</option>
+                                                                        <option value="Daihatsu">Daihatsu</option>
+                                                                        <option value="Dodge">Dodge</option>
+                                                                        <option value="Ferrari">Ferrari</option>
+                                                                        <option value="Fiat">Fiat</option>
+                                                                        <option value="Ford">Ford</option>
+                                                                        <option value="Geely">Geely</option>
+                                                                        <option value="Honda">Honda</option>
+                                                                        <option value="Hyundai">Hyundai</option>
+                                                                        <option value="Infiniti">Infiniti</option>
+                                                                        <option value="Isuzu">Isuzu</option>
+                                                                        <option value="Iveco">Iveco</option>
+                                                                        <option value="Jaguar">Jaguar</option>
+                                                                        <option value="Jeep">Jeep</option>
+                                                                        <option value="Kia">Kia</option>
+                                                                        <option value="Lada">Lada</option>
+                                                                        <option value="Lamborghini">Lamborghini</option>
+                                                                        <option value="Lancia">Lancia</option>
+                                                                        <option value="Land-rover">Land-rover</option>
+                                                                        <option value="Leapmotor">Leapmotor</option>
+                                                                        <option value="Lexus">Lexus</option>
+                                                                        <option value="Lincoln">Lincoln</option>
+                                                                        <option value="Lotus">Lotus</option>
+                                                                        <option value="Maserati">Maserati</option>
+                                                                        <option value="Mazda">Mazda</option>
+                                                                        <option value="McLaren">McLaren</option>
+                                                                        <option value="Mercedes-Benz">Mercedes-Benz
+                                                                        </option>
+                                                                        <option value="MG">MG</option>
+                                                                        <option value="Mini">Mini</option>
+                                                                        <option value="Mitsubishi">Mitsubishi</option>
+                                                                        <option value="Nissan">Nissan</option>
+                                                                        <option value="Opel">Opel</option>
+                                                                        <option value="Peugeot">Peugeot</option>
+                                                                        <option value="Porsche">Porsche</option>
+                                                                        <option value="Proton">Proton</option>
+                                                                        <option value="Renault">Renault</option>
+                                                                        <option value="Rolls Royce">Rolls Royce</option>
+                                                                        <option value="Rover">Rover</option>
+                                                                        <option value="Saab">Saab</option>
+                                                                        <option value="Seat">Seat</option>
+                                                                        <option value="Skoda">Skoda</option>
+                                                                        <option value="Smart">Smart</option>
+                                                                        <option value="Ssangyong">Ssangyong</option>
+                                                                        <option value="Subaru">Subaru</option>
+                                                                        <option value="Suzuki">Suzuki</option>
+                                                                        <option value="Tata">Tata</option>
+                                                                        <option value="Tesla">Tesla</option>
+                                                                        <option value="Tofaş">Tofaş</option>
+                                                                        <option value="Toyota">Toyota</option>
+                                                                        <option value="Volkswagen">Volkswagen</option>
+                                                                        <option value="Volvo">Volvo</option>
+                                                                        <option value="Voyah">Voyah</option>
+                                                                        <option value="Yudo">Yudo</option>
+                                                                    </select>
+
+                                                                </div>
+
+                                                                <div class="mb-2">
+                                                                    <label class="form-label" for="yakit_tipi">Yakıt
+                                                                        Tipi:</label>
+                                                                    <select class="modal-input" id="yakit_tipi"
+                                                                        name="yakit_tipi">
+                                                                        <option value="">Seçiniz</option>
+                                                                        <option value="benzin">Benzin</option>
+                                                                        <option value="dizel">Dizel</option>
+                                                                        <option value="lpg">LPG</option>
+                                                                        <option value="elektrik">Elektrik</option>
+                                                                    </select>
+                                                                </div>
+
+
+
+                                                                <div class="mb-2">
+                                                                    <label class="form-label" for="vites_tipi">Vites
+                                                                        Tipi:</label>
+                                                                    <select class="modal-input" id="vites_tipi"
+                                                                        name="vites_tipi">
+                                                                        <option value="">Seçiniz</option>
+                                                                        <option value="manuel">Manuel</option>
+                                                                        <option value="otomatik">Otomatik</option>
+                                                                    </select>
+                                                                </div>
+
+
+                                                                <div class="mb-2">
+                                                                    <label class="form-label"
+                                                                        for="arac_satis_rakami">Satış
+                                                                        Rakamı:</label>
+                                                                    <input class="modal-input" type="text"
+                                                                        id="arac_satis_rakami" name="arac_satis_rakami"
+                                                                        min="0">
+                                                                </div>
+
+                                                                <div class="mb-2">
+                                                                    <label class="form-label" for="ruhsat_belgesi">Ruhsat
+                                                                        Belgesi
+                                                                        Yükleyiniz:</label>
+                                                                    <input class="modal-input" type="file"
+                                                                        id="ruhsat_belgesi" name="ruhsat_belgesi"
+                                                                        accept=".pdf,.doc,.docx">
+                                                                </div>
+                                                            </div>
+
+                                                            <div id="isyeriyse" style="display: none;"
+                                                                class="mb-5 col-md-12 col-12">
+
+                                                                <div class="mb-2">
+
+                                                                    <label for="ticari_bilgiler" class="form-label">Ticari
+                                                                        ile
+                                                                        ilgili Bilgileri Giriniz:</label>
+                                                                    <textarea class="modal-input" id="ticari_bilgiler" name="ticari_bilgiler"></textarea>
+
+                                                                </div>
+
+                                                                <div class="mb-2">
+                                                                    <label for="isyeri_satis_rakami"
+                                                                        class="form-label">Düşündüğünüz Satış
+                                                                        Rakamı:</label>
+                                                                    <input type="text" class="modal-input"
+                                                                        id="isyeri_satis_rakami"
+                                                                        name="isyeri_satis_rakami" min="0">
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="modal-footer" style="justify-content: end !important">
+                                                            <button type="submit" class="btn btn-success"
+                                                                style="width:150px">Başvur</button>
+                                                            <button type="button" class="btn btn-danger"
+                                                                data-bs-dismiss="modal" style="width:150px">Kapat</button>
+                                                        </div>
+
+
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
+
+                            </div>
+                        @endif
                     @endif
 
 
 
+
                     <div class="mobileMove">
-                        <div class="single widget storeInfo">
+                        <div class="single widget storeInfo mt-0">
                             <div class="widget-boxed">
                                 <div class="widget-boxed-body pt-0">
                                     <div class="sidebar-widget author-widget2">
@@ -1039,7 +1174,11 @@
                                                 <td>
                                                     İlan Tarihi:
                                                     <span class="det" style="color: #274abb !important;">
-                                                        {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
+                                                        {{ date('j', strtotime($project->created_at)) .
+                                                            ' ' .
+                                                            convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) .
+                                                            ' ' .
+                                                            date('Y', strtotime($project->created_at)) }}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -1107,14 +1246,17 @@
                                                 <td>
                                                     <span class="autoWidthTr">Bitiş Tarihi:</span>
                                                     <span class="det" style="color: black;">
-                                                        {{ $project->project_end_date ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                        {{ $project->project_end_date
+                                                            ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y')
+                                                            : 'Belirtilmedi' }}
                                                     </span>
                                                 </td>
                                             </tr>
 
                                             <tr>
                                                 <td>
-                                                    <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>
+                                                    <span class="autoWidthTr">Toplam Proje Alanı
+                                                        m<sup>2</sup>:</span>
                                                     <span class="det"
                                                         style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
                                                 </td>
@@ -1229,7 +1371,7 @@
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
                                 project-id="{{ $project->id }}" order="{{ $housingOrder }}"
-                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || ((!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $projectHousingsList[$housingOrder]['off_sale'] != '[]') || $offSale || $saleClosed) ? 1 : 0 }}"
+                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || ((!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $off_sale_1) || $offSale || $saleClosed) ? 1 : 0 }}"
                                 aria-selected="false">Ödeme Planı</button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -1244,11 +1386,76 @@
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade blog-info details mb-30" id="home" role="tabpanel"
+                        <div class="tab-pane fade blog-info details mb-50" id="home" role="tabpanel"
                             aria-labelledby="home-tab">
                             {!! $project->description !!}
+                            <hr>
+                            <div class="uiBox uiBoxContainer yourSecurity">
+                                <h3 style="color: #EC2F2E !important;">Gayrimenkul Alırken/Kiralarken Dikkat Edilmesi
+                                    Gerekenler!</h3>
+
+                                <p>
+                                    Emlaksepette.com olarak, kullanıcılarımızın güvenliğini en üst düzeyde tutmak
+                                    önceliğimizdir.
+                                    Bu nedenle, satın almak veya kiralamak istediğiniz emlak ile ilgili işlemleri yaparken
+                                    dikkatli
+                                    olmanız büyük önem taşımaktadır. İşte dikkat etmeniz gereken bazı önemli noktalar:
+                                </p>
+
+                                <p>
+                                    <strong>Ödeme Yapmadan Önce:</strong> Satın alma veya kiralama işlemlerinde kesin karar
+                                    vermeden
+                                    önce hiçbir şekilde ön ödeme yapmayınız. Kapora veya avans ödemeleri konusunda dikkatli
+                                    olunuz
+                                    ve dolandırıcılık riski taşıyan durumlara karşı tedbirli davranınız.
+                                </p>
+
+                                <p>
+                                    <strong>İlan Bilgilerini Doğrulama:</strong> İlan sahiplerinin verdikleri bilgileri
+                                    dikkatlice
+                                    kontrol ediniz. İlanlarda belirtilen bilgilerin ve görsellerin doğruluğunu teyit etmek
+                                    için
+                                    mümkünse yerinde inceleme yapınız veya güvenilir kaynaklardan doğrulama isteyiniz.
+                                </p>
+
+                                <p>
+                                    <strong>İletişim ve Profil Bilgileri:</strong> İlan sahiplerinin hesap profillerindeki
+                                    bilgilerin
+                                    doğruluğunu kontrol ediniz. Şüpheli veya eksik bilgiye sahip ilan sahipleri ile
+                                    iletişimde temkinli
+                                    olunuz. Güvenliğiniz için, kimlik doğrulaması yapmış kullanıcılar ile iletişim kurmayı
+                                    tercih ediniz.
+                                </p>
+
+                                <p>
+                                    <strong>Sözleşme ve Hukuki Belgeler:</strong> Satın alma veya kiralama işlemlerinde
+                                    sözleşme
+                                    yapmadan önce hukuki belgeleri dikkatlice inceleyiniz ve gerektiğinde bir uzmana
+                                    danışınız. Tüm
+                                    koşulların net bir şekilde belirtildiği ve taraflarca kabul edildiği belgeler üzerinden
+                                    işlem yapınız.
+                                </p>
+
+                                <p>
+                                    <strong>Geri Bildirim ve Şikayetler:</strong> Emlaksepette.com olarak, kullanıcı
+                                    deneyimini ve
+                                    güvenliğini sürekli olarak iyileştirmek için geri bildirimlerinizi önemsiyoruz. Eğer
+                                    ilanlarda
+                                    belirtilen bilgi veya görsellerin gerçeği yansıtmadığını düşünüyorsanız veya ilan
+                                    sahiplerinin
+                                    hesap profillerindeki bilgilerin doğru olmadığını fark ederseniz, lütfen bize hemen
+                                    bildirin.
+                                </p>
+
+                                <p>
+                                    Güvenli bir emlak deneyimi için bu önemli noktalara dikkat ederek, dolandırıcılık ve
+                                    benzeri
+                                    olumsuz durumlardan korunabilirsiniz.
+                                </p>
+                            </div>
+
                         </div>
-                        <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
+                        <div class="tab-pane fade blog-info details mb-50" id="profile" role="tabpanel"
                             aria-labelledby="profile-tab">
                             <div class="similar-property featured portfolio p-0 bg-white">
                                 <div class="single homes-content">
@@ -1261,55 +1468,86 @@
                                                         {{ $project->id + 1000000 . '-' . $housingOrder }}
                                                     </span>
                                                 </td>
-                                            </tr>    
-                                         
+                                            </tr>
+
                                             @foreach ($projectHousingSetting as $housingSetting)
-                                            @php
-                                                $isArrayCheck = $housingSetting->is_array;
-                                                $value = '';
-                                        
-                                                // Filtreleme: Eğer mevcutsa ve 'housingOrder' ile eşleşiyorsa veriyi al
-                                                if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
-                                                    $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null, true);
-                                        
-                                                    if ($isArrayCheck && isset($valueArray)) {
-                                                        $value = implodeData($valueArray);
-                                                    } elseif ($housingSetting->is_parent_table) {
-                                                        $value = $project[$housingSetting->column_name] ?? null;
-                                                    } elseif ($project->roomInfo) {
-                                                        foreach ($project->roomInfo as $roomInfo) {
-                                                            // 'room_order' kontrolü yaparak doğru veriyi çek
-                                                            if ($roomInfo['name'] === $housingSetting->column_name . '[]' && $roomInfo['room_order'] == $housingOrder) {
-                                                                $decodedValue = json_decode($roomInfo['value'], true);
-                                                                $value = is_array($decodedValue) ? (isset($decodedValue[0]) ? $decodedValue[0] : '') : $decodedValue;
-                                                                $value = $value == 'on' ? 'Evet' : ($value == 'off' ? 'Hayır' : $value);
-                                                                break;
+                                                @php
+                                                    $isArrayCheck = $housingSetting->is_array;
+                                                    $value = '';
+
+                                                    // Filtreleme: Eğer mevcutsa ve 'housingOrder' ile eşleşiyorsa veriyi al
+                                                    if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
+                                                        $valueArray = json_decode(
+                                                            $projectHousing[$housingSetting->column_name . '[]'][
+                                                                'value'
+                                                            ] ?? null,
+                                                            true,
+                                                        );
+
+                                                        if ($isArrayCheck && isset($valueArray)) {
+                                                            $value = implodeData($valueArray);
+                                                        } elseif ($housingSetting->is_parent_table) {
+                                                            $value = $project[$housingSetting->column_name] ?? null;
+                                                        } elseif ($project->roomInfo) {
+                                                            foreach ($project->roomInfo as $roomInfo) {
+                                                                // 'room_order' kontrolü yaparak doğru veriyi çek
+                                                                if (
+                                                                    $roomInfo['name'] ===
+                                                                        $housingSetting->column_name . '[]' &&
+                                                                    $roomInfo['room_order'] == $housingOrder
+                                                                ) {
+                                                                    $decodedValue = json_decode(
+                                                                        $roomInfo['value'],
+                                                                        true,
+                                                                    );
+                                                                    $value = is_array($decodedValue)
+                                                                        ? (isset($decodedValue[0])
+                                                                            ? $decodedValue[0]
+                                                                            : '')
+                                                                        : $decodedValue;
+                                                                    $value =
+                                                                        $value == 'on'
+                                                                            ? 'Evet'
+                                                                            : ($value == 'off'
+                                                                                ? 'Hayır'
+                                                                                : $value);
+                                                                    break;
+                                                                }
                                                             }
                                                         }
                                                     }
-                                                }
-                                            @endphp
-                                        
-                                            @if (
-                                                !$isArrayCheck &&
-                                                isset($value) &&
-                                                $value !== '' &&
-                                                !in_array($housingSetting->label, [
-                                                    'Kapak Resmi', 'Taksitli Satış', 'Fiyat', 'Seçenekler',
-                                                    'Acil Satılık', 'İndirim Oranı %', 'Yıldız Sayısı', 'Yapının Durumu',
-                                                    'Peşinat', 'İlan Başlığı', 'Günlük Fiyat', 'Peşin Fiyat', 'Taksitli Toplam Fiyat'
-                                                ])
-                                            )
-                                                <tr>
-                                                    <td>
-                                                        <span class="mr-1">{{ $housingSetting->label }}:</span>
-                                                        <span class="det">{{ $housingSetting->label == 'Fiyat' ? number_format($value, 0, ',', '.') : $value }}</span>
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                        @endforeach
-                                        
-                                        
+                                                @endphp
+
+                                                @if (
+                                                    !$isArrayCheck &&
+                                                        isset($value) &&
+                                                        $value !== '' &&
+                                                        !in_array($housingSetting->label, [
+                                                            'Kapak Resmi',
+                                                            'Taksitli Satış',
+                                                            'Fiyat',
+                                                            'Seçenekler',
+                                                            'Acil Satılık',
+                                                            'İndirim Oranı %',
+                                                            'Yıldız Sayısı',
+                                                            'Yapının Durumu',
+                                                            'Peşinat',
+                                                            'İlan Başlığı',
+                                                            'Günlük Fiyat',
+                                                            'Peşin Fiyat',
+                                                            'Taksitli Toplam Fiyat',
+                                                        ]))
+                                                    <tr>
+                                                        <td>
+                                                            <span class="mr-1">{{ $housingSetting->label }}:</span>
+                                                            <span
+                                                                class="det">{{ $housingSetting->label == 'Fiyat' ? number_format($value, 0, ',', '.') : $value }}</span>
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+
+
 
 
                                         </tbody>
@@ -1324,12 +1562,16 @@
                                                 );
 
                                                 if ($isArrayCheck && isset($valueArray) && $valueArray != null) {
-                                                    echo "<div class='mt-5'><h5>{$projectHousing[$housingSetting->column_name .
-                '[]']['key']}:</h5><ul class='homes-list clearfix checkSquareIcon'>";
+                                                    echo "<div class='mt-5'>
+                                            <h5>{$projectHousing[$housingSetting->column_name .
+                '[]']['key']}:</h5>
+                                            <ul class='homes-list clearfix checkSquareIcon'>";
                                                     foreach ($valueArray as $ozellik) {
-                                                        echo "<li><i class='fa fa-check-square' aria-hidden='true'></i><span>{$ozellik}</span></li>";
+                                                        echo "<li><i class='fa fa-check-square'
+                                                        aria-hidden='true'></i><span>{$ozellik}</span></li>";
                                                     }
-                                                    echo '</ul></div>';
+                                                    echo '</ul>
+                                        </div>';
                                                 }
                                             }
                                         @endphp
@@ -1337,8 +1579,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade show active   blog-info details housingsListTab mb-30 " id="contact"
-                        style="border: none !important;box-shadow: none !important; padding: 0 !important"
+                        <div class="tab-pane fade show active   blog-info details housingsListTab mb-50 " id="contact"
+                            style="border: none !important;box-shadow: none !important; padding: 0 !important"
                             role="tabpanel" aria-labelledby="contact-tab">
 
                             @if ($project->have_blocks == 1)
@@ -1429,7 +1671,8 @@
                                                 $blockName = null;
                                             @endphp
 
-                                            <div class="row project-filter-reverse blog-pots w-100 m-auto" id="project-room">
+                                            <div class="row project-filter-reverse blog-pots w-100 m-auto"
+                                                id="project-room">
                                                 @for ($i = 0; $i < min($project->room_count, 10); $i++)
                                                     @php
 
@@ -1543,13 +1786,13 @@
                             @endif
 
                         </div>
-                        <div class="tab-pane fad blog-info details mb-30" id="payment" role="tabpanel"
+                        <div class="tab-pane fad blog-info details mb-50" id="payment" role="tabpanel"
                             aria-labelledby="payment">
                             @php
                                 $offSaleValue = $projectHousingsList[$housingOrder]['off_sale[]'];
                                 $soldStatus = optional($sold)->status;
                             @endphp
-                            @if ($offSaleValue == '[]')
+                            @if (!$off_sale_1)
                                 @if (($sold && $soldStatus != '0') || $soldStatus != '1')
                                     <div class="table-responsive">
                                         <table class="payment-plan-table table">
@@ -1570,14 +1813,14 @@
                                 @endif
                             @endif
                         </div>
-                        <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
+                        <div class="tab-pane fade  blog-info details mb-50" id="map" role="tabpanel"
                             aria-labelledby="contact-tab">
                             <iframe width="100%" height="100%" frameborder="0" style="border:0;"
                                 src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&q={{ explode(',', $project->location)[0] }},{{ explode(',', $project->location)[1] }}"
                                 allowfullscreen="">
                             </iframe>
                         </div>
-                        <div class="tab-pane fade blog-info details mb-30" id="situation" role="tabpanel"
+                        <div class="tab-pane fade blog-info details mb-50" id="situation" role="tabpanel"
                             aria-labelledby="situation-tab">
                             <div class="situation-images-project">
                                 <div class="row w-100 m-auto">
@@ -1694,6 +1937,71 @@
             }
 
             e.target.value = value;
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Check if any of the conditions in .buttonAction are met
+            var buttonActionVisible = false;
+
+            // Iterate through child elements to check if any condition is met
+            $('.buttonAction').children().each(function() {
+                // If the child element is visible, set the flag to true
+                if ($(this).is(':visible')) {
+                    buttonActionVisible = true;
+                    return false; // Exit loop early if a visible child is found
+                }
+            });
+
+            // Show or hide .buttonAction based on the flag
+            if (buttonActionVisible) {
+                $('.buttonAction').show();
+            } else {
+                $('.buttonAction').hide();
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#bilgiModalProject').on('click', '.btn-success', function() {
+                var projectId = $(this).data('project-id');
+                var projectHousing = $(this).data('project-housing');
+
+                $.ajax({
+                    url: '{{ route('institutional.request.store') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        project_id: projectId,
+                        project_housing: projectHousing
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            Toastify({
+                                text: response.message,
+                                duration: 5000,
+                                gravity: 'bottom',
+                                position: 'center',
+                                backgroundColor: 'green',
+                                stopOnFocus: true,
+                            }).showToast();
+                            $("#bilgiModalProject .btn-danger").click();
+                        } else {
+                            Toastify({
+                                text: response.message,
+                                duration: 5000,
+                                gravity: 'bottom',
+                                position: 'center',
+                                backgroundColor: '#EC2F2E',
+                                stopOnFocus: true,
+                            }).showToast();
+                        }
+                    },
+                    error: function() {
+                        alert('Bir hata oluştu, lütfen tekrar deneyin.');
+                    }
+                });
+            });
         });
     </script>
     <script>
@@ -3147,16 +3455,55 @@
 
             .gainStyle strong,
             .gainStyle span {
-                color: white
+                color: green
             }
 
             .gainStyle svg {
-                stroke: white
+                stroke: green
             }
 
             .add-to-swap-wrapper {
                 margin-bottom: 30px !important;
             }
+        }
+
+        .buttonDetail {
+            display: flex;
+            width: 100%;
+        }
+
+        /* Ensure buttonContent or buttonAction takes full width when the other is empty */
+        .buttonDetail>.buttonContent:empty {
+            display: none;
+            /* Hide buttonContent if it's empty */
+        }
+
+        .buttonDetail>.buttonAction:empty {
+            display: none;
+            /* Hide buttonAction if it's empty */
+        }
+
+
+        /* Ensure buttonContent or buttonAction takes full width when the other is empty */
+        .buttonDetail>.buttonContent:not(:empty) {
+            flex: 1 1 50%;
+            /* Hide buttonContent if it's empty */
+        }
+
+        .buttonDetail>.buttonAction:not(:empty) {
+            flex: 1 1 50%;
+            /* Hide buttonAction if it's empty */
+        }
+
+
+        /* If buttonAction is empty, buttonContent takes the full width */
+        .buttonDetail>.buttonAction:empty~.buttonContent {
+            flex: 1 1 100%;
+        }
+
+        /* If buttonContent is empty, buttonAction takes the full width */
+        .buttonDetail>.buttonContent:empty~.buttonAction {
+            flex: 1 1 100%;
         }
     </style>
 @endsection

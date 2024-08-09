@@ -110,11 +110,11 @@
 
             <div class="portfolio ">
                 <div class="section-title mb-5 mobileSectionTitle">
-                    <h2>Popüler İnşaat Markaları</h2>
+                    <h2>İnşaat Markaları (A-Z)</h2>
                 </div>
                 <div class="slick-lancers">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                        <a href="https://emlaksepette.com/kategori/al-sat-acil" class="homes-img">
+                        <a href="https://private.emlaksepette.com/kategori/al-sat-acil" class="homes-img">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
@@ -209,10 +209,11 @@
             @foreach ($dashboardStatuses as $key => $status)
                 <div
                     class="col-lg-2 col-md-6 col-sm-6 mb-3 mt-3 col-6 statusHome {{ $key == 0 ? 'd-none d-md-block' : '' }}">
-                    <a href="{{ url('kategori/' . $status->slug) }}">
-                        <button style="     color: #AB4208;
-    background-color: #FEF4EC;
-    border: 2px solid #FEF4EC;"
+                    <a href="{{ url('kategori/' . $status->slug) }}" style="width:100%;display:block">
+                        <button
+                            style="     color: #AB4208;
+                            background-color: #FEF4EC;
+                            border: 2px solid #FEF4EC;"
                             class="w-100">
                             {{ $status->name }}
                         </button>
@@ -303,7 +304,7 @@
                     <div class="section-title">
                         <h2>Öne Çıkan Projeler</h2>
                     </div>
-                    <a href="https://emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
+                    <a href="https://private.emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
                             class="w-100">
                             Tüm Projeleri Gör
@@ -326,7 +327,7 @@
             <div class="row">
                 <div class="col-md-9 col-12">
                     <div class="section-title mb-5 mobileSectionTitle">
-                        <h2>Popüler Gayrimenkul Markaları</h2>
+                        <h2>Gayrimenkul Markaları (A-Z)</h2>
                     </div>
                 </div>
 
@@ -407,7 +408,7 @@
                     <div class="section-title">
                         <h2>Emlak İlanları</h2>
                     </div>
-                    <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
+                    <a href="https://private.emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
                             class="w-100">
                             Tümünü Gör

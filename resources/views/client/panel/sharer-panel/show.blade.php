@@ -15,7 +15,9 @@
         </ul>
     </div>
     <section>
-
+        <div class="alert alert-primary" role="alert">
+            Koleksiyona eklediğiniz ilanlar başkası tarafından satıldığında listenizden silinecektir.
+          </div>
         @foreach ($mergedItems as $key => $item)
             @php
                 $discountedPrice = (float) 0;

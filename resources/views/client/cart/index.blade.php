@@ -21,19 +21,6 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="clearButtons">
-                            @if (isset($cart['item']))
-                                <button type="button" class="btn btn-close-cart remove-from-cart"
-                                    style="background: #EC2F2E;padding:5px;height:auto !important; color: white; font-size: 12px;">
-                                    <i class="fa fa-times"></i> Sepeti Temizle
-                                </button>
-                            @endif
-                            <button type="button" class="btn btn-close-cart"
-                                style="background: black;padding:5px;height:auto !important; color: white; font-size: 12px;"
-                                onclick="window.location.href='{{ route('index') }}'">
-                                <i class="fa fa-times"></i> Kapat
-                            </button>
-                        </div>
                     </div>
 
                     @php
@@ -295,128 +282,174 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="row mt-5">
+                        <div class="col-xl-7 col-md-6">
+                            <div class="coupon-code-panel">
+                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                    style="    position: absolute;
+                                    z-index: 9;
+                                    font-size: 11px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    left: 15px;
+                                    top: 10px;"
+                                    stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                    class="css-i6dzq1">
+                                    <circle cx="6" cy="6" r="3"></circle>
+                                    <circle cx="6" cy="18" r="3"></circle>
+                                    <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+                                    <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+                                    <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+                                </svg>
+                                <input type="text" class="bg-white border-radius-4px" placeholder="Kupon Kodu">
+                                <a href="#" class="btn apply-coupon-btn fs-13 fw-600 text-uppercase">Uygula</a>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-md-6 text-center text-md-end sm-mt-15px"
+                            style="    justify-content: end;
+    display: flex;
+    align-items: center;">
+                            @if (isset($cart['item']))
+                                <button type="button" class="btn btn-close-cart remove-from-cart"
+                                    style="background: transparent;padding: 10px;margin-right:5px;height: auto !important;color: black;font-size: 12px;border: 1px solid #f3f3f3;">
+                                    <i class="fa fa-times"></i> Sepeti Temizle
+                                </button>
+                            @endif
+                            <button type="button" class="btn btn-close-cart"
+                                style="background: transparent;padding: 10px;height: auto !important;color: black;font-size: 12px;border: 1px solid #f3f3f3;"
+                                onclick="window.location.href='{{ route('index') }}'">
+                                <i class="fa fa-times"></i> Kapat
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-md-4 mt-5">
-                    <div class="tr-single-box mb-0" style="background: white !important;">
-                        <div class="tr-single-body">
-                            <div class="tr-single-header pb-2" style="margin-bottom:10px !important;">
-                                <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
+                    <div class="tr-single-box mb-0 p-4" style="background: #f7f7f7 !important;">
+
+                        <div class="booking-price-detail side-list no-border mb-3">
+                            <div class="tr-single-header pb-3 mb-0" style="border-bottom: none !important">
+                                <h4><i class="fa fa-star-o"></i>SEPET ÖZETİ</h4>
                             </div>
-                            <div class="booking-price-detail side-list no-border mb-3">
-                                @if (!$cart || empty($cart['item']))
-                                    <ul>
-                                        <li>Toplam Fiyat<strong class="pull-right">00.00TL</strong></li>
-                                    </ul>
-                                @else
-                                    <ul>
-                                        <li>İlan Fiyatı<strong class="pull-right">
-                                                {{ number_format($cart['item']['amount'], 0, ',', '.') }} TL</strong></li>
-                                        @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
-                                            <li style="color:#EC2F2E">Mağaza İndirimi :
-                                                <strong class="pull-right">
-                                                    <svg viewBox="0 0 24 24" width="18" height="18"
-                                                        stroke="currentColor" stroke-width="2" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                        <polyline points="17 18 23 18 23 12"></polyline>
-                                                    </svg>
-                                                    <span style="margin-left: 2px">
-                                                        {{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }}
-                                                        ₺
-                                                    </span>
-                                                </strong>
-                                            </li>
-                                        @endif
+                            @if (!$cart || empty($cart['item']))
+                                <ul>
+                                    <li>Toplam Fiyat<strong class="pull-right">00.00TL</strong></li>
+                                    <hr>
+                                </ul>
+                            @else
+                                <ul>
+                                    <li>İlan Fiyatı<strong class="pull-right">
+                                            {{ number_format($cart['item']['amount'], 0, ',', '.') }} TL</strong></li>
+                                    <hr>
+                                    @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
+                                        <li style="color:#EC2F2E">Mağaza İndirimi :
+                                            <strong class="pull-right">
+                                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                                    stroke-width="2" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round" class="css-i6dzq1">
+                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                    <polyline points="17 18 23 18 23 12"></polyline>
+                                                </svg>
+                                                <span style="margin-left: 2px">
+                                                    {{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }}
+                                                    ₺
+                                                </span>
+                                            </strong>
+                                        </li>
+                                        <hr>
+                                    @endif
 
-                                        @if (isset($discountRate) && $discountRate != '0')
-                                            <li style="color:#EC2F2E">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
-                                                    <svg viewBox="0 0 24 24" width="18" height="18"
-                                                        stroke="currentColor" stroke-width="2" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                        <polyline points="17 18 23 18 23 12"></polyline>
-                                                    </svg>
-                                                    <span style="margin-left: 2px">{{ $discountRate }}
-                                                        % </span></strong></li>
-                                        @endif
-                                        <li>Toplam Fiyat<strong class="pull-right">
-                                                {{ number_format($discountedPrice, 0, ',', '.') }}
+                                    @if (isset($discountRate) && $discountRate != '0')
+                                        <li style="color:#EC2F2E">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
+                                                <svg viewBox="0 0 24 24" width="18" height="18"
+                                                    stroke="currentColor" stroke-width="2" fill="none"
+                                                    stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                    <polyline points="17 18 23 18 23 12"></polyline>
+                                                </svg>
+                                                <span style="margin-left: 2px">{{ $discountRate }}
+                                                    % </span></strong></li>
+                                        <hr>
+                                    @endif
+                                    <li>Toplam Fiyat<strong class="pull-right">
+                                            {{ number_format($discountedPrice, 0, ',', '.') }}
 
-                                                TL</strong></li>
+                                            TL</strong></li>
+                                    <hr>
 
 
-
-                                        {{-- @if ($saleType == 'kiralik')
+                                    {{-- @if ($saleType == 'kiralik')
                                                 <li>Bir Kira Kapora :<strong class="pull-right">{{ number_format($discountedPrice, 0, ',', '.') }} TL</strong></li>
                                             @else
                                                 <li>%{{ $discount_percent }} Kapora :<strong class="pull-right">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }} TL</strong></li>
                                             @endif
                                              --}}
-                                        @php
-                                            $kapora =
-                                                $saleType == 'kiralik'
-                                                    ? $discountedPrice
-                                                    : $discountedPrice * $deposit_rate;
-                                            $hizmet_bedeli = $kapora * 0.1;
-                                            $net_kapora = $kapora - $hizmet_bedeli;
-                                        @endphp
+                                    @php
+                                        $kapora =
+                                            $saleType == 'kiralik'
+                                                ? $discountedPrice
+                                                : $discountedPrice * $deposit_rate;
+                                        $hizmet_bedeli = $kapora * 0.1;
+                                        $net_kapora = $kapora - $hizmet_bedeli;
+                                    @endphp
 
-                                            <li> Güvenli Kapora Bedeli :<strong
-                                                    class="pull-right">{{ number_format($kapora, 0, ',', '.') }}
-                                                    TL</strong></li>
-                                                    
+                                    <li> Güvenli Kapora Bedeli :<strong
+                                            class="pull-right">{{ number_format($kapora, 0, ',', '.') }}
+                                            TL</strong></li>
 
-                                            {{-- <li>Hizmet Bedeli :<strong
+
+                                    {{-- <li>Hizmet Bedeli :<strong
                                                     class="pull-right">{{ number_format($hizmet_bedeli, 0, ',', '.') }}
                                                     TL</strong></li> --}}
-                                            {{-- <span class="text-muted" style="color:#EC2F2E !important;">Hizmet bedeli, kapora
+                                    {{-- <span class="text-muted" style="color:#EC2F2E !important;">Hizmet bedeli, kapora
                                                 tutarının %10'u olarak hesaplanmıştır.</span> --}}
-                                    
 
 
-                                    </ul>
-                                @endif
-                            </div>
-                            <div class="coupon-cart-area mb-3">
+
+                                </ul>
+                            @endif
+                        </div>
+                        {{-- <div class="coupon-cart-area mb-3">
                                 <div class="d-flex">
                                     <input type="text" placeholder="İndirim Kupon Kodu" style="height: 40px;"
                                         class="form-control coupon-code">
                                     <button class="btn btn-primary coupon-apply">Uygula</button>
                                 </div>
-                            </div>
-                            @if (!$cart || empty($cart['item']))
-                                <button type="button" class="btn btn-primary btn-lg btn-block"
-                                    style="font-size: 11px;margin: 0 auto;"
-                                    onclick="window.location.href='{{ route('index') }}'">
-                                    Alışverişe Devam Et
-                                </button>
+                            </div> --}}
+                        @if (!$cart || empty($cart['item']))
+                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                                style="font-size: 11px;margin: 0 auto;"
+                                onclick="window.location.href='{{ route('index') }}'">
+                                Alışverişe Devam Et
+                            </button>
+                        @else
+                            @if ($saleType == 'kiralik')
+                                <a href="{{ route('payment.index') }}"
+                                    class="btn btn-primary btn-lg btn-block paymentButton button-price"
+                                    style="height: 50px !important;font-size: 11px;margin: 0 auto;">
+                                    <span
+                                        class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
+                                    TL <br> ÖDEME YAP
+                                </a>
                             @else
-                                @if ($saleType == 'kiralik')
-                                    <a href="{{ route('payment.index') }}"
-                                        class="btn btn-primary btn-lg btn-block paymentButton button-price"
-                                        style="height: 50px !important;font-size: 11px;margin: 0 auto;">
-                                        <span
-                                            class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
-                                        TL <br> ÖDEME YAP
-                                    </a>
-                                @else
-                                    <a href="{{ route('payment.index') }}"
-                                        class="btn btn-primary btn-lg btn-block paymentButton button-price"
-                                        style="height: 50px !important;font-size: 11px;margin: 0 auto;">
-                                        <span
-                                            class="button-price-inner">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}</span>
-                                        TL <br>  ÖDEME YAP
-                                    </a>
-                                @endif
+                                <a href="{{ route('payment.index') }}"
+                                    class="btn btn-primary btn-lg btn-block paymentButton button-price"
+                                    style="height: 50px !important;font-size: 11px;margin: 0 auto;">
+                                    <span
+                                        class="button-price-inner">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}</span>
+                                    TL <br> ÖDEME YAP
+                                </a>
                             @endif
+                        @endif
 
 
 
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
         </div>
@@ -652,6 +685,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
 
 @section('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/feather-icons/dist/feather.css">
 
     <style>
         .error-message {
@@ -660,7 +694,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
         }
 
         #loadingIndicator {
-            color: #007bff;
+            color: #2f5f9e;
         }
 
         .my-choose td {
@@ -736,6 +770,35 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .coupon-code-panel input {
+            margin: 0;
+            border: none;
+            border: 1px dashed #e4e4e4;
+            padding: 8px 70px 9px 45px;
+            width: 100%;
+            position: relative;
+            font-size: 12px;
+        }
+
+        .coupon-code-panel,
+        .quantity {
+            position: relative;
+        }
+
+
+
+        .coupon-code-panel .apply-coupon-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            color: var(--dark-gray);
+            line-height: 30px;
+            letter-spacing: 0;
         }
     </style>
 @endsection

@@ -232,7 +232,7 @@
     }
 
     #housingTabs .tab-item.active {
-        background-color: #007bff;
+        background-color: #2f5f9e;
         color: #fff;
     }
 

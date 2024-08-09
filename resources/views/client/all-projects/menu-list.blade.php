@@ -829,7 +829,7 @@
 
             // Tıklanan radio button'un label'ını mavi arka plan ve beyaz yazı rengine ayarla
             var selectedLabel = document.querySelector('label[for="' + id + '"]');
-            selectedLabel.style.backgroundColor = '#007bff';
+            selectedLabel.style.backgroundColor = '#2f5f9e';
             selectedLabel.style.color = '#fff';
         }
     </script>
@@ -1329,7 +1329,7 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
 
                     // İlk sayfa her zaman gösterilir
                     $('#pages').append(`
-                        <a class="btn btn-outline-primary filter-page" data-page="1" ${current_page == 1 ? 'style="color: white;background:#007bff"' : 'style="background: transparent;"'}>1</a>
+                        <a class="btn btn-outline-primary filter-page" data-page="1" ${current_page == 1 ? 'style="color: white;background:#2f5f9e"' : 'style="background: transparent;"'}>1</a>
                     `);
 
                     // Mevcut sayfanın etrafındaki 5 sayfayı hesapla
@@ -1343,7 +1343,7 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
 
                     for (var i = start; i <= end; ++i) {
                         $('#pages').append(`
-                            <a class="btn btn-outline-primary filter-page" data-page="${i}" ${current_page == i ? 'style="color: white;background:#007bff"' : 'style="background: transparent;"'}>${i}</a>
+                            <a class="btn btn-outline-primary filter-page" data-page="${i}" ${current_page == i ? 'style="color: white;background:#2f5f9e"' : 'style="background: transparent;"'}>${i}</a>
                         `);
                     }
 
@@ -1355,7 +1355,7 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
                     // Son sayfa her zaman gösterilir
                     if (last_page > 1) {
                         $('#pages').append(`
-                            <a class="btn btn-outline-primary filter-page" data-page="${last_page}" ${current_page == last_page ? 'style="color: white;background:#007bff"' : 'style="background: transparent;"'}>${last_page}</a>
+                            <a class="btn btn-outline-primary filter-page" data-page="${last_page}" ${current_page == last_page ? 'style="color: white;background:#2f5f9e"' : 'style="background: transparent;"'}>${last_page}</a>
                         `);
                     }
 
@@ -2348,17 +2348,17 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
         }
 
         .tab label:hover {
-            background-color: #007bff !important;
+            background-color: #2f5f9e !important;
             color: #fff !important;
         }
 
         .activeTab {
-            background-color: #007bff !important;
+            background-color: #2f5f9e !important;
             color: #fff !important;
         }
 
         .tab input[type="radio"]:checked+label {
-            background-color: #007bff;
+            background-color: #2f5f9e;
             color: #fff !important;
         }
     </style>
@@ -2395,7 +2395,7 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
         }
 
         #pages .btn:hover {
-            color: #007bff !important;
+            color: #2f5f9e !important;
         }
 
         hr {

@@ -59,7 +59,7 @@
 <body>
     <header>
         <div>
-            <img style="width: 100px;opacity: .65;float: left;" src="https://emlaksepette.com/storage/profile_images/profile_image_1701198728.png" alt="">
+            <img style="width: 100px;opacity: .65;float: left;" src="https://private.emlaksepette.com/storage/profile_images/profile_image_1701198728.png" alt="">
             <h5 style="float: left;">{{$project->project_title}} {{$roomOrder}} Nolu Konut</h5>
         </div>
     </header>
@@ -68,7 +68,7 @@
             <div class="title">
                 <h4>Alıcı Bilgileri</h4>
             </div>
-            <div class="" style="display: flex;border: 1px solid #ebebeb !important;padding:2px 10px">
+            <div class="" style="display: flex;border: 1px solid #f3f3f3 !important;padding:2px 10px">
                 <div class="col-md-3" style="width: 32%;float:left;margin-right: 1%;">
                     <p>İsim Soyisim</p>
                     <span>
@@ -99,7 +99,7 @@
                 <svg class="svg-inline--fa fa-user" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z"></path></svg><!-- <i class="fa fa-user"></i> Font Awesome fontawesome.com -->
                 <h4>Satış Bilgileri</h4>
             </div>
-            <div class="" style="display: flex;border: 1px solid #ebebeb !important;padding:2px 10px;">
+            <div class="" style="display: flex;border: 1px solid #f3f3f3 !important;padding:2px 10px;">
                 
                 <div class="col-md-3" style="width: 32%;float:left;margin-right: 1%;">
                     <p>Satın Alma Şekli</p>
@@ -141,7 +141,7 @@
             <div class="title">
                 <h4>Ödeme Bilgileri</h4>
             </div>
-            <div class="" style="display: flex;border: 1px solid #ebebeb !important;padding:2px 10px">
+            <div class="" style="display: flex;border: 1px solid #f3f3f3 !important;padding:2px 10px">
                 <div class="col-md-3" style="width: 49%;float:left;margin-right: 1%;">
                     <p>Ödenen Tutar</p>
                     <span>
@@ -165,7 +165,7 @@
                     <svg class="svg-inline--fa fa-user" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z"></path></svg><!-- <i class="fa fa-user"></i> Font Awesome fontawesome.com -->
                     <h4>Genel Ödemeler ({{$payDecCount}})</h4>
                 </div>
-                <div style="display: flex;border: 1px solid #ebebeb !important;padding:2px 10px;">
+                <div style="display: flex;border: 1px solid #f3f3f3 !important;padding:2px 10px;">
                     <table style="width: 100%;padding: 0 20px">
                         <thead>
                             <tr>
@@ -220,7 +220,7 @@
                 <svg class="svg-inline--fa fa-user" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z"></path></svg><!-- <i class="fa fa-user"></i> Font Awesome fontawesome.com -->
                 <h4>Taksitler (24)</h4>
             </div>
-            <div style="display: flex;border: 1px solid #ebebeb !important;padding:2px 10px;">
+            <div style="display: flex;border: 1px solid #f3f3f3 !important;padding:2px 10px;">
                 <table style="width: 100%;padding: 0 20px">
                     <thead>
                         <tr>

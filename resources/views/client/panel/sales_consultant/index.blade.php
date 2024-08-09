@@ -25,7 +25,6 @@
                     <li style="width: 25%;font-weight: 800;">E-posta</li>
                     <li style="width: 15%;font-weight: 800;">Unvan</li>
                     <li style="width: 15%;font-weight: 800;">İlgilendiği Projeler</li>
-                    {{-- <li style="width: 15%;font-weight: 800;">Proje Ataması Yap</1li> --}}
                     <li style="width: 15%;font-weight: 800;">Bugün çalışıyor mu ?</li>
                 </ul>
             </div>
@@ -36,12 +35,7 @@
                             <li style="width: 5%">{{ $index + 1 }}</li>
                             <li style="width: 10%">{{ $item->name }}</li>                   
                             <li style="width: 25%">{{ $item->email }}</li>                   
-                            <li style="width: 15%">{{ $item->role->name }}</li>                   
-                            {{-- <li style="width: 15%">
-                                <button type="button" class="btn btnProjectAssign" data-bs-toggle="modal" data-bs-target="#exampleModal2{{ $index }}">
-                                    İlgilendiği Projeler
-                                </button>
-                            </li>                    --}}
+                            <li style="width: 15%">{{ $item->role->name }}</li>  
                             <li style="width: 15%">
                                 <button type="button" class="btn btnProjectAssign" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $index }}">
                                     İlgilendiği Projeler
@@ -53,11 +47,8 @@
                                         <div class="modal-content">
                                             <div class="modal-header" >
                                                 <h5 class="modal-title fs-2" id="exampleModalLabel{{ $index }}">{{$item->name}} adlı temsilcinize eklenebilecek projeler
-                                                </h5>
-                                              
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" style="background-color: transparent;"
-                                                    aria-label="Close"></button>
-                                             
+                                                </h5>                                              
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" style="background-color: transparent;" aria-label="Close"></button>                                             
                                             </div>
                                             <div class="modal-body">
                                                 <form action="{{ route('institutional.assign.project.user') }}" method="POST">
@@ -70,7 +61,6 @@
                                                                 <li style="width: 5%;font-weight: 800;">No.</li>
                                                                 <li style="width: 20%;font-size:12px;font-weight:800 !important"><strong>Görsel</strong></li>
                                                                 <li style="width: 20%;font-size:12px;font-weight:800 !important"><strong>Proje Adı</strong></li>
-                                                                <li style="width: 20%;font-size:12px;font-weight:800 !important"><strong>Açıklama</strong></li>
                                                                 <li style="width: 5%;font-size:12px;font-weight:800 !important"><Strong>İlan Sayısı</Strong></li>
                                                                 <li style="width: 15%;font-size:12px;font-weight:800 !important"><strong>Satılık / Kiralık</strong></li>
                                                                 <li style="width: 10%;font-size:12px;font-weight:800 !important"><strong>Ekle / Çıkar</strong></li>
@@ -87,7 +77,6 @@
                                                                         <img src="{{ url($project->image) }}" alt="">
                                                                     </li>
                                                                     <li style="width: 20%;">{{ $project->project_title }}</li>
-                                                                    <li style="width: 20%;">{!! $project->description !!}</li>
                                                                     <li style="width: 5%;">{{ $project->room_count }}</li>
                                                                     <li style="width: 20%;">
                                                                         @if($project->step2_slug == 'satilik')
@@ -120,60 +109,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <div class="modal fade" id="exampleModal2{{ $index }}" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel{{ $index }}" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl">
-                                        <div class="modal-content">
-                                            <div class="modal-header" style="padding: 25px;text-align:center;justify-content:center;">
-                                                <h5 class="modal-title fs-2" id="exampleModalLabel{{ $index }}" >Temsilcimizin İlgilendiği Projeler</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="project-info mb-3">
-                                                    <ul class="list-unstyled d-flex flex-wrap"  style="border-bottom:1px solid;">
-                                                        <li style="width: 5%;font-weight: 800;">No.</li>
-                                                        <li style="width: 20%;font-size:12px;font-weight:800 !important">Görsel</li>
-                                                        <li style="width: 20%;font-size:12px;font-weight:800 !important">Proje Adı</li>
-                                                        <li style="width: 20%;font-size:12px;font-weight:800 !important">Açıklama</li>
-                                                        <li style="width: 15%;font-size:12px;font-weight:800 !important">İlan Sayısı</li>
-                                                        <li style="width: 20%;font-size:12px;font-weight:800 !important">Satılık / Kiralık</li>
-                                                    </ul>
-                                                    <hr>
-                                                </div>
-                                                @if(count($item->projectAssigments) > 0) 
-                                                    @foreach ($item->projectAssigments as $key => $project)
-                                                        <div class="project-info mb-3">
-                                                            <ul class="list-unstyled d-flex flex-wrap">
-                                                                <li style="width: 5%;">{{ $key + 1 }}</li>
-                                                                <li style="width: 20%;">
-                                                                    <img src="{{ url($project->image) }}" alt="">
-                                                                </li>
-                                                                <li style="width: 20%;">{{ $project->project_title }}</li>
-                                                                <li style="width: 20%;">{!! $project->description !!}</li>
-                                                                <li style="width: 15%;">{{ $project->room_count }}</li>
-                                                                <li style="width: 20%;">
-                                                                    @if($project->step2_slug == 'satilik')
-                                                                        Satılık
-                                                                    @else
-                                                                        Kiralık 
-                                                                    @endif       
-                                                                </li>
-                                                            </ul>
-                                                            <hr>
-                                                        </div>
-                                                    @endforeach 
-                                                @else
-                                              
-                                                  <p style="width: 100%;font-size: 13px;text-align:center">
-                                                    Satış temsilcimin henüz ilgilendiği bir proje bulunmamaktadır.
-                                                  </p>
-                                           
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
                                 <li style="width: 15%; display: flex; align-items: center;flex-direction:row !important;">
                                     <label class="switch" style="margin-bottom: 0px;">
                                         <input type="checkbox" class="success today-working-checkbox" data-user-id="{{ $item->id }}" 
@@ -287,7 +222,7 @@
             }
             .info-icon {
                 font-size: 16px;
-                color: #007bff;
+                color: #2f5f9e;
                 cursor: pointer;
             }
 

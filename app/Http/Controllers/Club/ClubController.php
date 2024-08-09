@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\DB;
 
 class ClubController extends Controller
 {
-    public function dashboard( $parentSlug = null, $slug, $userID, )
-    {    
+    public function dashboard($parentSlug = null, $slug, $userID,)
+    {
         $store = User::where('id', $userID)
-            ->with('projects.housings', 'housings', 'city', 'town', 'district', "parent",'neighborhood', 'brands', "child.collections.clicks", 'banners')
+            ->with('projects.housings', 'housings', 'city', 'town', 'district', "parent", 'neighborhood', 'brands', "child.collections.clicks", 'banners')
             ->first();
 
         if (empty($store->parent_id)) {
@@ -29,19 +29,52 @@ class ClubController extends Controller
                 ->where('user_id', $store->id)
                 ->get();
         }
-    
+
         // Hiç link yoksa koleksiyonu filtrele
         $collections = $collections->reject(function ($collection) {
             return $collection->links->isEmpty();
         });
-    
+
         return view('client.club.dashboard', compact('store', 'collections', 'slug'));
     }
-
-    public function dashboard2( $slug, $userID, )
-    {    
+    public function dashboardSatisNoktalari($slug, $userID)
+    {
+        // Mağazayı ve ilişkili verileri al
         $store = User::where('id', $userID)
-            ->with('projects.housings', 'housings', 'city', 'town', 'district', "parent",'neighborhood', 'brands', "child.collections.clicks", 'banners')
+            ->with('projects.housings', 'housings', 'city', 'town', 'district', 'parent', 'neighborhood', 'brands', 'child.collections.clicks', 'banners')
+            ->first();
+
+        // Kullanıcının emlak ilanlarını ve projelerini al
+        $projects = $store->projects; // Mağazanın projeleri
+        $housings = $store->housings; // Mağazanın emlak ilanları
+
+        // Proje ve emlak ilanlarını içeren koleksiyonları al
+        $collectionsWithProjects = Collection::whereHas('links.project', function ($query) use ($projects) {
+            $query->whereIn('id', $projects->pluck('id'));
+        })->with('user')->get();
+
+        $collectionsWithHousings = Collection::whereHas('links.housing', function ($query) use ($housings) {
+            $query->whereIn('id', $housings->pluck('id'));
+        })->with('user')->get();
+
+        // Koleksiyonların kullanıcılarını al
+        $usersFromCollections = $collectionsWithProjects->merge($collectionsWithHousings)
+            ->load('user.parent') // İlgili ilişkileri yükle
+            ->pluck('user')
+            ->unique()
+            ->values();
+
+        return view('client.club.dashboardSatisNoktalari', [
+            'usersFromCollections' => $usersFromCollections,
+            'store' => $store
+        ]);
+    }
+
+
+    public function dashboard2($slug, $userID,)
+    {
+        $store = User::where('id', $userID)
+            ->with('projects.housings', 'housings', 'city', 'town', 'district', "parent", 'neighborhood', 'brands', "child.collections.clicks", 'banners')
             ->first();
 
         if (empty($store->parent_id)) {
@@ -54,14 +87,12 @@ class ClubController extends Controller
                 ->where('user_id', $store->id)
                 ->get();
         }
-    
+
         // Hiç link yoksa koleksiyonu filtrele
         $collections = $collections->reject(function ($collection) {
             return $collection->links->isEmpty();
         });
-    
+
         return view('client.club.dashboard', compact('store', 'collections', 'slug'));
     }
-    
-    
 }

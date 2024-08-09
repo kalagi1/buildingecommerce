@@ -1,12 +1,14 @@
-<a id="scrollToTopBtn" class="fa fa-angle-double-up" style="display: none;
+<a id="scrollToTopBtn" class="fa fa-angle-double-up"
+    style="display: none;
     position: fixed;
     bottom: 20px;
     right: 20px;
     font-size: 40px;
-    color: #007bff;
+    color: #2f5f9e;
     cursor: pointer;
     z-index: 1000;
-    transition: color 0.3s;" onclick="scrollToTop()"></a>
+    transition: color 0.3s;"
+    onclick="scrollToTop()"></a>
 <footer class="first-footer">
     <div class="top-footer">
         <div class="container">
@@ -27,21 +29,22 @@
 
                 </div>
                 @foreach ($widgetGroups as $widgetGroup)
-                <div class="col-sm-12 col-md-12 col-lg col-xl">
-                    <div class="navigation">
-                        <h3>{{ $widgetGroup->widget }}</h3>
-                        <div class="nav-footer">
-                            <ul>
-                                @foreach ($footerLinks as $footerLink)
-                                @if ($footerLink->widget == $widgetGroup->widget)
-                                <li><a href="{{ $footerLink->url }}" target="_blank">{!! $footerLink->title !!}</a></li>
-                                @endif
-                                @endforeach
-                            </ul>
-                        </div>
+                    <div class="col-sm-12 col-md-12 col-lg col-xl">
+                        <div class="navigation">
+                            <h3>{{ $widgetGroup->widget }}</h3>
+                            <div class="nav-footer">
+                                <ul>
+                                    @foreach ($footerLinks as $footerLink)
+                                        @if ($footerLink->widget == $widgetGroup->widget)
+                                            <li><a href="{{ $footerLink->url }}"
+                                                    target="_blank">{!! $footerLink->title !!}</a></li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </div>
 
+                        </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
@@ -58,9 +61,9 @@
 
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
-                <li><a href="{{ $icon->url }}" target="_blank"><i class="{{ $icon->icon_class }}"
-                            aria-hidden="true"></i></a>
-                </li>
+                    <li><a href="{{ $icon->url }}" target="_blank"><i class="{{ $icon->icon_class }}"
+                                aria-hidden="true"></i></a>
+                    </li>
                 @endforeach
             </ul>
 
@@ -110,16 +113,16 @@
     <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('institutional.index') : (Auth::user()->type == 2 ? route('institutional.index') : (Auth::user()->type == 3 ? route('admin.index') : route('institutional.index')))) : route('client.login') }}"
         class="button">
         <button class="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024" stroke-width="0"
-                fill="currentColor" stroke="currentColor" class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024"
+                stroke-width="0" fill="currentColor" stroke="currentColor" class="icon">
                 <path
                     d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
                 </path>
             </svg>
             @if (Auth::check())
-            <span>Hesabım</span>
+                <span>Hesabım</span>
             @else
-            <span>Giriş Yap</span>
+                <span>Giriş Yap</span>
             @endif
         </button>
     </a>
@@ -140,15 +143,15 @@
     <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('institutional.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? route('real.estate.index2') : route('real.estate.index2')))) : route('client.login') }}"
         class="button" class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
         <button class="button">
-            <svg viewBox="0 0 24 24" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none"
-                stroke-linecap="round" stroke-linejoin="round" class="icon">
+            <svg viewBox="0 0 24 24" width="1em" height="1em" stroke="currentColor" stroke-width="2"
+                fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
             @if (Auth::check() && Auth::user()->type == 2)
-            <span>İlan Ver</span>
+                <span>İlan Ver</span>
             @else
-            <span>Sat Kirala</span>
+                <span>Sat Kirala</span>
             @endif
         </button>
     </a>
@@ -174,29 +177,69 @@
 
     </div>
     <div class="payment-plan-pop-content">
-        <div class="payment-plan-pop-close-icon"><i class="fa fa-times"></i></div>
 
         <div class="my-properties">
+            <div class="pop-up-top-gradient">
+                <div class="left odeme-plani-baslik">
+                    <h3>Ödeme Planı Yükleniyor...</h3>
+                </div>
+                <div class="close payment-plan-pop-close-icon"><span><i class="fa fa-times "></i></span></div>
+            </div>
             <table class="payment-plan table">
-                <a id="whatsappButton" class="btn btn-outline-light"><svg xmlns="http://www.w3.org/2000/svg" x="0px"
-                        y="0px" width="18" height="18" viewBox="0 0 48 48">
-                        <path fill="#fff"
-                            d="M4.9,43.3l2.7-9.8C5.9,30.6,5,27.3,5,24C5,13.5,13.5,5,24,5c5.1,0,9.8,2,13.4,5.6	C41,14.2,43,18.9,43,24c0,10.5-8.5,19-19,19c0,0,0,0,0,0h0c-3.2,0-6.3-0.8-9.1-2.3L4.9,43.3z">
-                        </path>
-                        <path fill="#fff"
-                            d="M4.9,43.8c-0.1,0-0.3-0.1-0.4-0.1c-0.1-0.1-0.2-0.3-0.1-0.5L7,33.5c-1.6-2.9-2.5-6.2-2.5-9.6	C4.5,13.2,13.3,4.5,24,4.5c5.2,0,10.1,2,13.8,5.7c3.7,3.7,5.7,8.6,5.7,13.8c0,10.7-8.7,19.5-19.5,19.5c-3.2,0-6.3-0.8-9.1-2.3	L5,43.8C5,43.8,4.9,43.8,4.9,43.8z">
-                        </path>
-                        <path fill="#cfd8dc"
-                            d="M24,5c5.1,0,9.8,2,13.4,5.6C41,14.2,43,18.9,43,24c0,10.5-8.5,19-19,19h0c-3.2,0-6.3-0.8-9.1-2.3	L4.9,43.3l2.7-9.8C5.9,30.6,5,27.3,5,24C5,13.5,13.5,5,24,5 M24,43L24,43L24,43 M24,43L24,43L24,43 M24,4L24,4C13,4,4,13,4,24	c0,3.4,0.8,6.7,2.5,9.6L3.9,43c-0.1,0.3,0,0.7,0.3,1c0.2,0.2,0.4,0.3,0.7,0.3c0.1,0,0.2,0,0.3,0l9.7-2.5c2.8,1.5,6,2.2,9.2,2.2	c11,0,20-9,20-20c0-5.3-2.1-10.4-5.8-14.1C34.4,6.1,29.4,4,24,4L24,4z">
-                        </path>
-                        <path fill="#40c351"
-                            d="M35.2,12.8c-3-3-6.9-4.6-11.2-4.6C15.3,8.2,8.2,15.3,8.2,24c0,3,0.8,5.9,2.4,8.4L11,33l-1.6,5.8	l6-1.6l0.6,0.3c2.4,1.4,5.2,2.2,8,2.2h0c8.7,0,15.8-7.1,15.8-15.8C39.8,19.8,38.2,15.8,35.2,12.8z">
-                        </path>
-                        <path fill="#fff" fill-rule="evenodd"
-                            d="M19.3,16c-0.4-0.8-0.7-0.8-1.1-0.8c-0.3,0-0.6,0-0.9,0	s-0.8,0.1-1.3,0.6c-0.4,0.5-1.7,1.6-1.7,4s1.7,4.6,1.9,4.9s3.3,5.3,8.1,7.2c4,1.6,4.8,1.3,5.7,1.2c0.9-0.1,2.8-1.1,3.2-2.3	c0.4-1.1,0.4-2.1,0.3-2.3c-0.1-0.2-0.4-0.3-0.9-0.6s-2.8-1.4-3.2-1.5c-0.4-0.2-0.8-0.2-1.1,0.2c-0.3,0.5-1.2,1.5-1.5,1.9	c-0.3,0.3-0.6,0.4-1,0.1c-0.5-0.2-2-0.7-3.8-2.4c-1.4-1.3-2.4-2.8-2.6-3.3c-0.3-0.5,0-0.7,0.2-1c0.2-0.2,0.5-0.6,0.7-0.8	c0.2-0.3,0.3-0.5,0.5-0.8c0.2-0.3,0.1-0.6,0-0.8C20.6,19.3,19.7,17,19.3,16z"
-                            clip-rule="evenodd"></path>
-                    </svg><span class="ml-3">Ödeme Planını Paylaş</span>
-                </a>
+                <div class="row align-items-center" style="width:100%;margin:0 auto">
+                    <div class="col-md-12">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a id="whatsappButton" class="btn btn-outline-light"><svg
+                                    xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="18" height="18"
+                                    viewBox="0 0 48 48">
+                                    <path fill="#fff"
+                                        d="M4.9,43.3l2.7-9.8C5.9,30.6,5,27.3,5,24C5,13.5,13.5,5,24,5c5.1,0,9.8,2,13.4,5.6	C41,14.2,43,18.9,43,24c0,10.5-8.5,19-19,19c0,0,0,0,0,0h0c-3.2,0-6.3-0.8-9.1-2.3L4.9,43.3z">
+                                    </path>
+                                    <path fill="#fff"
+                                        d="M4.9,43.8c-0.1,0-0.3-0.1-0.4-0.1c-0.1-0.1-0.2-0.3-0.1-0.5L7,33.5c-1.6-2.9-2.5-6.2-2.5-9.6	C4.5,13.2,13.3,4.5,24,4.5c5.2,0,10.1,2,13.8,5.7c3.7,3.7,5.7,8.6,5.7,13.8c0,10.7-8.7,19.5-19.5,19.5c-3.2,0-6.3-0.8-9.1-2.3	L5,43.8C5,43.8,4.9,43.8,4.9,43.8z">
+                                    </path>
+                                    <path fill="#cfd8dc"
+                                        d="M24,5c5.1,0,9.8,2,13.4,5.6C41,14.2,43,18.9,43,24c0,10.5-8.5,19-19,19h0c-3.2,0-6.3-0.8-9.1-2.3	L4.9,43.3l2.7-9.8C5.9,30.6,5,27.3,5,24C5,13.5,13.5,5,24,5 M24,43L24,43L24,43 M24,43L24,43L24,43 M24,4L24,4C13,4,4,13,4,24	c0,3.4,0.8,6.7,2.5,9.6L3.9,43c-0.1,0.3,0,0.7,0.3,1c0.2,0.2,0.4,0.3,0.7,0.3c0.1,0,0.2,0,0.3,0l9.7-2.5c2.8,1.5,6,2.2,9.2,2.2	c11,0,20-9,20-20c0-5.3-2.1-10.4-5.8-14.1C34.4,6.1,29.4,4,24,4L24,4z">
+                                    </path>
+                                    <path fill="#40c351"
+                                        d="M35.2,12.8c-3-3-6.9-4.6-11.2-4.6C15.3,8.2,8.2,15.3,8.2,24c0,3,0.8,5.9,2.4,8.4L11,33l-1.6,5.8	l6-1.6l0.6,0.3c2.4,1.4,5.2,2.2,8,2.2h0c8.7,0,15.8-7.1,15.8-15.8C39.8,19.8,38.2,15.8,35.2,12.8z">
+                                    </path>
+                                    <path fill="#fff" fill-rule="evenodd"
+                                        d="M19.3,16c-0.4-0.8-0.7-0.8-1.1-0.8c-0.3,0-0.6,0-0.9,0	s-0.8,0.1-1.3,0.6c-0.4,0.5-1.7,1.6-1.7,4s1.7,4.6,1.9,4.9s3.3,5.3,8.1,7.2c4,1.6,4.8,1.3,5.7,1.2c0.9-0.1,2.8-1.1,3.2-2.3	c0.4-1.1,0.4-2.1,0.3-2.3c-0.1-0.2-0.4-0.3-0.9-0.6s-2.8-1.4-3.2-1.5c-0.4-0.2-0.8-0.2-1.1,0.2c-0.3,0.5-1.2,1.5-1.5,1.9	c-0.3,0.3-0.6,0.4-1,0.1c-0.5-0.2-2-0.7-3.8-2.4c-1.4-1.3-2.4-2.8-2.6-3.3c-0.3-0.5,0-0.7,0.2-1c0.2-0.2,0.5-0.6,0.7-0.8	c0.2-0.3,0.3-0.5,0.5-0.8c0.2-0.3,0.1-0.6,0-0.8C20.6,19.3,19.7,17,19.3,16z"
+                                        clip-rule="evenodd"></path>
+                                </svg><span class="ml-3">Ödeme Planını Paylaş</span>
+                            </a>
+                            @if (
+                                (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
+                                    (Auth::check() && Auth::user()->type == '1'))
+                                <span class="btn addCollection mobileAddCollection" data-type='project'
+                                style="color: #EC2F2E;background-color:transparent">
+                                    <i class="fa fa-bookmark-o mr-3"></i> Koleksiyona Ekle & Hızlı Sat
+                                </span>
+                            @endif
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        @if (
+                            (Auth::check() && Auth::user()->type == '2' && Auth::user()->corporate_type == 'Emlak Ofisi') ||
+                                (Auth::check() && Auth::user()->type == '1'))
+                            <div class="d-flex align-items-center justify-content-center pb-3">
+                                <img src="{{ asset('demo-beauty-salon-icon-01.webp') }}" alt=""
+                                    style="width: 25px;margin-right:5px" />
+                                <span class="textAlert"
+                                    style="width: 100%;
+                                        display: block;">
+                                </span>
+                            </div>
+                        @endif
+                    </div>
+
+                </div>
+
+
+
 
                 <tbody>
                     <tr>
@@ -223,7 +266,8 @@
 
 <!-- Bu kodu sayfanın uygun bir yerine ekleyin -->
 
-<div class="modal fade" id="membershipPopup" tabindex="-1" aria-labelledby="membershipPopupLabel" aria-hidden="true">
+<div class="modal fade" id="membershipPopup" tabindex="-1" aria-labelledby="membershipPopupLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -233,24 +277,24 @@
             <div class="modal-body">
 
                 @if (Auth::check() && Auth::user()->has_club == 2)
-                <p class="text-success">
-                    Sayın {{ Auth::user()->name }}, Emlak Kulüp başvurunuz şu anda Emlak Sepette yöneticileri
-                    tarafından incelenmektedir.
-                    Başvurunuzun durumu hakkında size en kısa sürede bilgi verilecektir. Lütfen bekleyiniz.
-                </p>
+                    <p class="text-success">
+                        Sayın {{ Auth::user()->name }}, Emlak Kulüp başvurunuz şu anda Emlak Sepette yöneticileri
+                        tarafından incelenmektedir.
+                        Başvurunuzun durumu hakkında size en kısa sürede bilgi verilecektir. Lütfen bekleyiniz.
+                    </p>
                 @elseif (Auth::check() && Auth::user()->has_club == 3)
-                <p class="text-danger">
-                    Sayın {{ Auth::user()->name }}, Emlak Kulüp başvurunuz maalesef reddedilmiştir.
-                    Başvurunuzun reddedilme sebepleri ile ilgili detaylı bilgi almak için lütfen Emlak Sepette ile
-                    iletişime geçiniz.
-                </p>
+                    <p class="text-danger">
+                        Sayın {{ Auth::user()->name }}, Emlak Kulüp başvurunuz maalesef reddedilmiştir.
+                        Başvurunuzun reddedilme sebepleri ile ilgili detaylı bilgi almak için lütfen Emlak Sepette ile
+                        iletişime geçiniz.
+                    </p>
                 @elseif(Auth::check() && Auth::user()->has_club == 0)
-                <p class="text-black">
-                    Emlak Kulüp başvurunuz bulunmamaktadır. Emlak Kulüp ayrıcalıklarından faydalanmak için başvuru
-                    yapabilirsiniz.
-                </p>
-                <a href="{{ route('institutional.sharer.index') }}" class="btn btn-primary"
-                    style="height: auto !important">Başvuru Yap</a>
+                    <p class="text-black">
+                        Emlak Kulüp başvurunuz bulunmamaktadır. Emlak Kulüp ayrıcalıklarından faydalanmak için başvuru
+                        yapabilirsiniz.
+                    </p>
+                    <a href="{{ route('institutional.sharer.index') }}" class="btn btn-primary"
+                        style="height: auto !important">Başvuru Yap</a>
                 @endif
 
             </div>
@@ -871,6 +915,8 @@
     $('body').on('click', '.payment-plan-button', function(event) {
         var order = $(this).attr('order');
         var block = $(this).data("block");
+        var message = $(this).data("message");
+
         var paymentOrder = $(this).data("payment-order");
         var soldStatus = $(this).data('sold');
 
@@ -896,7 +942,65 @@
             return a;
 
         }
-        if (soldStatus == "1") {
+
+        var userCheck = {!! auth()->user() ? json_encode(auth()->user()->id) : 0 !!};
+
+
+        if (userCheck == 0) {
+            if (message) {
+                if (message == "approve") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Uyarı',
+                        text: 'Projeye teklif göndermek için lütfen giriş yapınız.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Giriş Yap',
+                        cancelButtonText: 'Kapat',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                            window.location.href =
+                                '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                        }
+                    });
+
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Uyarı',
+                        text: 'Projeye başvurmak için lütfen giriş yapınız.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Giriş Yap',
+                        cancelButtonText: 'Kapat',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                            window.location.href =
+                                '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                        }
+                    });
+                }
+
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Uyarı',
+                    text: 'Ödeme detayını görüntülemek için lütfen giriş yapınız.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Giriş Yap',
+                    cancelButtonText: 'Kapat',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Buraya kullanıcıyı giriş sayfasına yönlendiren kodu ekleyin
+                        window.location.href = '/giris-yap'; // Giriş sayfanızın URL'sini buraya koyun
+                    }
+                });
+            }
+
+        } else if (soldStatus == "1") {
             Swal.fire({
                 icon: 'warning',
                 title: 'Uyarı',
@@ -909,6 +1013,7 @@
                 type: "get", // Veriyi göndermek için POST kullanabilirsiniz
                 data: cart,
                 success: function(response) {
+
                     for (var i = 0; i < response.room_info.length; i++) {
                         var numberOfShares = 0;
                         var shareSale = getDataJS(response, "share_sale[]", response.room_info[i]
@@ -960,6 +1065,24 @@
                                 "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
                             ]
                             orderHousing = parseInt(order);
+                            var userTypeOne = {!! auth()->user() ? json_encode(auth()->user()->type) : 0 !!};
+
+                            if (getDataJS(response, "discount_rate[]",
+                                    response.room_info[i].room_order) && userTypeOne == 1) {
+                                html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
+                                    "' style='background-color: green !important;color:white;font-weight: 100'>" +
+                                    "<th style='text-align:center' class='paymentTableTitle' colspan='" +
+                                    (4 + parseInt(getDataJS(response, "pay-dec-count" +
+                                        orderHousing, response.room_info[i].room_order), 10)) +
+                                    "'>" +
+                                    "EN YAKIN EMLAK OFİSİNİN KOLEKSİYONU İLE BU İLANI SATIN ALIRSANIZ, %" +
+                                    (getDataJS(response, "discount_rate[]", response.room_info[i]
+                                        .room_order)) +
+                                    " ORANINDA İNDİRİM KAZANIRSINIZ." +
+                                    "</th></tr>";
+
+
+                            }
 
                             html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
                                 "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" +
@@ -968,6 +1091,48 @@
                                 .project_title +
                                 " Projesinde " + block + " " + paymentOrder +
                                 " No'lu İlan Ödeme Planı</th></tr>";
+
+                            $(".pop-up-top-gradient .odeme-plani-baslik h3").html(
+                                response
+                                .project_title +
+                                " Projesinde " + block + " " + paymentOrder +
+                                " No'lu İlan Ödeme Planı"
+                            )
+                            var userCheck = {!! json_encode(auth()->user()) !!};
+
+                            if (userCheck) {
+                                var discount = getDataJS(response, "discount_rate[]", response
+                                    .room_info[i].room_order);
+                                var talepSayisi = getDataJS(response, "talep_sayisi[]", response
+                                    .room_info[i].room_order);
+
+                                if (discount > 0) {
+                                    var alertMessage = "";
+
+                                    if (userCheck.corporate_type === "Emlak Ofisi" && userCheck
+                                        .type === "2") {
+                                        alertMessage =
+                                            "Emlak Sepette, bu ilanı koleksiyonunuza ekleyerek %" +
+                                            discount +
+                                            " oranındaki indirimle müşterilerinize sunmanıza aracılık eder. Bu fırsatı değerlendirin ve ilanın avantajlarını müşterilerinize daha etkili bir şekilde iletin.";
+
+                                        if (talepSayisi > 0) {
+                                            alertMessage +=
+                                                " Ayrıca, bu ilana şu anda <strong><span style='color: #EC2F2E;'>" +
+                                                talepSayisi +
+                                                " ilgili müşteri var</span></strong>. İlana olan ilgi yüksek ve bu fırsatı kaçırmayın!";
+                                        }
+                                    } else if (userCheck.type === "1") {
+                                        alertMessage =
+                                            "Emlak Sepette, bu ilanı en yakın emlak ofisinizin koleksiyonundan %" +
+                                            discount +
+                                            " oranındaki indirimle satın almanıza aracılık eder. Bu fırsatı kaçırmayın! Detaylar ve daha fazla bilgi için hemen ofisinizle iletişime geçin.";
+                                    }
+
+                                    $(".textAlert").html(alertMessage);
+                                }
+                            }
+
 
 
                             for (var j = 0; j < paymentPlanData.length; j++) {
@@ -984,8 +1149,7 @@
                                         var monhlyPrice = "";
 
 
-                                        var projectedEarningsData = "";
-                                        var ongKiraData = "";
+
 
                                         var projectedEarnings = getDataJS(response,
                                             "projected_earnings[]", response.room_info[i]
@@ -995,20 +1159,8 @@
                                             "ong_kira[]", response.room_info[i]
                                             .room_order);
                                         // var projectedEarnings = 10;
-                                        var svgCode =
-                                            '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
-                                        var projectedEarningsHTML = projectedEarnings ? svgCode +
-                                            "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
-                                            "<span style='color:#28a745'> %" + projectedEarnings +
-                                            "</span>" : "";
 
-                                        var ongKiraHTML = ongKira ? svgCode +
-                                            "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
-                                            "<span style='color:#28a745'>" + ongKira +
-                                            " TL</span>" : "";
 
-                                        projectedEarningsData += projectedEarningsHTML;
-                                        ongKiraData += ongKiraHTML;
 
                                     } else {
 
@@ -1055,29 +1207,54 @@
 
                                     orderHousing = parseInt(order);
 
-                                    var payDecPrice = 0;
-                                    if (paymentPlanDatax[paymentPlanData[j]] == "Taksitli") {
-                                        html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
-                                            "' style='background-color: #EEE !important;'><th>" +
-                                            installementData +
-                                            " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th>";
 
 
+                                    if (paymentPlanData[j] == "pesin") {
+                                        var payDecPrice = 0;
 
-                                        for (var l = 1; l <= getDataJS(response,
-                                                "pay-dec-count" + (orderHousing), response
-                                                .room_info[i].room_order); l++) {
-                                            html += "<th>" +
-                                                l + ". Ara Ödeme</th>";
+                                        var projectedEarningsData = "";
+                                        var ongKiraData = "";
+                                        var svgCode =
+                                            '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
+                                        var projectedEarningsHTML = projectedEarnings ?
+                                            svgCode +
+                                            "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
+                                            "<span style='color:#28a745'> %" +
+                                            projectedEarnings +
+                                            "</span>" : "";
+
+                                        var ongKiraHTML = ongKira ? svgCode +
+                                            "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
+                                            "<span style='color:#28a745'>" + ongKira +
+                                            " TL</span>" : "";
+
+                                        projectedEarningsData += projectedEarningsHTML;
+                                        ongKiraData += ongKiraHTML;
+
+                                        html += "<tr><td>Öngörülen Kazanç Durumu</td>";
+
+                                        if (projectedEarningsData) {
+                                            html += "<td>" + projectedEarningsData + "</td>";
+
                                         }
 
 
                                         if (ongKiraData) {
-                                            html += "<th></th>";
+                                            html += "<td>" + ongKiraData + "</td></tr>";
 
                                         }
+                                    }
 
-                                        html += "</tr>";
+
+                                    if (paymentPlanDatax[paymentPlanData[j]] == "Taksitli") {
+                                        html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
+                                            "' style='background-color: #EEE !important;'><th>" +
+                                            installementData +
+                                            " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th></tr>";
+
+
+
+
                                     }
 
                                     html += "<tr>";
@@ -1111,16 +1288,7 @@
                                                     paymentPlanData[j]] + " " +
                                                 "Fiyat:</strong> " : "") + formatPrice(
                                                 priceData) + "₺</td>";
-                                            if (projectedEarningsData) {
-                                                html += "<td>" + projectedEarningsData + "</td>";
 
-                                            }
-
-
-                                            if (ongKiraData) {
-                                                html += "<td>" + ongKiraData + "</td>";
-
-                                            }
 
 
                                         }
@@ -1177,63 +1345,60 @@
                                     if (getDataJS(response, "pay-dec-count" + (orderHousing),
                                             response.room_info[i].room_order)) {
 
-                                        for (var l = 0; l < getDataJS(response,
-                                                "pay-dec-count" + (orderHousing), response
-                                                .room_info[i].room_order); l++) {
+                                        for (var l = 0; l < getDataJS(response, "pay-dec-count" + (
+                                                    orderHousing), response.room_info[i]
+                                                .room_order); l++) {
+
+
 
                                             if (getDataJS(response, "pay_desc_price" + (
                                                         orderHousing) + l, response.room_info[i]
                                                     .room_order)) {
-                                                payDecPrice += numberOfShares ? parseFloat(
-                                                        getDataJS(response,
-                                                            "pay_desc_price" + (orderHousing) +
-                                                            l,
-                                                            response.room_info[i].room_order)) /
-                                                    numberOfShares : parseFloat(getDataJS(response,
-                                                        "pay_desc_price" + (orderHousing) +
-                                                        l,
-                                                        response.room_info[i].room_order));
-                                                var payDecPrice2 = numberOfShares ? parseFloat(
-                                                        getDataJS(response,
-                                                            "pay_desc_price" + (orderHousing) +
-                                                            l,
-                                                            response.room_info[i].room_order)) /
-                                                    numberOfShares : parseFloat(getDataJS(response,
-                                                        "pay_desc_price" + (orderHousing) +
-                                                        l,
-                                                        response.room_info[i].room_order));
-                                                var payDescDate = new Date(getDataJS(response,
-                                                    "pay_desc_date" + (orderHousing) +
-                                                    l,
+                                                var price = parseFloat(getDataJS(response,
+                                                    "pay_desc_price" + (orderHousing) + l,
                                                     response.room_info[i].room_order));
-                                                console.log(payDecPrice);
+                                                var payDecPrice = numberOfShares ? price /
+                                                    numberOfShares : price;
+                                                var payDescDate = new Date(getDataJS(response,
+                                                    "pay_desc_date" + (orderHousing) + l,
+                                                    response.room_info[i].room_order));
+
+
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
-                                                    html += "<td>" + (isMobile ? "<strong>" + (l +
-                                                                1) +
-                                                            ". Ara Ödeme :</strong> <br>" :
-                                                            "") +
-                                                        formatPrice(payDecPrice2) + "₺" +
-                                                        (isMobile ? " <br>" : "<br>") +
-                                                        (months[payDescDate.getMonth()] + ' ' +
-                                                            payDescDate.getDate() + ', ' +
-                                                            payDescDate
-                                                            .getFullYear()) + "</td>";
-
-
-                                                    if (ongKiraData) {
-                                                        html += "<td></td>";
-
+                                                    if (l == 0) {
+                                                        html +=
+                                                            "<tr><th style='background-color: #EEE !important;' colspan='3'>Ara Ödemeler</th></tr>";
                                                     }
-                                                } else {
-                                                    html += null;
+                                                    html += "<tr>";
+
+                                                    // Ara Ödeme
+                                                    html += "<td>" + "<strong>" + (l + 1) +
+                                                        ". Ara Ödeme :</strong> <br>" + "</td>";
+
+                                                    // Price
+                                                    html += "<td>" + formatPrice(payDecPrice) +
+                                                        "₺" + "</td>";
+
+                                                    // Tarih
+                                                    html += "<td>" + (months[payDescDate
+                                                                .getMonth()] + ' ' + payDescDate
+                                                            .getDate() +
+                                                            ', ' + payDescDate.getFullYear()) +
+                                                        "</td>";
+
+
+                                                    html += "</tr>";
                                                 }
-
-
                                             }
+
+
 
                                         }
                                     }
+
+
+
 
                                     html += "</tr>";
                                 }
@@ -1241,6 +1406,7 @@
                                 tempPlans.push(paymentPlanData[j])
 
                             }
+
 
                             $('.payment-plan tbody').html(html);
 
@@ -1267,6 +1433,17 @@
 
                                     window.open(whatsappURL, '_blank');
                                 });
+
+
+
+
+                            // Elemanı seç ve data-project ve data-id niteliklerini ekle
+                            $('.payment-plan-pop-content .btn.addCollection.mobileAddCollection')
+                                .each(function() {
+                                    $(this).attr('data-project', response.id);
+                                    $(this).attr('data-id', paymentOrder);
+                                });
+
                         }
                     }
                 },
@@ -1868,7 +2045,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+    const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -2088,7 +2265,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+        const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {

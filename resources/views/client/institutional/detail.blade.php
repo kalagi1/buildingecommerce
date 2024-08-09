@@ -18,87 +18,147 @@
     @endphp
 
     <x-store-card :store="$institutional" />
-    <section class="portfolio bg-white homepage-5 ">
-        <div class="container">
-            <div class="seller-profile">
-                <div class="seller-info-container"
-                    @if ($institutional && $institutional->type == '1') style="grid-template-columns: repeat(2, 2fr) !important;" @endif>
-
-                    <div class="seller-info-container__wrapper">
-                        <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
-                                class="seller-info-container__wrapper__text-container__title"> Katılma Tarihi</span><span
-                                class="seller-info-container__wrapper__text-container__value">
-                                {{ $institutional->created_at->setTimezone('Europe/Istanbul')->format('d.m.Y') }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="seller-info-container__wrapper">
-
-                        <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
-                                class="seller-info-container__wrapper__text-container__title"> İletişim </span><span
-                                class="seller-info-container__wrapper__text-container__value">
-                                <span> Telefon:
-                                    {{ $institutional->phone ? $institutional->phone : 'Belirtilmedi.' }} <br>
-                                    Email: {{ $institutional->email ? $institutional->email : 'Belirtilmedi' }}</span>
-
-                            </span>
-                        </div>
-                    </div>
-                    @if ($institutional && $institutional->type != '1')
-                        <div class="seller-info-container__wrapper">
-                            <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
-                                    class="seller-info-container__wrapper__text-container__title">
-                                    @if (isset($institutional->latitude))
-                                        <button onclick="getDirections()" class="btn btn-primary w-100 text-center"
-                                            style="    height: 30px !important;
-                                    width: 50% !important;
-                                    margin: 3px auto;">
-                                            Yol Tarifi Al
-                                        </button>
-                                    @else
-                                        Konum
-                                    @endif
-                                </span><span class="seller-info-container__wrapper__text-container__value">
-                                    @if($institutional->town)
-                                        {{ $institutional->town->sehir_title }}
-                                    @endif
-                                    @if($institutional->district)
-                                        <i class="fa fa-angle-right"></i>
-                                        {{ $institutional->district->ilce_title }}
-                                    @endif
-                                    @if($institutional->neighborhood)
-                                        <i class="fa fa-angle-right"></i>
-                                        {{ $institutional->neighborhood->mahalle_title }}
-                                    @endif
-                                </span>
-                                
-                            </div>
-
-
-                        </div>
-                    @endif
-                    @if ($institutional && $institutional->website  && $institutional->type != '1')
-                        <div class="seller-info-container__wrapper">
-                            <a href="{{ $institutional->website }}" class="w-100 text-center" target="_blank">
-                                <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
-                                        class="seller-info-container__wrapper__text-container__title"> <i
-                                            class="fa fa-globe"></i></span><span
-                                        class="seller-info-container__wrapper__text-container__value">
-                                        Websiteye Git</span></div>
-                            </a>
-
-                        </div>
-                    @endif
+    <div class="row justify-content-center mt-5 mb-5">
+        <div class="col-md-7">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="https://craftohtml.themezaa.com/images/demo-decor-store-about-01.png" class="img-fluid mr-2"
+                    style="width: 10%" alt="Profile Image">
+                <div>
+                    <span class="fs-13 ls-2px fw-600 mb-2 d-block" style="font-size: 10px !important">Hesap Açma Tarihi: {{$institutional->created_at->format('d.m.Y') }} </span>
+                    <h3 class="text-dark-gray alt-font fw-700 mb-0" style="font-size: 20px;">
+                        {{ $institutional->name }}
+                    </h3>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-6">
+            <div
+                class="row align-items-center justify-content-center border border-color-extra-medium-gray border-radius-100px sm-border-radius-6px sm-mx-0">
+                <div
+                    class="col-md-6 p-20px border-end border-color-transparent-dark-very-light text-center ls-minus-05px align-items-center d-flex justify-content-center sm-border-end-0 sm-pb-0 sm-mb-10px">
+                    <span class="text-dark-gray fs-18 text-start fw-500 xs-lh-28">
+                        @if (isset($institutional->phone_verification_status) && $institutional->phone_verification_status == 1)
+                            <span class="text-success d-flex align-items-center">
+                                <i class="fa fa-check-circle me-2 mr-2"></i> Cep Telefonu Onaylı
+                            </span>
+                        @else
+                            <span class="text-danger d-flex align-items-center">
+                                <i class="fa fa-times-circle me-2 mr-2"></i> Cep Telefonu Onaylı Değil
+                            </span>
+                        @endif
+                    </span>
+                </div>
+                <div
+                    class="col-md-6 p-20px sm-pt-0 border-send text-center ls-minus-05px align-items-center d-flex justify-content-center">
+                    <span class="text-dark-gray fs-18 text-start fw-500">
+                        @if (isset($institutional->status) && $institutional->status == '1')
+                            <span class="text-success d-flex align-items-center">
+                                <i class="fa fa-check-circle me-2 mr-2"></i> E-Posta Onaylı
+                            </span>
+                        @else
+                            <span class="text-danger d-flex align-items-center">
+                                <i class="fa fa-times-circle me-2 mr-2"></i> E-Posta Onaylı Değil
+                            </span>
+                        @endif
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                @if (isset($institutional->latitude))
-                    <div id="mapContainer" style="height: 350px;width:100%;margin-bottom:20px"></div>
+
+
+    <section class="pt-4 mb-5">
+        <div class="container">
+            <div
+                class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center text-center text-sm-start">
+                <!-- Location Information -->
+                @if ($institutional->town || $institutional->district || $institutional->neighborhood)
+                    <div class="col mb-4">
+                        <span class="d-block fs-18 fw-600 text-dark-gray border-bottom border-2 border-dark-gray pb-2 mb-3">
+                            <i class="fa fa-map-pin me-2 me-10px"></i>Konum
+                        </span>
+                        <p>
+                            @if ($institutional->town)
+                                {{ $institutional->town->sehir_title }}
+                            @endif
+                            @if ($institutional->district)
+                                <i class="fa fa-angle-right mx-2"></i>
+                                {{ $institutional->district->ilce_title }}
+                            @endif
+                            @if ($institutional->neighborhood)
+                                <i class="fa fa-angle-right mx-2"></i>
+                                {{ $institutional->neighborhood->mahalle_title }}
+                            @endif
+                        </p>
+                    </div>
                 @endif
 
+                <!-- Email Information -->
+                @if ($institutional->email)
+                    <div class="col mb-4">
+                        <span class="d-block fs-18 fw-600 text-dark-gray border-bottom border-2 border-dark-gray pb-2 mb-3">
+                            <i class="fa fa-envelope me-2 me-10px"></i>E-Posta
+                        </span>
+                        <a href="mailto:{{ $institutional->email }}">{{ $institutional->email }}</a>
+                    </div>
+                @endif
+
+                <!-- Phone Information -->
+                @if ($institutional->phone || $institutional->mobile_phone)
+                    <div class="col mb-4">
+                        <span class="d-block fs-18 fw-600 text-dark-gray border-bottom border-2 border-dark-gray pb-2 mb-3">
+                            <i class="fa fa-phone me-2 me-10px"></i>Hemen Ara
+                        </span>
+                        @if ($institutional->phone)
+                            <a href="tel:{{ $institutional->phone }}">{{ $institutional->phone }}</a>
+                        @elseif ($institutional->mobile_phone)
+                            <a href="tel:{{ $institutional->mobile_phone }}">{{ $institutional->mobile_phone }}</a>
+                        @endif
+                    </div>
+                @endif
+
+                <!-- Directions Button -->
+                {{-- @if ($institutional && $institutional->type != '1')
+                    <div class="col mb-4">
+                        <span class="d-block fs-18 fw-600 text-dark-gray border-bottom border-2 border-dark-gray pb-2 mb-3">
+                            <i class="fa fa-users me-2 me-10px"></i>Yol Tarifi Al
+                        </span>
+                        @if (isset($institutional->latitude))
+                            <button onclick="getDirections()" class="btn btn-primary w-100">
+                                Yol Tarifi Al
+                            </button>
+                        @else
+                            <p>Konum Bilgisi Yok</p>
+                        @endif
+                    </div>
+                @endif --}}
+
+                <!-- Website Information -->
+                @if ($institutional && $institutional->website && $institutional->type != '1')
+                    <div class="col mb-4">
+                        <span class="d-block fs-18 fw-600 text-dark-gray border-bottom border-2 border-dark-gray pb-2 mb-3">
+                            <i class="fa fa-link me-2 me-10px"></i>Web Siteye Git
+                        </span>
+                        @if ($institutional->website)
+                            <a href="{{ $institutional->website }}" target="_blank">Websiteye Git</a>
+                        @else
+                            <p>Belirtilmedi.</p>
+                        @endif
+                    </div>
+                @endif
             </div>
 
+            <!-- Map Container -->
+            @if (isset($institutional->latitude))
+                <div id="mapContainer" class="mt-5" style="height: 350px; width: 100%; margin-bottom: 20px;"></div>
+            @endif
         </div>
     </section>
+
+
 @endsection
 
 @section('scripts')

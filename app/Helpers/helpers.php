@@ -5,6 +5,7 @@
 use Illuminate\Support\Facades\Crypt;
 use App\Models\HousingComment;
 use App\Models\ProjectComment;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 if (!function_exists('canUserAddComment')) {
@@ -18,9 +19,9 @@ if (!function_exists('canUserAddComment')) {
 
             // Check if a comment already exists for this housing by the user or their parent
             $commentExists = HousingComment::where('user_id', $userId)
-                                           ->where('housing_id', $housingId)
-                                           ->exists();
-            
+                ->where('housing_id', $housingId)
+                ->exists();
+
             return !$commentExists; // Return true if the user can add a comment (no existing comment found), false otherwise
         }
 
@@ -39,9 +40,9 @@ if (!function_exists('canUserAddProjectComment')) {
 
             // Check if a comment already exists for this project by the user or their parent
             $commentExists = ProjectComment::where('user_id', $userId)
-                                           ->where('project_id', $projectId)
-                                           ->exists();
-            
+                ->where('project_id', $projectId)
+                ->exists();
+
             return !$commentExists; // Return true if the user can add a comment (no existing comment found), false otherwise
         }
 
@@ -52,31 +53,29 @@ if (!function_exists('canUserAddProjectComment')) {
 if (!function_exists('checkIfUserCanAddToCart')) {
     function checkIfUserCanAddToCart($housingId)
     {
-        $user = auth()->user();
-
-        if ($user) {
+        if (auth()->user()) {
             // Determine the user ID to use (parent ID if available)
-            if ($user->parent_id) {
-                // Get the parent user
-                $parentUser = \App\Models\User::find($user->parent_id);
+            $userId = auth()->user()->parent_id ? auth()->user()->parent_id : auth()->user()->id;
+            $user = User::where("id", $userId)->first();
 
-                if ($parentUser) {
-                    // Check if the housing exists for the parent user
-                    $exists = $parentUser->housings()->where('id', $housingId)->exists();
-                } else {
-                    // If the parent user is not found, fallback to current user
-                    $exists = $user->housings()->where('id', $housingId)->exists();
+
+
+            $exists = $user->housings()->where('id', $housingId)->exists();
+
+
+            // Determine if the user can add to project housings
+            if (!$exists) {
+                // If the project does not belong to the user and type criteria is met
+                if ($user->type ==  "1" || ($user->type == "2" && $user->corporate_type == 'Emlak Ofisi')) {
+                    return true; // User can add to project housings
                 }
-            } else {
-                // No parent ID, use the current user
-                $exists = $user->housings()->where('id', $housingId)->exists();
             }
 
-            // Return true if the housing does not exist (i.e., the user can add it)
-            return !$exists;
+            return false; // Housing already exists or project belongs to the user
         }
 
-        return true; // Return true if the user is not logged in
+        return false; // User not logged in or does not meet type criteria
+
     }
 }
 
@@ -109,7 +108,7 @@ if (!function_exists('checkIfUserCanAddToProject')) {
                     ->where('id', $projectId)
                     ->exists();
             }
-            
+
             // Return true if the project does not exist (i.e., the user can add it)
             return !$exists;
         }
@@ -121,26 +120,44 @@ if (!function_exists('checkIfUserCanAddToProject')) {
 if (!function_exists('checkIfUserCanAddToProjectHousings')) {
     function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
     {
-        $user = auth()->user();
-
-        if ($user) {
+        if (auth()->user()) {
             // Determine the user ID to use (parent ID if available)
-            $userId = $user->parent_id ?: $user->id;
+            $userId = auth()->user()->parent_id ? auth()->user()->parent_id : auth()->user()->id;
+            $user = User::where("id", $userId)->first();
 
-            // Check if the project contains housing with the given key index for the user or their parent
-            $exists = $user->projects()
+            // Check if the project exists for the user
+            $projectExists = $user->projects()
+                ->where('id', $projectId)
+                ->exists();
+
+            // Check if the housing exists for the user in the project
+            $housingExists = $user->projects()
                 ->where('id', $projectId)
                 ->whereHas('housings', function ($query) use ($keyIndex) {
                     $query->where('room_order', $keyIndex);
                 })
                 ->exists();
-                
-            return !$exists; // Return true if the user can add the housing (housing not found), false otherwise
+
+            // Determine if the user can add to project housings
+            if (!$projectExists) {
+                // If the project does not belong to the user and type criteria is met
+                if ($user->type ==  "1" || ($user->type == "2" && $user->corporate_type == 'Emlak Ofisi')) {
+                    return true; // User can add to project housings
+                }
+            } else if (!$housingExists) {
+                if ($user->type ==  "1" || ($user->type == "2" && $user->corporate_type == 'Emlak Ofisi')) {
+                    return true; // User can add to project housings
+                }
+            }
+
+            return false; // Housing already exists or project belongs to the user
         }
 
-        return true; // Return true if user is not logged in
+        return false; // User not logged in or does not meet type criteria
     }
 }
+
+
 
 if (!function_exists('getInitials')) {
     function getInitials($name)

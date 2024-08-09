@@ -124,9 +124,9 @@
   line-height: 140%;
   text-align: center; }
   .fr-popup .fr-video-upload-layer:hover {
-    background: #ebebeb; }
+    background: #f3f3f3; }
   .fr-popup .fr-video-upload-layer.fr-drop {
-    background: #ebebeb;
+    background: #f3f3f3;
     border-color: #0098f7; }
   .fr-popup .fr-video-upload-layer .fr-form {
     -webkit-opacity: 0;

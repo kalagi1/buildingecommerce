@@ -926,7 +926,7 @@ function Rooms({
                                             }) ? 
                                               <div>
                                                 <label htmlFor="" className="font-bold">
-                                                  Ödeme Planı
+                                                  Ara Ödemeler 
                                                 </label>
                                                 <button
                                                   className="btn btn-primary add-project-pay-dec-button d-block"
@@ -934,7 +934,7 @@ function Rooms({
                                                     setPayDecOpen(true);
                                                   }}
                                                 >
-                                                  Ödeme Planını Yönet (
+                                                  Ara Ödemeleri Yönet (
                                                   {blocks[selectedBlock]?.rooms[
                                                     selectedRoom
                                                   ]

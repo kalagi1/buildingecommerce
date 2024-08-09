@@ -57,7 +57,7 @@ function PayDecTable({savePayDecsSingle,saveHousing,open,setOpen,setData,data,sa
                 <div className="payment-modal-content">
                     <div className="pop-up-top-gradient">
                         <div className="left">
-                            <h3>Ödeme Planı ve Alıcı Bilgileri</h3>
+                        <h3>Ara Ödeme Ekle ve Düzenle</h3>
                         </div>
                         <div className="close" onClick={() => {setOpen(false)}}>
                             <span><i className='fa fa-times '></i></span>

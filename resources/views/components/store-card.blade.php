@@ -173,19 +173,31 @@
                                 İlanları</a>
                             <a class="navbar-item {{ Route::is('institutional.teams*') ? 'active' : '' }}"
                                 href="{{ route('institutional.teams', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Ekibimiz</a>
-                            <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
-                                @if (isset($store->parent)) href="{{ route('club.dashboard', [
-                                    'parentSlug' => Str::slug($store->parent->name),
-                                    'slug' => Str::slug($store->name),
-                                    'userID' => $store->id,
-                                ]) }}"
+
+                            @if ($store->type == '1' || ($store->type == '2' && $store->corporate_type == 'Emlak Ofisi'))
+                                <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
+                                    @if (isset($store->parent)) href="{{ route('club.dashboard', [
+                                        'parentSlug' => Str::slug($store->parent->name),
+                                        'slug' => Str::slug($store->name),
+                                        'userID' => $store->id,
+                                    ]) }}"
                                 @else
                                 href="{{ route('club.dashboard2', [
                                     'slug' => Str::slug($store->name),
                                     'userID' => $store->id,
                                 ]) }}" @endif>
-                                Koleksiyonlar
-                            </a>
+                                    Koleksiyonlar
+                                </a>
+                            @else
+                                <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
+                                    href="{{ route('club.dashboardSatisNoktalari', [
+                                        'slug' => Str::slug($store->name),
+                                        'userID' => $store->id,
+                                    ]) }}">
+                                    Satış Noktalarımız
+                                </a>
+                            @endif
+
 
                             <a class="navbar-item {{ Route::is('institutional.comments*') ? 'active' : '' }}"
                                 href="{{ route('institutional.comments', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Değerlendirmeler</a>

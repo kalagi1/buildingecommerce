@@ -12,12 +12,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="https://emlaksepette.com/" />
+        <meta property="og:url"content="https://private.emlaksepette.com/" />
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
+            $imageUrl = $pageInfo->meta_image ?? 'https://private.emlaksepette.com/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrl }}" />
@@ -55,7 +55,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/menu.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=3">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/stylesNew.css?v=1.2.1.5">
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -83,10 +83,20 @@
             background-color: #eff2f6;
         }
 
+        .btn-primary {
+            color: #fff;
+            background-color: #2f5f9e !important;
+            border-color: #2f5f9e !important;
+        }
+
         #whatsappButton {
             height: 100% !important;
-            background: green;
-            margin-bottom: 10px;
+            background: transparent;
+            color: green;
+            /* margin-bottom: 10px; */
+            /* margin-top: 10px; */
+            padding: 10px 0;
+
         }
 
         .btn-view-vendor-info {
@@ -573,17 +583,23 @@
                                                     'text' => 'Panelim',
                                                 ],
                                                 [
-                                                    'url' => route('institutional.sharer.index'),
+                                                    'url' =>
+                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                            ? route('institutional.sharer.index')
+                                                            : route('club.dashboardSatisNoktalari', [
+                                                                'slug' => Str::slug(Auth::user()->name),
+                                                                'userID' => Auth::user()->id,
+                                                            ]),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
                                                         Auth::user()->corporate_type == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
-                                                            : 'Koleksiyonlarım',
+                                                            : 'Satış Noktalarımız',
                                                 ],
                                                 [
                                                     'url' => url('hesabim/ilan-tipi-sec'),
                                                     'icon' => 'fa fa-plus',
-                                                    'text' => 'İlan Ekle',
+                                                    'text' => 'İlan Ver',
                                                 ],
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),
@@ -777,7 +793,7 @@
                                         switch ($userType) {
                                             case 2:
                                                 $link = url('hesabim/ilan-tipi-sec');
-                                                $text = 'İlan Ekle';
+                                                $text = 'İlan Ver';
                                                 break;
                                             case 3:
                                                 $link = url('qR9zLp2xS6y/secured/');
@@ -856,6 +872,10 @@
                                             <i class="{{ $menuItem['icon'] }}"></i>
                                         @endif
                                         {{ $menuItem['text'] }}
+                                        @if ($menuItem['text'] == 'Paylaşımlı İlanlar')
+                                            <img src="{{ asset('fa6-regular_handshake.png') }}" class="ml-2"
+                                                alt="">
+                                        @endif
                                         @if (!empty($menuItem['children']))
                                             <span class="caret"></span>
                                         @endif

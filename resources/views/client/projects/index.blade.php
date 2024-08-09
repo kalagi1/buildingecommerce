@@ -79,11 +79,10 @@
 
     <section class="recently  bg-white homepage-5 ">
         <div class="container">
-            <div class="row">
-                <div class="col-md-12">
+            <div class="row mb-3" style="align-items:center">
+                <div class="col-md-8 col-12">
                     <div class="headings-2 pt-0 pb-0">
-                        <div class="pro-wrapper mb-3" style="width: 100%; justify-content: space-between;">
-
+                        <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
                             <div class="detail-wrapper-body">
                                 <div class="listing-title-bar">
                                     <strong
@@ -92,22 +91,25 @@
                                     <h3>{{ $project->project_title }}</h3>
                                 </div>
                             </div>
-                            @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
-                                <span
-                                    style="    color: green;
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12 mt-2">
+                    @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
+                        <hr>
+                        <span
+                            style="    color: green;
                           font-weight: 700;
                           font-size: 16px;
                           text-align: center;
-                          /* width: 35%; */
-                          flex: 0 0 33.333333%;
-                          max-width: 33.333333%;
+                          width:100%;
                           display: flex;
                           justify-content: center;
                           align-items: center;">SATIŞTAN
-                                    %{{ $project->club_rate }} KOMİSYON KAZAN!</span>
-                            @endif
-                        </div>
-                    </div>
+                            %{{ $project->club_rate }} KOMİSYON KAZAN!</span>
+                        <hr>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -333,9 +335,10 @@
                                                         </td>
                                                     </tr>
                                                 @endif --}}
-                                                @if((isset($projectHousingsList[1]['share_sale[]']) && $projectHousingsList[1]['share_sale[]'] != "[]") || (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != "[]"))
-                                                
-                                                @else 
+                                                @if (
+                                                    (isset($projectHousingsList[1]['share_sale[]']) && $projectHousingsList[1]['share_sale[]'] != '[]') ||
+                                                        (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]'))
+                                                @else
                                                     <tr>
                                                         <td colspan="2">
                                                             <strong class="autoWidthTr"><span>Toplam
@@ -871,6 +874,71 @@
                         <div class="tab-pane fade blog-info details mb-30 descriptionProject" id="home"
                             role="tabpanel" aria-labelledby="home-tab">
                             {!! $project->description !!}
+                            <hr>
+                            <div class="uiBox uiBoxContainer yourSecurity">
+                                <h3 style="color: #EC2F2E !important;">Gayrimenkul Alırken/Kiralarken Dikkat Edilmesi
+                                    Gerekenler!</h3>
+
+                                <p>
+                                    Emlaksepette.com olarak, kullanıcılarımızın güvenliğini en üst düzeyde tutmak
+                                    önceliğimizdir.
+                                    Bu nedenle, satın almak veya kiralamak istediğiniz emlak ile ilgili işlemleri yaparken
+                                    dikkatli
+                                    olmanız büyük önem taşımaktadır. İşte dikkat etmeniz gereken bazı önemli noktalar:
+                                </p>
+
+                                <p>
+                                    <strong>Ödeme Yapmadan Önce:</strong> Satın alma veya kiralama işlemlerinde kesin karar
+                                    vermeden
+                                    önce hiçbir şekilde ön ödeme yapmayınız. Kapora veya avans ödemeleri konusunda dikkatli
+                                    olunuz
+                                    ve dolandırıcılık riski taşıyan durumlara karşı tedbirli davranınız.
+                                </p>
+
+                                <p>
+                                    <strong>İlan Bilgilerini Doğrulama:</strong> İlan sahiplerinin verdikleri bilgileri
+                                    dikkatlice
+                                    kontrol ediniz. İlanlarda belirtilen bilgilerin ve görsellerin doğruluğunu teyit etmek
+                                    için
+                                    mümkünse yerinde inceleme yapınız veya güvenilir kaynaklardan doğrulama isteyiniz.
+                                </p>
+
+                                <p>
+                                    <strong>İletişim ve Profil Bilgileri:</strong> İlan sahiplerinin hesap profillerindeki
+                                    bilgilerin
+                                    doğruluğunu kontrol ediniz. Şüpheli veya eksik bilgiye sahip ilan sahipleri ile
+                                    iletişimde temkinli
+                                    olunuz. Güvenliğiniz için, kimlik doğrulaması yapmış kullanıcılar ile iletişim kurmayı
+                                    tercih ediniz.
+                                </p>
+
+                                <p>
+                                    <strong>Sözleşme ve Hukuki Belgeler:</strong> Satın alma veya kiralama işlemlerinde
+                                    sözleşme
+                                    yapmadan önce hukuki belgeleri dikkatlice inceleyiniz ve gerektiğinde bir uzmana
+                                    danışınız. Tüm
+                                    koşulların net bir şekilde belirtildiği ve taraflarca kabul edildiği belgeler üzerinden
+                                    işlem yapınız.
+                                </p>
+
+                                <p>
+                                    <strong>Geri Bildirim ve Şikayetler:</strong> Emlaksepette.com olarak, kullanıcı
+                                    deneyimini ve
+                                    güvenliğini sürekli olarak iyileştirmek için geri bildirimlerinizi önemsiyoruz. Eğer
+                                    ilanlarda
+                                    belirtilen bilgi veya görsellerin gerçeği yansıtmadığını düşünüyorsanız veya ilan
+                                    sahiplerinin
+                                    hesap profillerindeki bilgilerin doğru olmadığını fark ederseniz, lütfen bize hemen
+                                    bildirin.
+                                </p>
+
+                                <p>
+                                    Güvenli bir emlak deneyimi için bu önemli noktalara dikkat ederek, dolandırıcılık ve
+                                    benzeri
+                                    olumsuz durumlardan korunabilirsiniz.
+                                </p>
+                            </div>
+
                         </div>
 
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
@@ -878,9 +946,18 @@
                             role="tabpanel" aria-labelledby="contact-tab">
                             @php
                                 $housingTypeFormJson = json_decode($project->housingType->form_json);
-                                $column1Order = array_search($project->listItemValues->column1_name."[]",array_column(json_decode($project->housingType->form_json), 'name'));
-                                $column2Order = array_search($project->listItemValues->column2_name."[]",array_column(json_decode($project->housingType->form_json), 'name'));
-                                $column3Order = array_search($project->listItemValues->column3_name."[]",array_column(json_decode($project->housingType->form_json), 'name'));
+                                $column1Order = array_search(
+                                    $project->listItemValues->column1_name . '[]',
+                                    array_column(json_decode($project->housingType->form_json), 'name'),
+                                );
+                                $column2Order = array_search(
+                                    $project->listItemValues->column2_name . '[]',
+                                    array_column(json_decode($project->housingType->form_json), 'name'),
+                                );
+                                $column3Order = array_search(
+                                    $project->listItemValues->column3_name . '[]',
+                                    array_column(json_decode($project->housingType->form_json), 'name'),
+                                );
                             @endphp
 
                             @if ($project->have_blocks == 1)
@@ -973,31 +1050,51 @@
                                                 <div class="col-md-12">
                                                     <div class="row">
                                                         <div class="col-md-3 pr-0">
-                                                            <div style="background:#ea2b2e;width: 100%;height: 100%;border-top-left-radius: 7px;"></div>
+                                                            <div
+                                                                style="background:#ea2b2e;width: 100%;height: 100%;border-top-left-radius: 7px;">
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-9" >
+                                                        <div class="col-md-9">
                                                             <div class="row" style="width: 102%;">
-                                                                <div class="col-md-9" style="background:#ea2b2e;color:#fff;padding : 5px 15px;">
-                                                                    @if($project->id == 434 || $project->id == 433 || $project->id == 431)
-                                                                    <div class="d-flex">
-                                                                        <li style="width:20%;list-style:none;">Oda Sayısı</li>
-                                                                        <li style="width:20%;list-style:none;">Oda Tipi</li>
-                                                                        <li style="width:20%;list-style:none;">İl/İlçe</li>
-                                                                        <li style="width:20%;list-style:none;">Eklenme Tarihi</li>
-                                                                        <li style="width:20%;display:flex;justify-content:center">Fiyat</li>
-                                                                    </div>
-                                                                @else
-                                                                <div class="d-flex">
-                                                                    <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column1Order]->label}}</li>
-                                                                    <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column2Order]->label}}</li>
-                                                                    @if($project->listItemValues->column3_name)
-                                                                    <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column3Order]->label}}</li>@endif
-                                                                    <li style="width:20%;list-style:none;">Eklenme Tarihi</li>
-                                                                    <li style="width:20%;display:flex;justify-content:center">Fiyat</li>
+                                                                <div class="col-md-9"
+                                                                    style="background:#ea2b2e;color:#fff;padding : 5px 15px;">
+                                                                    @if ($project->id == 434 || $project->id == 433 || $project->id == 431)
+                                                                        <div class="d-flex">
+                                                                            <li style="width:20%;list-style:none;">Oda
+                                                                                Sayısı</li>
+                                                                            <li style="width:20%;list-style:none;">Oda Tipi
+                                                                            </li>
+                                                                            <li style="width:20%;list-style:none;">İl/İlçe
+                                                                            </li>
+                                                                            <li style="width:20%;list-style:none;">Eklenme
+                                                                                Tarihi</li>
+                                                                            <li
+                                                                                style="width:20%;display:flex;justify-content:center">
+                                                                                Fiyat</li>
+                                                                        </div>
+                                                                    @else
+                                                                        <div class="d-flex">
+                                                                            <li style="width:20%;list-style:none;">
+                                                                                {{ $housingTypeFormJson[$column1Order]->label }}
+                                                                            </li>
+                                                                            <li style="width:20%;list-style:none;">
+                                                                                {{ $housingTypeFormJson[$column2Order]->label }}
+                                                                            </li>
+                                                                            @if ($project->listItemValues->column3_name)
+                                                                                <li style="width:20%;list-style:none;">
+                                                                                    {{ $housingTypeFormJson[$column3Order]->label }}
+                                                                                </li>
+                                                                            @endif
+                                                                            <li style="width:20%;list-style:none;">Eklenme
+                                                                                Tarihi</li>
+                                                                            <li
+                                                                                style="width:20%;display:flex;justify-content:center">
+                                                                                Fiyat</li>
+                                                                        </div>
+                                                                    @endif
                                                                 </div>
-                                                                @endif
-                                                                </div>
-                                                                <div class="col-md-3" style="background:#ea2b2e;width: 100%;height: 26px;border-bottom-right-radius: 7px;">
+                                                                <div class="col-md-3"
+                                                                    style="background:#ea2b2e;width: 100%;height: 26px;border-bottom-right-radius: 7px;">
 
                                                                 </div>
                                                             </div>
@@ -1046,8 +1143,8 @@
 
                                                         $statusSlug = $status->slug;
                                                     @endphp
-                                                    
-                                                    
+
+
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
                                                         :blockStart="0" :towns="$towns" :cities="$cities"
                                                         :key="$key" :statusSlug="$statusSlug" :blockName="$blockName"
@@ -1574,6 +1671,49 @@
                 }
             });
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#bilgiModalProject').on('click', '.btn-success', function() {
+                var projectId = $(this).data('project-id');
+                var projectHousing = $(this).data('project-housing');
+
+                $.ajax({
+                    url: '{{ route('institutional.request.store') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        project_id: projectId,
+                        project_housing: projectHousing
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            Toastify({
+                                text: response.message,
+                                duration: 5000,
+                                gravity: 'bottom',
+                                position: 'center',
+                                backgroundColor: 'green',
+                                stopOnFocus: true,
+                            }).showToast();
+                            $("#bilgiModalProject .btn-danger").click();
+                        } else {
+                            Toastify({
+                                text: response.message,
+                                duration: 5000,
+                                gravity: 'bottom',
+                                position: 'center',
+                                backgroundColor: '#EC2F2E',
+                                stopOnFocus: true,
+                            }).showToast();
+                        }
+                    },
+                    error: function() {
+                        alert('Bir hata oluştu, lütfen tekrar deneyin.');
+                    }
+                });
+            });
+        });
     </script>
     <script>
         $(document).ready(function() {

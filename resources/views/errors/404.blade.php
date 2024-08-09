@@ -41,7 +41,7 @@
 
         a {
             text-decoration: none;
-            color: #007bff;
+            color: #2f5f9e;
             
         }
     </style>

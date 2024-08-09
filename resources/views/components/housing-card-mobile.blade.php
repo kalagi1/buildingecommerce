@@ -69,7 +69,7 @@
                 <p class="homes-address mb-1">
                     <i class="fa fa-map-marker"></i>
                     <span>
-                        
+
                         {{ $housing->city ? $housing->city->title : '' }}
                         {{ $housing->city && $housing->district ? ' / ' : '' }}
                         {{ $housing->district ? $housing->district->ilce_title : '' }}
@@ -105,7 +105,7 @@
                                     @endif
                                 </button>
                             @else
-                                @if (checkIfUserCanAddToCart($housing->id))
+                                @if ((checkIfUserCanAddToCart($housing->id) && Auth::check()) || !Auth::check())
                                     <button class="CartBtn mobileCBtn" data-type='housing'
                                         data-id='{{ $housing->id }}'>
                                         <span class="IconContainer">
@@ -114,7 +114,7 @@
                                         </span>
                                         <span class="text">Sepete Ekle</span>
                                     </button>
-                                @else
+                                @elseif (!checkIfUserCanAddToCart($housing->id) && Auth::check())
                                     <a href="{{ route('institutional.housing.edit', ['id' => hash_id($housing->id)]) }}"
                                         class="btn btn-success">
                                         <span class="text">İlanı Düzenle</span>
@@ -123,7 +123,7 @@
                             @endif
                         @endif
                     @else
-                        @if (checkIfUserCanAddToCart($housing->id))
+                        @if ((checkIfUserCanAddToCart($housing->id) && Auth::check()) || !Auth::check())
                             <button onclick="redirectToReservation()" class="reservationBtn mobileCBtn">
                                 <span class="IconContainer">
                                     <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
@@ -137,7 +137,7 @@
                                         "{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
                                 }
                             </script>
-                        @else
+                        @elseif (!checkIfUserCanAddToCart($housing->id) && Auth::check())
                             <a href="{{ route('institutional.housing.edit', ['id' => hash_id($housing->id)]) }}"
                                 class="btn btn-success">
                                 <span class="text">İlanı Düzenle</span>

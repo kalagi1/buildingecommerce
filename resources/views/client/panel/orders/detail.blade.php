@@ -1406,7 +1406,7 @@ Sipariş Notu eklenmedi
         }
 
         .status-icon i {
-            color: #007bff;
+            color: #2f5f9e;
         }
 
         .bg-light-green .status-icon i {

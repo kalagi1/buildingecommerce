@@ -1939,7 +1939,7 @@
 
         .custom-color-picker:focus {
             outline: none !important;
-            border-color: #007bff !important;
+            border-color: #2f5f9e !important;
             /* Odaklandığında kenarlık rengi */
         }
     </style>

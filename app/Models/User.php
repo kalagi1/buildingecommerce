@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
@@ -56,7 +56,7 @@ class User extends Authenticatable
              ->dontSubmitEmptyLogs() // Avoid empty logs
              ->logAll(); // Logs all attributes
      }
- 
+     
 
     public function subscriptionPlan()
     {
@@ -184,5 +184,10 @@ class User extends Authenticatable
     public function phoneNumbers()
     {
         return $this->hasMany(PhoneNumber::class);
+    }
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class, 'gorusmeyi_yapan_user_id');
     }
 }

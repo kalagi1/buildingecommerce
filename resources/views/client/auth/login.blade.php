@@ -3,24 +3,26 @@
 @section('content')
     <section class="loginItems">
         <div class="container">
+            <div class="single homes-content details mb-30 ">
 
                 <div class="row">
-                    {{-- <div class="col-md-6">
+                    <div class="col-md-6 mobile-hidden">
+                        {{-- <h2 class="fw-700 alt-font text-dark-gray ls-minus-1px mb-50px sm-mb-35px">Emlak Sepette'ye Hoş
+                            Geldin!</h2>
+                        <p>Hayalinizdeki evi bulmak ve mülk yatırımlarınızı yönetmek için en doğru yerdesiniz. Size en iyi
+                            emlak seçeneklerini sunarak, kolay ve hızlı bir şekilde aradığınız mülkü bulmanıza yardımcı
+                            olacağız.</p>
+                            <hr> --}}
+                        <img src="{{ asset('login/undraw_home_settings_re_pkya.png') }}" alt="" style="padding: 35px;width:100%">
 
-
-                        <img src="{{ asset('login/loginImage.png') }}" alt=""
-                            style="width:100%;height:auto !important">
-
-                    </div> --}}
-                    <div class="col-md-7 mx-auto">
-                        <div class="single homes-content details mb-30 ">
+                    </div>
+                    <div class="col-md-6 col-12">
 
                         <div class="login-container">
                             <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active show "
-                                        id="normal-tab" data-toggle="tab" href="#normal" role="tab"
-                                        aria-controls="normal" aria-selected="true">
+                                    <a class="nav-link active show " id="normal-tab" data-toggle="tab" href="#normal"
+                                        role="tab" aria-controls="normal" aria-selected="true">
                                         <h3 class="text-center ">Giriş Yap</h3>
                                     </a>
                                 </li>
@@ -94,13 +96,14 @@
                                             <button class="btn btn-primary q-button" type="submit">Giriş Yap</button>
                                             <p class="redirect-to-register text-center pt-2">
                                                 <span>Henüz hesabın yok mu?</span>
-                                                <a href="{{route('client.register')}}"> Üye Ol </a>
-                                                
+                                                <a href="{{ route('client.register') }}"> Üye Ol </a>
+
                                             </p>
 
                                             <div class="social-account-login-buttons mt-2 pb-3 col-12 p-0">
                                                 <!-- Social login buttons -->
-                                                <div class="q-layout social-login-button  w-100 m-0">
+                                                <div class="q-layout social-login-button  w-100 m-0"
+                                                    style="justify-content: center;align-items:center">
                                                     <div class="social-login-icon"
                                                         style="background-color: rgb(241, 66, 54);">
                                                         <i class="fa fa-google"></i>
@@ -109,13 +112,20 @@
                                                         <div>
                                                             <a href="{{ route('client.google.login') }}"
                                                                 style="color: black;text-decoration:none">
-                                                                <div style="text-transform: capitalize;">google</div>
-                                                                <small>ile giriş yap</small>
+                                                                <div style="text-transform: capitalize;">google İle giriş
+                                                                    yap</div>
                                                             </a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <span class="redirect-to-register text-center pt-2">
+                                                Google kimliğinizle bir sonraki adıma geçmeniz halinde <br><a
+                                                    href="/sayfa/bireysel-uyelik-sozlesmesi" rel="nofollow"
+                                                    target="_blank">Bireysel Hesap Sözleşmesi ve Ekleri</a>'ni kabul etmiş
+                                                sayılırsınız.
+
+                                                </p>
                                         </form>
 
 
@@ -130,6 +140,7 @@
                     </div>
                 </div>
             </div>
+
 
 
         </div>
@@ -616,7 +627,7 @@
 
         .support-phone a {
             text-decoration: none;
-            color: #007bff;
+            color: #2f5f9e;
             /* Link rengi */
         }
 

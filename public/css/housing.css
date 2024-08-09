@@ -79,7 +79,7 @@
 }
 
 .totalPriceCode {
-    color: #007bff;
+    color: #2f5f9e;
 }
 
 .trStyle,
@@ -97,7 +97,7 @@
     justify-content: space-between;
      width: 100%;
     font-size: 11px;
-    border: 1px solid #dee2e6;
+    border: 1px solid #f3f3f3;
     width: 100%;
 }
 
