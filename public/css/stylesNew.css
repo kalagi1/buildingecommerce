@@ -11079,6 +11079,14 @@ a.int_btn,
 
 /* Content on image */
 
+.listing-img-container img{
+  border-radius: 10px
+}
+
+.project-filter-reverse .project-card .row{
+  width: 100%
+}
+
 .listing-img-content {
   position: absolute;
   z-index: 99;
@@ -11087,7 +11095,7 @@ a.int_btn,
   padding: 0 !important;
   height: 40px;
   width: 100%;
-  border-radius: 0 20px 0 0;
+  border-radius:0 20px 10px 10px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding: 25px 30px;
@@ -30642,6 +30650,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 10px;
 }
 
 .buyUserRequest img {
