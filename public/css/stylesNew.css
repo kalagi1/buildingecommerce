@@ -23877,9 +23877,9 @@ a.btn_1 {
   transform-origin: top left;
 }
 
-.homes-content .row {
+/* .homes-content .row {
   width: 100% !important;
-}
+} */
 
 .btn-white,
 .btn-white2 {
@@ -27972,6 +27972,7 @@ h4 {
 .login-tabs li a h3 {
   margin-top: 10px;
   font-size: 11px;
+  width: 100%;
 }
 
 .loginItems #signup {
