@@ -11083,10 +11083,10 @@ a.int_btn,
   border-radius: 10px
 }
 
-.project-filter-reverse.row,
-.project-card .row{
-  width: 100% !important
+.homes-content .row {
+  width: 100% !important;
 }
+
 
 .listing-img-content {
   position: absolute;
