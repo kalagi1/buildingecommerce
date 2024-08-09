@@ -296,13 +296,12 @@
                                         data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
                                         aria-selected="false">Yorumlar</button>
                                 </li>
-                                @if (!checkIfUserCanAddToCart($housing->id))
-
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="comment-tab" data-bs-toggle="tab"
-                                        data-bs-target="#comment" type="button" role="tab" aria-controls="comment"
-                                        aria-selected="false">Değerlendir</button>
-                                </li>
+                                @if (!checkIfUserCanAddToCart($housing->id) && Auth::check())
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="comment-tab" data-bs-toggle="tab"
+                                            data-bs-target="#comment" type="button" role="tab"
+                                            aria-controls="comment" aria-selected="false">Değerlendir</button>
+                                    </li>
                                 @endif
 
                             </ul>
@@ -326,51 +325,71 @@
 
                                     <hr>
                                     <div class="uiBox uiBoxContainer yourSecurity">
-                                        <h2 style="color: #EC2F2E !important;">Gayrimenkul Alırken/Kiralarken Dikkat Edilmesi Gerekenler!</h2>
-                                    
+                                        <h2 style="color: #EC2F2E !important;">Gayrimenkul Alırken/Kiralarken Dikkat
+                                            Edilmesi Gerekenler!</h2>
+
                                         <p>
-                                            Emlaksepette.com olarak, kullanıcılarımızın güvenliğini en üst düzeyde tutmak önceliğimizdir. 
-                                            Bu nedenle, satın almak veya kiralamak istediğiniz emlak ile ilgili işlemleri yaparken dikkatli 
-                                            olmanız büyük önem taşımaktadır. İşte dikkat etmeniz gereken bazı önemli noktalar:
+                                            Emlaksepette.com olarak, kullanıcılarımızın güvenliğini en üst düzeyde tutmak
+                                            önceliğimizdir.
+                                            Bu nedenle, satın almak veya kiralamak istediğiniz emlak ile ilgili işlemleri
+                                            yaparken dikkatli
+                                            olmanız büyük önem taşımaktadır. İşte dikkat etmeniz gereken bazı önemli
+                                            noktalar:
                                         </p>
-                                    
+
                                         <p>
-                                            <strong>Ödeme Yapmadan Önce:</strong> Satın alma veya kiralama işlemlerinde kesin karar vermeden 
-                                            önce hiçbir şekilde ön ödeme yapmayınız. Kapora veya avans ödemeleri konusunda dikkatli olunuz 
+                                            <strong>Ödeme Yapmadan Önce:</strong> Satın alma veya kiralama işlemlerinde
+                                            kesin karar vermeden
+                                            önce hiçbir şekilde ön ödeme yapmayınız. Kapora veya avans ödemeleri konusunda
+                                            dikkatli olunuz
                                             ve dolandırıcılık riski taşıyan durumlara karşı tedbirli davranınız.
                                         </p>
-                                    
+
                                         <p>
-                                            <strong>İlan Bilgilerini Doğrulama:</strong> İlan sahiplerinin verdikleri bilgileri dikkatlice 
-                                            kontrol ediniz. İlanlarda belirtilen bilgilerin ve görsellerin doğruluğunu teyit etmek için 
-                                            mümkünse yerinde inceleme yapınız veya güvenilir kaynaklardan doğrulama isteyiniz.
+                                            <strong>İlan Bilgilerini Doğrulama:</strong> İlan sahiplerinin verdikleri
+                                            bilgileri dikkatlice
+                                            kontrol ediniz. İlanlarda belirtilen bilgilerin ve görsellerin doğruluğunu teyit
+                                            etmek için
+                                            mümkünse yerinde inceleme yapınız veya güvenilir kaynaklardan doğrulama
+                                            isteyiniz.
                                         </p>
-                                    
+
                                         <p>
-                                            <strong>İletişim ve Profil Bilgileri:</strong> İlan sahiplerinin hesap profillerindeki bilgilerin 
-                                            doğruluğunu kontrol ediniz. Şüpheli veya eksik bilgiye sahip ilan sahipleri ile iletişimde temkinli 
-                                            olunuz. Güvenliğiniz için, kimlik doğrulaması yapmış kullanıcılar ile iletişim kurmayı tercih ediniz.
+                                            <strong>İletişim ve Profil Bilgileri:</strong> İlan sahiplerinin hesap
+                                            profillerindeki bilgilerin
+                                            doğruluğunu kontrol ediniz. Şüpheli veya eksik bilgiye sahip ilan sahipleri ile
+                                            iletişimde temkinli
+                                            olunuz. Güvenliğiniz için, kimlik doğrulaması yapmış kullanıcılar ile iletişim
+                                            kurmayı tercih ediniz.
                                         </p>
-                                    
+
                                         <p>
-                                            <strong>Sözleşme ve Hukuki Belgeler:</strong> Satın alma veya kiralama işlemlerinde sözleşme 
-                                            yapmadan önce hukuki belgeleri dikkatlice inceleyiniz ve gerektiğinde bir uzmana danışınız. Tüm 
-                                            koşulların net bir şekilde belirtildiği ve taraflarca kabul edildiği belgeler üzerinden işlem yapınız.
+                                            <strong>Sözleşme ve Hukuki Belgeler:</strong> Satın alma veya kiralama
+                                            işlemlerinde sözleşme
+                                            yapmadan önce hukuki belgeleri dikkatlice inceleyiniz ve gerektiğinde bir uzmana
+                                            danışınız. Tüm
+                                            koşulların net bir şekilde belirtildiği ve taraflarca kabul edildiği belgeler
+                                            üzerinden işlem yapınız.
                                         </p>
-                                    
+
                                         <p>
-                                            <strong>Geri Bildirim ve Şikayetler:</strong> Emlaksepette.com olarak, kullanıcı deneyimini ve 
-                                            güvenliğini sürekli olarak iyileştirmek için geri bildirimlerinizi önemsiyoruz. Eğer ilanlarda 
-                                            belirtilen bilgi veya görsellerin gerçeği yansıtmadığını düşünüyorsanız veya ilan sahiplerinin 
-                                            hesap profillerindeki bilgilerin doğru olmadığını fark ederseniz, lütfen bize hemen bildirin.
+                                            <strong>Geri Bildirim ve Şikayetler:</strong> Emlaksepette.com olarak, kullanıcı
+                                            deneyimini ve
+                                            güvenliğini sürekli olarak iyileştirmek için geri bildirimlerinizi önemsiyoruz.
+                                            Eğer ilanlarda
+                                            belirtilen bilgi veya görsellerin gerçeği yansıtmadığını düşünüyorsanız veya
+                                            ilan sahiplerinin
+                                            hesap profillerindeki bilgilerin doğru olmadığını fark ederseniz, lütfen bize
+                                            hemen bildirin.
                                         </p>
-                                    
+
                                         <p>
-                                            Güvenli bir emlak deneyimi için bu önemli noktalara dikkat ederek, dolandırıcılık ve benzeri 
+                                            Güvenli bir emlak deneyimi için bu önemli noktalara dikkat ederek,
+                                            dolandırıcılık ve benzeri
                                             olumsuz durumlardan korunabilirsiniz.
                                         </p>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
                                     aria-labelledby="profile-tab">
@@ -632,83 +651,93 @@
 
                                 </div>
                                 @if (!checkIfUserCanAddToCart($housing->id))
+                                    <div class="tab-pane fade  blog-info details mb-30" id="comment" role="tabpanel"
+                                        aria-labelledby="comment-tab">
+                                        @if (checkIfUserCanAddToCart($housing->id))
+                                            <form id="commentForm" enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" name="rate" id="rate" />
+                                                <h5>Yeni Yorum Ekle</h5>
 
-                                <div class="tab-pane fade  blog-info details mb-30" id="comment" role="tabpanel"
-                                    aria-labelledby="comment-tab">
-                                    @if (checkIfUserCanAddToCart($housing->id))
-                                        <form id="commentForm" enctype="multipart/form-data">
-                                            @csrf
-                                            <input type="hidden" name="rate" id="rate" />
-                                            <h5>Yeni Yorum Ekle</h5>
-
-                                            <div class="d-flex align-items-center w-full" style="gap: 6px;">
-                                                <div class="d-flex rating-area">
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
+                                                <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                                    <div class="d-flex rating-area">
+                                                        <svg class="rating" enable-background="new 0 0 50 50"
+                                                            height="24px" id="Layer_1" version="1.1"
+                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                            <rect fill="none" height="50" width="50" />
+                                                            <polygon fill="none"
+                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                stroke="#717171" stroke-miterlimit="10"
+                                                                stroke-width="2" />
+                                                        </svg>
+                                                        <svg class="rating" enable-background="new 0 0 50 50"
+                                                            height="24px" id="Layer_1" version="1.1"
+                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                            <rect fill="none" height="50" width="50" />
+                                                            <polygon fill="none"
+                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                stroke="#717171" stroke-miterlimit="10"
+                                                                stroke-width="2" />
+                                                        </svg>
+                                                        <svg class="rating" enable-background="new 0 0 50 50"
+                                                            height="24px" id="Layer_1" version="1.1"
+                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                            <rect fill="none" height="50" width="50" />
+                                                            <polygon fill="none"
+                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                stroke="#717171" stroke-miterlimit="10"
+                                                                stroke-width="2" />
+                                                        </svg>
+                                                        <svg class="rating" enable-background="new 0 0 50 50"
+                                                            height="24px" id="Layer_1" version="1.1"
+                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                            <rect fill="none" height="50" width="50" />
+                                                            <polygon fill="none"
+                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                stroke="#717171" stroke-miterlimit="10"
+                                                                stroke-width="2" />
+                                                        </svg>
+                                                        <svg class="rating" enable-background="new 0 0 50 50"
+                                                            height="24px" id="Layer_1" version="1.1"
+                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                            <rect fill="none" height="50" width="50" />
+                                                            <polygon fill="none"
+                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                stroke="#717171" stroke-miterlimit="10"
+                                                                stroke-width="2" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="ml-auto">
+                                                        <input type="file" style="display: none;" class="fileinput"
+                                                            name="images[]" multiple accept="image/*" />
+                                                        <button type="button" class="btn btn-primary q-button"
+                                                            id="selectImageButton">Resimleri Seç</button>
+                                                    </div>
                                                 </div>
-                                                <div class="ml-auto">
-                                                    <input type="file" style="display: none;" class="fileinput"
-                                                        name="images[]" multiple accept="image/*" />
-                                                    <button type="button" class="btn btn-primary q-button"
-                                                        id="selectImageButton">Resimleri Seç</button>
+                                                <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required
+                                                    style="padding: 10px !important;height: 100px !important;"></textarea>
+                                                <button type="button" class="ud-btn btn-white2 mt-3"
+                                                    onclick="submitForm()">Yorumu
+                                                    Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                                <div id="previewContainer"
+                                                    style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
                                                 </div>
-                                            </div>
-                                            <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required
-                                                style="padding: 10px !important;height: 100px !important;"></textarea>
-                                            <button type="button" class="ud-btn btn-white2 mt-3"
-                                                onclick="submitForm()">Yorumu
-                                                Gönder<i class="fal fa-arrow-right-long"></i></button>
-                                            <div id="previewContainer"
-                                                style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
 
-                                        </form>
-                                    @endif
+                                            </form>
+                                        @endif
 
 
-                                </div>
+                                    </div>
                                 @endif
                                 <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                                     aria-labelledby="contact-tab">
@@ -895,7 +924,7 @@
                                                         <span class="text">{{ $buttonText }}</span>
                                                     </button>
                                                 @else
-                                                    @if (checkIfUserCanAddToCart($housing->id))
+                                                    @if (checkIfUserCanAddToCart($housing->id) && Auth::check())
                                                         <button class="CartBtn" data-type='housing'
                                                             data-id='{{ $housing->id }}'>
                                                             <span class="IconContainer">
@@ -903,11 +932,19 @@
                                                             </span>
                                                             <span class="text">Sepete Ekle</span>
                                                         </button>
-                                                    @else
+                                                    @elseif (!checkIfUserCanAddToCart($housing->id) && Auth::check())
                                                         <a href="{{ route('institutional.housing.edit', ['id' => hash_id($housing->id)]) }}"
                                                             class="btn btn-success">
                                                             <span class="text">İlanı Düzenle</span>
                                                         </a>
+                                                    @else
+                                                        <button class="CartBtn" data-type='housing'
+                                                            data-id='{{ $housing->id }}'>
+                                                            <span class="IconContainer">
+                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                            </span>
+                                                            <span class="text">Sepete Ekle</span>
+                                                        </button>
                                                     @endif
                                                 @endif
                                             @endif

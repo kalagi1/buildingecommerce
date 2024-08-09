@@ -30,7 +30,9 @@
                                                 ->implode('');
                                         @endphp
 
-                                        <div class="profile-initial">{{ $nameInitials }}</div>
+                                        <div class="profile-initial"
+                                            style="width: 100%;height: 100%;border-radius: 0;border: none;">
+                                            {{ $nameInitials }}</div>
                                     @else
                                         <img loading="lazy"
                                             src="{{ asset('storage/profile_images/' . $usersFromCollection->profile_image) }}"
@@ -46,11 +48,11 @@
                                 </a>
                                 <div class="the-agents">
                                     <ul class="the-agents-details">
-                                        @if ($usersFromCollection->phone)
+                                        @if ($usersFromCollection->phone && $usersFromCollection->type == "2")
                                             <li><a href="tel:{{ $usersFromCollection->phone }}">İş:
                                                     {{ $usersFromCollection->phone }}</a></li>
                                         @endif
-                                        @if ($usersFromCollection->mobile_phone)
+                                        @if ($usersFromCollection->mobile_phone && $usersFromCollection->type == "1")
                                             <li><a href="tel:{{ $usersFromCollection->mobile_phone }}">Cep:
                                                     {{ $usersFromCollection->mobile_phone }}</a></li>
                                         @endif
@@ -71,13 +73,8 @@
                                     'userID' => $usersFromCollection->id,
                                 ]) }}" @endif
                                         class="news-link">Koleksiyonları Gör</a>
-                                    @if ($usersFromCollection->parent_id)
-                                        <div class="admin">
-                                            <p>{{ $usersFromCollection->parent->name }}</p>
-                                            <img src="{{ asset('storage/profile_images/' . $usersFromCollection->parent->profile_image) }}"
-                                                alt="">
-                                        </div>
-                                    @endif
+
+
 
                                 </div>
                             </div>
