@@ -18682,6 +18682,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
   border: 1px solid #eaeff5;
   -webkit-box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
   box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+  border-radius: 10px;
 }
 
 .wprt-image-video.w50.pro {
@@ -24090,6 +24091,7 @@ a.btn_1 {
   padding: 0 1rem;
   border-radius: 0 !important;
   height: 35px;
+  border-radius: 5px !important;
 }
 
 @media screen and (max-width: 991px) {
@@ -27996,6 +27998,7 @@ h4 {
   border: 1px solid #f3f3f3;
   width: 100%;
   padding: 0 5rem;
+  border-radius: 0 0 10px 10px;
 }
 
 .sude .breadcrumb-nav ul {
