@@ -227,6 +227,7 @@
                                 (Auth::check() && Auth::user()->type == '1'))
                             <div class="d-flex align-items-center justify-content-center pb-3">
                                 <img src="{{ asset('demo-beauty-salon-icon-01.webp') }}" alt=""
+                                class="d-none textAlertImage"
                                     style="width: 25px;margin-right:5px" />
                                 <span class="textAlert"
                                     style="width: 100%;
@@ -1130,6 +1131,7 @@
                                     }
 
                                     $(".textAlert").html(alertMessage);
+                                    £(".textAlertImage").removeClass("d-none");
                                 }
                             }
 
