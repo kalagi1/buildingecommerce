@@ -11108,6 +11108,7 @@ a.int_btn,
   left: 0;
   content: "";
   z-index: 9;
+  border-radius:10px
 }
 
 .listing-img-container:before {
