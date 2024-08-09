@@ -11083,7 +11083,7 @@ a.int_btn,
   border-radius: 10px
 }
 
-.project-filter-reverse .project-card .row{
+.project-filter-reverse.row{
   width: 100%
 }
 
