@@ -58,7 +58,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/menu.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/css/stylesNew.css?v=1.2.1.3">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/stylesNew.css?v=1.2.1.4">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/panel.css">
 
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
